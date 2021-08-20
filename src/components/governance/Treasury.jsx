@@ -1196,7 +1196,7 @@ const Treasury = (props) => {
                 // style={{hieght:'10%'}}
               >
                 {/* <i className="fa fa-tractor"></i> */}
-                <div className="d-flex" style={{ padding: "12px" }}>
+                <div className="d-md-flex" style={{ padding: "12px" }}>
                 <img
                   left
                   width="auto"
@@ -1217,12 +1217,11 @@ const Treasury = (props) => {
                   
                 </div>
                 <div className="pl-2 pr-2" style={{marginLeft:'10px'}}>
-                  <p className="mb-0 text-muted" style={{fontWeight:'600',fontSize: "12px"}}>Total fees accrued</p>
+                  <p className="mb-0 mt-3 mt-md-0 text-muted" style={{fontWeight:'600',fontSize: "12px"}}>Total fees accrued</p>
                   <p
-                    className=" mb-0"
+                  className="mb-3 mb-md-0"
                     style={{
                       fontWeight: "600",
-                      textAlign: "end",
                     }}
                   >
                     $225,159.77
@@ -1268,7 +1267,7 @@ const Treasury = (props) => {
                           className="mb-0 text-muted"
                           style={{ fontSize: "12px", fontWeight: "600" }}
                         >
-                          Compound
+                          BIFI
                         </div>
                       </div>
                     </div>
@@ -1324,7 +1323,7 @@ const Treasury = (props) => {
                           className="mb-0 text-muted"
                           style={{ fontSize: "12px", fontWeight: "600" }}
                         >
-                          Compound
+                          BIFI
                         </div>
                       </div>
                     </div>
@@ -1380,7 +1379,7 @@ const Treasury = (props) => {
                           className="mb-0 text-muted"
                           style={{ fontSize: "12px", fontWeight: "600" }}
                         >
-                          C.R.E.A.M Finance
+                          Alpaca Finance
                         </div>
                       </div>
                     </div>
@@ -1436,7 +1435,7 @@ const Treasury = (props) => {
                           className="mb-0 text-muted"
                           style={{ fontSize: "12px", fontWeight: "600" }}
                         >
-                          Compound
+                          BIFI
                         </div>
                       </div>
                     </div>
@@ -1492,7 +1491,7 @@ const Treasury = (props) => {
                           className="mb-0 text-muted"
                           style={{ fontSize: "12px", fontWeight: "600" }}
                         >
-                          AAVE
+                          Swipe
                         </div>
                       </div>
                     </div>
@@ -1543,7 +1542,7 @@ const Treasury = (props) => {
                 // style={{hieght:'10%'}}
               >
                 {/* <i className="fa fa-tractor"></i> */}
-                <div className="d-flex" style={{ padding: "12px" }}>
+                <div className="d-md-flex" style={{ padding: "12px" }}>
                 <img
                   left
                   width="auto"
@@ -1564,9 +1563,9 @@ const Treasury = (props) => {
                   
                 </div>
                 <div className="pl-2 pr-2" style={{marginLeft:'10px',textAlign:'left'}}>
-                  <p className="mb-0 text-muted" style={{fontWeight:'600',fontSize: "12px",textAlign:'left'}}>Total fees accrued</p>
+                  <p className="mb-0 mt-3 mt-md-0 text-muted" style={{fontWeight:'600',fontSize: "12px",textAlign:'left'}}>Total fees accrued</p>
                   <p
-                    className=" mb-0"
+                    className=" mb-3 mb-md-0"
                     style={{
                       fontWeight: "600",
                     //   textAlign: "end",

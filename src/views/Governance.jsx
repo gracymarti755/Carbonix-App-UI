@@ -12,6 +12,9 @@ class Governance extends Component {
     setActiveTab = (tab) => {
         this.setState({ activeTab: tab })
     }
+    componentDidMount() {
+        document.getElementById("header-title").innerText = "Governance";
+    }
     render() {
         return (<>
             <Bar activeTab={this.state.activeTab} setActiveTab={this.setActiveTab} />

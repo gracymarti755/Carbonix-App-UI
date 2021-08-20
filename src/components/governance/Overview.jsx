@@ -5,7 +5,7 @@ const Overview = (props) => {
         <Row>
             <Col lg="6" className="mb-4">
                 <Card className="custom-card p-24">
-                    <small className="text-site-primary font-weight-semi-bold text-uppercase">bond staked</small>
+                    <small className="text-site-primary font-weight-semi-bold">cBUSD STAKED</small>
                     <div className="d-flex mt-5 align-items-baseline">
                         <h3 className="font-weight-bold">1,483,323.5251</h3>
                         <p className="ml-1 text-muted text-uppercase">Bond</p>
@@ -32,7 +32,7 @@ const Overview = (props) => {
             </Col>
             <Col lg="6" className="mb-4">
                 <Card className="custom-card p-24">
-                    <small className="text-site-primary font-weight-semi-bold text-uppercase">BOND REWARDS</small>
+                    <small className="text-site-primary font-weight-semi-bold">BOND REWARDS</small>
                     <div className="d-flex mt-5 align-items-baseline">
                         <h3 className="font-weight-bold">312,802.4561</h3>
                     </div>
