@@ -29,7 +29,7 @@ import icon7 from "../../assets/img/icon7.PNG";
 import icon8 from "../../assets/img/icon8.PNG";
 
 const Markets = (props) => {
-  let [activeTab, setActiveTab] = useState("Compound");
+  let [activeTab, setActiveTab] = useState("BIFI");
 
   return (
     <>
@@ -43,13 +43,13 @@ const Markets = (props) => {
           }}
           for="btncheck1"
           className={`btn mr-3 bar-item ml-0 ${
-            activeTab == "Compound" ? "active" : ""
+            activeTab == "BIFI" ? "active" : ""
           }`}
-          onClick={(e) => setActiveTab("Compound")}
+          onClick={(e) => setActiveTab("BIFI")}
         >
           <img
             left
-            width="auto"
+            className="tab-image"
             style={{
               marginTop: "auto",
               marginBottom: "auto",
@@ -57,10 +57,10 @@ const Markets = (props) => {
               marginRight: "10px",
             }}
             //   style={{ marginButtom: "auto" }}
-            src={icon}
+            src="https://www.beefy.finance/img/beefy.svg"
             alt="Card image cap"
           />
-          Compound{" "}
+          BIFI{" "}
           <input
             type="checkbox"
             style={{ marginLeft: "5px" }}
@@ -78,13 +78,13 @@ const Markets = (props) => {
           }}
           for="btncheck2"
           className={`btn mr-3 bar-item ml-0 ${
-            activeTab == "AAVE" ? "active" : ""
+            activeTab == "Swipe" ? "active" : ""
           }`}
-          onClick={(e) => setActiveTab("AAVE")}
+          onClick={(e) => setActiveTab("Swipe")}
         >
           <img
             left
-            width="auto"
+            className="tab-image"
             style={{
               marginTop: "auto",
               marginBottom: "auto",
@@ -92,10 +92,10 @@ const Markets = (props) => {
               marginRight: "10px",
             }}
             //   style={{ marginButtom: "auto" }}
-            src={icon1}
+            src="https://swipe.io/images/logo.svg"
             alt="Card image cap"
           />
-          AAVE{" "}
+          Swipe{" "}
           <input
             type="checkbox"
             style={{ marginLeft: "5px" }}
@@ -119,7 +119,7 @@ const Markets = (props) => {
         >
           <img
             left
-            width="auto"
+            className="tab-image"
             style={{
               marginTop: "auto",
               marginBottom: "auto",
@@ -127,10 +127,10 @@ const Markets = (props) => {
               marginRight: "10px",
             }}
             //   style={{ marginButtom: "auto" }}
-            src={icon2}
+            src="https://www.alpacafinance.org/assets/images/logo.png"
             alt="Card image cap"
           />
-          C.R.E.A.M Finance{" "}
+          {" "}
           <input
             type="checkbox"
             style={{ marginLeft: "5px" }}
@@ -138,7 +138,7 @@ const Markets = (props) => {
             autocomplete="off"
           />
         </label>
-        {activeTab == "Compound" ? (
+        {activeTab == "BIFI" ? (
           <div className=" mt-5 align-items-baseline">
             <p className="ml-1 text-muted">Total value locked</p>
             <h3 className="font-weight-bold">
@@ -150,7 +150,7 @@ const Markets = (props) => {
           ""
         )}
 
-        {activeTab == "Compound" ? (
+        {activeTab == "BIFI" ? (
           <Card
             className="custom-card mt-4"
             // style={{hieght:'10%'}}
@@ -159,7 +159,7 @@ const Markets = (props) => {
             <div className="d-flex" style={{ padding: "12px" }}>
               <img
                 left
-                width="auto"
+                className="main-image"
                 style={{
                   marginTop: "auto",
                   marginBottom: "auto",
@@ -167,7 +167,7 @@ const Markets = (props) => {
                   marginRight: "10px",
                 }}
                 //   style={{ marginButtom: "auto" }}
-                src={compound}
+                src="https://www.beefy.finance/img/beefy.svg"
                 alt="Card image cap"
               />
               {/* <small className="text-site-primary font-weight-semi-bold text-uppercase">bond staked</small> */}
@@ -182,7 +182,7 @@ const Markets = (props) => {
                     marginBottom: "auto",
                   }}
                 >
-                  Compound
+                  BIFI
                 </p>
                 <div
                   className="mb-0 text-muted"
@@ -220,9 +220,381 @@ const Markets = (props) => {
         ) : (
           ""
         )}
-        {activeTab == "Compound" ? (
+        {activeTab == "BIFI" ? (
           <Card className="custom-card mt-4">
-            <Table className="custom-table" responsive>
+            <Table className="custom-table market-table" responsive>
+              <thead>
+                <tr>
+                  <th>Token Name </th>
+                  <th>Senior Liquidity</th>
+                  <th>Senior APY</th>
+                  <th>Junior Liquidity</th>
+                  <th>Junior APY</th>
+                  <th>Originator APY</th>
+                  <th>jToken conversion rate</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+                    <div className="d-flex">
+                      <img
+                        left
+                        width="15%"
+                        height="15%"
+                        style={{
+                          margin: "auto",
+                          marginRight: "5px",
+                          marginLeft: "5px",
+                        }}
+                        src={icon3}
+                        alt="Card image cap"
+                      />
+                      <div className="pl-2 pr-2">
+                        <h6 style={{ fontWeight: "600" }}>BUSD</h6>
+                        <div
+                          className="mb-0 text-muted"
+                          style={{ fontSize: "12px", fontWeight: "600" }}
+                        >
+                          BUSD Stablecoin
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <div className="d-flex justify-content-left">
+                      <div className=" align-items-baseline">
+                        <h6 style={{ fontWeight: "600" }}>246.66K BUSD</h6>
+                        <div
+                          className="mb-0 text-muted"
+                          style={{ fontSize: "12px", fontWeight: "600" }}
+                        >
+                          $246.74K
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+                  <td style={{ verticalAlign: "middle" }}>
+                    {/* <Link to="https://app.barnbridge.com/"> */}
+                    <h6 style={{ fontWeight: "600", color: "#00d395" }}>
+                      2.11%
+                    </h6>
+                    {/* </Link> */}
+                  </td>
+                  <td>
+                    <div className="d-flex justify-content-left">
+                      <div className=" align-items-baseline">
+                        <h6 style={{ fontWeight: "600" }}>21.18M BUSD</h6>
+                        <div
+                          className="mb-0 text-muted"
+                          style={{ fontSize: "12px", fontWeight: "600" }}
+                        >
+                          $21.19M
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+
+                  <td style={{ verticalAlign: "middle" }}>
+                    {/* <Link to="https://app.barnbridge.com/"> */}
+                    <h6 style={{ fontWeight: "600", color: "#a26ee3" }}>
+                      2.82%
+                    </h6>
+                    {/* </Link> */}
+                  </td>
+                  <td style={{ verticalAlign: "middle" }}>
+                    {/* <Link to="https://app.barnbridge.com/"> */}
+                    <h6 style={{ fontWeight: "600" }}>2.81%</h6>
+                    {/* </Link> */}
+                  </td>
+                  <td>
+                    <div className="d-flex justify-content-left">
+                      <div className=" align-items-baseline">
+                        <h6 style={{ fontWeight: "600" }}>1 cBUSD</h6>
+                        <div
+                          className="mb-0 text-muted"
+                          style={{ fontSize: "12px", fontWeight: "600" }}
+                        >
+                          = 1.0323 DAI
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <Button color="outline-site-primary">Details</Button>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td>
+                    <div className="d-flex">
+                      <img
+                        left
+                        width="15%"
+                        height="15%"
+                        style={{
+                          margin: "auto",
+                          marginRight: "5px",
+                          marginLeft: "5px",
+                        }}
+                        src={icon4}
+                        alt="Card image cap"
+                      />
+                      <div className="pl-2 pr-2">
+                        <h6 style={{ fontWeight: "600" }}>USDC</h6>
+                        <div
+                          className="mb-0 text-muted"
+                          style={{ fontSize: "12px", fontWeight: "600" }}
+                        >
+                          USDC Stablecoin
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <div className="d-flex justify-content-left">
+                      <div className=" align-items-baseline">
+                        <h6 style={{ fontWeight: "600" }}>246.66K USDC</h6>
+                        <div
+                          className="mb-0 text-muted"
+                          style={{ fontSize: "12px", fontWeight: "600" }}
+                        >
+                          $246.74K
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+                  <td style={{ verticalAlign: "middle" }}>
+                    {/* <Link to="https://app.barnbridge.com/"> */}
+                    <h6 style={{ fontWeight: "600", color: "#00d395" }}>
+                      2.11%
+                    </h6>
+                    {/* </Link> */}
+                  </td>
+                  <td>
+                    <div className="d-flex justify-content-left">
+                      <div className=" align-items-baseline">
+                        <h6 style={{ fontWeight: "600" }}>21.18M USDC</h6>
+                        <div
+                          className="mb-0 text-muted"
+                          style={{ fontSize: "12px", fontWeight: "600" }}
+                        >
+                          $21.19M
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+
+                  <td style={{ verticalAlign: "middle" }}>
+                    {/* <Link to="https://app.barnbridge.com/"> */}
+                    <h6 style={{ fontWeight: "600", color: "#a26ee3" }}>
+                      2.82%
+                    </h6>
+                    {/* </Link> */}
+                  </td>
+                  <td style={{ verticalAlign: "middle" }}>
+                    {/* <Link to="https://app.barnbridge.com/"> */}
+                    <h6 style={{ fontWeight: "600" }}>2.81%</h6>
+                    {/* </Link> */}
+                  </td>
+                  <td>
+                    <div className="d-flex justify-content-left">
+                      <div className=" align-items-baseline">
+                        <h6 style={{ fontWeight: "600" }}>1 cUSDC</h6>
+                        <div
+                          className="mb-0 text-muted"
+                          style={{ fontSize: "12px", fontWeight: "600" }}
+                        >
+                          = 1.0323 USDC
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <Button color="outline-site-primary">Details</Button>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td>
+                    <div className="d-flex">
+                      <img
+                        left
+                        width="15%"
+                        height="15%"
+                        style={{
+                          margin: "auto",
+                          marginRight: "5px",
+                          marginLeft: "5px",
+                        }}
+                        src={icon9}
+                        alt="Card image cap"
+                      />
+                      <div className="pl-2 pr-2">
+                        <h6 style={{ fontWeight: "600" }}>DAI</h6>
+                        <div
+                          className="mb-0 text-muted"
+                          style={{ fontSize: "12px", fontWeight: "600" }}
+                        >
+                          Dai Stablecoin
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <div className="d-flex justify-content-left">
+                      <div className=" align-items-baseline">
+                        <h6 style={{ fontWeight: "600" }}>246.66K DAI</h6>
+                        <div
+                          className="mb-0 text-muted"
+                          style={{ fontSize: "12px", fontWeight: "600" }}
+                        >
+                          $246.74K
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+                  <td style={{ verticalAlign: "middle" }}>
+                    {/* <Link to="https://app.barnbridge.com/"> */}
+                    <h6 style={{ fontWeight: "600", color: "#00d395" }}>
+                      2.11%
+                    </h6>
+                    {/* </Link> */}
+                  </td>
+                  <td>
+                    <div className="d-flex justify-content-left">
+                      <div className=" align-items-baseline">
+                        <h6 style={{ fontWeight: "600" }}>21.18M DAI</h6>
+                        <div
+                          className="mb-0 text-muted"
+                          style={{ fontSize: "12px", fontWeight: "600" }}
+                        >
+                          $21.19M
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+
+                  <td style={{ verticalAlign: "middle" }}>
+                    {/* <Link to="https://app.barnbridge.com/"> */}
+                    <h6 style={{ fontWeight: "600", color: "#a26ee3" }}>
+                      2.82%
+                    </h6>
+                    {/* </Link> */}
+                  </td>
+                  <td style={{ verticalAlign: "middle" }}>
+                    {/* <Link to="https://app.barnbridge.com/"> */}
+                    <h6 style={{ fontWeight: "600" }}>2.81%</h6>
+                    {/* </Link> */}
+                  </td>
+                  <td>
+                    <div className="d-flex justify-content-left">
+                      <div className=" align-items-baseline">
+                        <h6 style={{ fontWeight: "600" }}>1 cDA</h6>
+                        <div
+                          className="mb-0 text-muted"
+                          style={{ fontSize: "12px", fontWeight: "600" }}
+                        >
+                          = 1.0323 DAI
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <Button color="outline-site-primary">Details</Button>
+                  </td>
+                </tr>
+              </tbody>
+            </Table>
+          </Card>
+        ) : (
+          ""
+        )}
+        {activeTab == "Swipe" ? (
+          <div className=" mt-5 align-items-baseline">
+            <p className="ml-1 text-muted">Total value locked</p>
+            <h3 className="font-weight-bold">
+              $237,430,892.83{" "}
+              <i class="fas fa-shield-alt" style={{ color: "#00d395" }}></i>
+            </h3>
+          </div>
+        ) : (
+          ""
+        )}
+
+        {activeTab == "Swipe" ? (
+          <Card
+            className="custom-card mt-4"
+            // style={{hieght:'10%'}}
+          >
+            {/* <i className="fa fa-tractor"></i> */}
+            <div className="d-flex" style={{ padding: "12px" }}>
+              <img
+                left
+                className="main-image"
+                style={{
+                  marginTop: "auto",
+                  marginBottom: "auto",
+                  marginLeft: "10px",
+                  marginRight: "10px",
+                }}
+                //   style={{ marginButtom: "auto" }}
+                src="https://swipe.io/images/logo.svg"
+                alt="Card image cap"
+              />
+              {/* <small className="text-site-primary font-weight-semi-bold text-uppercase">bond staked</small> */}
+              <div
+                className=" pl-2 pr-2 align-items-baseline"
+                style={{ marginRight: "10px" }}
+              >
+                <p
+                  style={{
+                    fontWeight: "600",
+                    marginTop: "auto",
+                    marginBottom: "auto",
+                  }}
+                >
+                  Swipe
+                </p>
+                <div
+                  className="mb-0 text-muted"
+                  style={{ fontSize: "12px", fontWeight: "600" }}
+                >
+                  Markets
+                </div>
+              </div>
+              <div
+                className="pl-2 pr-2"
+                style={{ marginLeft: "10px", textAlign: "left" }}
+              >
+                <p
+                  className="mb-0 text-muted"
+                  style={{
+                    fontWeight: "600",
+                    fontSize: "12px",
+                    textAlign: "left",
+                  }}
+                >
+                  Total value locked
+                </p>
+                <p
+                  className=" mb-0"
+                  style={{
+                    fontWeight: "600",
+                    //   textAlign: "end",
+                  }}
+                >
+                  $131,552,949.29
+                </p>
+              </div>
+            </div>
+          </Card>
+        ) : (
+          ""
+        )}
+        {activeTab == "Swipe" ? (
+          <Card className="custom-card mt-4">
+            <Table className="custom-table market-table" responsive>
               <thead>
                 <tr>
                   <th>Token Name </th>
@@ -510,378 +882,6 @@ const Markets = (props) => {
         ) : (
           ""
         )}
-        {activeTab == "AAVE" ? (
-          <div className=" mt-5 align-items-baseline">
-            <p className="ml-1 text-muted">Total value locked</p>
-            <h3 className="font-weight-bold">
-              $237,430,892.83{" "}
-              <i class="fas fa-shield-alt" style={{ color: "#00d395" }}></i>
-            </h3>
-          </div>
-        ) : (
-          ""
-        )}
-
-        {activeTab == "AAVE" ? (
-          <Card
-            className="custom-card mt-4"
-            // style={{hieght:'10%'}}
-          >
-            {/* <i className="fa fa-tractor"></i> */}
-            <div className="d-flex" style={{ padding: "12px" }}>
-              <img
-                left
-                width="auto"
-                style={{
-                  marginTop: "auto",
-                  marginBottom: "auto",
-                  marginLeft: "10px",
-                  marginRight: "10px",
-                }}
-                //   style={{ marginButtom: "auto" }}
-                src={aave}
-                alt="Card image cap"
-              />
-              {/* <small className="text-site-primary font-weight-semi-bold text-uppercase">bond staked</small> */}
-              <div
-                className=" pl-2 pr-2 align-items-baseline"
-                style={{ marginRight: "10px" }}
-              >
-                <p
-                  style={{
-                    fontWeight: "600",
-                    marginTop: "auto",
-                    marginBottom: "auto",
-                  }}
-                >
-                  AAVE
-                </p>
-                <div
-                  className="mb-0 text-muted"
-                  style={{ fontSize: "12px", fontWeight: "600" }}
-                >
-                  Markets
-                </div>
-              </div>
-              <div
-                className="pl-2 pr-2"
-                style={{ marginLeft: "10px", textAlign: "left" }}
-              >
-                <p
-                  className="mb-0 text-muted"
-                  style={{
-                    fontWeight: "600",
-                    fontSize: "12px",
-                    textAlign: "left",
-                  }}
-                >
-                  Total value locked
-                </p>
-                <p
-                  className=" mb-0"
-                  style={{
-                    fontWeight: "600",
-                    //   textAlign: "end",
-                  }}
-                >
-                  $131,552,949.29
-                </p>
-              </div>
-            </div>
-          </Card>
-        ) : (
-          ""
-        )}
-        {activeTab == "AAVE" ? (
-          <Card className="custom-card mt-4">
-            <Table className="custom-table" responsive>
-              <thead>
-                <tr>
-                  <th>Token Name </th>
-                  <th>Senior Liquidity</th>
-                  <th>Senior APY</th>
-                  <th>Junior Liquidity</th>
-                  <th>Junior APY</th>
-                  <th>Originator APY</th>
-                  <th>jToken conversion rate</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>
-                    <div className="d-flex">
-                      <img
-                        left
-                        width="15%"
-                        height="15%"
-                        style={{
-                          margin: "auto",
-                          marginRight: "5px",
-                          marginLeft: "5px",
-                        }}
-                        src={icon3}
-                        alt="Card image cap"
-                      />
-                      <div className="pl-2 pr-2">
-                        <h6 style={{ fontWeight: "600" }}>DAI</h6>
-                        <div
-                          className="mb-0 text-muted"
-                          style={{ fontSize: "12px", fontWeight: "600" }}
-                        >
-                          Dai Stablecoin
-                        </div>
-                      </div>
-                    </div>
-                  </td>
-                  <td>
-                    <div className="d-flex justify-content-left">
-                      <div className=" align-items-baseline">
-                        <h6 style={{ fontWeight: "600" }}>246.66K DAI</h6>
-                        <div
-                          className="mb-0 text-muted"
-                          style={{ fontSize: "12px", fontWeight: "600" }}
-                        >
-                          $246.74K
-                        </div>
-                      </div>
-                    </div>
-                  </td>
-                  <td style={{ verticalAlign: "middle" }}>
-                    {/* <Link to="https://app.barnbridge.com/"> */}
-                    <h6 style={{ fontWeight: "600", color: "#00d395" }}>
-                      2.11%
-                    </h6>
-                    {/* </Link> */}
-                  </td>
-                  <td>
-                    <div className="d-flex justify-content-left">
-                      <div className=" align-items-baseline">
-                        <h6 style={{ fontWeight: "600" }}>21.18M DAI</h6>
-                        <div
-                          className="mb-0 text-muted"
-                          style={{ fontSize: "12px", fontWeight: "600" }}
-                        >
-                          $21.19M
-                        </div>
-                      </div>
-                    </div>
-                  </td>
-
-                  <td style={{ verticalAlign: "middle" }}>
-                    {/* <Link to="https://app.barnbridge.com/"> */}
-                    <h6 style={{ fontWeight: "600", color: "#a26ee3" }}>
-                      2.82%
-                    </h6>
-                    {/* </Link> */}
-                  </td>
-                  <td style={{ verticalAlign: "middle" }}>
-                    {/* <Link to="https://app.barnbridge.com/"> */}
-                    <h6 style={{ fontWeight: "600" }}>2.81%</h6>
-                    {/* </Link> */}
-                  </td>
-                  <td>
-                    <div className="d-flex justify-content-left">
-                      <div className=" align-items-baseline">
-                        <h6 style={{ fontWeight: "600" }}>1 bb_aDAI</h6>
-                        <div
-                          className="mb-0 text-muted"
-                          style={{ fontSize: "12px", fontWeight: "600" }}
-                        >
-                          = 1.0323 DAI
-                        </div>
-                      </div>
-                    </div>
-                  </td>
-                  <td>
-                    <Button color="outline-site-primary">Details</Button>
-                  </td>
-                </tr>
-
-                <tr>
-                  <td>
-                    <div className="d-flex">
-                      <img
-                        left
-                        width="15%"
-                        height="15%"
-                        style={{
-                          margin: "auto",
-                          marginRight: "5px",
-                          marginLeft: "5px",
-                        }}
-                        src={icon4}
-                        alt="Card image cap"
-                      />
-                      <div className="pl-2 pr-2">
-                        <h6 style={{ fontWeight: "600" }}>DAI</h6>
-                        <div
-                          className="mb-0 text-muted"
-                          style={{ fontSize: "12px", fontWeight: "600" }}
-                        >
-                          Dai Stablecoin
-                        </div>
-                      </div>
-                    </div>
-                  </td>
-                  <td>
-                    <div className="d-flex justify-content-left">
-                      <div className=" align-items-baseline">
-                        <h6 style={{ fontWeight: "600" }}>246.66K DAI</h6>
-                        <div
-                          className="mb-0 text-muted"
-                          style={{ fontSize: "12px", fontWeight: "600" }}
-                        >
-                          $246.74K
-                        </div>
-                      </div>
-                    </div>
-                  </td>
-                  <td style={{ verticalAlign: "middle" }}>
-                    {/* <Link to="https://app.barnbridge.com/"> */}
-                    <h6 style={{ fontWeight: "600", color: "#00d395" }}>
-                      2.11%
-                    </h6>
-                    {/* </Link> */}
-                  </td>
-                  <td>
-                    <div className="d-flex justify-content-left">
-                      <div className=" align-items-baseline">
-                        <h6 style={{ fontWeight: "600" }}>21.18M DAI</h6>
-                        <div
-                          className="mb-0 text-muted"
-                          style={{ fontSize: "12px", fontWeight: "600" }}
-                        >
-                          $21.19M
-                        </div>
-                      </div>
-                    </div>
-                  </td>
-
-                  <td style={{ verticalAlign: "middle" }}>
-                    {/* <Link to="https://app.barnbridge.com/"> */}
-                    <h6 style={{ fontWeight: "600", color: "#a26ee3" }}>
-                      2.82%
-                    </h6>
-                    {/* </Link> */}
-                  </td>
-                  <td style={{ verticalAlign: "middle" }}>
-                    {/* <Link to="https://app.barnbridge.com/"> */}
-                    <h6 style={{ fontWeight: "600" }}>2.81%</h6>
-                    {/* </Link> */}
-                  </td>
-                  <td>
-                    <div className="d-flex justify-content-left">
-                      <div className=" align-items-baseline">
-                        <h6 style={{ fontWeight: "600" }}>1 bb_aDAI</h6>
-                        <div
-                          className="mb-0 text-muted"
-                          style={{ fontSize: "12px", fontWeight: "600" }}
-                        >
-                          = 1.0323 DAI
-                        </div>
-                      </div>
-                    </div>
-                  </td>
-                  <td>
-                    <Button color="outline-site-primary">Details</Button>
-                  </td>
-                </tr>
-
-                <tr>
-                  <td>
-                    <div className="d-flex">
-                      <img
-                        left
-                        width="15%"
-                        height="15%"
-                        style={{
-                          margin: "auto",
-                          marginRight: "5px",
-                          marginLeft: "5px",
-                        }}
-                        src={icon9}
-                        alt="Card image cap"
-                      />
-                      <div className="pl-2 pr-2">
-                        <h6 style={{ fontWeight: "600" }}>DAI</h6>
-                        <div
-                          className="mb-0 text-muted"
-                          style={{ fontSize: "12px", fontWeight: "600" }}
-                        >
-                          Dai Stablecoin
-                        </div>
-                      </div>
-                    </div>
-                  </td>
-                  <td>
-                    <div className="d-flex justify-content-left">
-                      <div className=" align-items-baseline">
-                        <h6 style={{ fontWeight: "600" }}>246.66K DAI</h6>
-                        <div
-                          className="mb-0 text-muted"
-                          style={{ fontSize: "12px", fontWeight: "600" }}
-                        >
-                          $246.74K
-                        </div>
-                      </div>
-                    </div>
-                  </td>
-                  <td style={{ verticalAlign: "middle" }}>
-                    {/* <Link to="https://app.barnbridge.com/"> */}
-                    <h6 style={{ fontWeight: "600", color: "#00d395" }}>
-                      2.11%
-                    </h6>
-                    {/* </Link> */}
-                  </td>
-                  <td>
-                    <div className="d-flex justify-content-left">
-                      <div className=" align-items-baseline">
-                        <h6 style={{ fontWeight: "600" }}>21.18M DAI</h6>
-                        <div
-                          className="mb-0 text-muted"
-                          style={{ fontSize: "12px", fontWeight: "600" }}
-                        >
-                          $21.19M
-                        </div>
-                      </div>
-                    </div>
-                  </td>
-
-                  <td style={{ verticalAlign: "middle" }}>
-                    {/* <Link to="https://app.barnbridge.com/"> */}
-                    <h6 style={{ fontWeight: "600", color: "#a26ee3" }}>
-                      2.82%
-                    </h6>
-                    {/* </Link> */}
-                  </td>
-                  <td style={{ verticalAlign: "middle" }}>
-                    {/* <Link to="https://app.barnbridge.com/"> */}
-                    <h6 style={{ fontWeight: "600" }}>2.81%</h6>
-                    {/* </Link> */}
-                  </td>
-                  <td>
-                    <div className="d-flex justify-content-left">
-                      <div className=" align-items-baseline">
-                        <h6 style={{ fontWeight: "600" }}>1 bb_aDAI</h6>
-                        <div
-                          className="mb-0 text-muted"
-                          style={{ fontSize: "12px", fontWeight: "600" }}
-                        >
-                          = 1.0323 DAI
-                        </div>
-                      </div>
-                    </div>
-                  </td>
-                  <td>
-                    <Button color="outline-site-primary">Details</Button>
-                  </td>
-                </tr>
-              </tbody>
-            </Table>
-          </Card>
-        ) : (
-          ""
-        )}
 
         {activeTab == "Finance" ? (
           <div className=" mt-5 align-items-baseline">
@@ -905,6 +905,7 @@ const Markets = (props) => {
               <img
                 left
                 width="auto"
+                className="main-image"
                 style={{
                   marginTop: "auto",
                   marginBottom: "auto",
@@ -912,7 +913,7 @@ const Markets = (props) => {
                   marginRight: "10px",
                 }}
                 //   style={{ marginButtom: "auto" }}
-                src={finance}
+                src="https://www.alpacafinance.org/assets/images/logo.png"
                 alt="Card image cap"
               />
               {/* <small className="text-site-primary font-weight-semi-bold text-uppercase">bond staked</small> */}
@@ -927,7 +928,7 @@ const Markets = (props) => {
                     marginBottom: "auto",
                   }}
                 >
-                  C.R.E.A.M Finance
+                  Alpaca Finance
                 </p>
                 <div
                   className="mb-0 text-muted"
@@ -967,7 +968,7 @@ const Markets = (props) => {
         )}
         {activeTab == "Finance" ? (
           <Card className="custom-card mt-4">
-            <Table className="custom-table" responsive>
+            <Table className="custom-table market-table" responsive>
               <thead>
                 <tr>
                   <th>Token Name </th>

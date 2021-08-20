@@ -7,27 +7,24 @@ const Footer = (props) => {
             <Container fluid className="px-md-5">
                 <div className="d-flex justify-content-end">
                     <div className="footer-nav-links d-flex flex-wrap">
-                        <Link to="#" className="footer-nav-link">
+                        <a href="https://blackcollateral.com/" className="footer-nav-link">
                             Website
-                        </Link>
-                        <Link to="#" className="footer-nav-link">
+                        </a>
+                        <a href="https://discord.com/channels/749283231450398721/874678038900645888" className="footer-nav-link">
                             Discord
-                        </Link>
+                        </a>
                         <Link to="#" className="footer-nav-link">
                             Twitter
                         </Link>
                         <Link to="#" className="footer-nav-link">
+                            Telegram
+                        </Link>
+                        <Link to="#" className="footer-nav-link">
                             Whitepaper
                         </Link>
-                        <Link to="#" className="footer-nav-link">
+                        <a href="https://github.com/BLACKCOLLATERAL/CarbonFinance" className="footer-nav-link">
                             Github
-                        </Link>
-                        <Link to="#" className="footer-nav-link">
-                            Uniswap v2 USDC/BOND add liquidity
-                        </Link>
-                        <Link to="#" className="footer-nav-link">
-                            Uniswap v2 USDC/BOND market
-                        </Link>
+                        </a>
                     </div>
                 </div>
             </Container>

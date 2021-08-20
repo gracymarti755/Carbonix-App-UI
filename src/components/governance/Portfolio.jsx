@@ -1,11 +1,8 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import {
-  Badge,
   Card,
   Col,
-  Container,
-  Progress,
   Form,
   FormGroup,
   Input,
@@ -14,41 +11,22 @@ import {
   InputGroupAddon,
   InputGroupText,
   Row,
-  Table,
   Button,
   CustomInput,
-  ButtonGroup,
-  Pagination,
-  PaginationItem,
-  PaginationLink,
 } from "reactstrap";
-import icon from "../../assets/img/checkicon.PNG";
-import icon1 from "../../assets/img/checkicon1.PNG";
-import icon2 from "../../assets/img/checkicon2.PNG";
-import aave from "../../assets/img/aavelogo.PNG";
-import compound from "../../assets/img/compoundlogo.PNG";
-import finance from "../../assets/img/financelogo.PNG";
-import icon4 from "../../assets/img/icon4.PNG";
 import icon10 from "../../assets/img/icon.PNG";
-import icon9 from "../../assets/img/icon2.PNG";
-import icon3 from "../../assets/img/icon3.PNG";
-import icon5 from "../../assets/img/icon5.PNG";
-import icon6 from "../../assets/img/icon6.PNG";
-import icon7 from "../../assets/img/icon7.PNG";
-import icon8 from "../../assets/img/icon8.PNG";
 
 const Portfolio = (props) => {
   let [activeTab, setActiveTab] = useState("Deposit");
   let [activeTab1, setActiveTab1] = useState("Mvoting");
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("sasasa");
   };
   return (
     <>
       <section className="p-0">
         <Row lg="1" xs="1">
-          <Col lg="5" xs="12" className="pl-2 pr-2 m-auto">
+          <Col xl="6" lg="8" xs="12" className="pl-2 pr-2 m-auto">
             <h3 className="font-weight-bold ml-2 mt-4 mb-4">Portfolio</h3>
             <Card className="custom-card">
               <div className="bar-items-wrapper">

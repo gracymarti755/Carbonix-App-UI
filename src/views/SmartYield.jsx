@@ -13,6 +13,9 @@ class SmartYield extends Component {
         console.log(tab)
         this.setState({ activeTab: tab })
     }
+    componentDidMount() {
+        document.getElementById("header-title").innerText = "Carbon Yield";
+    }
     render() {
         return (<>
             <Bar activeTab={this.state.activeTab} setActiveTab={this.setActiveTab} />

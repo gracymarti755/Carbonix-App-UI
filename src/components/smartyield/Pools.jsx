@@ -1,37 +1,23 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import {
-  Badge,
   Card,
   Col,
   Container,
-  Progress,
   Row,
   Table,
   Button,
-  ButtonGroup,
-  Pagination,
-  PaginationItem,
-  PaginationLink,
 } from "reactstrap";
 import icon from "../../assets/img/checkicon.PNG";
 import icon0 from "../../assets/img/icon1.PNG";
-import icon1 from "../../assets/img/checkicon1.PNG";
-import icon2 from "../../assets/img/checkicon2.PNG";
-import aave from "../../assets/img/aavelogo.PNG";
-import compound from "../../assets/img/compoundlogo.PNG";
-import finance from "../../assets/img/financelogo.PNG";
 import icon4 from "../../assets/img/icon4.PNG";
 import icon10 from "../../assets/img/icon.PNG";
 import icon9 from "../../assets/img/icon2.PNG";
 import icon3 from "../../assets/img/icon3.PNG";
-import icon5 from "../../assets/img/icon5.PNG";
-import icon6 from "../../assets/img/icon6.PNG";
-import icon7 from "../../assets/img/icon7.PNG";
-import icon8 from "../../assets/img/icon8.PNG";
+import PoolCardTabs from "../farming/PoolCardTabs";
 
 const Pools = (props) => {
-  let [activeTab, setActiveTab] = useState("Compound");
+  let [activeTab, setActiveTab] = useState("BIFI");
   let [activeTab1, setActiveTab1] = useState("null");
 
   return (
@@ -46,13 +32,14 @@ const Pools = (props) => {
           }}
           for="btncheck1"
           className={`btn mr-3 bar-item ml-0 ${
-            activeTab == "Compound" ? "active" : ""
+            activeTab == "BIFI" ? "active" : ""
           }`}
-          onClick={(e) => setActiveTab("Compound")}
+          onClick={(e) => setActiveTab("BIFI")}
         >
           <img
             left
             width="auto"
+            className="tab-image"
             style={{
               marginTop: "auto",
               marginBottom: "auto",
@@ -60,10 +47,10 @@ const Pools = (props) => {
               marginRight: "10px",
             }}
             //   style={{ marginButtom: "auto" }}
-            src={icon}
+            src={"https://www.beefy.finance/img/beefy.svg"}
             alt="Card image cap"
           />
-          Compound{" "}
+          BIFI{" "}
           <input
             type="checkbox"
             style={{ marginLeft: "5px" }}
@@ -81,13 +68,14 @@ const Pools = (props) => {
           }}
           for="btncheck2"
           className={`btn mr-3 bar-item ml-0 ${
-            activeTab == "AAVE" ? "active" : ""
+            activeTab == "Swipe" ? "active" : ""
           }`}
-          onClick={(e) => setActiveTab("AAVE")}
+          onClick={(e) => setActiveTab("Swipe")}
         >
           <img
             left
             width="auto"
+            className="tab-image"
             style={{
               marginTop: "auto",
               marginBottom: "auto",
@@ -95,10 +83,10 @@ const Pools = (props) => {
               marginRight: "10px",
             }}
             //   style={{ marginButtom: "auto" }}
-            src={icon1}
+            src={"https://swipe.io/images/logo.svg"}
             alt="Card image cap"
           />
-          AAVE{" "}
+          Swipe{" "}
           <input
             type="checkbox"
             style={{ marginLeft: "5px" }}
@@ -130,10 +118,11 @@ const Pools = (props) => {
               marginRight: "10px",
             }}
             //   style={{ marginButtom: "auto" }}
-            src={icon2}
+            src={"https://www.alpacafinance.org/assets/images/logo.png"}
             alt="Card image cap"
+            className="tab-image"
           />
-          C.R.E.A.M Finance{" "}
+          Alpaca Finance{" "}
           <input
             type="checkbox"
             style={{ marginLeft: "5px" }}
@@ -141,7 +130,7 @@ const Pools = (props) => {
             autocomplete="off"
           />
         </label>
-        {activeTab == "Compound" ? (
+        {activeTab == "BIFI" ? (
           <div className=" mt-5 align-items-baseline">
             <p className="ml-1 text-muted">Total value locked</p>
             <h3 className="font-weight-bold">
@@ -153,7 +142,7 @@ const Pools = (props) => {
           ""
         )}
 
-        {activeTab == "Compound" ? (
+        {activeTab == "BIFI" ? (
           <div
             className=" mt-4"
             // style={{hieght:'10%'}}
@@ -170,10 +159,11 @@ const Pools = (props) => {
                   marginRight: "10px",
                 }}
                 //   style={{ marginButtom: "auto" }}
-                src={compound}
+                src={"https://www.beefy.finance/img/beefy.svg"}
+                className='main-image'
                 alt="Card image cap"
               />
-              {/* <small className="text-site-primary font-weight-semi-bold text-uppercase">bond staked</small> */}
+              {/* <small className="text-site-primary font-weight-semi-bold text-uppercase">BLACK staked</small> */}
               <div
                 className=" pl-2 pr-2 align-items-baseline"
                 style={{ marginRight: "10px" }}
@@ -185,7 +175,7 @@ const Pools = (props) => {
                     marginBottom: "auto",
                   }}
                 >
-                  Compound
+                  BIFI
                 </p>
                 <div
                   className="mb-0 text-muted"
@@ -223,26 +213,19 @@ const Pools = (props) => {
         ) : (
           ""
         )}
-        {activeTab == "Compound" ? (
-          <Row lg="3" xs="1">
-            <Col xs="8">
+        {activeTab == "BIFI" ? (
+          <Row>
+            <Col xl="4" md="6">
               <Card className="custom-card m-2 p-2">
                 {/* <i className="fa fa-tractor"></i> */}
                 <div className="d-flex" style={{ padding: "12px" }}>
                   <img
-                    left
-                    width="auto"
-                    style={{
-                      marginTop: "auto",
-                      marginBottom: "auto",
-                      marginLeft: "10px",
-                      marginRight: "10px",
-                    }}
+                    className="main-image"
                     //   style={{ marginButtom: "auto" }}
                     src={icon9}
                     alt="Card image cap"
                   />
-                  {/* <small className="text-site-primary font-weight-semi-bold text-uppercase">bond staked</small> */}
+                  {/* <small className="text-site-primary font-weight-semi-bold text-uppercase">BLACK staked</small> */}
                   <div
                     className=" pl-2 pr-2 align-item-center"
                     style={{
@@ -252,10 +235,13 @@ const Pools = (props) => {
                     }}
                   >
                     <p style={{ fontWeight: "600", margin: "auto" }}>
-                      bb_cUSDC
+                      cBUSD
                     </p>
                   </div>
                 </div>
+                    <div style={{padding:12}}>
+                      <PoolCardTabs/>
+                    </div>
 
                 <div className="d-flex pl-3 pr-3 mt-2 mb-2">
                   <div
@@ -272,7 +258,7 @@ const Pools = (props) => {
                       APR
                     </p>
                   </div>
-                  {/* <small className="text-site-primary font-weight-semi-bold text-uppercase">bond staked</small> */}
+                  {/* <small className="text-site-primary font-weight-semi-bold text-uppercase">BLACK staked</small> */}
                   <div style={{ marginLeft: "auto" }}>
                     <p
                       style={{
@@ -312,10 +298,10 @@ const Pools = (props) => {
                       style={{ fontWeight: "600", fontSize: "12px" }}
                       className="text-muted"
                     >
-                      BOND daily rewards
+                      BLACK daily rewards
                     </p>
                   </div>
-                  {/* <small className="text-site-primary font-weight-semi-bold text-uppercase">bond staked</small> */}
+                  {/* <small className="text-site-primary font-weight-semi-bold text-uppercase">BLACK staked</small> */}
                   <div style={{ marginLeft: "auto" }}>
                     <p style={{ fontWeight: "600", textAlign: "center" }}>
                       <img
@@ -342,10 +328,10 @@ const Pools = (props) => {
                       style={{ fontWeight: "600", fontSize: "12px" }}
                       className="text-muted"
                     >
-                      BOND rewards left
+                      BLACK rewards left
                     </p>
                   </div>
-                  {/* <small className="text-site-primary font-weight-semi-bold text-uppercase">bond staked</small> */}
+                  {/* <small className="text-site-primary font-weight-semi-bold text-uppercase">BLACK staked</small> */}
                   <div style={{ marginLeft: "auto" }}>
                     <p style={{ fontWeight: "600", textAlign: "center" }}>
                       <img
@@ -375,7 +361,7 @@ const Pools = (props) => {
                       Pool balance
                     </p>
                   </div>
-                  {/* <small className="text-site-primary font-weight-semi-bold text-uppercase">bond staked</small> */}
+                  {/* <small className="text-site-primary font-weight-semi-bold text-uppercase">BLACK staked</small> */}
                   <div style={{ marginLeft: "auto" }}>
                     <p style={{ fontWeight: "600", textAlign: "center" }}>
                       <img
@@ -426,7 +412,7 @@ const Pools = (props) => {
                     }}
                   >
                     <p style={{ fontWeight: "600", margin: "auto" }}>
-                      bb_cUSDC
+                      cBUSD
                     </p>
                   </div>
                 </div>
@@ -523,7 +509,7 @@ const Pools = (props) => {
                     textAlign: "left",
                   }}
                 >
-                  BOND daily rewards
+                  BLACK daily rewards
                 </p>
                 <p
                   className=" mb-0"
@@ -558,7 +544,7 @@ const Pools = (props) => {
                     textAlign: "left",
                   }}
                 >
-                  BOND rewards left
+                  BLACK rewards left
                 </p>
                 <p
                   className=" mb-0"
@@ -941,7 +927,7 @@ const Pools = (props) => {
           ""
         )}
 
-        {activeTab == "AAVE" ? (
+        {activeTab == "Swipe" ? (
           <div className=" mt-5 align-items-baseline">
             <p className="ml-1 text-muted">Total value locked</p>
             <h3 className="font-weight-bold">
@@ -953,7 +939,7 @@ const Pools = (props) => {
           ""
         )}
 
-        {activeTab == "AAVE" ? (
+        {activeTab == "Swipe" ? (
           <div
             className=" mt-4"
             // style={{hieght:'10%'}}
@@ -963,6 +949,7 @@ const Pools = (props) => {
               <img
                 left
                 width="auto"
+                className="main-image"
                 style={{
                   marginTop: "auto",
                   marginBottom: "auto",
@@ -970,10 +957,10 @@ const Pools = (props) => {
                   marginRight: "10px",
                 }}
                 //   style={{ marginButtom: "auto" }}
-                src={aave}
+                src={"https://swipe.io/images/logo.svg"}
                 alt="Card image cap"
               />
-              {/* <small className="text-site-primary font-weight-semi-bold text-uppercase">bond staked</small> */}
+              {/* <small className="text-site-primary font-weight-semi-bold text-uppercase">BLACK staked</small> */}
               <div
                 className=" pl-2 pr-2 align-items-baseline"
                 style={{ marginRight: "10px" }}
@@ -985,7 +972,7 @@ const Pools = (props) => {
                     marginBottom: "auto",
                   }}
                 >
-                  AAVE
+                  Swipe
                 </p>
                 <div
                   className="mb-0 text-muted"
@@ -1023,26 +1010,20 @@ const Pools = (props) => {
         ) : (
           ""
         )}
-        {activeTab == "AAVE" ? (
-          <Row lg="3" xs="1">
-            <Col xs="8">
+        {activeTab == "Swipe" ? (
+          <Row>
+            <Col xl="4" md="6">
               <Card className="custom-card m-2 p-2">
                 {/* <i className="fa fa-tractor"></i> */}
                 <div className="d-flex" style={{ padding: "12px" }}>
                   <img
-                    left
-                    width="auto"
-                    style={{
-                      marginTop: "auto",
-                      marginBottom: "auto",
-                      marginLeft: "10px",
-                      marginRight: "10px",
-                    }}
+
+                    className="main-image"
                     //   style={{ marginButtom: "auto" }}
                     src={icon3}
                     alt="Card image cap"
                   />
-                  {/* <small className="text-site-primary font-weight-semi-bold text-uppercase">bond staked</small> */}
+                  {/* <small className="text-site-primary font-weight-semi-bold text-uppercase">BLACK staked</small> */}
                   <div
                     className=" pl-2 pr-2 align-item-center"
                     style={{
@@ -1052,11 +1033,13 @@ const Pools = (props) => {
                     }}
                   >
                     <p style={{ fontWeight: "600", margin: "auto" }}>
-                      bb_cUSDC
+                      cBUSD
                     </p>
                   </div>
                 </div>
-
+                <div style={{ padding: 12 }}>
+                  <PoolCardTabs />
+                </div>
                 <div className="d-flex pl-3 pr-3 mt-2 mb-2">
                   <div
                     style={{
@@ -1072,7 +1055,7 @@ const Pools = (props) => {
                       APR
                     </p>
                   </div>
-                  {/* <small className="text-site-primary font-weight-semi-bold text-uppercase">bond staked</small> */}
+                  {/* <small className="text-site-primary font-weight-semi-bold text-uppercase">BLACK staked</small> */}
                   <div style={{ marginLeft: "auto" }}>
                     <p
                       style={{
@@ -1112,10 +1095,10 @@ const Pools = (props) => {
                       style={{ fontWeight: "600", fontSize: "12px" }}
                       className="text-muted"
                     >
-                      BOND daily rewards
+                      BLACK daily rewards
                     </p>
                   </div>
-                  {/* <small className="text-site-primary font-weight-semi-bold text-uppercase">bond staked</small> */}
+                  {/* <small className="text-site-primary font-weight-semi-bold text-uppercase">BLACK staked</small> */}
                   <div style={{ marginLeft: "auto" }}>
                     <p style={{ fontWeight: "600", textAlign: "center" }}>
                       <img
@@ -1142,10 +1125,10 @@ const Pools = (props) => {
                       style={{ fontWeight: "600", fontSize: "12px" }}
                       className="text-muted"
                     >
-                      BOND rewards left
+                      BLACK rewards left
                     </p>
                   </div>
-                  {/* <small className="text-site-primary font-weight-semi-bold text-uppercase">bond staked</small> */}
+                  {/* <small className="text-site-primary font-weight-semi-bold text-uppercase">BLACK staked</small> */}
                   <div style={{ marginLeft: "auto" }}>
                     <p style={{ fontWeight: "600", textAlign: "center" }}>
                       <img
@@ -1175,7 +1158,7 @@ const Pools = (props) => {
                       Pool balance
                     </p>
                   </div>
-                  {/* <small className="text-site-primary font-weight-semi-bold text-uppercase">bond staked</small> */}
+                  {/* <small className="text-site-primary font-weight-semi-bold text-uppercase">BLACK staked</small> */}
                   <div style={{ marginLeft: "auto" }}>
                     <p style={{ fontWeight: "600", textAlign: "center" }}>
                       <img
@@ -1230,10 +1213,11 @@ const Pools = (props) => {
                   marginRight: "10px",
                 }}
                 //   style={{ marginButtom: "auto" }}
-                src={finance}
+                className="main-image"
+                src={"https://www.alpacafinance.org/assets/images/logo.png"}
                 alt="Card image cap"
               />
-              {/* <small className="text-site-primary font-weight-semi-bold text-uppercase">bond staked</small> */}
+              {/* <small className="text-site-primary font-weight-semi-bold text-uppercase">BLACK staked</small> */}
               <div
                 className=" pl-2 pr-2 align-items-baseline"
                 style={{ marginRight: "10px" }}
@@ -1245,7 +1229,7 @@ const Pools = (props) => {
                     marginBottom: "auto",
                   }}
                 >
-                  C.R.E.A.M Finance
+                  Alpaca Finance
                 </p>
                 <div
                   className="mb-0 text-muted"
@@ -1284,25 +1268,20 @@ const Pools = (props) => {
           ""
         )}
         {activeTab == "Finance" ? (
-          <Row lg="3" xs="1">
-            <Col xs="8">
+          <Row>
+            <Col xl="4" md="6">
               <Card className="custom-card m-2 p-2">
                 {/* <i className="fa fa-tractor"></i> */}
                 <div className="d-flex" style={{ padding: "12px" }}>
                   <img
                     left
-                    width="auto"
-                    style={{
-                      marginTop: "auto",
-                      marginBottom: "auto",
-                      marginLeft: "10px",
-                      marginRight: "10px",
-                    }}
+
+                    className="main-image"
                     //   style={{ marginButtom: "auto" }}
                     src={icon4}
                     alt="Card image cap"
                   />
-                  {/* <small className="text-site-primary font-weight-semi-bold text-uppercase">bond staked</small> */}
+                  {/* <small className="text-site-primary font-weight-semi-bold text-uppercase">BLACK staked</small> */}
                   <div
                     className=" pl-2 pr-2 align-item-center"
                     style={{
@@ -1312,11 +1291,13 @@ const Pools = (props) => {
                     }}
                   >
                     <p style={{ fontWeight: "600", margin: "auto" }}>
-                      bb_cUSDC
+                      cBUSD
                     </p>
                   </div>
                 </div>
-
+                <div style={{ padding: 12 }}>
+                  <PoolCardTabs />
+                </div>
                 <div className="d-flex pl-3 pr-3 mt-2 mb-2">
                   <div
                     style={{
@@ -1332,7 +1313,7 @@ const Pools = (props) => {
                       APR
                     </p>
                   </div>
-                  {/* <small className="text-site-primary font-weight-semi-bold text-uppercase">bond staked</small> */}
+                  {/* <small className="text-site-primary font-weight-semi-bold text-uppercase">BLACK staked</small> */}
                   <div style={{ marginLeft: "auto" }}>
                     <p
                       style={{
@@ -1372,10 +1353,10 @@ const Pools = (props) => {
                       style={{ fontWeight: "600", fontSize: "12px" }}
                       className="text-muted"
                     >
-                      BOND daily rewards
+                      BLACK daily rewards
                     </p>
                   </div>
-                  {/* <small className="text-site-primary font-weight-semi-bold text-uppercase">bond staked</small> */}
+                  {/* <small className="text-site-primary font-weight-semi-bold text-uppercase">BLACK staked</small> */}
                   <div style={{ marginLeft: "auto" }}>
                     <p style={{ fontWeight: "600", textAlign: "center" }}>
                       <img
@@ -1402,10 +1383,10 @@ const Pools = (props) => {
                       style={{ fontWeight: "600", fontSize: "12px" }}
                       className="text-muted"
                     >
-                      BOND rewards left
+                      BLACK rewards left
                     </p>
                   </div>
-                  {/* <small className="text-site-primary font-weight-semi-bold text-uppercase">bond staked</small> */}
+                  {/* <small className="text-site-primary font-weight-semi-bold text-uppercase">BLACK staked</small> */}
                   <div style={{ marginLeft: "auto" }}>
                     <p style={{ fontWeight: "600", textAlign: "center" }}>
                       <img
@@ -1435,7 +1416,7 @@ const Pools = (props) => {
                       Pool balance
                     </p>
                   </div>
-                  {/* <small className="text-site-primary font-weight-semi-bold text-uppercase">bond staked</small> */}
+                  {/* <small className="text-site-primary font-weight-semi-bold text-uppercase">BLACK staked</small> */}
                   <div style={{ marginLeft: "auto" }}>
                     <p style={{ fontWeight: "600", textAlign: "center" }}>
                       <img
