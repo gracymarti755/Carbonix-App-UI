@@ -1,7 +1,7 @@
 import { Container, Button } from "reactstrap"
 import web3 from '../../web3';
 import React, { useState,useEffect } from "react";
-
+//window.wallet="";
 const Header = (props) => {
     const[walletconnect,setwalletconnect]=useState();
     console.log("checkwalletconnect",walletconnect)
@@ -17,7 +17,9 @@ const Header = (props) => {
         await web3.eth.getAccounts().then(()=>{          
             console.log("acc Binance",accounts[0])
             setwalletconnect(accounts[0])
-
+            window.wallet=accounts[0];
+           //localStorage.setItem("wallet",accounts[0])
+           sessionStorage.setItem("wallet", accounts[0]);
           }).then(()=>{
           })
         console.log(accounts);
