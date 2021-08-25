@@ -2,8 +2,11 @@ import { Card, Col, Row, Button } from "reactstrap";
 import PoolCardTabs from "./PoolCardTabs";
 import icon from "../../assets/img/icon.PNG";
 import icon1 from "../../assets/img/icon1.PNG";
+import carbonstake from "../../views/carbonStake";
+import { Link,useHistory } from "react-router-dom";
 
 const Pools = () => {
+    let history=useHistory();
     return (
         <Row className="m-3 m-md-5">
             <Col xl="4" md="6" className="mb-4">
@@ -156,8 +159,9 @@ const Pools = () => {
                             </p>
                         </div>
                     </div>
-                    <Button className={`ml-3 mr-3 pb-0 mb-0 mt-2 mb-2
-                        `} color="site-primary" width="full">View pool</Button>
+                       
+                    <Button  className={`ml-3 mr-3 pb-0 mb-0 mt-2 mb-2
+                        `} color="site-primary" width="full" onClick={e => {history.push("/carbon-stake")}}>Stake</Button> 
                 </Card>
             </Col>
             <Col xl="4" md="6" className="mb-4">
@@ -305,7 +309,7 @@ const Pools = () => {
                         </div>
                     </div>
                     <Button className={`ml-3 mr-3 pb-0 mb-0 mt-2 mb-2`}
-                        color="site-primary" width="full">View pool</Button>
+                        color="site-primary" width="full" onClick={e => {history.push("/black-stake")}}>Stake</Button>
                 </Card>
             </Col>
 

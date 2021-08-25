@@ -6,6 +6,7 @@ import routes from './routes';
 import store from './store';
 
 function App() {
+	
 	return (
 		<>
 			<Provider store={store}>

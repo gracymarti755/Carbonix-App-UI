@@ -5,7 +5,9 @@ import { Button, Dropdown, Card, Col, Container, DropdownItem, DropdownMenu, Dro
 import web3 from "../web3";
 import swap from "./swapAbi";
 import cbusd from "./cbusdAbi";
-const Swap = () => {
+import cbusdstake from "./carbonStakeAbi";
+import black from "./blackAbi";
+const Cbusdstake = () => {
     let [activeTab, setActiveTab] = useState("Deposit");
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const [dropdownOpen1, setDropdownOpen1] = useState(false);
@@ -19,6 +21,9 @@ const Swap = () => {
     var[cbusdbalance,setcbusdbalance] = useState("");
     const[depositpercent,setdepositpercent] = useState("");
     const[values,setValues] = useState([]);
+    const[staked,setStaked] = useState([]);
+    const[reward,setReward] = useState([]);
+    const[blackbal,setBlackBalance] =useState([]);
     const toggleDropDown = () => setDropdownOpen(!dropdownOpen);
     const toggle1 = () => setDropdownOpen1(!dropdownOpen1);
     let history = useHistory();
@@ -27,8 +32,9 @@ const Swap = () => {
     const accounts =  await web3.eth.getAccounts();
  
     setcbusdbalance(await cbusd.methods.balanceOf(accounts[0]).call());  
+
     
-    let b= await cbusd.methods.allowance(accounts[0],"0x380EF5B39F3F68EF7c80f21384F92EEB0a4c06Cd").call();
+    let b= await cbusd.methods.allowance(accounts[0],"0x3a7CD9084072c0178ED6EbACAF1926E2E9e57D43").call();
  
     if(b>0){
       setAP(true);
@@ -37,16 +43,18 @@ const Swap = () => {
       setAP(false);
     }
     setValues(await swap.methods.userInfo(accounts[0]).call());
-   
+    setStaked(await cbusdstake.methods.userInfo(accounts[0]).call());
+    setReward(await cbusdstake.methods.pendingBlack(accounts[0]).call());
+    setBlackBalance(await black.methods.balanceOf(accounts[0]).call())
 
    
 }      
 
     useEffect(() => {
-        document.getElementById("header-title").innerText = "Swap";
+        document.getElementById("header-title").innerText = "Staking";
     } )
     useEffect(() =>         
-    {first()},[cbusdbalance,ap1,values[0],values[1],values[2],values[3],ap1])
+    {first()},[cbusdbalance,ap1,staked[0]],reward,blackbal)
    
     const deposit = async(event) => {
         event.preventDefault();
@@ -54,8 +62,8 @@ const Swap = () => {
         var valu = document.getElementById("tid1").value;
         var val = valu * 1000000000;
         var value = val + "000000000"
-        await swap.methods.stake(value).send({from:accounts[0]});
-        alert("deposited succesfully")
+        await cbusdstake.methods.deposit(value).send({from:accounts[0]});
+        alert("staked succesfully")
         first();
       }
 
@@ -65,36 +73,28 @@ const Swap = () => {
         var valu = document.getElementById("tid2").value;
         var val = valu * 1000000000;
         var value = val + "000000000"
-        await swap.methods.unstake(value).send({from:accounts[0]});
-        alert("withdrawn succesfully")
+        await cbusdstake.methods.withdraw(value).send({from:accounts[0]});
+        alert("unstaked succesfully")
         first()
       }  
 
-      const stabilize = async(event) => {
+      const claimreward = async(event) => {
         event.preventDefault();
-        const accounts =  await web3.eth.getAccounts();
-        if(values[2] > 0){
-          await swap.methods.transmute().send({from:accounts[0]});
-          alert("Transmute succesfully")
+        if(reward >10000000000){
+            const accounts =  await web3.eth.getAccounts();
+            await cbusdstake.methods.claimReward().send({from:accounts[0]});    
         }
         else{
-          alert("You dont have Transmutable BASE token")
+            alert("Your reward amount should be Greater then 10 to Claim ")
         }
+           
         first()
         
       }
-      const stabilizeClaimAndWithdraw = async(event) => {
+      const emergencywithdraw = async(event) => {
         event.preventDefault();
         const accounts =  await web3.eth.getAccounts();
-        if(values[3] > 0){
-          await swap.methods.transmuteClaimAndWithdraw().send({from:accounts[0]});
-          alert("Claim and withdraw succesfully")
-        }
-    
-        else{
-          alert("You dont have enough Base Token")
-        }
-        
+        await cbusdstake.methods.emergencyWithdraw().send({from:accounts[0]});        
         first()
       }
     
@@ -143,7 +143,7 @@ const Swap = () => {
         event.preventDefault();
         const accounts =  await web3.eth.getAccounts(); 
         document.getElementById("tid2").value = false;  
-        var twentyfive=(values[0] * 25)/100;
+        var twentyfive=(staked[0] * 25)/100;
         setTotaldeposit(parseFloat(twentyfive/1000000000000000000).toFixed(5));
         document.getElementById("tid2").value = parseFloat(twentyfive/1000000000000000000).toFixed(5);        
         
@@ -152,7 +152,7 @@ const Swap = () => {
         event.preventDefault();
         const accounts =  await web3.eth.getAccounts(); 
         document.getElementById("tid2").value = false;    
-        var fifty=(values[0] * 50)/100;
+        var fifty=(staked[0]  * 50)/100;
         setTotaldeposit(parseFloat(fifty/1000000000000000000).toFixed(5));
         document.getElementById("tid2").value = parseFloat(fifty/1000000000000000000).toFixed(5);          
         
@@ -163,7 +163,7 @@ const Swap = () => {
         event.preventDefault();
         const accounts =  await web3.eth.getAccounts(); 
         document.getElementById("tid2").value = false;    
-        var seventyfive=(values[0] * 75)/100;
+        var seventyfive=(staked[0]  * 75)/100;
         setTotaldeposit(parseFloat(seventyfive/1000000000000000000).toFixed(5)); 
         document.getElementById("tid2").value =parseFloat(seventyfive/1000000000000000000).toFixed(5);         
         
@@ -172,7 +172,7 @@ const Swap = () => {
         event.preventDefault();
         const accounts =  await web3.eth.getAccounts(); 
         document.getElementById("tid2").value = false;    
-        var hundred=(values[0] * 100)/100;
+        var hundred=(staked[0]  * 100)/100;
         setTotaldeposit(parseFloat(hundred/1000000000000000000).toFixed(5)); 
         document.getElementById("tid2").value =parseFloat(hundred/1000000000000000000).toFixed(5);         
         
@@ -180,7 +180,7 @@ const Swap = () => {
       const approve = async() => {
         let account = await web3.eth.getAccounts();
         let amount = 1000000000000000000 +"000000000000000000"; 
-        await cbusd.methods.approve("0x380EF5B39F3F68EF7c80f21384F92EEB0a4c06Cd",amount).send({from:account[0]});
+        await cbusd.methods.approve("0x3a7CD9084072c0178ED6EbACAF1926E2E9e57D43",amount).send({from:account[0]});
         first()
         alert("Approved Succesfully")
     }
@@ -193,25 +193,25 @@ const Swap = () => {
                     <Col xl="8" lg="8" md="10" sm="12">
                         <Card className="custom-card">
                             <div className="p-3">
-                                <h4>Stabilize cBUSD to BUSD</h4>
-                                <h6>The Stabilizer exists to ensure cBUSD is pegged to the dollar. Depositing your cBUSD will gradually convert it into BUSD. This is only useful if cBUSD is trading under one dollar on Curve.</h6>
+                                <h4>stake  cBUSD </h4>
+                                <h6>The Stake cBUSD and get Black token as reward</h6>
                                 <Table bordered responsive className="mt-3">
                                     <thead>
                                         <tr>
                                             <
                                                 
                                                 th>Your cBUSD</th>
-                                            <th>Deposited cBUSD</th>
-                                            <th>Stabilizable BUSD</th>
-                                            <th>Your BUSD</th>
+                                            <th>Staked cBUSD</th>
+                                            <th>Black reward</th>
+                                            <th>Your Black</th>
                                         </tr>
                                     </thead>
                                     <tbody className="text-center">
                                         <tr>
                                             <td>{parseFloat(cbusdbalance/1000000000000000000).toFixed(5)}</td>
-                                            <td>{parseFloat(values[0]/1000000000000000000).toFixed(5)}</td>
-                                            <td>{parseFloat(values[2]/1000000000000000000).toFixed(5)}</td>
-                                            <td>{parseFloat(values[3]/1000000000000000000).toFixed(5)}</td>
+                                            <td>{parseFloat(staked[0]/1000000000000000000).toFixed(5)}</td>
+                                            <td>{parseFloat(reward/1000000000).toFixed(5)}</td>
+                                            <td>{parseFloat(blackbal/1000000000).toFixed(5)}</td>
                                         </tr>
                                     </tbody>
                                 </Table>
@@ -226,7 +226,7 @@ const Swap = () => {
                                         <Col xl="6" md="12">
                                             <InputGroup className="mt-3">
                                                 <Input placeholder={depositpercent} style={{ height: "auto" }}type = "number" id="tid1"  />
-                                                <InputGroupAddon addonType="append"><Button color="site-primary" onClick={deposit}>Deposit</Button></InputGroupAddon>
+                                                <InputGroupAddon addonType="append"><Button color="site-primary" onClick={deposit}>stake</Button></InputGroupAddon>
                                             </InputGroup>
                                             <div className="percentage smaller">
                                                 <div className="percentage-item" onClick={balancepercent}>25%</div>
@@ -238,7 +238,7 @@ const Swap = () => {
                                         <Col xl="6" md="12">
                                             <InputGroup className="mt-3">
                                                 <Input placeholder={totaldep} style={{ height: "auto" }}type = "number"  id="tid2"  />
-                                                <InputGroupAddon addonType="append"><Button color="site-primary" onClick={withdraw}>Withdraw</Button></InputGroupAddon>
+                                                <InputGroupAddon addonType="append"><Button color="site-primary" onClick={withdraw}>unstake</Button></InputGroupAddon>
                                             </InputGroup>
                                             <div className="percentage smaller">
                                                 <div className="percentage-item"onClick={withdrawbalancepercent}>25%</div>
@@ -254,10 +254,10 @@ const Swap = () => {
                                         <Col xl="9">
                                             <Row className="mt-4">
                                                 <Col xl="6" md="12">
-                                                    <Button color="outline-site-primary" block onClick={stabilize}>Stabilize</Button>
+                                                    <Button color="outline-site-primary" block onClick={claimreward}>claim reward</Button>
                                                 </Col>
                                                 <Col xl="6" md="12" className='mt-3 mt-xl-0'>
-                                                    <Button color="outline-site-primary" block  onClick={stabilizeClaimAndWithdraw} >Stabilize & Exit</Button>
+                                                    <Button color="outline-site-primary" block  onClick={emergencywithdraw} >Exit</Button>
                                                 </Col>
                                             </Row>
 
@@ -279,40 +279,9 @@ const Swap = () => {
                         </Card>
                     </Col>
                 </Row>
-                <Row className="mt-4 justify-content-center">
-                    <Col xl="8" lg="8" md="10" sm="12">
-                        <Card className="custom-card">
-                            <div className="p-3">
-                                <h4 className="mb-4">Global Stabilizer Status</h4>
-                                <div className="content">
-                                    <div className="d-flex">
-                                        <span>Total Deposited cBUSD:</span>
-                                        <span className="ml-auto">{parseFloat(values[0]/1000000000000000000).toFixed(5)}</span>
-                                    </div>
-                                    <div className="d-flex">
-                                        <span>Total BUSD Deposited in Yearn:</span>
-                                        <span className="ml-auto">0.000</span>
-                                    </div>
-                                    <div className="d-flex">
-                                        <span>Estimated BUSD Daily Yield:</span>
-                                        <span className="ml-auto">0.000</span>
-                                    </div>
-                                    <div className="d-flex">
-                                        <span>Total BUSD Available for Stabilization:</span>
-                                        <span className="ml-auto" >{parseFloat(values[2]/1000000000000000000).toFixed(5)}</span>
-                                    </div>
-                                    <div className="d-flex">
-                                        <span>Yearly Stabilization Rate:</span>
-                                        <span className="ml-auto">0.000</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </Card>
-                    </Col>
-                </Row>
-            </Container>
+ </Container>
         </section>
     );
 }
 
-export default Swap;
+export default Cbusdstake;
