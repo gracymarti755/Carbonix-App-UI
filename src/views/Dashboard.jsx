@@ -9,7 +9,8 @@ import Pools from '../components/farming/Pools';
 import cbusd from "./cbusdAbi";
 import CustomCard from '../components/global/CustomCard';
 import black from "./blackAbi";
-import CFI from "./carbonFinanceAbi"
+import CFI from "./carbonFinanceAbi";
+import web3 from "../web3";
 class Dashboard extends Component {
     state={
         activeTab: "ViewPool",
@@ -28,15 +29,78 @@ class Dashboard extends Component {
        
         totalsupply: '',
         totaldeposited:''
-
+        
     }
+    state={    
+        datas:[],
+        con:'',
+        setcount:'',
+        setad:''
+    }
+
+    // constructor(props) {
+    //     super(props);
+    //     this.state = {
+    //       datas: 0
+    //     };
+    //   }
     async componentDidMount()
     {
+        const account = await web3.eth.getAccounts();
+
        const totalsupply1 = await cbusd.methods.totalSupply().call();
-       const totalsupply =(parseFloat(totalsupply1/1000000000000000000).toFixed(5));
+       const totalsupply =(parseFloat(totalsupply1/1000000000000000000).toFixed(3));
        const totaldeposited1 =await CFI.methods.totalDeposited().call();
-       const totaldeposited =(parseFloat(totaldeposited1/1000000000000000000).toFixed(5));
-       this.setState({totalsupply,totaldeposited});  
+       const totaldeposited =(parseFloat(totaldeposited1/1000000000000000000).toFixed(3));
+
+        const response = await fetch("https://api-testnet.bscscan.com/api?module=account&action=tokentx&address=0x81ccB9a3a1df0A01eEd52bBAA4b6363C38BbEEfC&startblock=0&endblock=250000000000&sort=asc&apikey=YourApiKeyToken");
+        const data = await response.json();
+        console.log("data",data);
+        //var assign= data.result;     
+        this.setState({datas:data.result});
+        var coun  = 0;
+       
+       console.log("datas",this.state.datas);
+       
+       var myName = account[0];
+       const myadd = '"' + myName + '"';       
+       
+       var myna = parseInt(account[0]);
+        this.setState({setad:myna});
+        console.log("ad",myna);
+       
+       
+        for(var i = 0;i < this.state.datas.length;i++){ 
+       
+        let ad = parseInt(this.state.datas[i].from);
+        
+        const ad1 = '"' +  this.state.datas[i].from + '"';
+        const myadd = '"' + myName + '"';
+       
+        var compareNum =0;
+        // if(this.state.datas[i].timeStamp >= dates){
+
+             if( myna == ad){
+                coun = coun + 1 ;
+                  console.log("equal",coun);
+                 }
+       
+        // }
+    }
+    if(coun < 0){
+        this.setState({con:"Nil"});
+        }
+        else{
+        this.setState({con:coun});
+        }
+        
+        
+        
+        //this.setState({setcount:count1});
+        
+
+       this.setState({totalsupply,totaldeposited}); 
+      
              
     } 
    
@@ -56,7 +120,7 @@ class Dashboard extends Component {
                     <CustomCard title="Total Deposited" title2="$" text= {this.state.totaldeposited}></CustomCard>
                 </Col>
                 <Col className="mb-4">
-                    <CustomCard title="Total Borrowed" text={this.state.totalsupply}/>
+                    <CustomCard title="Total Borrowed" text={this.state.totalsupply} subText1="CBUSD"/>
                 </Col>
                 <Col className="mb-4">
                     <CustomCard title="Circulating Supply" text="$251,411"/>
@@ -97,253 +161,12 @@ class Dashboard extends Component {
                                 <th>Transaction hash/timestamp</th>
                             </tr>
                         </thead>
+
+
                         <tbody>
-                            <tr>
+                        <tr>
                                 <td>
-                                    <div className="d-flex">
-                                        <img
-                                            left
-                                            width="15%"
-                                            height="15%"
-                                            style={{
-                                                margin: "auto",
-                                                marginRight: "5px",
-                                                marginLeft: "5px",
-                                            }}
-                                            src={icon}
-                                            alt="Card image cap"
-                                        />
-                                        <div className="pl-2 pr-2">
-                                            <h6 style={{ fontWeight: "600" }}>Transaction</h6>
-                                            <div
-                                                className="mb-0 text-muted"
-                                                style={{ fontSize: "12px", fontWeight: "600" }}
-                                            >
-                                                Uniswap V2
-                                            </div>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div className="d-flex justify-content-left">
-                                        <div className=" align-items-baseline">
-                                            <h6 style={{ fontWeight: "600", color: '#00d395' }}>+0.000094533573581011 UNI-V2</h6>
-                                            <div
-                                                className="mb-0 text-muted"
-                                                style={{ fontSize: "12px", fontWeight: "600" }}
-                                            >
-                                                $1,081.16
-                                            </div>
-                                        </div>
-                                    </div>
-                                </td>
 
-                                <td style={{ verticalAlign: "middle" }}>
-                                    <Link to="https://app.barnbridge.com/">
-                                        <h6 style={{ fontWeight: "600" }}>0x8b3f...13b7</h6>
-                                    </Link>
-                                </td>
-                                <td>
-                                    <div className="d-flex justify-content-left">
-                                        <div className=" align-items-baseline">
-                                            <Link to="https://app.barnbridge.com/">
-                                                <h6 style={{ fontWeight: "600" }}>0xa6aa...6acb</h6>
-                                            </Link>                        <div
-                                                className="mb-0 text-muted"
-                                                style={{ fontSize: "12px", fontWeight: "600" }}
-                                            >
-                                                08.12.2021 13:06
-                                            </div>
-                                        </div>
-                                    </div>
-                                </td>
-
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div className="d-flex">
-                                        <img
-                                            left
-                                            width="15%"
-                                            height="15%"
-                                            style={{
-                                                margin: "auto",
-                                                marginRight: "5px",
-                                                marginLeft: "5px",
-                                            }}
-                                            src={icon}
-                                            alt="Card image cap"
-                                        />
-                                        <div className="pl-2 pr-2">
-                                            <h6 style={{ fontWeight: "600" }}>Transaction</h6>
-                                            <div
-                                                className="mb-0 text-muted"
-                                                style={{ fontSize: "12px", fontWeight: "600" }}
-                                            >
-                                                Uniswap V2
-                                            </div>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div className="d-flex justify-content-left">
-                                        <div className=" align-items-baseline">
-                                            <h6 style={{ fontWeight: "600", color: '#00d395' }}>+0.000094533573581011 UNI-V2</h6>
-                                            <div
-                                                className="mb-0 text-muted"
-                                                style={{ fontSize: "12px", fontWeight: "600" }}
-                                            >
-                                                $1,081.16
-                                            </div>
-                                        </div>
-                                    </div>
-                                </td>
-
-                                <td style={{ verticalAlign: "middle" }}>
-                                    <Link to="https://app.barnbridge.com/">
-                                        <h6 style={{ fontWeight: "600" }}>0x8b3f...13b7</h6>
-                                    </Link>
-                                </td>
-                                <td>
-                                    <div className="d-flex justify-content-left">
-                                        <div className=" align-items-baseline">
-                                            <Link to="https://app.barnbridge.com/">
-                                                <h6 style={{ fontWeight: "600" }}>0xa6aa...6acb</h6>
-                                            </Link>                        <div
-                                                className="mb-0 text-muted"
-                                                style={{ fontSize: "12px", fontWeight: "600" }}
-                                            >
-                                                08.12.2021 13:06
-                                            </div>
-                                        </div>
-                                    </div>
-                                </td>
-
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div className="d-flex">
-                                        <img
-                                            left
-                                            width="15%"
-                                            height="15%"
-                                            style={{
-                                                margin: "auto",
-                                                marginRight: "5px",
-                                                marginLeft: "5px",
-                                            }}
-                                            src={icon}
-                                            alt="Card image cap"
-                                        />
-                                        <div className="pl-2 pr-2">
-                                            <h6 style={{ fontWeight: "600" }}>Transaction</h6>
-                                            <div
-                                                className="mb-0 text-muted"
-                                                style={{ fontSize: "12px", fontWeight: "600" }}
-                                            >
-                                                Uniswap V2
-                                            </div>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div className="d-flex justify-content-left">
-                                        <div className=" align-items-baseline">
-                                            <h6 style={{ fontWeight: "600", color: '#00d395' }}>+0.000094533573581011 UNI-V2</h6>
-                                            <div
-                                                className="mb-0 text-muted"
-                                                style={{ fontSize: "12px", fontWeight: "600" }}
-                                            >
-                                                $1,081.16
-                                            </div>
-                                        </div>
-                                    </div>
-                                </td>
-
-                                <td style={{ verticalAlign: "middle" }}>
-                                    <Link to="https://app.barnbridge.com/">
-                                        <h6 style={{ fontWeight: "600" }}>0x8b3f...13b7</h6>
-                                    </Link>
-                                </td>
-                                <td>
-                                    <div className="d-flex justify-content-left">
-                                        <div className=" align-items-baseline">
-                                            <Link to="https://app.barnbridge.com/">
-                                                <h6 style={{ fontWeight: "600" }}>0xa6aa...6acb</h6>
-                                            </Link>                        <div
-                                                className="mb-0 text-muted"
-                                                style={{ fontSize: "12px", fontWeight: "600" }}
-                                            >
-                                                08.12.2021 13:06
-                                            </div>
-                                        </div>
-                                    </div>
-                                </td>
-
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div className="d-flex">
-                                        <img
-                                            left
-                                            width="15%"
-                                            height="15%"
-                                            style={{
-                                                margin: "auto",
-                                                marginRight: "5px",
-                                                marginLeft: "5px",
-                                            }}
-                                            src={icon}
-                                            alt="Card image cap"
-                                        />
-                                        <div className="pl-2 pr-2">
-                                            <h6 style={{ fontWeight: "600" }}>Transaction</h6>
-                                            <div
-                                                className="mb-0 text-muted"
-                                                style={{ fontSize: "12px", fontWeight: "600" }}
-                                            >
-                                                Uniswap V2
-                                            </div>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div className="d-flex justify-content-left">
-                                        <div className=" align-items-baseline">
-                                            <h6 style={{ fontWeight: "600", color: '#00d395' }}>+0.000094533573581011 UNI-V2</h6>
-                                            <div
-                                                className="mb-0 text-muted"
-                                                style={{ fontSize: "12px", fontWeight: "600" }}
-                                            >
-                                                $1,081.16
-                                            </div>
-                                        </div>
-                                    </div>
-                                </td>
-
-                                <td style={{ verticalAlign: "middle" }}>
-                                    <Link to="https://app.barnbridge.com/">
-                                        <h6 style={{ fontWeight: "600" }}>0x8b3f...13b7</h6>
-                                    </Link>
-                                </td>
-                                <td>
-                                    <div className="d-flex justify-content-left">
-                                        <div className=" align-items-baseline">
-                                            <Link to="https://app.barnbridge.com/">
-                                                <h6 style={{ fontWeight: "600" }}>0xa6aa...6acb</h6>
-                                            </Link>                        <div
-                                                className="mb-0 text-muted"
-                                                style={{ fontSize: "12px", fontWeight: "600" }}
-                                            >
-                                                08.12.2021 13:06
-                                            </div>
-                                        </div>
-                                    </div>
-                                </td>
-
-                            </tr>
-                            <tr>
-                                <td>
                                     <div className="d-flex">
                                         <img
                                             left
@@ -404,6 +227,41 @@ class Dashboard extends Component {
 
                             </tr>
 
+                         {
+                             this.state.datas.map((a)=>{
+                                 { 
+                                  Object.keys(a).map((b)=>{{
+                                      parseInt(a[b].from)===this.state.setad ?(<>
+                                      <h1>
+                                          
+                                         {
+                                         
+                                          console.log("check3", parseInt(a[b].from)) 
+                                          
+                                         }
+                                          
+                                      </h1>
+                                                               
+
+                                      </>):(<>
+                                        <h1>
+                                          {
+                                            // console.log("check",this.state.setad) 
+                                            console.log("check4", parseInt(a[b].from)) 
+                                          }
+                                      </h1>
+                           
+
+                                        </>)
+                                  }
+                                    console.log("b",a[b]);
+                                  })
+                                     console.log("a",a);
+                                 }
+                             }
+                             )
+                         }
+  
                         </tbody>
                     </Table>
                     <div className="p-24 pagination-wrapper">

@@ -23,7 +23,7 @@ const Pools = () => {
     let history=useHistory();
     return (
         <Row className="m-3 m-md-5">
-            {a===5 ? (
+            {a===6 ? (
                 <>
                           <Col xl="4" md="6" className="mb-4">
 

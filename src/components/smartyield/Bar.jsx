@@ -8,14 +8,14 @@ const Bar = (props) => {
                     <i className="fas fa-poll"></i>
                     <span className="ml-2">Markets</span>
                 </Link>
-                <Link to="#" className={`bar-item ${props.activeTab == "portfolio" ? "active" : ""}`} onClick={e => props.setActiveTab("portfolio")}>
+                {/* <Link to="#" className={`bar-item ${props.activeTab == "portfolio" ? "active" : ""}`} onClick={e => props.setActiveTab("portfolio")}>
                     <i className="fa fa-wallet"></i>
                     <span className="ml-2">Portfolio</span>
-                </Link>
-                <Link to="#" className={`bar-item ${props.activeTab == "pools" ? "active" : ""}`} onClick={e => props.setActiveTab("pools")}>
+                </Link> */}
+                {/* <Link to="#" className={`bar-item ${props.activeTab == "pools" ? "active" : ""}`} onClick={e => props.setActiveTab("pools")}>
                     <i className="fas fa-piggy-bank "></i>
                     <span className="ml-2">Pools</span>
-                </Link>
+                </Link> */}
                 
                 
             </div>

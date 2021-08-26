@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link,useHistory } from "react-router-dom";
 import {
   Badge,
   Card,
@@ -40,6 +40,7 @@ const Markets = (props) => {
     setTotalvalueLocked(await valutadapter.methods.totalValue().call());   
   }
   useEffect(() =>{overall()},[totalvaluelocked])
+  let history=useHistory();
   return (
     <>
       <section className="p-0">
@@ -1076,7 +1077,7 @@ const Markets = (props) => {
                     </div>
                   </td>
                   <td>
-                    <Button color="outline-site-primary">Details</Button>
+                    <Button color="outline-site-primary" onClick={e => {history.push("/vault")}}>Details</Button>
                   </td>
                 </tr>
 

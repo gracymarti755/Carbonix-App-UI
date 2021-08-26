@@ -5,6 +5,7 @@ import { Button, Dropdown, Card, Col, Container, DropdownItem, DropdownMenu, Dro
 import web3 from "../web3";
 import swap from "./swapAbi";
 import cbusd from "./cbusdAbi";
+import valutadapter from"./vaultAdapterAbi";
 const Swap = () => {
     let [activeTab, setActiveTab] = useState("Deposit");
     const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -19,6 +20,7 @@ const Swap = () => {
     var[cbusdbalance,setcbusdbalance] = useState("");
     const[depositpercent,setdepositpercent] = useState("");
     const[values,setValues] = useState([]);
+    const[totalvaluelocked,setTotalvalueLocked]=useState([]);
     const toggleDropDown = () => setDropdownOpen(!dropdownOpen);
     const toggle1 = () => setDropdownOpen1(!dropdownOpen1);
     let history = useHistory();
@@ -37,7 +39,7 @@ const Swap = () => {
       setAP(false);
     }
     setValues(await swap.methods.userInfo(accounts[0]).call());
-   
+    setTotalvalueLocked(await valutadapter.methods.totalValue().call());
 
    
 }      
@@ -290,21 +292,21 @@ const Swap = () => {
                                         <span className="ml-auto">{parseFloat(values[0]/1000000000000000000).toFixed(5)}</span>
                                     </div>
                                     <div className="d-flex">
-                                        <span>Total BUSD Deposited in Yearn:</span>
-                                        <span className="ml-auto">0.000</span>
+                                        <span>Total BUSD Deposited in alpaca:</span>
+                                        <span className="ml-auto">{parseFloat(totalvaluelocked/1000000000000000000).toFixed(5)}</span>
                                     </div>
-                                    <div className="d-flex">
+                                    {/* <div className="d-flex">
                                         <span>Estimated BUSD Daily Yield:</span>
                                         <span className="ml-auto">0.000</span>
-                                    </div>
+                                    </div> */}
                                     <div className="d-flex">
                                         <span>Total BUSD Available for Stabilization:</span>
                                         <span className="ml-auto" >{parseFloat(values[2]/1000000000000000000).toFixed(5)}</span>
                                     </div>
-                                    <div className="d-flex">
+                                    {/* <div className="d-flex">
                                         <span>Yearly Stabilization Rate:</span>
                                         <span className="ml-auto">0.000</span>
-                                    </div>
+                                    </div> */}
                                 </div>
                             </div>
                         </Card>

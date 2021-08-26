@@ -37,6 +37,7 @@ const Vault = () => {
     
 
     var[cbusdbalance,setcbusdbalance] = useState("");
+    var[cbusdtotalsupply,setcbusdtotalsupply] = useState("");
 
     let history = useHistory();
     const walletsession=async()=>{
@@ -60,6 +61,9 @@ const Vault = () => {
         setAvalborrow(bb);
         setbusdbalance(await busd.methods.balanceOf(accounts[0]).call());
         setcbusdbalance(await cbusd.methods.balanceOf(accounts[0]).call());
+  
+       setcbusdtotalsupply(await cbusd.methods.totalSupply().call());
+       
         let a = await busd.methods.allowance(accounts[0],"0x81ccB9a3a1df0A01eEd52bBAA4b6363C38BbEEfC").call();
        if(a>0){
         setApp(true);
@@ -473,13 +477,13 @@ const Vault = () => {
                                             <span>Your wallet balance:</span>
                                             <span className="ml-auto">{parseFloat(cbusdbalance/1000000000000000000).toFixed(5)} cBUSD</span>
                                         </div>
-                                        <div className="d-flex">
+                                        {/* <div className="d-flex">
                                             <span>Est. Date of Maturity:</span>
                                             <span className="ml-auto">...</span>
-                                        </div>
+                                        </div> */}
                                         <div className="d-flex">
                                             <span>Global Mintable cBUSD:</span>
-                                            <span className="ml-auto">0.000 cBUSD</span>
+                                            <span className="ml-auto">{parseFloat(cbusdtotalsupply/1000000000000000000).toFixed(5)}cBUSD</span>
                                         </div>
                                     </div>
 
@@ -531,13 +535,13 @@ const Vault = () => {
                                             <span>Your wallet balance:</span>
                                             <span className="ml-auto">{parseFloat(cbusdbalance/1000000000000000000).toFixed(5)} cBUSD</span>
                                         </div>
-                                        <div className="d-flex">
+                                        {/* <div className="d-flex">
                                             <span>Est. Date of Maturity:</span>
                                             <span className="ml-auto">...</span>
-                                        </div>
+                                        </div> */}
                                         <div className="d-flex">
                                             <span>Global Mintable cBUSD:</span>
-                                            <span className="ml-auto">0.000 cBUSD</span>
+                                            <span className="ml-auto">{parseFloat(cbusdtotalsupply/1000000000000000000).toFixed(5)} cBUSD</span>
                                         </div>
                                     </div>
 
@@ -598,13 +602,13 @@ const Vault = () => {
                                             <span>Your wallet balance:</span>
                                             <span className="ml-auto">{parseFloat(cbusdbalance/1000000000000000000).toFixed(5)} cBUSD</span>
                                         </div>
-                                        <div className="d-flex">
+                                        {/* <div className="d-flex">
                                             <span>Est. Date of Maturity:</span>
                                             <span className="ml-auto">...</span>
-                                        </div>
+                                        </div> */}
                                         <div className="d-flex larger">
                                             <span>Global Mintable cBUSD:</span>
-                                            <span className="ml-auto">0.000 cBUSD</span>
+                                            <span className="ml-auto">{parseFloat(cbusdtotalsupply/1000000000000000000).toFixed(5)} cBUSD</span>
                                         </div>
                                     </div>
 
@@ -618,7 +622,7 @@ const Vault = () => {
 (
 (
 <div>
-                                    <h6>Repay the remaining 0 cBUSD debt from your wallet using cBUSD and/or BUSD</h6>
+                                    <h6>Repay the remaining {parseFloat(totaldebt/1000000000000000000).toFixed(5)} cBUSD debt from your wallet using cBUSD and/or BUSD</h6>
                                     {!multiple ?
                                         <InputGroup className="mt-3">
                                         <Input placeholder={{repaypercent},"0.00"} style={{ height: "auto" }} type = "number" id="tid4" />
@@ -723,13 +727,13 @@ const Vault = () => {
                                             <span>Your wallet balance:</span>
                                             <span className="ml-auto">{parseFloat(busdbalance/1000000000000000000).toFixed(5)} cBUSD</span>
                                         </div>
-                                        <div className="d-flex">
+                                        {/* <div className="d-flex">
                                             <span>Est. Date of Maturity:</span>
                                             <span className="ml-auto">...</span>
-                                        </div>
+                                        </div> */}
                                         <div className="d-flex">
                                             <span>Global Mintable cBUSD:</span>
-                                            <span className="ml-auto">0.000 cBUSD</span>
+                                            <span className="ml-auto">{parseFloat(cbusdtotalsupply/1000000000000000000).toFixed(5)} cBUSD</span>
                                         </div>
                                     </div>
 
@@ -782,13 +786,13 @@ const Vault = () => {
                                             <span>Your wallet balance:</span>
                                             <span className="ml-auto">{parseFloat(cbusdbalance/1000000000000000000).toFixed(5)} cBUSD</span>
                                         </div>
-                                        <div className="d-flex">
+                                        {/* <div className="d-flex">
                                             <span>Est. Date of Maturity:</span>
                                             <span className="ml-auto">...</span>
-                                        </div>
+                                        </div> */}
                                         <div className="d-flex">
                                             <span>Global Mintable cBUSD:</span>
-                                            <span className="ml-auto">0.000 cBUSD</span>
+                                            <span className="ml-auto">{parseFloat(cbusdtotalsupply/1000000000000000000).toFixed(5)} cBUSD</span>
                                         </div>
                                     </div>
 

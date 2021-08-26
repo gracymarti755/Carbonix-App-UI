@@ -47,7 +47,7 @@ const YieldFarming = (props) => {
           <CustomCard title="TOTAL VALUE LOCKED" text="$251,411,126" subText="$251,379,305 effective locked" />
         </Col>
         <Col xl="3" lg="6" xs="12" className="mb-4">
-          <CustomCard title="BLACK REWARDS" text={communitybalance.toFixed(3)} subText="out of 10,000,000" />
+          <CustomCard title="BLACK REWARDS" text={parseFloat(communitybalance).toFixed(3)} subText="out of 10,000,000" />
         </Col>
         <Col xl="3" lg="6" xs="12" className="mb-4">
           <CustomCard title="BLACK PRICE" text="$26.69" subText="Uniswap market" />
