@@ -35,7 +35,8 @@ class Dashboard extends Component {
         datas:[],
         con:'',
         setcount:'',
-        setad:''
+        setad:'',
+        setvalues:[]
     }
 
     // constructor(props) {
@@ -44,10 +45,10 @@ class Dashboard extends Component {
     //       datas: 0
     //     };
     //   }
+
     async componentDidMount()
     {
-        const account = await web3.eth.getAccounts();
-
+       const account = await web3.eth.getAccounts();
        const totalsupply1 = await cbusd.methods.totalSupply().call();
        const totalsupply =(parseFloat(totalsupply1/1000000000000000000).toFixed(3));
        const totaldeposited1 =await CFI.methods.totalDeposited().call();
@@ -100,9 +101,17 @@ class Dashboard extends Component {
         
 
        this.setState({totalsupply,totaldeposited}); 
-      
-             
+       this.state.datas.map((a)=>{            
+            if(parseInt(a.from)===this.state.setad){
+                this.setState({setvalues:(parseInt(a.from))})
+                console.log("ab",a.from);
+               
+            }
+
+        })
+        console.log("setter",this.state.setvalues);       
     } 
+   
    
     
    
@@ -152,6 +161,36 @@ class Dashboard extends Component {
                             All transactions<i class="fas fa-sort-down ml-2"></i>
                         </Button>
                     </div>
+                    <div> {
+                        this.state.datas === null || this.state.datas === ""  ?(
+                            <>
+
+                            </>
+                        ):(<>
+                         {
+                         this.state.datas.map(a =>
+                            {
+                                (parseInt(a.from)===this.state.setad) ? (<>
+                                
+                                <h1 style ={{color:'black'}} ><b>
+                                 {a.to}</b>
+                                 {console.log("check a",a.to)}
+                               </h1>
+                             
+                                </>):(<>
+                                
+                                 <h1>
+                                 {a.to}
+                                </h1>
+                                
+                                </>)
+                            }
+                             
+                         ) }
+                        
+                        </>)
+                    }
+                    </div>
                     <Table className="custom-table" responsive>
                         <thead>
                             <tr>
@@ -165,7 +204,7 @@ class Dashboard extends Component {
 
                         <tbody>
                         <tr>
-                                <td>
+                               <td>
 
                                     <div className="d-flex">
                                         <img
@@ -224,44 +263,8 @@ class Dashboard extends Component {
                                         </div>
                                     </div>
                                 </td>
-
                             </tr>
-
-                         {
-                             this.state.datas.map((a)=>{
-                                 { 
-                                  Object.keys(a).map((b)=>{{
-                                      parseInt(a[b].from)===this.state.setad ?(<>
-                                      <h1>
-                                          
-                                         {
-                                         
-                                          console.log("check3", parseInt(a[b].from)) 
-                                          
-                                         }
-                                          
-                                      </h1>
-                                                               
-
-                                      </>):(<>
-                                        <h1>
-                                          {
-                                            // console.log("check",this.state.setad) 
-                                            console.log("check4", parseInt(a[b].from)) 
-                                          }
-                                      </h1>
-                           
-
-                                        </>)
-                                  }
-                                    console.log("b",a[b]);
-                                  })
-                                     console.log("a",a);
-                                 }
-                             }
-                             )
-                         }
-  
+                    
                         </tbody>
                     </Table>
                     <div className="p-24 pagination-wrapper">
