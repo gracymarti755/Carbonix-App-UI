@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import {
@@ -27,14 +28,22 @@ import icon5 from "../../assets/img/icon5.PNG";
 import icon6 from "../../assets/img/icon6.PNG";
 import icon7 from "../../assets/img/icon7.PNG";
 import icon8 from "../../assets/img/icon8.PNG";
-
+import busd from "../../views/busdAbi";
+import web3 from "../../web3";
+import valutadapter from"../../views/vaultAdapterAbi";
 const Markets = (props) => {
-  let [activeTab, setActiveTab] = useState("BIFI");
-
+  let [activeTab, setActiveTab] = useState("Finance");
+  const[totalvaluelocked,setTotalvalueLocked]=useState([]);
+  
+  const overall = async() =>{
+    const accounts =  await web3.eth.getAccounts();
+    setTotalvalueLocked(await valutadapter.methods.totalValue().call());   
+  }
+  useEffect(() =>{overall()},[totalvaluelocked])
   return (
     <>
       <section className="p-0">
-        <label
+        {/* <label
           class="btn mr-3 p-3"
           style={{
             color: "black",
@@ -67,9 +76,9 @@ const Markets = (props) => {
             id="btncheck1"
             autocomplete="off"
           />
-        </label>
+        </label> */}
 
-        <label
+        {/* <label
           class="btn mr-3 p-3"
           style={{
             color: "black",
@@ -102,7 +111,7 @@ const Markets = (props) => {
             id="btncheck2"
             autocomplete="off"
           />
-        </label>
+        </label> */}
 
         <label
           class="btn mr-3"
@@ -131,12 +140,12 @@ const Markets = (props) => {
             alt="Card image cap"
           />
           {" "}
-          <input
+          {/* <input
             type="checkbox"
             style={{ marginLeft: "5px" }}
             id="btncheck3"
             autocomplete="off"
-          />
+          /> */}
         </label>
         {activeTab == "BIFI" ? (
           <div className=" mt-5 align-items-baseline">
@@ -431,7 +440,7 @@ const Markets = (props) => {
                         alt="Card image cap"
                       />
                       <div className="pl-2 pr-2">
-                        <h6 style={{ fontWeight: "600" }}>DAI</h6>
+                        <h6 style={{ fontWeight: "600" }}>BUSD</h6>
                         <div
                           className="mb-0 text-muted"
                           style={{ fontSize: "12px", fontWeight: "600" }}
@@ -887,7 +896,7 @@ const Markets = (props) => {
           <div className=" mt-5 align-items-baseline">
             <p className="ml-1 text-muted">Total value locked</p>
             <h3 className="font-weight-bold">
-              $237,430,892.83{" "}
+            {parseFloat(totalvaluelocked/1000000000000000000).toFixed(5)}{" "}
               <i class="fas fa-shield-alt" style={{ color: "#00d395" }}></i>
             </h3>
           </div>
@@ -958,7 +967,7 @@ const Markets = (props) => {
                     //   textAlign: "end",
                   }}
                 >
-                  $131,552,949.29
+                  {parseFloat(totalvaluelocked/1000000000000000000).toFixed(5)}
                 </p>
               </div>
             </div>
@@ -997,12 +1006,12 @@ const Markets = (props) => {
                         alt="Card image cap"
                       />
                       <div className="pl-2 pr-2">
-                        <h6 style={{ fontWeight: "600" }}>DAI</h6>
+                        <h6 style={{ fontWeight: "600" }}>BUSD</h6>
                         <div
                           className="mb-0 text-muted"
                           style={{ fontSize: "12px", fontWeight: "600" }}
                         >
-                          Dai Stablecoin
+                          BUSD Stablecoin
                         </div>
                       </div>
                     </div>
@@ -1071,185 +1080,8 @@ const Markets = (props) => {
                   </td>
                 </tr>
 
-                <tr>
-                  <td>
-                    <div className="d-flex">
-                      <img
-                        left
-                        width="15%"
-                        height="15%"
-                        style={{
-                          margin: "auto",
-                          marginRight: "5px",
-                          marginLeft: "5px",
-                        }}
-                        src={icon4}
-                        alt="Card image cap"
-                      />
-                      <div className="pl-2 pr-2">
-                        <h6 style={{ fontWeight: "600" }}>DAI</h6>
-                        <div
-                          className="mb-0 text-muted"
-                          style={{ fontSize: "12px", fontWeight: "600" }}
-                        >
-                          Dai Stablecoin
-                        </div>
-                      </div>
-                    </div>
-                  </td>
-                  <td>
-                    <div className="d-flex justify-content-left">
-                      <div className=" align-items-baseline">
-                        <h6 style={{ fontWeight: "600" }}>246.66K DAI</h6>
-                        <div
-                          className="mb-0 text-muted"
-                          style={{ fontSize: "12px", fontWeight: "600" }}
-                        >
-                          $246.74K
-                        </div>
-                      </div>
-                    </div>
-                  </td>
-                  <td style={{ verticalAlign: "middle" }}>
-                    {/* <Link to="https://app.barnbridge.com/"> */}
-                    <h6 style={{ fontWeight: "600", color: "#00d395" }}>
-                      2.11%
-                    </h6>
-                    {/* </Link> */}
-                  </td>
-                  <td>
-                    <div className="d-flex justify-content-left">
-                      <div className=" align-items-baseline">
-                        <h6 style={{ fontWeight: "600" }}>21.18M DAI</h6>
-                        <div
-                          className="mb-0 text-muted"
-                          style={{ fontSize: "12px", fontWeight: "600" }}
-                        >
-                          $21.19M
-                        </div>
-                      </div>
-                    </div>
-                  </td>
-
-                  <td style={{ verticalAlign: "middle" }}>
-                    {/* <Link to="https://app.barnbridge.com/"> */}
-                    <h6 style={{ fontWeight: "600", color: "#a26ee3" }}>
-                      2.82%
-                    </h6>
-                    {/* </Link> */}
-                  </td>
-                  <td style={{ verticalAlign: "middle" }}>
-                    {/* <Link to="https://app.barnbridge.com/"> */}
-                    <h6 style={{ fontWeight: "600" }}>2.81%</h6>
-                    {/* </Link> */}
-                  </td>
-                  <td>
-                    <div className="d-flex justify-content-left">
-                      <div className=" align-items-baseline">
-                        <h6 style={{ fontWeight: "600" }}>1 bb_aDAI</h6>
-                        <div
-                          className="mb-0 text-muted"
-                          style={{ fontSize: "12px", fontWeight: "600" }}
-                        >
-                          = 1.0323 DAI
-                        </div>
-                      </div>
-                    </div>
-                  </td>
-                  <td>
-                    <Button color="outline-site-primary">Details</Button>
-                  </td>
-                </tr>
-
-                <tr>
-                  <td>
-                    <div className="d-flex">
-                      <img
-                        left
-                        width="15%"
-                        height="15%"
-                        style={{
-                          margin: "auto",
-                          marginRight: "5px",
-                          marginLeft: "5px",
-                        }}
-                        src={icon9}
-                        alt="Card image cap"
-                      />
-                      <div className="pl-2 pr-2">
-                        <h6 style={{ fontWeight: "600" }}>DAI</h6>
-                        <div
-                          className="mb-0 text-muted"
-                          style={{ fontSize: "12px", fontWeight: "600" }}
-                        >
-                          Dai Stablecoin
-                        </div>
-                      </div>
-                    </div>
-                  </td>
-                  <td>
-                    <div className="d-flex justify-content-left">
-                      <div className=" align-items-baseline">
-                        <h6 style={{ fontWeight: "600" }}>246.66K DAI</h6>
-                        <div
-                          className="mb-0 text-muted"
-                          style={{ fontSize: "12px", fontWeight: "600" }}
-                        >
-                          $246.74K
-                        </div>
-                      </div>
-                    </div>
-                  </td>
-                  <td style={{ verticalAlign: "middle" }}>
-                    {/* <Link to="https://app.barnbridge.com/"> */}
-                    <h6 style={{ fontWeight: "600", color: "#00d395" }}>
-                      2.11%
-                    </h6>
-                    {/* </Link> */}
-                  </td>
-                  <td>
-                    <div className="d-flex justify-content-left">
-                      <div className=" align-items-baseline">
-                        <h6 style={{ fontWeight: "600" }}>21.18M DAI</h6>
-                        <div
-                          className="mb-0 text-muted"
-                          style={{ fontSize: "12px", fontWeight: "600" }}
-                        >
-                          $21.19M
-                        </div>
-                      </div>
-                    </div>
-                  </td>
-
-                  <td style={{ verticalAlign: "middle" }}>
-                    {/* <Link to="https://app.barnbridge.com/"> */}
-                    <h6 style={{ fontWeight: "600", color: "#a26ee3" }}>
-                      2.82%
-                    </h6>
-                    {/* </Link> */}
-                  </td>
-                  <td style={{ verticalAlign: "middle" }}>
-                    {/* <Link to="https://app.barnbridge.com/"> */}
-                    <h6 style={{ fontWeight: "600" }}>2.81%</h6>
-                    {/* </Link> */}
-                  </td>
-                  <td>
-                    <div className="d-flex justify-content-left">
-                      <div className=" align-items-baseline">
-                        <h6 style={{ fontWeight: "600" }}>1 bb_aDAI</h6>
-                        <div
-                          className="mb-0 text-muted"
-                          style={{ fontSize: "12px", fontWeight: "600" }}
-                        >
-                          = 1.0323 DAI
-                        </div>
-                      </div>
-                    </div>
-                  </td>
-                  <td>
-                    <Button color="outline-site-primary">Details</Button>
-                  </td>
-                </tr>
+               
+               
               </tbody>
             </Table>
           </Card>

@@ -9,6 +9,7 @@ import Pools from '../components/farming/Pools';
 import cbusd from "./cbusdAbi";
 import CustomCard from '../components/global/CustomCard';
 import black from "./blackAbi";
+import CFI from "./carbonFinanceAbi"
 class Dashboard extends Component {
     state={
         activeTab: "ViewPool",
@@ -25,16 +26,18 @@ class Dashboard extends Component {
     }
     state={
        
-        totalsupply: ''
+        totalsupply: '',
+        totaldeposited:''
 
     }
     async componentDidMount()
     {
        const totalsupply1 = await cbusd.methods.totalSupply().call();
        const totalsupply =(parseFloat(totalsupply1/1000000000000000000).toFixed(5));
-       console.log("totalsupply check",totalsupply);  
-       this.setState({totalsupply});  
-       console.log("totalsupply check",totalsupply);         
+       const totaldeposited1 =await CFI.methods.totalDeposited().call();
+       const totaldeposited =(parseFloat(totaldeposited1/1000000000000000000).toFixed(5));
+       this.setState({totalsupply,totaldeposited});  
+             
     } 
    
     
@@ -50,10 +53,10 @@ class Dashboard extends Component {
                     <CustomCard title="Carbon price" text="$251,411"/>
                 </Col>
                 <Col className="mb-4">
-                    <CustomCard title="Total borrowed" text="$251,411"/>
+                    <CustomCard title="Total Deposited" title2="$" text= {this.state.totaldeposited}></CustomCard>
                 </Col>
                 <Col className="mb-4">
-                    <CustomCard title="Total Supply" text={this.state.totalsupply}/>
+                    <CustomCard title="Total Borrowed" text={this.state.totalsupply}/>
                 </Col>
                 <Col className="mb-4">
                     <CustomCard title="Circulating Supply" text="$251,411"/>
