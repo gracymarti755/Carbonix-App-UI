@@ -3,14 +3,18 @@ import { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { Button, Dropdown, Card, Col, Container, DropdownItem, DropdownMenu, DropdownToggle, Input, InputGroup, InputGroupAddon, InputGroupButtonDropdown, InputGroupText, Row, Table } from "reactstrap";
 import web3 from "../web3";
+import swap from "./swapAbi";
 import cbusd from "./cbusdAbi";
+import lpstake from "./lpStakingAbi";
 import black from "./blackAbi";
-import blackstake from "./blackStakeAbi";
-const Blackstake = () => {
+
+const Lpstake = () => {
     let [activeTab, setActiveTab] = useState("Deposit");
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const [dropdownOpen1, setDropdownOpen1] = useState(false);
-    const [multiple, setMultiple] = useState(false);    
+    const [multiple, setMultiple] = useState(false);
+    const [selectedDropdown, setSelectedDropdown] = useState("cBUSD");
+    const [selectedDropdown1, setSelectedDropdown1] = useState("No Yield");
     const[tid,setId] = useState("");
     const[tid1,setId1] = useState("");
     const[ap1,setAP] = useState("");
@@ -21,8 +25,6 @@ const Blackstake = () => {
     const[staked,setStaked] = useState([]);
     const[reward,setReward] = useState([]);
     const[blackbal,setBlackBalance] =useState([]);
-    const toggleDropDown = () => setDropdownOpen(!dropdownOpen);
-    const toggle1 = () => setDropdownOpen1(!dropdownOpen1);
     const [lock ,setlock]=useState("");
     const[t11,setTim11 ] = useState("");
     const[t21,setTim21] = useState("");
@@ -31,12 +33,17 @@ const Blackstake = () => {
     var [date1, setdate1]=useState("");
     var [time1, settime1]=useState("");
     const [lock1 ,setlock1]=useState("");
+    const toggleDropDown = () => setDropdownOpen(!dropdownOpen);
+    const toggle1 = () => setDropdownOpen1(!dropdownOpen1);
     let history = useHistory();
     
  const first = async () => {
-    const accounts =  await web3.eth.getAccounts();     
-    setBlackBalance(await black.methods.balanceOf(accounts[0]).call())    
-    let b= await black.methods.allowance(accounts[0],"0x8F686692DFEb9019974dEb21312F2C5826592888").call();
+    const accounts =  await web3.eth.getAccounts();
+ 
+    setcbusdbalance(await cbusd.methods.balanceOf(accounts[0]).call());  
+
+    
+    let b= await cbusd.methods.allowance(accounts[0],"0x3a7CD9084072c0178ED6EbACAF1926E2E9e57D43").call();
  
     if(b>0){
       setAP(true);
@@ -44,10 +51,11 @@ const Blackstake = () => {
     else{
       setAP(false);
     }
-    //setValues(await swap.methods.userInfo(accounts[0]).call());
-    setStaked(await blackstake.methods.userInfo(accounts[0]).call());
-    setReward(await blackstake.methods.pendingBlack(accounts[0]).call());
-    var us =await blackstake.methods.holderUnstakeRemainingTime(accounts[0]).call();
+    setValues(await swap.methods.userInfo(accounts[0]).call());
+    setStaked(await lpstake.methods.userInfo(accounts[0]).call());
+    setReward(await lpstake.methods.pendingBlack(accounts[0]).call());
+    setBlackBalance(await black.methods.balanceOf(accounts[0]).call())
+    var us =await lpstake.methods.holderUnstakeRemainingTime(accounts[0]).call();
     var now = new Date().getTime();
     if(us<=now){
     setlock(true);
@@ -56,7 +64,7 @@ const Blackstake = () => {
       setlock(false);
     }
     
-    var us=await blackstake.methods.holderUnstakeRemainingTime(accounts[0]).call();
+    var us=await lpstake.methods.holderUnstakeRemainingTime(accounts[0]).call();
     var ff=new Date(us*1000);
     setdate1(ff.toDateString());
     var hours = ff.getHours();
@@ -123,8 +131,9 @@ const Blackstake = () => {
         event.preventDefault();
         const accounts =  await web3.eth.getAccounts();
         var valu = document.getElementById("tid1").value;
-        var value = valu * 1000000000;      
-        await blackstake.methods.deposit(value).send({from:accounts[0]});
+        var val = valu * 1000000000;
+        var value = val + "000000000"
+        await lpstake.methods.deposit(value).send({from:accounts[0]});
         alert("staked succesfully")
         first();
       }
@@ -133,8 +142,9 @@ const Blackstake = () => {
         event.preventDefault();
         const accounts =  await web3.eth.getAccounts();
         var valu = document.getElementById("tid2").value;
-        var value = valu * 1000000000;        
-        await blackstake.methods.withdraw(value).send({from:accounts[0]});
+        var val = valu * 1000000000;
+        var value = val + "000000000"
+        await lpstake.methods.withdraw(value).send({from:accounts[0]});
         alert("unstaked succesfully")
         first()
       }  
@@ -143,7 +153,7 @@ const Blackstake = () => {
         event.preventDefault();
         if(reward >10000000000){
             const accounts =  await web3.eth.getAccounts();
-            await blackstake.methods.claimReward().send({from:accounts[0]});    
+            await lpstake.methods.claimReward().send({from:accounts[0]});    
         }
         else{
             alert("Your reward amount should be Greater then 10 to Claim ")
@@ -155,7 +165,7 @@ const Blackstake = () => {
       const emergencywithdraw = async(event) => {
         event.preventDefault();
         const accounts =  await web3.eth.getAccounts();
-        await blackstake.methods.emergencyWithdraw().send({from:accounts[0]});        
+        await lpstake.methods.emergencyWithdraw().send({from:accounts[0]});        
         first()
       }
     
@@ -163,19 +173,19 @@ const Blackstake = () => {
         event.preventDefault();
         const accounts =  await web3.eth.getAccounts(); 
         document.getElementById("tid1").value = false;  
-        var twentyfive=(blackbal * 25)/100;
-        setdepositpercent(parseFloat(twentyfive/1000000000).toFixed(5));
+        var twentyfive=(cbusdbalance * 25)/100;
+        setdepositpercent(parseFloat(twentyfive/1000000000000000000).toFixed(5));
        
-        document.getElementById("tid1").value = parseFloat(twentyfive/1000000000).toFixed(5);        
+        document.getElementById("tid1").value = parseFloat(twentyfive/1000000000000000000).toFixed(5);        
         
       }
        const balancepercent1 = async(event) => {
         event.preventDefault();
         const accounts =  await web3.eth.getAccounts(); 
         document.getElementById("tid1").value = false;    
-        var fifty=(blackbal * 50)/100;
-        setdepositpercent(parseFloat(fifty/1000000000).toFixed(5));
-        document.getElementById("tid1").value =  parseFloat(fifty/1000000000).toFixed(5);          
+        var fifty=(cbusdbalance * 50)/100;
+        setdepositpercent(parseFloat(fifty/1000000000000000000).toFixed(5));
+        document.getElementById("tid1").value =  parseFloat(fifty/1000000000000000000).toFixed(5);          
         
       } 
 
@@ -184,18 +194,18 @@ const Blackstake = () => {
         event.preventDefault();
         const accounts =  await web3.eth.getAccounts(); 
         document.getElementById("tid1").value = false;    
-        var seventyfive=(blackbal * 75)/100;
-        setdepositpercent(parseFloat(seventyfive/1000000000).toFixed(5)); 
-        document.getElementById("tid1").value = parseFloat(seventyfive/1000000000).toFixed(5);         
+        var seventyfive=(cbusdbalance * 75)/100;
+        setdepositpercent(parseFloat(seventyfive/1000000000000000000).toFixed(5)); 
+        document.getElementById("tid1").value = parseFloat(seventyfive/1000000000000000000).toFixed(5);         
         
       }
       const balancepercent3 = async(event) => {
         event.preventDefault();
         const accounts =  await web3.eth.getAccounts(); 
         document.getElementById("tid1").value = false;    
-        var hundred=(blackbal * 100)/100;
-        setdepositpercent(parseFloat(hundred/1000000000).toFixed(5)); 
-        document.getElementById("tid1").value =  parseFloat(hundred/1000000000).toFixed(5);         
+        var hundred=(cbusdbalance * 100)/100;
+        setdepositpercent(parseFloat(hundred/1000000000000000000).toFixed(5)); 
+        document.getElementById("tid1").value =  parseFloat(hundred/1000000000000000000).toFixed(5);         
         
       }
 
@@ -205,8 +215,8 @@ const Blackstake = () => {
         const accounts =  await web3.eth.getAccounts(); 
         document.getElementById("tid2").value = false;  
         var twentyfive=(staked[0] * 25)/100;
-        setTotaldeposit(parseFloat(twentyfive/1000000000).toFixed(5));
-        document.getElementById("tid2").value = parseFloat(twentyfive/1000000000).toFixed(5);        
+        setTotaldeposit(parseFloat(twentyfive/1000000000000000000).toFixed(5));
+        document.getElementById("tid2").value = parseFloat(twentyfive/1000000000000000000).toFixed(5);        
         
       }
        const withdrawbalancepercent1 = async(event) => {
@@ -214,8 +224,8 @@ const Blackstake = () => {
         const accounts =  await web3.eth.getAccounts(); 
         document.getElementById("tid2").value = false;    
         var fifty=(staked[0]  * 50)/100;
-        setTotaldeposit(parseFloat(fifty/1000000000).toFixed(5));
-        document.getElementById("tid2").value = parseFloat(fifty/1000000000).toFixed(5);          
+        setTotaldeposit(parseFloat(fifty/1000000000000000000).toFixed(5));
+        document.getElementById("tid2").value = parseFloat(fifty/1000000000000000000).toFixed(5);          
         
       } 
 
@@ -225,8 +235,8 @@ const Blackstake = () => {
         const accounts =  await web3.eth.getAccounts(); 
         document.getElementById("tid2").value = false;    
         var seventyfive=(staked[0]  * 75)/100;
-        setTotaldeposit(parseFloat(seventyfive/1000000000).toFixed(5)); 
-        document.getElementById("tid2").value =parseFloat(seventyfive/1000000000).toFixed(5);         
+        setTotaldeposit(parseFloat(seventyfive/1000000000000000000).toFixed(5)); 
+        document.getElementById("tid2").value =parseFloat(seventyfive/1000000000000000000).toFixed(5);         
         
       }
       const withdrawbalancepercent3 = async(event) => {
@@ -234,14 +244,14 @@ const Blackstake = () => {
         const accounts =  await web3.eth.getAccounts(); 
         document.getElementById("tid2").value = false;    
         var hundred=(staked[0]  * 100)/100;
-        setTotaldeposit(parseFloat(hundred/1000000000).toFixed(5)); 
-        document.getElementById("tid2").value =parseFloat(hundred/1000000000).toFixed(5);         
+        setTotaldeposit(parseFloat(hundred/1000000000000000000).toFixed(5)); 
+        document.getElementById("tid2").value =parseFloat(hundred/1000000000000000000).toFixed(5);         
         
       }
       const approve = async() => {
         let account = await web3.eth.getAccounts();
         let amount = 1000000000000000000 +"000000000000000000"; 
-        await black.methods.approve("0x8F686692DFEb9019974dEb21312F2C5826592888",amount).send({from:account[0]});
+        await cbusd.methods.approve("0x3a7CD9084072c0178ED6EbACAF1926E2E9e57D43",amount).send({from:account[0]});
         first()
         alert("Approved Succesfully")
     }
@@ -254,25 +264,25 @@ const Blackstake = () => {
                     <Col xl="8" lg="8" md="10" sm="12">
                         <Card className="custom-card">
                             <div className="p-3">
-                                <h4>stake  Black </h4>
-                                <h6>The Stake Black and get reward</h6>
+                                <h4>stake  cBUSD </h4>
+                                <h6>The Stake cBUSD and get Black token as reward</h6>
                                 <Table bordered responsive className="mt-3">
                                     <thead>
                                         <tr>
                                             <
                                                 
-                                                th>Your Black</th>
-                                            <th>Staked Black</th>
-                                            <th> reward</th>
-                                            
+                                                th>Your cBUSD</th>
+                                            <th>Staked cBUSD</th>
+                                            <th>Black reward</th>
+                                            <th>Your Black</th>
                                         </tr>
                                     </thead>
                                     <tbody className="text-center">
                                         <tr>
-                                            <td>{parseFloat(blackbal/1000000000).toFixed(5)}</td>
-                                            <td>{parseFloat(staked[0]/1000000000).toFixed(5)}</td>
+                                            <td>{parseFloat(cbusdbalance/1000000000000000000).toFixed(5)}</td>
+                                            <td>{parseFloat(staked[0]/1000000000000000000).toFixed(5)}</td>
                                             <td>{parseFloat(reward/1000000000).toFixed(5)}</td>
-                                           
+                                            <td>{parseFloat(blackbal/1000000000).toFixed(5)}</td>
                                         </tr>
                                     </tbody>
                                 </Table>
@@ -358,4 +368,4 @@ const Blackstake = () => {
     );
 }
 
-export default Blackstake;
+export default Lpstake;

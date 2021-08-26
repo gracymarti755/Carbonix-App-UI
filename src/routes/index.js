@@ -8,6 +8,7 @@ import Swap from '../views/Swap';
 import BurnVault from '../views/BurnVault';
 import carbonStake from'../views/carbonStake';
 import blackStake from '../views/blackStaking';
+import lpStake from '../views/LpStaking';
 let routes = [
 	{
 		path: '/auth',
@@ -66,6 +67,12 @@ let routes = [
 		path: '/black-stake',
 		name: 'black stake',
 		component: blackStake,
+		layout: 'main',
+	},
+	{
+		path: '/lp-stake',
+		name: 'lp stake',
+		component: lpStake,
 		layout: 'main',
 	},
 ];

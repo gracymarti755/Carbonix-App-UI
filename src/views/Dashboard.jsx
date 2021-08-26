@@ -1,16 +1,21 @@
-
+import { useEffect } from "react";
+import { useState } from "react";
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { Card, Col, Container, Row, Table, Button } from 'reactstrap';
 import icon from "../assets/img/icon.PNG";
 import icon1 from "../assets/img/icon1.PNG";
 import Pools from '../components/farming/Pools';
+import cbusd from "./cbusdAbi";
 import CustomCard from '../components/global/CustomCard';
-
+import black from "./blackAbi";
 class Dashboard extends Component {
     state={
         activeTab: "ViewPool",
+        
+
     }
+    
     setActiveTab = (tab) => {
         console.log(tab)
         this.setState({ activeTab: tab })
@@ -18,6 +23,23 @@ class Dashboard extends Component {
     componentDidMount() {
         document.getElementById("header-title").innerText = "Dashboard";
     }
+    state={
+       
+        totalsupply: ''
+
+    }
+    async componentDidMount()
+    {
+       const totalsupply1 = await cbusd.methods.totalSupply().call();
+       const totalsupply =(parseFloat(totalsupply1/1000000000000000000).toFixed(5));
+       console.log("totalsupply check",totalsupply);  
+       this.setState({totalsupply});  
+       console.log("totalsupply check",totalsupply);         
+    } 
+   
+    
+   
+    
     render() {
         return (<>
             <Row lg="4" xs="2" className="m-5">
@@ -31,7 +53,7 @@ class Dashboard extends Component {
                     <CustomCard title="Total borrowed" text="$251,411"/>
                 </Col>
                 <Col className="mb-4">
-                    <CustomCard title="Total Supply" text="$251,411"/>
+                    <CustomCard title="Total Supply" text={this.state.totalsupply}/>
                 </Col>
                 <Col className="mb-4">
                     <CustomCard title="Circulating Supply" text="$251,411"/>
