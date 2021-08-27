@@ -412,11 +412,8 @@ const Vault = () => {
                             {activeTab == "Deposit" && (
                                 <div className="p-3">
                                     
-                                    <div>         
+                                           
 
-{ app1 === true ? 
-(
-(
     <div>
                                 <h6>Deposit BUSD in order to borrow cBUSD</h6>
                                     <InputGroup className="mt-3">
@@ -433,20 +430,7 @@ const Vault = () => {
                                         <div className="percentage-item"onClick={balancepercent3}>100%</div>
                                     </div>
                                     </div>
-)
-):
-(
-    (
-    <div>
-        <center>
-             <h6>Before Deposit BUSD ,Approve First</h6>
-             <Button color="site-primary"   >Approve</Button></center>
-
-              
-    </div>
-    )
-    )}
-</div>                                 
+                                 
                                     <div className="mt-4">
                                         <h5>Deposits</h5>
                                         <div className="d-flex larger">

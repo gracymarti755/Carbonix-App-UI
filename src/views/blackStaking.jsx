@@ -249,7 +249,94 @@ const Blackstake = () => {
 
     return (
         <section className="p-0 my-5">
+           {
+            localStorage.getItem("wallet")===null || localStorage.getItem("wallet")===""?(<>
             <Container fluid>
+                <Row className="justify-content-center">
+                    <Col xl="8" lg="8" md="10" sm="12">
+                        <Card className="custom-card">
+                            <div className="p-3">
+                                <h4>stake  Black </h4>
+                                <h6>The Stake Black and get reward</h6>
+                                <Table bordered responsive className="mt-3">
+                                    <thead>
+                                        <tr>
+                                            <
+                                                
+                                                th>Your Black</th>
+                                            <th>Staked Black</th>
+                                            <th> reward</th>
+                                            
+                                        </tr>
+                                    </thead>
+                                    <tbody className="text-center">
+                                        <tr>
+                                            <td>0.00</td>
+                                            <td>0.00</td>
+                                            <td>0.00</td>
+                                           
+                                        </tr>
+                                    </tbody>
+                                </Table>
+                                
+<div>
+                                <Container fluid>
+                                    <Row>
+                                        <Col xl="6" md="12">
+                                            <InputGroup className="mt-3">
+                                                <Input placeholder={depositpercent} style={{ height: "auto" }}type = "number" id="tid1"  />
+                                                <InputGroupAddon addonType="append"><Button color="site-primary" >stake</Button></InputGroupAddon>
+                                            </InputGroup>
+                                            <div className="percentage smaller">
+                                                <div className="percentage-item" >25%</div>
+                                                <div className="percentage-item" >50%</div>
+                                                <div className="percentage-item" >75%</div>
+                                                <div className="percentage-item" >100%</div>
+                                            </div>
+                                        </Col>
+                                        <Col xl="6" md="12">
+                                       
+              <div>
+                                            <InputGroup className="mt-3">
+                                                <Input placeholder={totaldep} style={{ height: "auto" }}type = "number"  id="tid2"  />
+                                                <InputGroupAddon addonType="append"><Button color="site-primary" >unstake</Button></InputGroupAddon>
+                                            </InputGroup>
+                                            <div className="percentage smaller">
+                                                <div className="percentage-item">25%</div>
+                                                <div className="percentage-item">50%</div>
+                                                <div className="percentage-item">75%</div>
+                                                <div className="percentage-item">100%</div>
+                                            </div>
+                                            </div>  
+          
+                                        </Col>
+                                    </Row>
+                                </Container>
+                                <Container>
+                                    <Row className="justify-content-center">
+                                        <Col xl="9">
+                                            <Row className="mt-4">
+                                                <Col xl="6" md="12">
+                                                    <Button color="outline-site-primary" block >claim reward</Button>
+                                                </Col>
+                                                <Col xl="6" md="12" className='mt-3 mt-xl-0'>
+                                                    <Button color="outline-site-primary" block   >Exit</Button>
+                                                </Col>
+                                            </Row>
+
+                                        </Col>
+                                    </Row>
+                                </Container>
+                                </div>
+
+                            </div>
+                        </Card>
+                    </Col>
+                </Row>
+ </Container>
+         </>):
+         (<>
+          <Container fluid>
                 <Row className="justify-content-center">
                     <Col xl="8" lg="8" md="10" sm="12">
                         <Card className="custom-card">
@@ -354,6 +441,10 @@ const Blackstake = () => {
                     </Col>
                 </Row>
  </Container>
+       
+            </>)
+        }
+       
         </section>
     );
 }

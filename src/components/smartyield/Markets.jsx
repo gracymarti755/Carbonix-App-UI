@@ -44,7 +44,7 @@ const Markets = (props) => {
   return (
     <>
       <section className="p-0">
-        {/* <label
+        <label
           class="btn mr-3 p-3"
           style={{
             color: "black",
@@ -55,7 +55,7 @@ const Markets = (props) => {
           className={`btn mr-3 bar-item ml-0 ${
             activeTab == "BIFI" ? "active" : ""
           }`}
-          onClick={(e) => setActiveTab("BIFI")}
+          // onClick={(e) => setActiveTab("BIFI")}
         >
           <img
             left
@@ -70,16 +70,16 @@ const Markets = (props) => {
             src="https://www.beefy.finance/img/beefy.svg"
             alt="Card image cap"
           />
-          BIFI{" "}
-          <input
+          BIFI{"(coming soon)"}
+          {/* <input
             type="checkbox"
             style={{ marginLeft: "5px" }}
             id="btncheck1"
             autocomplete="off"
-          />
-        </label> */}
+          /> */}
+        </label>
 
-        {/* <label
+        <label
           class="btn mr-3 p-3"
           style={{
             color: "black",
@@ -90,7 +90,7 @@ const Markets = (props) => {
           className={`btn mr-3 bar-item ml-0 ${
             activeTab == "Swipe" ? "active" : ""
           }`}
-          onClick={(e) => setActiveTab("Swipe")}
+          // onClick={(e) => setActiveTab("Swipe")}
         >
           <img
             left
@@ -102,17 +102,18 @@ const Markets = (props) => {
               marginRight: "10px",
             }}
             //   style={{ marginButtom: "auto" }}
-            src="https://swipe.io/images/logo.svg"
+            
+            src="https://assets.coingecko.com/coins/images/9368/large/swipe.png?1566792311"
             alt="Card image cap"
           />
-          Swipe{" "}
-          <input
+          Swipe{"(Coming soon) "}
+          {/* <input
             type="checkbox"
             style={{ marginLeft: "5px" }}
             id="btncheck2"
             autocomplete="off"
-          />
-        </label> */}
+          /> */}
+        </label>
 
         <label
           class="btn mr-3"

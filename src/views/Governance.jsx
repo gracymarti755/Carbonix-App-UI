@@ -20,9 +20,9 @@ class Governance extends Component {
             <Bar activeTab={this.state.activeTab} setActiveTab={this.setActiveTab} />
             <Container fluid className="py-4 px-md-5">
                 {this.state.activeTab == "overview" ? <Overview /> : ""}
-                {this.state.activeTab == "portfolio" ? <Portfolio /> : ""}
-                {this.state.activeTab == "proposals" ? <Proposals /> : ""}
-                {this.state.activeTab == "treasury" ? <Treasury /> : ""}
+                {this.state.activeTab == "portfolio" ? "Future Upcoming": ""}
+                {this.state.activeTab == "proposals" ? "Future Upcoming" : ""}
+                {this.state.activeTab == "treasury" ? "Future Upcoming" : ""}
             </Container>
         </>);
     }

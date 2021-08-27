@@ -7,17 +7,17 @@ const Overview = (props) => {
                 <Card className="custom-card p-24">
                     <small className="text-site-primary font-weight-semi-bold">cBUSD STAKED</small>
                     <div className="d-flex mt-5 align-items-baseline">
-                        <h3 className="font-weight-bold">1,483,323.5251</h3>
+                        <h3 className="font-weight-bold">0.00</h3>
                         <p className="ml-1 text-muted text-uppercase">Bond</p>
                     </div>
-                    <p className="text-muted mb-0">$32,738,402.23</p>
+                    <p className="text-muted mb-0">$0.00</p>
                 </Card>
             </Col>
             <Col lg="6" className="mb-4">
                 <Card className="custom-card p-24">
                     <small className="text-site-primary font-weight-semi-bold text-uppercase">vbond</small>
                     <div className="d-flex mt-5 align-items-baseline">
-                        <h3 className="font-weight-bold">1,483,323.5251</h3>
+                        <h3 className="font-weight-bold">0.00</h3>
                     </div>
                 </Card>
             </Col>
@@ -25,7 +25,7 @@ const Overview = (props) => {
                 <Card className="custom-card p-24">
                     <small className="text-site-primary font-weight-semi-bold text-uppercase">AVG. LOCK TIME</small>
                     <div className="d-flex mt-5 align-items-baseline">
-                        <h3 className="font-weight-bold">4mo 12d 6h 25m 43s</h3>
+                        <h3 className="font-weight-bold">0mo 0d 0h 0m 0s</h3>
                     </div>
                     <p className="text-muted mb-0">average time</p>
                 </Card>
@@ -34,28 +34,28 @@ const Overview = (props) => {
                 <Card className="custom-card p-24">
                     <small className="text-site-primary font-weight-semi-bold">BOND REWARDS</small>
                     <div className="d-flex mt-5 align-items-baseline">
-                        <h3 className="font-weight-bold">312,802.4561</h3>
+                        <h3 className="font-weight-bold">0.00</h3>
                     </div>
-                    <p className="text-muted mb-0">out of 610,000</p>
+                    <p className="text-muted mb-0">out of 00</p>
                 </Card>
             </Col>
             <Col lg="6" className="mb-4">
                 <Card className="custom-card p-24">
                     <small className="text-site-primary font-weight-semi-bold text-uppercase">DELEGATED</small>
                     <div className="d-flex mt-5 align-items-baseline">
-                        <h3 className="font-weight-bold">312,802.4561</h3>
+                        <h3 className="font-weight-bold">0.00</h3>
                     </div>
-                    <p className="text-muted mb-0">out of 610,000</p>
+                    <p className="text-muted mb-0">out of 00</p>
                 </Card>
             </Col>
             <Col lg="6" className="mb-4">
                 <Card className="custom-card p-24">
                     <small className="text-site-primary font-weight-semi-bold text-uppercase">ADDRESSES</small>
                     <div className="d-flex mt-5 align-items-baseline">
-                        <h3 className="font-weight-bold">9937</h3>
+                        <h3 className="font-weight-bold">0.00</h3>
                         <p className="ml-1 text-muted">holders</p>
                     </div>
-                    <p className="text-muted mb-0">1300 stakers & 238 voters</p>
+                    <p className="text-muted mb-0">0 stakers & 0 voters</p>
                 </Card>
             </Col>
         </Row>
@@ -71,7 +71,8 @@ const Overview = (props) => {
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
+                    <center>Upcoming Features</center>
+                    {/* <tr>
                         <td>
                             <div className="d-flex align-items-center">
                                 <div className="square mr-3"></div>
@@ -114,12 +115,12 @@ const Overview = (props) => {
                         <td><span className="font-weight-semi-bold">50,567.80</span></td>
                         <td><span className="font-weight-semi-bold">90,537.98</span></td>
                         <td><span className="font-weight-semi-bold">4</span></td>
-                    </tr>
+                    </tr>  */}
                 </tbody>
             </Table>
             <div className="p-24 pagination-wrapper">
                 <div className="d-md-flex">
-                    <small className="m-0">Showing 1 to 10 out of 1300 stakers</small>
+                    <small className="m-0">Showing 0 to 0 out of 0 stakers</small>
                     <div className="d-flex pagination align-items-center mt-3 mt-md-0 ml-md-auto">
                         <i className="fa fa-angle-left"></i>
                         <span className="active">1</span>

@@ -11,6 +11,8 @@ import CustomCard from '../components/global/CustomCard';
 import black from "./blackAbi";
 import CFI from "./carbonFinanceAbi";
 import web3 from "../web3";
+import Posts from '../components/Posts';
+import Pagination from '../components/Pagination';
 class Dashboard extends Component {
     state={
         activeTab: "ViewPool",
@@ -36,15 +38,20 @@ class Dashboard extends Component {
         con:'',
         setcount:'',
         setad:'',
-        setvalues:[]
+        setvalues:[],
+        setPosts:[],
+        setLoading:false,
+        setCurrentPage:1,
+        postsPerPage:10,
+        pageSize:3,
+        currentPage:0,
+        setfiltdata:[],
+        timestore:[]
+        
+       
     }
 
-    // constructor(props) {
-    //     super(props);
-    //     this.state = {
-    //       datas: 0
-    //     };
-    //   }
+  
 
     async componentDidMount()
     {
@@ -53,12 +60,15 @@ class Dashboard extends Component {
        const totalsupply =(parseFloat(totalsupply1/1000000000000000000).toFixed(3));
        const totaldeposited1 =await CFI.methods.totalDeposited().call();
        const totaldeposited =(parseFloat(totaldeposited1/1000000000000000000).toFixed(3));
-
-        const response = await fetch("https://api-testnet.bscscan.com/api?module=account&action=tokentx&address=0x81ccB9a3a1df0A01eEd52bBAA4b6363C38BbEEfC&startblock=0&endblock=250000000000&sort=asc&apikey=YourApiKeyToken");
-        const data = await response.json();
-        console.log("data",data);
-        //var assign= data.result;     
+       this.setState({setLoading:true});
+       const response = await fetch("https://api-testnet.bscscan.com/api?module=account&action=tokentx&address=0x81ccB9a3a1df0A01eEd52bBAA4b6363C38BbEEfC&startblock=0&endblock=250000000000&sort=desc&apikey=YourApiKeyToken");
+       const data = await response.json();
+       console.log("data",data);
+        //var assign= data.result; 
+       
         this.setState({datas:data.result});
+        this.setState({setPosts:data.result});
+        this.setState({setLoading:false});
         var coun  = 0;
        
        console.log("datas",this.state.datas);
@@ -109,14 +119,30 @@ class Dashboard extends Component {
             }
 
         })
-        console.log("setter",this.state.setvalues);       
+        console.log("setter",this.state.setvalues);    
+        const filtdatatime=data.result.filter((a)=>parseInt(a.from)===this.state.setad);
+              filtdatatime.map((a)=>this.setState({timestore:a.timeStamp}) )
+             
+
+              console.log("filterdtime",filtdatatime);  
+           const filtdata=data.result.filter((a)=>parseInt(a.from)===this.state.setad);
+           console.log("filterddata",filtdata);  
+           this.setState({setfiltdata:filtdata}) 
+           this.setState({cart: [this.state.filtdata, this.state.input]});
     } 
    
+ 
+   
    
     
-   
-    
-    render() {
+    render()
+     {   
+         
+        let { cart, input } = this.state;
+        
+        let c=0;
+        let pagesCount = Math.ceil(this.state.setfiltdata.length / this.state.pageSize);
+       console.log("page",pagesCount,this.state.setfiltdata.length);
         return (<>
             <Row lg="4" xs="2" className="m-5">
                 <Col className="mb-4">
@@ -161,45 +187,20 @@ class Dashboard extends Component {
                             All transactions<i class="fas fa-sort-down ml-2"></i>
                         </Button>
                     </div>
-                    <div> {
-                        this.state.datas === null || this.state.datas === ""  ?(
-                            <>
-
-                            </>
-                        ):(<>
-                         <div>{
-                         this.state.datas.map(a =>
-                            {
-                         
-                            <div>
-                                <h1 > 
-                                hello                            
-                               </h1>   
-                               </div>
-                              
-                                (parseInt(a.from)===this.state.setad) ? (<>
-                                
-                                <h1 style ={{color:'black'}} > <b>
-                                 {a.to}</b>
-                                 hello
-                               </h1>
-                             
-                                </>):(<>
-                                
-                                 <h1>
-                                 {a.to}
-                                </h1>
-                                
-                                </>)
-                            }
-                             
-                         ) }</div> 
-                        
-                        </>)
-                    }
-                    </div>
+                   
                     <Table className="custom-table" responsive>
-                        <thead>
+                       
+
+
+                        <tbody>
+                        
+                        <div>
+                            
+                             {
+                            
+                        this.state.setfiltdata === null || this.state.setfiltdata === ""  ?(
+                            <>
+ <thead>
                             <tr>
                                 <th>Transaction</th>
                                 <th>Amount</th>
@@ -207,70 +208,105 @@ class Dashboard extends Component {
                                 <th>Transaction hash/timestamp</th>
                             </tr>
                         </thead>
-
-
-                        <tbody>
-                        <tr>
-                               <td>
-
-                                    <div className="d-flex">
-                                        <img
-                                            left
-                                            width="15%"
-                                            height="15%"
-                                            style={{
-                                                margin: "auto",
-                                                marginRight: "5px",
-                                                marginLeft: "5px",
-                                            }}
-                                            src={icon}
-                                            alt="Card image cap"
-                                        />
-                                        <div className="pl-2 pr-2">
-                                            <h6 style={{ fontWeight: "600" }}>Transaction</h6>
-                                            <div
-                                                className="mb-0 text-muted"
-                                                style={{ fontSize: "12px", fontWeight: "600" }}
-                                            >
-                                                Uniswap V2
-                                            </div>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div className="d-flex justify-content-left">
-                                        <div className=" align-items-baseline">
-                                            <h6 style={{ fontWeight: "600", color: '#00d395' }}>+0.000094533573581011 UNI-V2</h6>
-                                            <div
-                                                className="mb-0 text-muted"
-                                                style={{ fontSize: "12px", fontWeight: "600" }}
-                                            >
-                                                $1,081.16
-                                            </div>
-                                        </div>
-                                    </div>
-                                </td>
-
-                                <td style={{ verticalAlign: "middle" }}>
-                                    <Link to="https://app.barnbridge.com/">
-                                        <h6 style={{ fontWeight: "600" }}>0x8b3f...13b7</h6>
-                                    </Link>
-                                </td>
-                                <td>
-                                    <div className="d-flex justify-content-left">
-                                        <div className=" align-items-baseline">
-                                            <Link to="https://app.barnbridge.com/">
-                                                <h6 style={{ fontWeight: "600" }}>0xa6aa...6acb</h6>
-                                            </Link>                        <div
-                                                className="mb-0 text-muted"
-                                                style={{ fontSize: "12px", fontWeight: "600" }}
-                                            >
-                                                08.12.2021 13:06
-                                            </div>
-                                        </div>
-                                    </div>
-                                </td>
+                            </>
+                        ):(<>
+                         <div>
+                         <thead>
+                            <tr>
+                                <th>Transaction</th>
+                                <th>Amount</th>
+                                <th>Address</th>
+                                <th>Transaction hash/timestamp</th>
                             </tr>
+                        </thead>
+                        {
+                             
+                         this.state.setfiltdata.slice(this.state.currentPage * this.state.pageSize, (this.state.currentPage + 1) * this.state.pageSize).map(a =>
+                            {
+                         
+                            
+                              
+                               return (
+                                <>
+                                <tr>
+                             
+                               
+                             <td>
+
+                                  <div className="d-flex">
+                                      <img
+                                          left
+                                          width="15%"
+                                          height="15%"
+                                          style={{
+                                              margin: "auto",
+                                              marginRight: "5px",
+                                              marginLeft: "5px",
+                                          }}
+                                          src={icon}
+                                          alt="Card image cap"
+                                      />
+                                      <div className="pl-2 pr-2">
+                                          <h6 style={{ fontWeight: "600" }}>Transaction</h6>
+                                          <div
+                                              className="mb-0 text-muted"
+                                              style={{ fontSize: "12px", fontWeight: "600" }}
+                                          >
+                                              {a.tokenName}
+                                          </div>
+                                      </div>
+                                  </div>
+                              </td>
+                              <td>
+                                  <div className="d-flex justify-content-left">
+                                      <div className=" align-items-baseline">
+                                          <h6 style={{ fontWeight: "600", color: '#00d395' }}>{parseFloat(a.value/1000000000000000000).toFixed(3)}</h6>
+                                          <div
+                                              className="mb-0 text-muted"
+                                              style={{ fontSize: "12px", fontWeight: "600" }}
+                                          >
+                                              $1,081.16
+                                          </div>
+                                      </div>
+                                  </div>
+                              </td>
+
+                              <td style={{ verticalAlign: "middle" }}>
+                                  <Link to="https://app.barnbridge.com/">
+                                      <h6 style={{ fontWeight: "600" }}>{a.from.slice(0,32)}</h6>
+                                  </Link>
+                              </td>
+                              <td>
+                                  <div className="d-flex justify-content-left">
+                                      <div className=" align-items-baseline">
+                                          <Link to={"https://testnet.bscscan.com/tx/"+a.hash}>
+                                              <h6 style={{ fontWeight: "600" }}>{a.hash.slice(0,32)}</h6>
+                                          </Link>                        <div
+                                              className="mb-0 text-muted"
+                                              style={{ fontSize: "12px", fontWeight: "600" }}
+                                          >
+                                              {a.timeStamp}
+                                          </div>
+                                      </div>
+                                  </div>
+                              </td>
+                              </tr>
+                                
+                                
+                                
+                                </>
+
+
+                               )
+                           }
+                            
+                        ) 
+                        }</div> 
+                       
+                       </>)
+                   }
+                   </div>
+                            
                     
                         </tbody>
                     </Table>
@@ -279,13 +315,33 @@ class Dashboard extends Component {
                             <small className="m-0 font-weight-bold text-muted">Showing 1 to 10 out of 28839 transactions</small>
                             <div className="d-flex pagination align-items-center mt-3 mt-md-0 ml-md-auto">
                                 <i className="fa fa-angle-left"></i>
-                                <span className="active">1</span>
+                                {new Array(pagesCount).fill("1").map((c, i) => {
+            if (i + 1 < this.state.currentPage + 3 && i > this.state.currentPage - 2) {
+                console.log("currentpage",this.state.currentPage);
+              return (
+                <span className={i===this.state.currentPage?"active":""} onClick={()=>this.setState({currentPage:i})}>{i + 1}</span>
+                
+                // <div
+                //   key={i}
+                //   className="pag-count"
+                //   onClick={(e) => handleClick(e, i)}
+                //   style={{
+                //     backgroundColor: currentPage === i ? "#0057ff" : "#fff",
+                //     color: currentPage === i ? "#fff" : "#333",
+                //   }}
+                // >
+                //   <h5>{i + 1}</h5>
+                // </div>
+              );
+            }
+          })}
+                                {/* <span className="active">1</span>
                                 <span>2</span>
                                 <span>3</span>
                                 <span>4</span>
                                 <span>5</span>
                                 <span className="mx-2">...</span>
-                                <span>2884</span>
+                                <span>2884</span> */}
                                 <i className="fa fa-angle-right"></i>
                             </div>
                         </div>
