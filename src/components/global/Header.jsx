@@ -18,11 +18,21 @@ const Header = (props) => {
             console.log("acc Binance",accounts[0])
             setwalletconnect(accounts[0])
             window.wallet=accounts[0];
-           //localStorage.setItem("wallet",accounts[0])
-           sessionStorage.setItem("wallet", accounts[0]);
+           localStorage.setItem("wallet",accounts[0])
+           //sessionStorage.setItem("wallet", accounts[0]);
           }).then(()=>{
+              window.location.reload()
           })
         console.log(accounts);
+        
+    }
+
+    const Disconnect=()=>{            
+        
+        
+       localStorage.setItem("wallet","")
+       window.location.reload()
+        
         
     }
     
@@ -37,13 +47,15 @@ const Header = (props) => {
                     <div className="ml-auto topbar-btns">
                         <Button color="outline-site-primary">Binance Mainnet</Button>
                         {
-                            walletconnect === null || walletconnect ==="" ||walletconnect=== undefined  ?  
+                            localStorage.getItem("wallet")===null || localStorage.getItem("wallet")==="" ?  
                             (<Button color="site-primary" className="ml-4"onClick={Connectwallet}>Connect Wallet</Button>):(
-                                <Button color="site-primary" className="ml-4">{walletconnect.slice(0,10)}......{walletconnect.slice(39,42)}</Button>   
+                              < ><Button color="site-primary" className="ml-4" onClick={Connectwallet}>{localStorage.getItem("wallet").slice(0,10)}......{localStorage.getItem("wallet").slice(39,42)}</Button>
+                                &nbsp; &nbsp;
+                                <Button color="outline-site-primary" onClick={Disconnect}>disconnect</Button>
+                                </>    
                             )
                         }
-
-                        
+                      
                     </div>
                 </div>
             </Container>

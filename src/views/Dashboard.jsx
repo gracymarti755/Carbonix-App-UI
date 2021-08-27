@@ -167,14 +167,21 @@ class Dashboard extends Component {
 
                             </>
                         ):(<>
-                         {
+                         <div>{
                          this.state.datas.map(a =>
                             {
+                         
+                            <div>
+                                <h1 > 
+                                hello                            
+                               </h1>   
+                               </div>
+                              
                                 (parseInt(a.from)===this.state.setad) ? (<>
                                 
-                                <h1 style ={{color:'black'}} ><b>
+                                <h1 style ={{color:'black'}} > <b>
                                  {a.to}</b>
-                                 {console.log("check a",a.to)}
+                                 hello
                                </h1>
                              
                                 </>):(<>
@@ -186,7 +193,7 @@ class Dashboard extends Component {
                                 </>)
                             }
                              
-                         ) }
+                         ) }</div> 
                         
                         </>)
                     }

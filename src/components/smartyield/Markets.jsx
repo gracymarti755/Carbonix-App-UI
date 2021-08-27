@@ -911,67 +911,8 @@ const Markets = (props) => {
             // style={{hieght:'10%'}}
           >
             {/* <i className="fa fa-tractor"></i> */}
-            <div className="d-flex" style={{ padding: "12px" }}>
-              <img
-                left
-                width="auto"
-                className="main-image"
-                style={{
-                  marginTop: "auto",
-                  marginBottom: "auto",
-                  marginLeft: "10px",
-                  marginRight: "10px",
-                }}
-                //   style={{ marginButtom: "auto" }}
-                src="https://www.alpacafinance.org/assets/images/logo.png"
-                alt="Card image cap"
-              />
-              {/* <small className="text-site-primary font-weight-semi-bold text-uppercase">bond staked</small> */}
-              <div
-                className=" pl-2 pr-2 align-items-baseline"
-                style={{ marginRight: "10px" }}
-              >
-                <p
-                  style={{
-                    fontWeight: "600",
-                    marginTop: "auto",
-                    marginBottom: "auto",
-                  }}
-                >
-                  Alpaca Finance
-                </p>
-                <div
-                  className="mb-0 text-muted"
-                  style={{ fontSize: "12px", fontWeight: "600" }}
-                >
-                  Markets
-                </div>
-              </div>
-              <div
-                className="pl-2 pr-2"
-                style={{ marginLeft: "10px", textAlign: "left" }}
-              >
-                <p
-                  className="mb-0 text-muted"
-                  style={{
-                    fontWeight: "600",
-                    fontSize: "12px",
-                    textAlign: "left",
-                  }}
-                >
-                  Total value locked
-                </p>
-                <p
-                  className=" mb-0"
-                  style={{
-                    fontWeight: "600",
-                    //   textAlign: "end",
-                  }}
-                >
-                  {parseFloat(totalvaluelocked/1000000000000000000).toFixed(5)}
-                </p>
-              </div>
-            </div>
+            
+                
           </Card>
         ) : (
           ""
@@ -984,8 +925,8 @@ const Markets = (props) => {
                   <th>Token Name </th>
                   <th>Senior Liquidity</th>
                   <th>Senior APY</th>
-                  <th>Junior Liquidity</th>
-                  <th>Junior APY</th>
+                 
+                  
                   <th>Originator APY</th>
                   <th>jToken conversion rate</th>
                 </tr>
@@ -1037,27 +978,9 @@ const Markets = (props) => {
                     </h6>
                     {/* </Link> */}
                   </td>
-                  <td>
-                    <div className="d-flex justify-content-left">
-                      <div className=" align-items-baseline">
-                        <h6 style={{ fontWeight: "600" }}>21.18M DAI</h6>
-                        <div
-                          className="mb-0 text-muted"
-                          style={{ fontSize: "12px", fontWeight: "600" }}
-                        >
-                          $21.19M
-                        </div>
-                      </div>
-                    </div>
-                  </td>
+                 
 
-                  <td style={{ verticalAlign: "middle" }}>
-                    {/* <Link to="https://app.barnbridge.com/"> */}
-                    <h6 style={{ fontWeight: "600", color: "#a26ee3" }}>
-                      2.82%
-                    </h6>
-                    {/* </Link> */}
-                  </td>
+                 
                   <td style={{ verticalAlign: "middle" }}>
                     {/* <Link to="https://app.barnbridge.com/"> */}
                     <h6 style={{ fontWeight: "600" }}>2.81%</h6>
