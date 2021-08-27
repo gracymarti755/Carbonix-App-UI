@@ -10,6 +10,7 @@ import { useEffect } from "react";
 import { useState } from "react";
 import black from "../../views/blackAbi";
 
+
 const Pools = () => {
     const [balance,setbalan] = useState([]);
     const [communitybalance,setcommunitybalan] = useState([]);
@@ -657,7 +658,7 @@ const Pools = () => {
                     </div>
                        
                     <Button  className={`ml-3 mr-3 pb-0 mb-0 mt-2 mb-2
-                        `} color="site-primary" width="full" onClick={e => {history.push("/carbon-stake")}}>View pool</Button> 
+                        `} color="site-primary" width="full" onClick={e => {history.push("/black-stake")}}>View pool</Button> 
                 </Card>
             </Col>
                 </>

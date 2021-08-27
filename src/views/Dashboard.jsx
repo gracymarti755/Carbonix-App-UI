@@ -46,8 +46,14 @@ class Dashboard extends Component {
         pageSize:3,
         currentPage:0,
         setfiltdata:[],
-        timestore:[]
+        timestore:[],
+        setfiltdata2:[],
+        setfiltdata3:[],
+        setSelect:'depo',
+        setOption:'depo'
         
+        
+
        
     }
 
@@ -120,15 +126,23 @@ class Dashboard extends Component {
 
         })
         console.log("setter",this.state.setvalues);    
-        const filtdatatime=data.result.filter((a)=>parseInt(a.from)===this.state.setad);
-              filtdatatime.map((a)=>this.setState({timestore:a.timeStamp}) )
+        //const filtdatatime=data.result.filter((a)=>parseInt(a.from)===this.state.setad);
+           //filtdatatime.map((a)=> console.log("console time",new Date(a.timeStamp * 1000).toGMTString()) )           
+            //this.setState({timestore:a.timeStamp})
+            //console.log("filterdtime",filtdatatime);      
              
-
-              console.log("filterdtime",filtdatatime);  
            const filtdata=data.result.filter((a)=>parseInt(a.from)===this.state.setad);
            console.log("filterddata",filtdata);  
            this.setState({setfiltdata:filtdata}) 
-           this.setState({cart: [this.state.filtdata, this.state.input]});
+
+           const filtdata2=data.result.filter((a)=>parseInt(a.from)===parseInt("0x81ccb9a3a1df0a01eed52bbaa4b6363c38bbeefc"));
+           console.log("filterddata2",filtdata2);  
+           this.setState({setfiltdata2:filtdata2}) 
+        //    this.setState({cart: [this.state.filtdata, this.state.input]});
+
+        const filtdata3=filtdata2.filter((a)=>parseInt(a.to)===this.state.setad);
+        console.log("filterddata3",filtdata3);  
+        this.setState({setfiltdata3:filtdata3}) 
     } 
    
  
@@ -137,8 +151,10 @@ class Dashboard extends Component {
     
     render()
      {   
-         
-        let { cart, input } = this.state;
+        const changeSelectOptionHandler = (event) => {
+            this.setState({setOption:event.target.value});
+          };  
+        // let { cart, input } = this.state;
         
         let c=0;
         let pagesCount = Math.ceil(this.state.setfiltdata.length / this.state.pageSize);
@@ -186,6 +202,14 @@ class Dashboard extends Component {
                             }}>
                             All transactions<i class="fas fa-sort-down ml-2"></i>
                         </Button>
+                        <select outline className="mr-3 text-dark" color="light" 
+                        onChange={changeSelectOptionHandler} style={{ border: "1px solid rgba(6, 10, 13, 0.1) ",color:"black"}}>
+                          <option style={{ border: "1px solid rgba(6, 10, 13, 0.1) ",color:"light"}}value='depo'>Deposit</option>       
+                        
+                         <option value='with'>Withdraw</option><i class="fas fa-sort-down ml-2"></i>
+                        </select>
+                        
+                        
                     </div>
                    
                     <Table className="custom-table" responsive>
@@ -193,19 +217,155 @@ class Dashboard extends Component {
 
 
                         <tbody>
-                        
+                            
                         <div>
+                        {
+                          this.state.setOption==="depo"?(<>
+                            <div>
+                            
+                            {
+                           
+                       this.state.setfiltdata === null || this.state.setfiltdata === "" || localStorage.getItem("wallet")===null|| localStorage.getItem("wallet")===""? (
+                           <>
+<thead>
+                           <tr>
+                               <th>Transaction</th>
+                               <th>Amount</th>
+                               <th>Address</th>
+                               <th>Transaction hash/timestamp</th>
+                           </tr>
+                       </thead>
+                           </>
+                       ):(<>
+                        <div>
+                        <thead>
+                           <tr>
+                               <th>Transaction</th>
+                               <th>Amount</th>
+                               <th>Address</th>
+                               <th>Transaction hash/timestamp</th>
+                           </tr>
+                       </thead>
+                       {
+                            
+                        this.state.setfiltdata.slice(this.state.currentPage * this.state.pageSize, (this.state.currentPage + 1) * this.state.pageSize).map(a =>
+                           {
+                        
+                           
+                             
+                              return (
+                               <>
+                               <tr>
+                            
+                              
+                            <td>
+
+                                 <div className="d-flex">
+                                     <img
+                                         left
+                                         width="15%"
+                                         height="15%"
+                                         style={{
+                                             margin: "auto",
+                                             marginRight: "5px",
+                                             marginLeft: "5px",
+                                         }}
+                                         src={icon}
+                                         alt="Card image cap"
+                                     />
+                                     <div className="pl-2 pr-2">
+                                         {
+                                             a.from === "0x81ccb9a3a1df0a01eed52bbaa4b6363c38bbeefc" ?(
+                                             <h6 style={{ fontWeight: "600" }}>withdraw</h6>):
+                                             (
+                                           <h6 style={{ fontWeight: "600" }}>Deposit</h6>
+                                             )
+                                         }
+                                         {/* <h6 style={{ fontWeight: "600" }}></h6> */}
+                                         <div
+                                             className="mb-0 text-muted"
+                                             style={{ fontSize: "12px", fontWeight: "600" }}
+                                         >
+                                             {a.tokenName}
+                                         </div>
+                                     </div>
+                                 </div>
+                             </td>
+                             <td>
+                                 <div className="d-flex justify-content-left">
+                                     <div className=" align-items-baseline">
+                                         <h6 style={{ fontWeight: "600", color: '#00d395' }}>{parseFloat(a.value/1000000000000000000).toFixed(3)}</h6>
+                                         <div
+                                             className="mb-0 text-muted"
+                                             style={{ fontSize: "12px", fontWeight: "600" }}
+                                         >
+                                             $1,081.16
+                                         </div>
+                                     </div>
+                                 </div>
+                             </td>
+
+                             <td style={{ verticalAlign: "middle" }}>
+                                 {/* <Link to="https://app.barnbridge.com/">
+                                     <h6 style={{ fontWeight: "600" }}>{a.from.slice(0,32)}</h6>
+                                 </Link> */}
+                                           <Link>
+                                             <h6 style={{cursor:"pointer", fontWeight: "600" }} onClick={e => window.open("https://testnet.bscscan.com/address/"+a.from)}>{a.from.slice(0,32)}</h6>
+                                             </Link>
+                             </td>
+                             <td>
+                                 <div className="d-flex justify-content-left">
+                                     <div className=" align-items-baseline">
+                                         {/* <Link to={"https://testnet.bscscan.com/tx/"+a.hash}> */}
+                                             {/* <h6 style={{ fontWeight: "600" }}>{a.hash.slice(0,32)}</h6> */}
+                                             <Link>
+                                             <h6 style={{cursor:"pointer", fontWeight: "600" }} onClick={e => window.open("https://testnet.bscscan.com/tx/"+a.hash)}>{a.hash.slice(0,32)}</h6>
+                                             </Link>
+                                         {/* </Link>                        */}
+                                          <div
+                                             className="mb-0 text-muted"
+                                             style={{ fontSize: "12px", fontWeight: "600" }}
+                                         >
+                                             {new Date(a.timeStamp * 1000).toGMTString()}
+                                         </div>
+                                     </div>
+                                 </div>
+                             </td>
+                             </tr>
+                               
+                               
+                               
+                               </>
+
+
+                              )
+                          }
+                           
+                       ) 
+                       }
+                       
+                       </div> 
+
+
+                      
+                      </>)
+                  }
+                  </div>
+                          
+                          </>):(<>
+                          
+                            <div>
                             
                              {
                             
-                        this.state.setfiltdata === null || this.state.setfiltdata === ""  ?(
+                        this.state.setfiltdata3 === null || this.state.setfiltdata3 === "" || localStorage.getItem("wallet")===null|| localStorage.getItem("wallet")==="" ?(
                             <>
  <thead>
                             <tr>
-                                <th>Transaction</th>
-                                <th>Amount</th>
-                                <th>Address</th>
-                                <th>Transaction hash/timestamp</th>
+                            <th>Transaction</th>
+                               <th>Amount</th>
+                               <th>Address</th>
+                               <th>Transaction hash/timestamp</th>
                             </tr>
                         </thead>
                             </>
@@ -221,7 +381,7 @@ class Dashboard extends Component {
                         </thead>
                         {
                              
-                         this.state.setfiltdata.slice(this.state.currentPage * this.state.pageSize, (this.state.currentPage + 1) * this.state.pageSize).map(a =>
+                         this.state.setfiltdata3.slice(this.state.currentPage * this.state.pageSize, (this.state.currentPage + 1) * this.state.pageSize).map(a =>
                             {
                          
                             
@@ -247,7 +407,14 @@ class Dashboard extends Component {
                                           alt="Card image cap"
                                       />
                                       <div className="pl-2 pr-2">
-                                          <h6 style={{ fontWeight: "600" }}>Transaction</h6>
+                                          {
+                                              a.from === "0x81ccb9a3a1df0a01eed52bbaa4b6363c38bbeefc" ?(
+                                              <h6 style={{ fontWeight: "600" }}>withdraw</h6>):
+                                              (
+                                            <h6 style={{ fontWeight: "600" }}>Deposit</h6>
+                                              )
+                                          }
+                                          {/* <h6 style={{ fontWeight: "600" }}></h6> */}
                                           <div
                                               className="mb-0 text-muted"
                                               style={{ fontSize: "12px", fontWeight: "600" }}
@@ -272,20 +439,27 @@ class Dashboard extends Component {
                               </td>
 
                               <td style={{ verticalAlign: "middle" }}>
-                                  <Link to="https://app.barnbridge.com/">
+                                  {/* <Link to="https://app.barnbridge.com/">
                                       <h6 style={{ fontWeight: "600" }}>{a.from.slice(0,32)}</h6>
-                                  </Link>
+                                  </Link> */}
+                                            <Link>
+                                              <h6 style={{cursor:"pointer", fontWeight: "600" }} onClick={e => window.open("https://testnet.bscscan.com/address/"+a.from)}>{a.from.slice(0,32)}</h6>
+                                              </Link>
                               </td>
                               <td>
                                   <div className="d-flex justify-content-left">
                                       <div className=" align-items-baseline">
-                                          <Link to={"https://testnet.bscscan.com/tx/"+a.hash}>
-                                              <h6 style={{ fontWeight: "600" }}>{a.hash.slice(0,32)}</h6>
-                                          </Link>                        <div
+                                          {/* <Link to={"https://testnet.bscscan.com/tx/"+a.hash}> */}
+                                              {/* <h6 style={{ fontWeight: "600" }}>{a.hash.slice(0,32)}</h6> */}
+                                              <Link>
+                                              <h6 style={{cursor:"pointer", fontWeight: "600" }} onClick={e => window.open("https://testnet.bscscan.com/tx/"+a.hash)}>{a.hash.slice(0,32)}</h6>
+                                              </Link>
+                                          {/* </Link>                        */}
+                                           <div
                                               className="mb-0 text-muted"
                                               style={{ fontSize: "12px", fontWeight: "600" }}
                                           >
-                                              {a.timeStamp}
+                                              {new Date(a.timeStamp * 1000).toGMTString()}
                                           </div>
                                       </div>
                                   </div>
@@ -301,11 +475,21 @@ class Dashboard extends Component {
                            }
                             
                         ) 
-                        }</div> 
+                        }
+                        
+                        </div> 
+
+
                        
                        </>)
                    }
                    </div>
+                          
+                          </>)
+                           }
+
+                        </div>
+                      
                             
                     
                         </tbody>
