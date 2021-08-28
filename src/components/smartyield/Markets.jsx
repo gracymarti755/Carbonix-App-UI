@@ -237,12 +237,11 @@ const Markets = (props) => {
               <thead>
                 <tr>
                   <th>Token Name </th>
-                  <th>Senior Liquidity</th>
-                  <th>Senior APY</th>
-                  <th>Junior Liquidity</th>
-                  <th>Junior APY</th>
+                  <th> Liquidity</th>
+                  <th> APY</th>
+               
                   <th>Originator APY</th>
-                  <th>jToken conversion rate</th>
+                  <th>Token conversion rate</th>
                 </tr>
               </thead>
               <tbody>
@@ -924,12 +923,10 @@ const Markets = (props) => {
               <thead>
                 <tr>
                   <th>Token Name </th>
-                  <th>Senior Liquidity</th>
-                  <th>Senior APY</th>
-                 
-                  
+                  <th>Liquidity</th>
+                  <th> APY</th>          
                   <th>Originator APY</th>
-                  <th>jToken conversion rate</th>
+                  <th>Token conversion rate</th>
                 </tr>
               </thead>
               <tbody>

@@ -13,6 +13,7 @@ import CFI from "./carbonFinanceAbi";
 import web3 from "../web3";
 import Posts from '../components/Posts';
 import Pagination from '../components/Pagination';
+import valutadapter from"./vaultAdapterAbi";
 class Dashboard extends Component {
     state={
         activeTab: "ViewPool",
@@ -30,7 +31,8 @@ class Dashboard extends Component {
     state={
        
         totalsupply: '',
-        totaldeposited:''
+        totaldeposited:'',
+        totalvaluelocked:''
         
     }
     state={    
@@ -66,6 +68,8 @@ class Dashboard extends Component {
        const totalsupply =(parseFloat(totalsupply1/1000000000000000000).toFixed(3));
        const totaldeposited1 =await CFI.methods.totalDeposited().call();
        const totaldeposited =(parseFloat(totaldeposited1/1000000000000000000).toFixed(3));
+       //const totalvaluelock1 =await valutadapter.methods.totalValue().call();
+       const totalvaluelocked =(parseFloat((totaldeposited-totalsupply)).toFixed(3));
        this.setState({setLoading:true});
        const response = await fetch("https://api-testnet.bscscan.com/api?module=account&action=tokentx&address=0x81ccB9a3a1df0A01eEd52bBAA4b6363C38BbEEfC&startblock=0&endblock=250000000000&sort=desc&apikey=YourApiKeyToken");
        const data = await response.json();
@@ -116,7 +120,7 @@ class Dashboard extends Component {
         //this.setState({setcount:count1});
         
 
-       this.setState({totalsupply,totaldeposited}); 
+       this.setState({totalsupply,totaldeposited,totalvaluelocked}); 
        this.state.datas.map((a)=>{            
             if(parseInt(a.from)===this.state.setad){
                 this.setState({setvalues:(parseInt(a.from))})
@@ -162,7 +166,7 @@ class Dashboard extends Component {
         return (<>
             <Row lg="4" xs="2" className="m-5">
                 <Col className="mb-4">
-                    <CustomCard title="TOTAL VALUE LOCKED" text="$251,411"/>
+                    <CustomCard title="TOTAL VALUE LOCKED"  title2="$"  text={this.state.totalvaluelocked}/>
                 </Col>
                 <Col className="mb-4">
                     <CustomCard title="Carbon price" text="$251,411"/>
@@ -203,7 +207,7 @@ class Dashboard extends Component {
                             All transactions<i class="fas fa-sort-down ml-2"></i>
                         </Button>
                         <select outline className="mr-3 text-dark" color="light" 
-                        onChange={changeSelectOptionHandler} style={{ border: "1px solid rgba(6, 10, 13, 0.1) ",color:"black"}}>
+                         onChange={changeSelectOptionHandler} >
                           <option style={{ border: "1px solid rgba(6, 10, 13, 0.1) ",color:"light"}}value='depo'>Deposit</option>       
                         
                          <option value='with'>Withdraw</option><i class="fas fa-sort-down ml-2"></i>
