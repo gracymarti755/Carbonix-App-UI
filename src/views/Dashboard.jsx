@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import { Card, Col, Container, Row, Table, Button } from 'reactstrap';
 import icon from "../assets/img/icon.PNG";
 import icon1 from "../assets/img/icon1.PNG";
+import icon3 from "../assets/img/icon3.PNG";
 import Pools from '../components/farming/Pools';
 import cbusd from "./cbusdAbi";
 import CustomCard from '../components/global/CustomCard';
@@ -14,6 +15,7 @@ import web3 from "../web3";
 import Posts from '../components/Posts';
 import Pagination from '../components/Pagination';
 import valutadapter from"./vaultAdapterAbi";
+import carbonoracle from "./carbonOracleAbi"
 class Dashboard extends Component {
     state={
         activeTab: "ViewPool",
@@ -32,9 +34,10 @@ class Dashboard extends Component {
        
         totalsupply: '',
         totaldeposited:'',
-        totalvaluelocked:''
-        
+        totalvaluelocked:'',
+        carbonprice:''
     }
+    
     state={    
         datas:[],
         con:'',
@@ -70,6 +73,10 @@ class Dashboard extends Component {
        const totaldeposited =(parseFloat(totaldeposited1/1000000000000000000).toFixed(3));
        //const totalvaluelock1 =await valutadapter.methods.totalValue().call();
        const totalvaluelocked =(parseFloat((totaldeposited-totalsupply)).toFixed(3));
+       const carbonprice1=await  carbonoracle.methods.getDittoBnbRate().call();
+       const carbonprice=(parseFloat((carbonprice1[3])/1000000000000000000).toFixed(11));
+
+       console.log("carbonpricecheck",carbonprice);
        this.setState({setLoading:true});
        const response = await fetch("https://api-testnet.bscscan.com/api?module=account&action=tokentx&address=0x81ccB9a3a1df0A01eEd52bBAA4b6363C38BbEEfC&startblock=0&endblock=250000000000&sort=desc&apikey=YourApiKeyToken");
        const data = await response.json();
@@ -121,6 +128,9 @@ class Dashboard extends Component {
         
 
        this.setState({totalsupply,totaldeposited,totalvaluelocked}); 
+       this.setState({carbonprice});
+       //this.setState({carbonprice:await  carbonoracle.methods.getDittoBnbRate().call()});
+       
        this.state.datas.map((a)=>{            
             if(parseInt(a.from)===this.state.setad){
                 this.setState({setvalues:(parseInt(a.from))})
@@ -164,12 +174,12 @@ class Dashboard extends Component {
         let pagesCount = Math.ceil(this.state.setfiltdata.length / this.state.pageSize);
        console.log("page",pagesCount,this.state.setfiltdata.length);
         return (<>
-            <Row lg="4" xs="2" className="m-5">
+            <Row lg="8" xs="3" className="m-5">
                 <Col className="mb-4">
                     <CustomCard title="TOTAL VALUE LOCKED"  title2="$"  text={this.state.totalvaluelocked}/>
                 </Col>
                 <Col className="mb-4">
-                    <CustomCard title="Carbon price" text="$251,411"/>
+                    <CustomCard title="Carbon price"  title2="$" text={this.state.carbonprice}/>
                 </Col>
                 <Col className="mb-4">
                     <CustomCard title="Total Deposited" title2="$" text= {this.state.totaldeposited}></CustomCard>
@@ -194,7 +204,7 @@ class Dashboard extends Component {
                             Transactions
                         </h6>
 
-                        <Button outline className="ml-auto mr-3 text-dark" color="light"
+                        {/* <Button outline className="ml-auto mr-3 text-dark" color="light"
                             style={{
                                 border: "1px solid rgba(6, 10, 13, 0.1) ",
                             }}>
@@ -205,15 +215,16 @@ class Dashboard extends Component {
                                 border: "1px solid rgba(6, 10, 13, 0.1) ",
                             }}>
                             All transactions<i class="fas fa-sort-down ml-2"></i>
-                        </Button>
+                        </Button> */}
+                        <div  className="d-flex" style={{ paddingLeft: "102px" }}>
                         <select outline className="mr-3 text-dark" color="light" 
                          onChange={changeSelectOptionHandler} >
                           <option style={{ border: "1px solid rgba(6, 10, 13, 0.1) ",color:"light"}}value='depo'>Deposit</option>       
                         
-                         <option value='with'>Withdraw</option><i class="fas fa-sort-down ml-2"></i>
+                         <option style={{ border: "1px solid rgba(6, 10, 13, 0.1) ",color:"light"}} value='with'>Withdraw</option><i class="fas fa-sort-down ml-2"></i>
                         </select>
                         
-                        
+                        </div>
                     </div>
                    
                     <Table className="custom-table" responsive>
@@ -274,7 +285,7 @@ class Dashboard extends Component {
                                              marginRight: "5px",
                                              marginLeft: "5px",
                                          }}
-                                         src={icon}
+                                         src={icon3}
                                          alt="Card image cap"
                                      />
                                      <div className="pl-2 pr-2">
@@ -299,12 +310,7 @@ class Dashboard extends Component {
                                  <div className="d-flex justify-content-left">
                                      <div className=" align-items-baseline">
                                          <h6 style={{ fontWeight: "600", color: '#00d395' }}>{parseFloat(a.value/1000000000000000000).toFixed(3)}</h6>
-                                         <div
-                                             className="mb-0 text-muted"
-                                             style={{ fontSize: "12px", fontWeight: "600" }}
-                                         >
-                                             $1,081.16
-                                         </div>
+                                        
                                      </div>
                                  </div>
                              </td>
@@ -432,12 +438,7 @@ class Dashboard extends Component {
                                   <div className="d-flex justify-content-left">
                                       <div className=" align-items-baseline">
                                           <h6 style={{ fontWeight: "600", color: '#00d395' }}>{parseFloat(a.value/1000000000000000000).toFixed(3)}</h6>
-                                          <div
-                                              className="mb-0 text-muted"
-                                              style={{ fontSize: "12px", fontWeight: "600" }}
-                                          >
-                                              $1,081.16
-                                          </div>
+                                          
                                       </div>
                                   </div>
                               </td>

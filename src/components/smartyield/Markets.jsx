@@ -312,11 +312,11 @@ const Markets = (props) => {
                     </h6>
                     {/* </Link> */}
                   </td>
-                  <td style={{ verticalAlign: "middle" }}>
-                    {/* <Link to="https://app.barnbridge.com/"> */}
+                  {/* <td style={{ verticalAlign: "middle" }}>
+                   
                     <h6 style={{ fontWeight: "600" }}>2.81%</h6>
-                    {/* </Link> */}
-                  </td>
+                   
+                  </td> */}
                   <td>
                     <div className="d-flex justify-content-left">
                       <div className=" align-items-baseline">
@@ -402,11 +402,11 @@ const Markets = (props) => {
                     </h6>
                     {/* </Link> */}
                   </td>
-                  <td style={{ verticalAlign: "middle" }}>
-                    {/* <Link to="https://app.barnbridge.com/"> */}
+                  {/* <td style={{ verticalAlign: "middle" }}>
+                   
                     <h6 style={{ fontWeight: "600" }}>2.81%</h6>
-                    {/* </Link> */}
-                  </td>
+                   
+                  </td> */}
                   <td>
                     <div className="d-flex justify-content-left">
                       <div className=" align-items-baseline">
@@ -492,11 +492,11 @@ const Markets = (props) => {
                     </h6>
                     {/* </Link> */}
                   </td>
-                  <td style={{ verticalAlign: "middle" }}>
-                    {/* <Link to="https://app.barnbridge.com/"> */}
+                  {/* <td style={{ verticalAlign: "middle" }}>
+                   
                     <h6 style={{ fontWeight: "600" }}>2.81%</h6>
-                    {/* </Link> */}
-                  </td>
+                   
+                  </td> */}
                   <td>
                     <div className="d-flex justify-content-left">
                       <div className=" align-items-baseline">
@@ -684,11 +684,11 @@ const Markets = (props) => {
                     </h6>
                     {/* </Link> */}
                   </td>
-                  <td style={{ verticalAlign: "middle" }}>
-                    {/* <Link to="https://app.barnbridge.com/"> */}
+                  {/* <td style={{ verticalAlign: "middle" }}>
+
                     <h6 style={{ fontWeight: "600" }}>2.81%</h6>
-                    {/* </Link> */}
-                  </td>
+                  
+                  </td> */}
                   <td>
                     <div className="d-flex justify-content-left">
                       <div className=" align-items-baseline">
@@ -774,11 +774,11 @@ const Markets = (props) => {
                     </h6>
                     {/* </Link> */}
                   </td>
-                  <td style={{ verticalAlign: "middle" }}>
-                    {/* <Link to="https://app.barnbridge.com/"> */}
+                  {/* <td style={{ verticalAlign: "middle" }}>
+                   
                     <h6 style={{ fontWeight: "600" }}>2.81%</h6>
-                    {/* </Link> */}
-                  </td>
+                   
+                  </td> */}
                   <td>
                     <div className="d-flex justify-content-left">
                       <div className=" align-items-baseline">
@@ -864,11 +864,11 @@ const Markets = (props) => {
                     </h6>
                     {/* </Link> */}
                   </td>
-                  <td style={{ verticalAlign: "middle" }}>
-                    {/* <Link to="https://app.barnbridge.com/"> */}
+                  {/* <td style={{ verticalAlign: "middle" }}>
+                   
                     <h6 style={{ fontWeight: "600" }}>2.81%</h6>
-                    {/* </Link> */}
-                  </td>
+                    
+                  </td> */}
                   <td>
                     <div className="d-flex justify-content-left">
                       <div className=" align-items-baseline">
@@ -924,8 +924,7 @@ const Markets = (props) => {
                 <tr>
                   <th>Token Name </th>
                   <th>Liquidity</th>
-                  <th> APY</th>          
-                  <th>Originator APY</th>
+                  <th> APY</th>       
                   <th>Token conversion rate</th>
                 </tr>
               </thead>
@@ -951,7 +950,7 @@ const Markets = (props) => {
                           className="mb-0 text-muted"
                           style={{ fontSize: "12px", fontWeight: "600" }}
                         >
-                          BUSD Stablecoin
+                         
                         </div>
                       </div>
                     </div>
@@ -959,12 +958,12 @@ const Markets = (props) => {
                   <td>
                     <div className="d-flex justify-content-left">
                       <div className=" align-items-baseline">
-                        <h6 style={{ fontWeight: "600" }}>246.66K DAI</h6>
+                        <h6 style={{ fontWeight: "600" }}> {parseFloat(totalvaluelocked/1000000000000000000).toFixed(5)}{"BUSD"}</h6>
                         <div
                           className="mb-0 text-muted"
                           style={{ fontSize: "12px", fontWeight: "600" }}
                         >
-                          $246.74K
+                         
                         </div>
                       </div>
                     </div>
@@ -979,20 +978,19 @@ const Markets = (props) => {
                  
 
                  
-                  <td style={{ verticalAlign: "middle" }}>
-                    {/* <Link to="https://app.barnbridge.com/"> */}
-                    <h6 style={{ fontWeight: "600" }}>2.81%</h6>
-                    {/* </Link> */}
-                  </td>
+                  {/* <td style={{ verticalAlign: "middle" }}>
+                     <h6 style={{ fontWeight: "600" }}>2.81%</h6>
+                    
+                  </td> */}
                   <td>
                     <div className="d-flex justify-content-left">
                       <div className=" align-items-baseline">
-                        <h6 style={{ fontWeight: "600" }}>1 bb_aDAI</h6>
+                        <h6 style={{ fontWeight: "600" }}>1 cbUSD</h6>
                         <div
                           className="mb-0 text-muted"
                           style={{ fontSize: "12px", fontWeight: "600" }}
                         >
-                          = 1.0323 DAI
+                          = 1.0323 BUSD
                         </div>
                       </div>
                     </div>

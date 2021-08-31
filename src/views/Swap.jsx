@@ -1,6 +1,8 @@
 import { useEffect } from "react";
 import { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
+//import Popup from 'react-popup';
+import Popup from "../Popup";
 import { Button, Dropdown, Card, Col, Container, DropdownItem, DropdownMenu, DropdownToggle, Input, InputGroup, InputGroupAddon, InputGroupButtonDropdown, InputGroupText, Row, Table } from "reactstrap";
 import web3 from "../web3";
 import swap from "./swapAbi";
@@ -21,6 +23,7 @@ const Swap = () => {
     const[depositpercent,setdepositpercent] = useState("");
     const[values,setValues] = useState([]);
     const[totalvaluelocked,setTotalvalueLocked]=useState([]);
+    const[popstate,setPopup]=useState(false);
     const toggleDropDown = () => setDropdownOpen(!dropdownOpen);
     const toggle1 = () => setDropdownOpen1(!dropdownOpen1);
     let history = useHistory();
@@ -52,12 +55,15 @@ const Swap = () => {
    
     const deposit = async(event) => {
         event.preventDefault();
+        setPopup(true);
         const accounts =  await web3.eth.getAccounts();
         var valu = document.getElementById("tid1").value;
         var val = valu * 1000000000;
         var value = val + "000000000"
         await swap.methods.stake(value).send({from:accounts[0]});
-        alert("deposited succesfully")
+        
+       alert("deposited succesfully")
+        
         first();
       }
 
@@ -189,8 +195,19 @@ const Swap = () => {
 
 
     return (
+        
         <section className="p-0 my-5">
+        <center>  {popstate && <Popup content={<>
+        <b>Notification</b>
+        <p>Your Email has been sent successfully......</p>
+        <button type="button" onClick={popstate}>close</button>
+      </>}
+      // handleClose={togglePopup}
+    />}</center>
+             
              {
+
+                 
             localStorage.getItem("wallet")===null || localStorage.getItem("wallet")===""?(<>
             <Container fluid>
            

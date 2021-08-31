@@ -1,6 +1,7 @@
 import { Card, Col, Row, Button } from "reactstrap";
 import PoolCardTabs from "./PoolCardTabs";
 import icon from "../../assets/img/icon.PNG";
+
 import icon1 from "../../assets/img/icon1.PNG";
 import carbonstake from "../../views/carbonStake";
 import { Link,useHistory } from "react-router-dom";
@@ -110,7 +111,7 @@ const Pools = () => {
                     width="15px"
                     //   style={{ marginTop:'auto' , marginBottom:'auto',marginLeft:'10px',marginRight:'10px' }}
                     //   style={{ marginButtom: "auto" }}
-                    src={icon}
+                    src={"https://blackcollateral.com/wp-content/uploads//2021/05/logo-svg.svg"}
                     alt="Card image cap"
                 />
                 0.00
@@ -141,7 +142,7 @@ const Pools = () => {
                     width="15px"
                     //   style={{ marginTop:'auto' , marginBottom:'auto',marginLeft:'10px',marginRight:'10px' }}
                     //   style={{ marginButtom: "auto" }}
-                    src={icon}
+                    src={"https://blackcollateral.com/wp-content/uploads//2021/05/logo-svg.svg"}
                     alt="Card image cap"
                 />
                  {parseFloat(communitybalance/1000000000).toFixed(3)}
@@ -350,7 +351,7 @@ const Pools = () => {
                                     width="15px"
                                     //   style={{ marginTop:'auto' , marginBottom:'auto',marginLeft:'10px',marginRight:'10px' }}
                                     //   style={{ marginButtom: "auto" }}
-                                    src={icon}
+                                    src={"https://blackcollateral.com/wp-content/uploads//2021/05/logo-svg.svg"}
                                     alt="Card image cap"
                                 />
                                 0.00
@@ -381,7 +382,7 @@ const Pools = () => {
                                     width="15px"
                                     //   style={{ marginTop:'auto' , marginBottom:'auto',marginLeft:'10px',marginRight:'10px' }}
                                     //   style={{ marginButtom: "auto" }}
-                                    src={icon}
+                                    src={"https://blackcollateral.com/wp-content/uploads//2021/05/logo-svg.svg"}
                                     alt="Card image cap"
                                 />
                                  {parseFloat(communitybalance/1000000000).toFixed(3)}
@@ -558,7 +559,7 @@ const Pools = () => {
                                         marginRight: "10px",
                                     }}
                                     //   style={{ marginButtom: "auto" }}
-                                    src={icon}
+                                    src={"https://blackcollateral.com/wp-content/uploads//2021/05/logo-svg.svg"}
                                     alt="Card image cap"
                                 />
                                 <b>14.5%</b>
@@ -588,7 +589,7 @@ const Pools = () => {
                                     width="15px"
                                     //   style={{ marginTop:'auto' , marginBottom:'auto',marginLeft:'10px',marginRight:'10px' }}
                                     //   style={{ marginButtom: "auto" }}
-                                    src={icon}
+                                    src={"https://blackcollateral.com/wp-content/uploads//2021/05/logo-svg.svg"}
                                     alt="Card image cap"
                                 />
                                 0.00
@@ -619,7 +620,7 @@ const Pools = () => {
                                     width="15px"
                                     //   style={{ marginTop:'auto' , marginBottom:'auto',marginLeft:'10px',marginRight:'10px' }}
                                     //   style={{ marginButtom: "auto" }}
-                                    src={icon}
+                                    src={"https://blackcollateral.com/wp-content/uploads//2021/05/logo-svg.svg"}
                                     alt="Card image cap"
                                 />
                                  {parseFloat(communitybalance/1000000000).toFixed(3)}
@@ -649,7 +650,7 @@ const Pools = () => {
                                     width="15px"
                                     //   style={{ marginTop:'auto' , marginBottom:'auto',marginLeft:'10px',marginRight:'10px' }}
                                     //   style={{ marginButtom: "auto" }}
-                                    src={icon}
+                                    src={"https://blackcollateral.com/wp-content/uploads//2021/05/logo-svg.svg"}
                                     alt="Card image cap"
                                 />
                                {parseFloat(balance/1000000000000000000).toFixed(3)}
