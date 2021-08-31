@@ -44,6 +44,41 @@ const Markets = (props) => {
   return (
     <>
       <section className="p-0">
+      <label
+          class="btn mr-3"
+          style={{
+            color: "black",
+            backgroundColor: "white",
+            borderColor: "rgb(255, 0, 131)",
+          }}
+          for="btncheck3"
+          className={`btn mr-3 bar-item ml-0 ${
+            activeTab == "Finance" ? "active" : ""
+          }`}
+          onClick={(e) => setActiveTab("Finance")}
+        >
+          <img
+            left
+            className="tab-image"
+            style={{
+              marginTop: "auto",
+              marginBottom: "auto",
+              marginLeft: "0px",
+              marginRight: "10px",
+            }}
+            //   style={{ marginButtom: "auto" }}
+            src="https://www.alpacafinance.org/assets/images/logo.png"
+            alt="Card image cap"
+          />
+          {" "}
+          {/* <input
+            type="checkbox"
+            style={{ marginLeft: "5px" }}
+            id="btncheck3"
+            autocomplete="off"
+          /> */}
+        </label>
+       
         <label
           class="btn mr-3 p-3"
           style={{
@@ -115,41 +150,7 @@ const Markets = (props) => {
           /> */}
         </label>
 
-        <label
-          class="btn mr-3"
-          style={{
-            color: "black",
-            backgroundColor: "white",
-            borderColor: "rgb(255, 0, 131)",
-          }}
-          for="btncheck3"
-          className={`btn mr-3 bar-item ml-0 ${
-            activeTab == "Finance" ? "active" : ""
-          }`}
-          onClick={(e) => setActiveTab("Finance")}
-        >
-          <img
-            left
-            className="tab-image"
-            style={{
-              marginTop: "auto",
-              marginBottom: "auto",
-              marginLeft: "0px",
-              marginRight: "10px",
-            }}
-            //   style={{ marginButtom: "auto" }}
-            src="https://www.alpacafinance.org/assets/images/logo.png"
-            alt="Card image cap"
-          />
-          {" "}
-          {/* <input
-            type="checkbox"
-            style={{ marginLeft: "5px" }}
-            id="btncheck3"
-            autocomplete="off"
-          /> */}
-        </label>
-        {activeTab == "BIFI" ? (
+         {activeTab == "BIFI" ? (
           <div className=" mt-5 align-items-baseline">
             <p className="ml-1 text-muted">Total value locked</p>
             <h3 className="font-weight-bold">
@@ -312,11 +313,11 @@ const Markets = (props) => {
                     </h6>
                     {/* </Link> */}
                   </td>
-                  <td style={{ verticalAlign: "middle" }}>
-                    {/* <Link to="https://app.barnbridge.com/"> */}
+                  {/* <td style={{ verticalAlign: "middle" }}>
+                   
                     <h6 style={{ fontWeight: "600" }}>2.81%</h6>
-                    {/* </Link> */}
-                  </td>
+                   
+                  </td> */}
                   <td>
                     <div className="d-flex justify-content-left">
                       <div className=" align-items-baseline">
@@ -402,11 +403,11 @@ const Markets = (props) => {
                     </h6>
                     {/* </Link> */}
                   </td>
-                  <td style={{ verticalAlign: "middle" }}>
-                    {/* <Link to="https://app.barnbridge.com/"> */}
+                  {/* <td style={{ verticalAlign: "middle" }}>
+                   
                     <h6 style={{ fontWeight: "600" }}>2.81%</h6>
-                    {/* </Link> */}
-                  </td>
+                   
+                  </td> */}
                   <td>
                     <div className="d-flex justify-content-left">
                       <div className=" align-items-baseline">
@@ -492,11 +493,11 @@ const Markets = (props) => {
                     </h6>
                     {/* </Link> */}
                   </td>
-                  <td style={{ verticalAlign: "middle" }}>
-                    {/* <Link to="https://app.barnbridge.com/"> */}
+                  {/* <td style={{ verticalAlign: "middle" }}>
+                   
                     <h6 style={{ fontWeight: "600" }}>2.81%</h6>
-                    {/* </Link> */}
-                  </td>
+                   
+                  </td> */}
                   <td>
                     <div className="d-flex justify-content-left">
                       <div className=" align-items-baseline">
@@ -684,11 +685,11 @@ const Markets = (props) => {
                     </h6>
                     {/* </Link> */}
                   </td>
-                  <td style={{ verticalAlign: "middle" }}>
-                    {/* <Link to="https://app.barnbridge.com/"> */}
+                  {/* <td style={{ verticalAlign: "middle" }}>
+
                     <h6 style={{ fontWeight: "600" }}>2.81%</h6>
-                    {/* </Link> */}
-                  </td>
+                  
+                  </td> */}
                   <td>
                     <div className="d-flex justify-content-left">
                       <div className=" align-items-baseline">
@@ -774,11 +775,11 @@ const Markets = (props) => {
                     </h6>
                     {/* </Link> */}
                   </td>
-                  <td style={{ verticalAlign: "middle" }}>
-                    {/* <Link to="https://app.barnbridge.com/"> */}
+                  {/* <td style={{ verticalAlign: "middle" }}>
+                   
                     <h6 style={{ fontWeight: "600" }}>2.81%</h6>
-                    {/* </Link> */}
-                  </td>
+                   
+                  </td> */}
                   <td>
                     <div className="d-flex justify-content-left">
                       <div className=" align-items-baseline">
@@ -864,11 +865,11 @@ const Markets = (props) => {
                     </h6>
                     {/* </Link> */}
                   </td>
-                  <td style={{ verticalAlign: "middle" }}>
-                    {/* <Link to="https://app.barnbridge.com/"> */}
+                  {/* <td style={{ verticalAlign: "middle" }}>
+                   
                     <h6 style={{ fontWeight: "600" }}>2.81%</h6>
-                    {/* </Link> */}
-                  </td>
+                    
+                  </td> */}
                   <td>
                     <div className="d-flex justify-content-left">
                       <div className=" align-items-baseline">
@@ -924,9 +925,8 @@ const Markets = (props) => {
                 <tr>
                   <th>Token Name </th>
                   <th>Liquidity</th>
-                  <th> APY</th>          
-                  <th>Originator APY</th>
-                  <th>Token conversion rate</th>
+                  <th> APY</th>       
+                  {/* <th>Token conversion rate</th> */}
                 </tr>
               </thead>
               <tbody>
@@ -945,13 +945,17 @@ const Markets = (props) => {
                         src={icon3}
                         alt="Card image cap"
                       />
-                      <div className="pl-2 pr-2">
-                        <h6 style={{ fontWeight: "600" }}>BUSD</h6>
+                      <div className="pl-2 pr-2" >
+
+                        <h6 style={{ fontWeight: "600",marginTop:"20px" }}>
+                          BUSD
+                          </h6>
+                        
                         <div
                           className="mb-0 text-muted"
                           style={{ fontSize: "12px", fontWeight: "600" }}
                         >
-                          BUSD Stablecoin
+                         
                         </div>
                       </div>
                     </div>
@@ -959,19 +963,19 @@ const Markets = (props) => {
                   <td>
                     <div className="d-flex justify-content-left">
                       <div className=" align-items-baseline">
-                        <h6 style={{ fontWeight: "600" }}>246.66K DAI</h6>
+                        <h6 style={{ verticalAlign: "middle",fontWeight: "600" ,marginTop:"20px" }}> {parseFloat(totalvaluelocked/1000000000000000000).toFixed(5)}{"BUSD"}</h6>
                         <div
                           className="mb-0 text-muted"
                           style={{ fontSize: "12px", fontWeight: "600" }}
                         >
-                          $246.74K
+                         
                         </div>
                       </div>
                     </div>
                   </td>
                   <td style={{ verticalAlign: "middle" }}>
                     {/* <Link to="https://app.barnbridge.com/"> */}
-                    <h6 style={{ fontWeight: "600", color: "#00d395" }}>
+                    <h6 style={{ fontWeight: "600", color: "#00d395",marginTop:"20px"  }}>
                       2.11%
                     </h6>
                     {/* </Link> */}
@@ -979,27 +983,26 @@ const Markets = (props) => {
                  
 
                  
-                  <td style={{ verticalAlign: "middle" }}>
-                    {/* <Link to="https://app.barnbridge.com/"> */}
-                    <h6 style={{ fontWeight: "600" }}>2.81%</h6>
-                    {/* </Link> */}
-                  </td>
+                  {/* <td style={{ verticalAlign: "middle" }}>
+                     <h6 style={{ fontWeight: "600" }}>2.81%</h6>
+                    
+                  </td> */}
                   <td>
-                    <div className="d-flex justify-content-left">
+                    {/* <div className="d-flex justify-content-left">
                       <div className=" align-items-baseline">
-                        <h6 style={{ fontWeight: "600" }}>1 bb_aDAI</h6>
+                        <h6 style={{ fontWeight: "600" }}>1 cbUSD</h6>
                         <div
                           className="mb-0 text-muted"
                           style={{ fontSize: "12px", fontWeight: "600" }}
                         >
-                          = 1.0323 DAI
+                          = 1.0323 BUSD
                         </div>
                       </div>
-                    </div>
+                    </div> */}
                   </td>
-                  <td>
+                  {/* <td>
                     <Button color="outline-site-primary" onClick={e => {history.push("/vault")}}>Details</Button>
-                  </td>
+                  </td> */}
                 </tr>
 
                

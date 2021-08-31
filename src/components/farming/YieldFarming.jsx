@@ -8,12 +8,23 @@ import PoolCardTabs from "./PoolCardTabs";
 import Chart from "react-apexcharts";
 import Pools from "./Pools";
 import black from "../../views/blackAbi";
+import cbusdtoken from "../../views/cbusdAbi";
 import { useEffect } from "react";
 const YieldFarming = (props) => {
   const [communitybalance,setCommunitybalance] = useState([]);
+  const [totalvaluelocked,setTotalvalueLocked]=useState();
   const farmdisplay = async() => {           
+
     var blackreward =await black.methods.balanceOf("0x2fa541c7457fbd89b727dfa2f3b1423c66c353dd").call();
-    setCommunitybalance( (10000000000000000 - blackreward)/1000000000);
+       setCommunitybalance( (10000000000000000 - blackreward)/1000000000);
+       console.log("balckreward",communitybalance);
+       const totaldepositedcarbonpool1=await cbusdtoken.methods.balanceOf("0x3a7CD9084072c0178ED6EbACAF1926E2E9e57D43").call(); 
+       const totaldepositedcarbonpool =(parseFloat(totaldepositedcarbonpool1/1000000000000000000).toFixed(3));        
+       const totaldepositedLppool1=await cbusdtoken.methods.balanceOf("0x3a7CD9084072c0178ED6EbACAF1926E2E9e57D43").call(); 
+       const totaldepositedLppool =(parseFloat(totaldepositedLppool1/1000000000000000000).toFixed(3));
+       const totaldepositedblackpool1=await cbusdtoken.methods.balanceOf("0x3a7CD9084072c0178ED6EbACAF1926E2E9e57D43").call(); 
+       const totaldepositedblackpool =(parseFloat(totaldepositedblackpool1/1000000000000000000).toFixed(3));
+      setTotalvalueLocked((parseFloat (totaldepositedcarbonpool)) + (parseFloat(totaldepositedLppool) + parseFloat(totaldepositedblackpool)));
  }
  useEffect(()=>{farmdisplay()},[communitybalance])
   let [activeTab, setActiveTab] = useState("ViewPool");
@@ -44,7 +55,7 @@ const YieldFarming = (props) => {
     <>
       <Row className="m-3 m-md-5">
         <Col xl="3" lg="6" xs="12" className="mb-4">
-          <CustomCard title="TOTAL VALUE LOCKED" text="$251,411,126" subText="$251,379,305 effective locked" />
+          <CustomCard title="TOTAL VALUE LOCKED" text={parseFloat(totalvaluelocked).toFixed(3)}  />
         </Col>
         <Col xl="3" lg="6" xs="12" className="mb-4">
           <CustomCard title="BLACK REWARDS" text={parseFloat(communitybalance).toFixed(3)} subText="out of 10,000,000" />
@@ -62,11 +73,11 @@ const YieldFarming = (props) => {
 
       <Pools/>
       <div className="m-3 m-md-5">
-        <Container fluid>
+        {/* <Container fluid>
           <Card className="custom-card mt-2 mb-2 ml-0 mr-0 p-2">
             <Chart options={options} series={series} type="bar" height={440} />
           </Card>
-        </Container>
+        </Container> */}
       </div>
       <Container fluid>
 

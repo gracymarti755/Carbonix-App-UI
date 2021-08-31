@@ -9,6 +9,7 @@ import {
   Button,
 } from "reactstrap";
 import icon from "../../assets/img/checkicon.PNG";
+
 import icon0 from "../../assets/img/icon1.PNG";
 import icon4 from "../../assets/img/icon4.PNG";
 import icon10 from "../../assets/img/icon.PNG";

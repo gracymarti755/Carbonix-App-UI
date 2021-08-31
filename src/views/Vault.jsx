@@ -17,7 +17,7 @@ const Vault = () => {
     const [dropdownOpen1, setDropdownOpen1] = useState(false);
     const [multiple, setMultiple] = useState(false);
     const [selectedDropdown, setSelectedDropdown] = useState("cBUSD");
-    const [selectedDropdown1, setSelectedDropdown1] = useState("No Yield");
+    const [selectedDropdown1, setSelectedDropdown1] = useState("NO TRANCHE");
     const toggleDropDown = () => setDropdownOpen(!dropdownOpen);
     const toggle1 = () => setDropdownOpen1(!dropdownOpen1);
 
@@ -49,6 +49,7 @@ const Vault = () => {
         document.getElementById("header-title").innerText = "Vault";
     })
     const overall = async() =>{
+        if(localStorage.getItem("wallet")>0){
         const accounts =  await web3.eth.getAccounts();
         var totaldeposit = await CFI.methods.getCdpTotalDeposited(accounts[0]).call();
         setTotaldeposit(totaldeposit);
@@ -79,6 +80,7 @@ const Vault = () => {
       else{
         setAP(false);
       }
+    }
     }
     useEffect(()=>{overall()},[app1])
 
@@ -541,8 +543,10 @@ const Vault = () => {
                                             {selectedDropdown1}
                                         </DropdownToggle>
                                         <DropdownMenu className="w-100">
-                                            <DropdownItem onClick={e => setSelectedDropdown1("No Yield")}>No Yield</DropdownItem>
-                                            <DropdownItem onClick={e => { setSelectedDropdown1("Carbon Yield"); history.push("/carbon-yield")}}>Carbon Yield</DropdownItem>
+                                        <DropdownItem onClick={e => setSelectedDropdown1("NO TRANCHE")}>NO TRANCHE</DropdownItem>
+                                            <DropdownItem onClick={e => { setSelectedDropdown1("FIXED TRANCHE"); history.push("/carbon-yield")}}>FIXED TRANCHE</DropdownItem>
+                                           
+                                            <DropdownItem onClick={e => { setSelectedDropdown1("VARIABLE TRANCHE"); history.push("/carbon-yield")}}>VARIABLE TRANCHE</DropdownItem>
                                         </DropdownMenu>
                                     </Dropdown>
                                     <h6 className="mt-3">Borrow up to 50% the value of your collateral in cBUSD. Your debt will be automatically paid down by yield from Alpaca finance</h6>
@@ -991,8 +995,10 @@ const Vault = () => {
                                             {selectedDropdown1}
                                         </DropdownToggle>
                                         <DropdownMenu className="w-100">
-                                            <DropdownItem onClick={e => setSelectedDropdown1("No Yield")}>No Yield</DropdownItem>
-                                            <DropdownItem onClick={e => { setSelectedDropdown1("Carbon Yield"); history.push("/carbon-yield")}}>Carbon Yield</DropdownItem>
+                                            <DropdownItem onClick={e => setSelectedDropdown1("NO TRANCHE")}>NO TRANCHE</DropdownItem>
+                                            <DropdownItem onClick={e => { setSelectedDropdown1("FIXED TRANCHE"); history.push("/carbon-yield")}}>FIXED TRANCHE</DropdownItem>
+                                           
+                                            <DropdownItem onClick={e => { setSelectedDropdown1("VARIABLE TRANCHE"); history.push("/carbon-yield")}}>VARIABLE TRANCHE</DropdownItem>
                                         </DropdownMenu>
                                     </Dropdown>
                                     <h6 className="mt-3">Borrow up to 50% the value of your collateral in cBUSD. Your debt will be automatically paid down by yield from Alpaca finance</h6>
