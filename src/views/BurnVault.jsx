@@ -17,6 +17,7 @@ const BurnVault = () => {
     const [tid4,setId4] = useState([]);
     const [burn,setburn] = useState([]);
     const bvb = async() => {
+        if(localStorage.getItem("wallet")>0){
         let account = await web3.eth.getAccounts();
         setId1(await black.methods.balanceOf(account[0]).call());
         var maxtx  = await burnvault.methods.maxTxAmount().call();
@@ -37,6 +38,7 @@ const BurnVault = () => {
         btn.disabled = false;
        setId4(false);
       }
+    }
     }
     useEffect(()=>{bvb()},[tid1,maxta,tid2])
     useEffect(()=>{bvb()},[tid3,burn,tid4])

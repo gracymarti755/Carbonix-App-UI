@@ -46,7 +46,7 @@ const Sidebar = (props) => {
                 </Link>
                 <Link to="/swap" className={`theme-nav-item ${history.location.pathname == "/swap" ? "active" : ""}`}>
                     <i className="fa fa-retweet"></i>
-                    <span className="ml-3">Swap</span>
+                    <span className="ml-3">Stabilizer</span>
                 </Link>
                 <Link to="/yield-farming" className={`theme-nav-item ${history.location.pathname == "/yield-farming" ? "active" : ""}`}>
                     <i className="fa fa-tractor"></i>
@@ -54,7 +54,7 @@ const Sidebar = (props) => {
                 </Link>
                 <Link to="/carbon-yield" className={`theme-nav-item ${history.location.pathname == "/carbon-yield" ? "active" : ""}`}>
                     <i className="fa fa-fire-alt"></i>
-                    <span className="ml-3">Carbon Yeild</span>
+                    <span className="ml-3">Carbon Yield</span>
                 </Link>
                 <Link to="/governance" className={`theme-nav-item ${history.location.pathname == "/governance" ? "active" : ""}`}>
                     <i className="fa fa-university"></i>

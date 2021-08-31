@@ -3,16 +3,17 @@ import { Container, Button } from "reactstrap"
 
 const Footer = (props) => {
     return (<>
+    
         <div className="footer">
             <Container fluid className="px-md-5">
                 <div className="d-flex justify-content-end">
                     <div className="footer-nav-links d-flex flex-wrap">
-                        <a href="https://blackcollateral.com/" className="footer-nav-link">
+                        {/* <a href="https://blackcollateral.com/" className="footer-nav-link">
                             Website
-                        </a>
-                        <a href="https://discord.com/channels/749283231450398721/874678038900645888" className="footer-nav-link">
+                        </a> */}
+                        {/* <a href="https://discord.com/channels/749283231450398721/874678038900645888" className="footer-nav-link">
                             Discord
-                        </a>
+                        </a> */}
                         <Link to="#" className="footer-nav-link">
                             Twitter
                         </Link>

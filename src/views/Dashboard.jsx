@@ -15,7 +15,10 @@ import web3 from "../web3";
 import Posts from '../components/Posts';
 import Pagination from '../components/Pagination';
 import valutadapter from"./vaultAdapterAbi";
-import carbonoracle from "./carbonOracleAbi"
+import carbonoracle from "./carbonOracleAbi";
+import carbonStake from "./carbonStakeAbi";
+import busd from "./busdAbi";
+import cbusdtoken from "./cbusdAbi"
 class Dashboard extends Component {
     state={
         activeTab: "ViewPool",
@@ -70,9 +73,22 @@ class Dashboard extends Component {
        const totalsupply1 = await cbusd.methods.totalSupply().call();
        const totalsupply =(parseFloat(totalsupply1/1000000000000000000).toFixed(3));
        const totaldeposited1 =await CFI.methods.totalDeposited().call();
+       //const totaldepositedcarbonpool=await cbusd.methods.balanceOf("0x3a7CD9084072c0178ED6EbACAF1926E2E9e57D43").call()); 
        const totaldeposited =(parseFloat(totaldeposited1/1000000000000000000).toFixed(3));
        //const totalvaluelock1 =await valutadapter.methods.totalValue().call();
-       const totalvaluelocked =(parseFloat((totaldeposited-totalsupply)).toFixed(3));
+       const totaldepositedcarbonpool1=await cbusdtoken.methods.balanceOf("0x3a7CD9084072c0178ED6EbACAF1926E2E9e57D43").call(); 
+       const totaldepositedcarbonpool =(parseFloat(totaldepositedcarbonpool1/1000000000000000000).toFixed(3));
+       const totaldepositedLppool1=await cbusdtoken.methods.balanceOf("0x3a7CD9084072c0178ED6EbACAF1926E2E9e57D43").call(); 
+       const totaldepositedLppool =(parseFloat(totaldepositedLppool1/1000000000000000000).toFixed(3));
+       const totaldepositedblackpool1=await cbusdtoken.methods.balanceOf("0x3a7CD9084072c0178ED6EbACAF1926E2E9e57D43").call(); 
+       const totaldepositedblackpool =(parseFloat(totaldepositedblackpool1/1000000000000000000).toFixed(3));
+      // const totalvaluelocked =(parseFloat(((totaldeposited) + (totaldepositedcarbonpool) + (totaldepositedLppool) + (totaldepositedblackpool))).toFixed(3));
+       const totalvaluelocked = (parseFloat (totaldeposited) +parseFloat (totaldepositedcarbonpool)) + (parseFloat(totaldepositedLppool) + parseFloat(totaldepositedblackpool));
+      
+       console.log("totaldepositedcarbonpool",totaldepositedcarbonpool);
+       console.log("totaldepositedLppool",totaldepositedLppool);
+       console.log("totaldepositedblackpool",totaldepositedblackpool);
+
        const carbonprice1=await  carbonoracle.methods.getDittoBnbRate().call();
        const carbonprice=(parseFloat((carbonprice1[3])/1000000000000000000).toFixed(11));
 
@@ -188,7 +204,7 @@ class Dashboard extends Component {
                     <CustomCard title="Total Borrowed" text={this.state.totalsupply} subText1="CBUSD"/>
                 </Col>
                 <Col className="mb-4">
-                    <CustomCard title="Circulating Supply" text="$251,411"/>
+                    <CustomCard title="Circulating Supply" text={this.state.totalsupply} subText1="CBUSD"/>
                 </Col>
             </Row>
             <div className="m-5 pl-3"><h2><b>Pools</b></h2>
@@ -242,17 +258,19 @@ class Dashboard extends Component {
                            
                        this.state.setfiltdata === null || this.state.setfiltdata === "" || localStorage.getItem("wallet")===null|| localStorage.getItem("wallet")===""? (
                            <>
-<thead>
+{/* <thead>
                            <tr>
                                <th>Transaction</th>
                                <th>Amount</th>
                                <th>Address</th>
                                <th>Transaction hash/timestamp</th>
                            </tr>
-                       </thead>
+                      
+                       </thead> */}
                            </>
                        ):(<>
                         <div>
+                            
                         <thead>
                            <tr>
                                <th>Transaction</th>
@@ -266,10 +284,11 @@ class Dashboard extends Component {
                         this.state.setfiltdata.slice(this.state.currentPage * this.state.pageSize, (this.state.currentPage + 1) * this.state.pageSize).map(a =>
                            {
                         
-                           
+                          
                              
                               return (
                                <>
+                              
                                <tr>
                             
                               
