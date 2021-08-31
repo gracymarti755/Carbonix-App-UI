@@ -5,8 +5,10 @@ import { Button, Dropdown, Card, Col, Container, DropdownItem, DropdownMenu, Dro
 import web3 from "../web3";
 import swap from "./swapAbi";
 import cbusd from "./cbusdAbi";
-import valutadapter from"./vaultAdapterAbi";
-const Swap = () => {
+import lpstake from "./lpStakingAbi";
+import black from "./blackAbi";
+
+const Lpstake = () => {
     let [activeTab, setActiveTab] = useState("Deposit");
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const [dropdownOpen1, setDropdownOpen1] = useState(false);
@@ -20,7 +22,17 @@ const Swap = () => {
     var[cbusdbalance,setcbusdbalance] = useState("");
     const[depositpercent,setdepositpercent] = useState("");
     const[values,setValues] = useState([]);
-    const[totalvaluelocked,setTotalvalueLocked]=useState([]);
+    const[staked,setStaked] = useState([]);
+    const[reward,setReward] = useState([]);
+    const[blackbal,setBlackBalance] =useState([]);
+    const [lock ,setlock]=useState("");
+    const[t11,setTim11 ] = useState("");
+    const[t21,setTim21] = useState("");
+    const[t31,setTim31 ] = useState("");
+    const[t41,setTime41] = useState("");
+    var [date1, setdate1]=useState("");
+    var [time1, settime1]=useState("");
+    const [lock1 ,setlock1]=useState("");
     const toggleDropDown = () => setDropdownOpen(!dropdownOpen);
     const toggle1 = () => setDropdownOpen1(!dropdownOpen1);
     let history = useHistory();
@@ -29,8 +41,9 @@ const Swap = () => {
     const accounts =  await web3.eth.getAccounts();
  
     setcbusdbalance(await cbusd.methods.balanceOf(accounts[0]).call());  
+
     
-    let b= await cbusd.methods.allowance(accounts[0],"0x380EF5B39F3F68EF7c80f21384F92EEB0a4c06Cd").call();
+    let b= await cbusd.methods.allowance(accounts[0],"0x3a7CD9084072c0178ED6EbACAF1926E2E9e57D43").call();
  
     if(b>0){
       setAP(true);
@@ -39,16 +52,80 @@ const Swap = () => {
       setAP(false);
     }
     setValues(await swap.methods.userInfo(accounts[0]).call());
-    setTotalvalueLocked(await valutadapter.methods.totalValue().call());
+    setStaked(await lpstake.methods.userInfo(accounts[0]).call());
+    setReward(await lpstake.methods.pendingBlack(accounts[0]).call());
+    setBlackBalance(await black.methods.balanceOf(accounts[0]).call())
+    var us =await lpstake.methods.holderUnstakeRemainingTime(accounts[0]).call();
+    var now = new Date().getTime();
+    if(us<=now){
+    setlock(true);
+    }
+    else{
+      setlock(false);
+    }
+    
+    var us=await lpstake.methods.holderUnstakeRemainingTime(accounts[0]).call();
+    var ff=new Date(us*1000);
+    setdate1(ff.toDateString());
+    var hours = ff.getHours();
+    var minutes = ff.getMinutes();
+    var ampm = hours >= 12 ? 'PM' : 'AM';
+    hours = hours % 12;
+    hours = hours ? hours : 12; // the hour '0' should be '12'
+    minutes = minutes < 10 ? '0'+minutes : minutes;
+    settime1( hours + ':' + minutes + ' ' + ampm);
+    //settime(lock);
+    var countDowndate   =us*1000;
+    //console.log(countDowndate);
+    // var countDownDate = new Date().getTime() + (lock * 1000) ;
+    //alert(time);
+    var x = setInterval(function() {
+       var now = new Date().getTime();
+      var distance = countDowndate - now ;
+     // console.log(now);
+      // Time calculations for days, hours, minutes and seconds
+     var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+        
+      // Output the result in an element with id="demo"
+     // document.getElementById("demo").innerHTML = hours + "h "
+     // + minutes + "m " + seconds + "s ";
+    setTime41(days);
+    setTim11(hours);
+    setTim21(minutes);
+    setTim31(seconds);
+    
+    
+    
+    
+      // If the count down is over, write some text 
+      if (distance < 0) {
+            clearInterval(x);
+            setlock1(true);
+    
+           // console.log('CountDown Finished');
+        }
+        else{
+         setlock1(false);
+        }
+    
+    
+      
+    }, 1000);
+    
+     
 
    
 }      
 
     useEffect(() => {
-        document.getElementById("header-title").innerText = "Swap";
+        document.getElementById("header-title").innerText = "Staking";
     } )
     useEffect(() =>         
-    {first()},[cbusdbalance,ap1,values[0],values[1],values[2],values[3],ap1])
+    {first()},[cbusdbalance,ap1,staked[0]],reward,blackbal)
+    useEffect(() =>{first()},[date1,lock1,time1])
    
     const deposit = async(event) => {
         event.preventDefault();
@@ -56,8 +133,8 @@ const Swap = () => {
         var valu = document.getElementById("tid1").value;
         var val = valu * 1000000000;
         var value = val + "000000000"
-        await swap.methods.stake(value).send({from:accounts[0]});
-        alert("deposited succesfully")
+        await lpstake.methods.deposit(value).send({from:accounts[0]});
+        alert("staked succesfully")
         first();
       }
 
@@ -67,36 +144,28 @@ const Swap = () => {
         var valu = document.getElementById("tid2").value;
         var val = valu * 1000000000;
         var value = val + "000000000"
-        await swap.methods.unstake(value).send({from:accounts[0]});
-        alert("withdrawn succesfully")
+        await lpstake.methods.withdraw(value).send({from:accounts[0]});
+        alert("unstaked succesfully")
         first()
       }  
 
-      const stabilize = async(event) => {
+      const claimreward = async(event) => {
         event.preventDefault();
-        const accounts =  await web3.eth.getAccounts();
-        if(values[2] > 0){
-          await swap.methods.transmute().send({from:accounts[0]});
-          alert("Transmute succesfully")
+        if(reward >10000000000){
+            const accounts =  await web3.eth.getAccounts();
+            await lpstake.methods.claimReward().send({from:accounts[0]});    
         }
         else{
-          alert("You dont have Transmutable BASE token")
+            alert("Your reward amount should be Greater then 10 to Claim ")
         }
+           
         first()
         
       }
-      const stabilizeClaimAndWithdraw = async(event) => {
+      const emergencywithdraw = async(event) => {
         event.preventDefault();
         const accounts =  await web3.eth.getAccounts();
-        if(values[3] > 0){
-          await swap.methods.transmuteClaimAndWithdraw().send({from:accounts[0]});
-          alert("Claim and withdraw succesfully")
-        }
-    
-        else{
-          alert("You dont have enough Base Token")
-        }
-        
+        await lpstake.methods.emergencyWithdraw().send({from:accounts[0]});        
         first()
       }
     
@@ -145,7 +214,7 @@ const Swap = () => {
         event.preventDefault();
         const accounts =  await web3.eth.getAccounts(); 
         document.getElementById("tid2").value = false;  
-        var twentyfive=(values[0] * 25)/100;
+        var twentyfive=(staked[0] * 25)/100;
         setTotaldeposit(parseFloat(twentyfive/1000000000000000000).toFixed(5));
         document.getElementById("tid2").value = parseFloat(twentyfive/1000000000000000000).toFixed(5);        
         
@@ -154,7 +223,7 @@ const Swap = () => {
         event.preventDefault();
         const accounts =  await web3.eth.getAccounts(); 
         document.getElementById("tid2").value = false;    
-        var fifty=(values[0] * 50)/100;
+        var fifty=(staked[0]  * 50)/100;
         setTotaldeposit(parseFloat(fifty/1000000000000000000).toFixed(5));
         document.getElementById("tid2").value = parseFloat(fifty/1000000000000000000).toFixed(5);          
         
@@ -165,7 +234,7 @@ const Swap = () => {
         event.preventDefault();
         const accounts =  await web3.eth.getAccounts(); 
         document.getElementById("tid2").value = false;    
-        var seventyfive=(values[0] * 75)/100;
+        var seventyfive=(staked[0]  * 75)/100;
         setTotaldeposit(parseFloat(seventyfive/1000000000000000000).toFixed(5)); 
         document.getElementById("tid2").value =parseFloat(seventyfive/1000000000000000000).toFixed(5);         
         
@@ -174,7 +243,7 @@ const Swap = () => {
         event.preventDefault();
         const accounts =  await web3.eth.getAccounts(); 
         document.getElementById("tid2").value = false;    
-        var hundred=(values[0] * 100)/100;
+        var hundred=(staked[0]  * 100)/100;
         setTotaldeposit(parseFloat(hundred/1000000000000000000).toFixed(5)); 
         document.getElementById("tid2").value =parseFloat(hundred/1000000000000000000).toFixed(5);         
         
@@ -182,7 +251,7 @@ const Swap = () => {
       const approve = async() => {
         let account = await web3.eth.getAccounts();
         let amount = 1000000000000000000 +"000000000000000000"; 
-        await cbusd.methods.approve("0x380EF5B39F3F68EF7c80f21384F92EEB0a4c06Cd",amount).send({from:account[0]});
+        await cbusd.methods.approve("0x3a7CD9084072c0178ED6EbACAF1926E2E9e57D43",amount).send({from:account[0]});
         first()
         alert("Approved Succesfully")
     }
@@ -190,23 +259,25 @@ const Swap = () => {
 
     return (
         <section className="p-0 my-5">
-             {
+          {
             localStorage.getItem("wallet")===null || localStorage.getItem("wallet")===""?(<>
-            <Container fluid>
            
+            <Container fluid>
                 <Row className="justify-content-center">
                     <Col xl="8" lg="8" md="10" sm="12">
                         <Card className="custom-card">
                             <div className="p-3">
-                                <h4>Stabilize cBUSD to BUSD</h4>
-                                <h6>The Stabilizer exists to ensure cBUSD is pegged to the dollar. Depositing your cBUSD will gradually convert it into BUSD. This is only useful if cBUSD is trading under one dollar on Curve.</h6>
+                                <h4>stake  cBUSD </h4>
+                                <h6>The Stake cBUSD and get Black token as reward</h6>
                                 <Table bordered responsive className="mt-3">
                                     <thead>
                                         <tr>
-                                            <th>Your cBUSD</th>
-                                            <th>Deposited cBUSD</th>
-                                            <th>Stabilizable BUSD</th>
-                                            <th>Your BUSD</th>
+                                            <
+                                                
+                                                th>Your cBUSD</th>
+                                            <th>Staked cBUSD</th>
+                                            <th>Black reward</th>
+                                            <th>Your Black</th>
                                         </tr>
                                     </thead>
                                     <tbody className="text-center">
@@ -225,7 +296,7 @@ const Swap = () => {
                                         <Col xl="6" md="12">
                                             <InputGroup className="mt-3">
                                                 <Input placeholder={depositpercent} style={{ height: "auto" }}type = "number" id="tid1"  />
-                                                <InputGroupAddon addonType="append"><Button color="site-primary" >Deposit</Button></InputGroupAddon>
+                                                <InputGroupAddon addonType="append"><Button color="site-primary" >stake</Button></InputGroupAddon>
                                             </InputGroup>
                                             <div className="percentage smaller">
                                                 <div className="percentage-item" >25%</div>
@@ -235,16 +306,20 @@ const Swap = () => {
                                             </div>
                                         </Col>
                                         <Col xl="6" md="12">
+                                      
+              <div>
                                             <InputGroup className="mt-3">
                                                 <Input placeholder={totaldep} style={{ height: "auto" }}type = "number"  id="tid2"  />
-                                                <InputGroupAddon addonType="append"><Button color="site-primary" >Withdraw</Button></InputGroupAddon>
+                                                <InputGroupAddon addonType="append"><Button color="site-primary" >unstake</Button></InputGroupAddon>
                                             </InputGroup>
                                             <div className="percentage smaller">
-                                                <div className="percentage-item" >25%</div>
+                                                <div className="percentage-item">25%</div>
                                                 <div className="percentage-item">50%</div>
                                                 <div className="percentage-item">75%</div>
                                                 <div className="percentage-item">100%</div>
                                             </div>
+                                            </div>  
+            
                                         </Col>
                                     </Row>
                                 </Container>
@@ -253,10 +328,10 @@ const Swap = () => {
                                         <Col xl="9">
                                             <Row className="mt-4">
                                                 <Col xl="6" md="12">
-                                                    <Button color="outline-site-primary" block >Stabilize</Button>
+                                                    <Button color="outline-site-primary" block onClick={claimreward}>claim reward</Button>
                                                 </Col>
                                                 <Col xl="6" md="12" className='mt-3 mt-xl-0'>
-                                                    <Button color="outline-site-primary" block   >Stabilize & Exit</Button>
+                                                    <Button color="outline-site-primary" block  onClick={emergencywithdraw} >Exit</Button>
                                                 </Col>
                                             </Row>
 
@@ -264,68 +339,38 @@ const Swap = () => {
                                     </Row>
                                 </Container>
                                 </div>
-
+ 
                             </div>
                         </Card>
                     </Col>
                 </Row>
-                <Row className="mt-4 justify-content-center">
-                    <Col xl="8" lg="8" md="10" sm="12">
-                        <Card className="custom-card">
-                            <div className="p-3">
-                                <h4 className="mb-4">Global Stabilizer Status</h4>
-                                <div className="content">
-                                    <div className="d-flex">
-                                        <span>Total Deposited cBUSD:</span>
-                                        <span className="ml-auto">0.00</span>
-                                    </div>
-                                    <div className="d-flex">
-                                        <span>Total BUSD Deposited in alpaca:</span>
-                                        <span className="ml-auto">0.00</span>
-                                    </div>
-                                    {/* <div className="d-flex">
-                                        <span>Estimated BUSD Daily Yield:</span>
-                                        <span className="ml-auto">0.000</span>
-                                    </div> */}
-                                    <div className="d-flex">
-                                        <span>Total BUSD Available for Stabilization:</span>
-                                        <span className="ml-auto" >0.00</span>
-                                    </div>
-                                    {/* <div className="d-flex">
-                                        <span>Yearly Stabilization Rate:</span>
-                                        <span className="ml-auto">0.000</span>
-                                    </div> */}
-                                </div>
-                            </div>
-                        </Card>
-                    </Col>
-                </Row>
-            </Container>
-            </>):
-                (<>
- <Container fluid>
-           
+ </Container>
+         </>):
+         (<>
+         <Container fluid>
                 <Row className="justify-content-center">
                     <Col xl="8" lg="8" md="10" sm="12">
                         <Card className="custom-card">
                             <div className="p-3">
-                                <h4>Stabilize cBUSD to BUSD</h4>
-                                <h6>The Stabilizer exists to ensure cBUSD is pegged to the dollar. Depositing your cBUSD will gradually convert it into BUSD. This is only useful if cBUSD is trading under one dollar on Curve.</h6>
+                                <h4>stake  cBUSD </h4>
+                                <h6>The Stake cBUSD and get Black token as reward</h6>
                                 <Table bordered responsive className="mt-3">
                                     <thead>
                                         <tr>
-                                            <th>Your cBUSD</th>
-                                            <th>Deposited cBUSD</th>
-                                            <th>Stabilizable BUSD</th>
-                                            <th>Your BUSD</th>
+                                            <
+                                                
+                                                th>Your cBUSD</th>
+                                            <th>Staked cBUSD</th>
+                                            <th>Black reward</th>
+                                            <th>Your Black</th>
                                         </tr>
                                     </thead>
                                     <tbody className="text-center">
                                         <tr>
                                             <td>{parseFloat(cbusdbalance/1000000000000000000).toFixed(5)}</td>
-                                            <td>{parseFloat(values[0]/1000000000000000000).toFixed(5)}</td>
-                                            <td>{parseFloat(values[2]/1000000000000000000).toFixed(5)}</td>
-                                            <td>{parseFloat(values[3]/1000000000000000000).toFixed(5)}</td>
+                                            <td>{parseFloat(staked[0]/1000000000000000000).toFixed(5)}</td>
+                                            <td>{parseFloat(reward/1000000000).toFixed(5)}</td>
+                                            <td>{parseFloat(blackbal/1000000000).toFixed(5)}</td>
                                         </tr>
                                     </tbody>
                                 </Table>
@@ -340,7 +385,7 @@ const Swap = () => {
                                         <Col xl="6" md="12">
                                             <InputGroup className="mt-3">
                                                 <Input placeholder={depositpercent} style={{ height: "auto" }}type = "number" id="tid1"  />
-                                                <InputGroupAddon addonType="append"><Button color="site-primary" onClick={deposit}>Deposit</Button></InputGroupAddon>
+                                                <InputGroupAddon addonType="append"><Button color="site-primary" onClick={deposit}>stake</Button></InputGroupAddon>
                                             </InputGroup>
                                             <div className="percentage smaller">
                                                 <div className="percentage-item" onClick={balancepercent}>25%</div>
@@ -350,9 +395,12 @@ const Swap = () => {
                                             </div>
                                         </Col>
                                         <Col xl="6" md="12">
+                                        <div>
+            {lock1==true?((
+              <div>
                                             <InputGroup className="mt-3">
                                                 <Input placeholder={totaldep} style={{ height: "auto" }}type = "number"  id="tid2"  />
-                                                <InputGroupAddon addonType="append"><Button color="site-primary" onClick={withdraw}>Withdraw</Button></InputGroupAddon>
+                                                <InputGroupAddon addonType="append"><Button color="site-primary" onClick={withdraw}>unstake</Button></InputGroupAddon>
                                             </InputGroup>
                                             <div className="percentage smaller">
                                                 <div className="percentage-item"onClick={withdrawbalancepercent}>25%</div>
@@ -360,6 +408,16 @@ const Swap = () => {
                                                 <div className="percentage-item"onClick={withdrawbalancepercent2}>75%</div>
                                                 <div className="percentage-item"onClick={withdrawbalancepercent3}>100%</div>
                                             </div>
+                                            </div>  
+            )):
+((
+  <div>
+     <text className="mt-3"  >You Need to wait for unstake till this time </text><Button color="site-primary">{date1} , {time1}</Button>
+      </div>  
+))
+            }
+            
+        </div>
                                         </Col>
                                     </Row>
                                 </Container>
@@ -368,10 +426,10 @@ const Swap = () => {
                                         <Col xl="9">
                                             <Row className="mt-4">
                                                 <Col xl="6" md="12">
-                                                    <Button color="outline-site-primary" block onClick={stabilize}>Stabilize</Button>
+                                                    <Button color="outline-site-primary" block onClick={claimreward}>claim reward</Button>
                                                 </Col>
                                                 <Col xl="6" md="12" className='mt-3 mt-xl-0'>
-                                                    <Button color="outline-site-primary" block  onClick={stabilizeClaimAndWithdraw} >Stabilize & Exit</Button>
+                                                    <Button color="outline-site-primary" block  onClick={emergencywithdraw} >Exit</Button>
                                                 </Col>
                                             </Row>
 
@@ -393,42 +451,12 @@ const Swap = () => {
                         </Card>
                     </Col>
                 </Row>
-                <Row className="mt-4 justify-content-center">
-                    <Col xl="8" lg="8" md="10" sm="12">
-                        <Card className="custom-card">
-                            <div className="p-3">
-                                <h4 className="mb-4">Global Stabilizer Status</h4>
-                                <div className="content">
-                                    <div className="d-flex">
-                                        <span>Total Deposited cBUSD:</span>
-                                        <span className="ml-auto">{parseFloat(values[0]/1000000000000000000).toFixed(5)}</span>
-                                    </div>
-                                    <div className="d-flex">
-                                        <span>Total BUSD Deposited in alpaca:</span>
-                                        <span className="ml-auto">{parseFloat(totalvaluelocked/1000000000000000000).toFixed(5)}</span>
-                                    </div>
-                                    {/* <div className="d-flex">
-                                        <span>Estimated BUSD Daily Yield:</span>
-                                        <span className="ml-auto">0.000</span>
-                                    </div> */}
-                                    <div className="d-flex">
-                                        <span>Total BUSD Available for Stabilization:</span>
-                                        <span className="ml-auto" >{parseFloat(values[2]/1000000000000000000).toFixed(5)}</span>
-                                    </div>
-                                    {/* <div className="d-flex">
-                                        <span>Yearly Stabilization Rate:</span>
-                                        <span className="ml-auto">0.000</span>
-                                    </div> */}
-                                </div>
-                            </div>
-                        </Card>
-                    </Col>
-                </Row>
-            </Container>
-            </>)
+ </Container>
+      
+          </>)
         }
         </section>
     );
 }
 
-export default Swap;
+export default Lpstake;

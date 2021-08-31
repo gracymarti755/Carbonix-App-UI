@@ -7,11 +7,18 @@ import CustomCard from "../global/CustomCard";
 import PoolCardTabs from "./PoolCardTabs";
 import Chart from "react-apexcharts";
 import Pools from "./Pools";
-
+import black from "../../views/blackAbi";
+import { useEffect } from "react";
 const YieldFarming = (props) => {
+  const [communitybalance,setCommunitybalance] = useState([]);
+  const farmdisplay = async() => {           
+    var blackreward =await black.methods.balanceOf("0x2fa541c7457fbd89b727dfa2f3b1423c66c353dd").call();
+    setCommunitybalance( (10000000000000000 - blackreward)/1000000000);
+ }
+ useEffect(()=>{farmdisplay()},[communitybalance])
   let [activeTab, setActiveTab] = useState("ViewPool");
   let [series, setSeries] = useState([{
-    name:"Depoists",
+    name:"Deposits",
     data: [0.4, 0.65, 0.76, 0.88, 1.5, 2.1, 2.9, 3.8, 3.9, 4.2, 4, 4.3, 4.1, 4.2, 4.5,
       3.9, 3.5, 3
     ]
@@ -40,7 +47,7 @@ const YieldFarming = (props) => {
           <CustomCard title="TOTAL VALUE LOCKED" text="$251,411,126" subText="$251,379,305 effective locked" />
         </Col>
         <Col xl="3" lg="6" xs="12" className="mb-4">
-          <CustomCard title="BLACK REWARDS" text="1,680,000" subText="out of 2,860,000" />
+          <CustomCard title="BLACK REWARDS" text={parseFloat(communitybalance).toFixed(3)} subText="out of 10,000,000" />
         </Col>
         <Col xl="3" lg="6" xs="12" className="mb-4">
           <CustomCard title="BLACK PRICE" text="$26.69" subText="Uniswap market" />

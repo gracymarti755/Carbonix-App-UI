@@ -17,13 +17,13 @@ import icon3 from "../../assets/img/icon3.PNG";
 import PoolCardTabs from "../farming/PoolCardTabs";
 
 const Pools = (props) => {
-  let [activeTab, setActiveTab] = useState("BIFI");
+  let [activeTab, setActiveTab] = useState("Finance");
   let [activeTab1, setActiveTab1] = useState("null");
 
   return (
     <>
       <section className="p-0">
-        <label
+        {/* <label
           class="btn mr-3 p-3"
           style={{
             color: "black",
@@ -57,9 +57,9 @@ const Pools = (props) => {
             id="btncheck1"
             autocomplete="off"
           />
-        </label>
+        </label> */}
 
-        <label
+        {/* <label
           class="btn mr-3 p-3"
           style={{
             color: "black",
@@ -93,7 +93,7 @@ const Pools = (props) => {
             id="btncheck2"
             autocomplete="off"
           />
-        </label>
+        </label> */}
 
         <label
           class="btn mr-3"
@@ -123,12 +123,12 @@ const Pools = (props) => {
             className="tab-image"
           />
           Alpaca Finance{" "}
-          <input
+          {/* <input
             type="checkbox"
             style={{ marginLeft: "5px" }}
             id="btncheck3"
             autocomplete="off"
-          />
+          /> */}
         </label>
         {activeTab == "BIFI" ? (
           <div className=" mt-5 align-items-baseline">

@@ -148,7 +148,47 @@ const BurnVault = () => {
       
     return (<>
         <Row className="m-5">
+        {
+            localStorage.getItem("wallet")===null || localStorage.getItem("wallet")===""?(<>
+           
             <Col xl="4" lg="6" md="6" className="mb-4">
+                <CustomCard title="BLACK TOKEN BALANCE" text="0.00" />
+            </Col>
+            <Col xl="4" lg="6" md="6" className="mb-4">
+                <CustomCard title="1 BLACK(BNB)" text="0.00"/>
+            </Col>
+            <Col xl="4" lg="6" md="6" className="mb-4">
+                <CustomCard title="BLACK TOKEN IN BURNVAULT" text="0.00" />
+            </Col>
+            <Col xl="4" lg="6" md="6" className="mb-4">
+                <CustomCard title="MAXIMUM TRANSACTION LIMIT" text= "0.00"/>
+            </Col>
+            <Col xl="4" lg="6" md="6" className="mb-4">
+                <Card className="custom-card p-24 text-white" color="site-primary">
+                
+                    <p>Approve Before Swap</p>
+                    <div className="text-center">
+                        <Button color="dark">Approve</Button>
+                    </div>
+                    
+ 
+                </Card>
+            </Col>
+            <Col xl="4" lg="6" md="6" className="mb-4">
+                <div className="h-100 d-flex flex-column">
+                    <div className="border rounded border-site-primary py-2 px-4 mb-4">
+                        Available limit for User to Swap 0.00
+                    </div>
+                <Button color="outline-site-primary" className="align-self-end" id = "tid"  disabled ={tid4} block  onClick={() => setModalShow1(true)}>Swap</Button>
+                <MyVerticallyCenteredModal1
+                show={modalShow1}
+                onHide={() => setModalShow1(false)}
+        /><br/>
+                </div>
+                </Col>
+                </>):
+                (<>
+                 <Col xl="4" lg="6" md="6" className="mb-4">
                 <CustomCard title="BLACK TOKEN BALANCE" text={parseFloat(tid1/1000000000).toFixed(3)} />
             </Col>
             <Col xl="4" lg="6" md="6" className="mb-4">
@@ -201,6 +241,9 @@ const BurnVault = () => {
         /><br/>
                 </div>
                 </Col>
+              
+                 </>)
+        }
         </Row>
     </>);
 }
