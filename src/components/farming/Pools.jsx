@@ -15,10 +15,15 @@ import black from "../../views/blackAbi";
 const Pools = () => {
     const [balance,setbalan] = useState([]);
     const [communitybalance,setcommunitybalan] = useState([]);
+    const [aprcarbon,setAprcarbon]= useState([]);
+    const [aprblack,setAprblack]=useState([]);
     const bvb = async() => {
        setbalan(await cbusd.methods.balanceOf("0x3a7CD9084072c0178ED6EbACAF1926E2E9e57D43").call());       
        console.log("balan",balance);
        setcommunitybalan(await black.methods.balanceOf("0x2fa541c7457fbd89b727dfa2f3b1423c66c353dd").call());
+       const totalRewardPricePerYear = (rewardTokenPrice) * (tokenPerBlock)*(BLOCKS_PER_YEAR);
+       //const totalStakingTokenInPool = (stakingTokenPrice).times(totalStaked)
+       //const aprcarbon = totalRewardPricePerYear.div(totalStakingTokenInPool).times(100)
     }
     useEffect(()=>{bvb()},[balance])
    let a=5;

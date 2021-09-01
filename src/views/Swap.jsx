@@ -204,12 +204,13 @@ const Swap = () => {
     return (
         
         <section className="p-0 my-5">
-        <center>  {popstate && <Popup content={<>
+            
+        <center>  { popstate && <Popup content={<>
         <b>Notification</b>
         <p>Your Email has been sent successfully......</p>
         <button type="button" onClick={popstate}>close</button>
       </>}
-      // handleClose={togglePopup}
+       //handleClose={togglePopup}
     />}</center>
              
              {
