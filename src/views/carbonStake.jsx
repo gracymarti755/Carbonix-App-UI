@@ -7,6 +7,8 @@ import swap from "./swapAbi";
 import cbusd from "./cbusdAbi";
 import cbusdstake from "./carbonStakeAbi";
 import black from "./blackAbi";
+import Popup from "../Popup";
+
 const Cbusdstake = () => {
     let [activeTab, setActiveTab] = useState("Deposit");
     const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -35,6 +37,8 @@ const Cbusdstake = () => {
     const toggleDropDown = () => setDropdownOpen(!dropdownOpen);
     const toggle1 = () => setDropdownOpen1(!dropdownOpen1);
     let history = useHistory();
+    const [isOpen, setIsOpen] = useState(false);
+    var[dis,setDis] = useState("");
     
  const first = async () => {
     const accounts =  await web3.eth.getAccounts();
@@ -132,7 +136,8 @@ const Cbusdstake = () => {
         var val = valu * 1000000000;
         var value = val + "000000000"
         await cbusdstake.methods.deposit(value).send({from:accounts[0]});
-        alert("staked succesfully")
+        setIsOpen(true);
+        setDis("Staked Succesfully")
         first();
       }
 
@@ -143,7 +148,8 @@ const Cbusdstake = () => {
         var val = valu * 1000000000;
         var value = val + "000000000"
         await cbusdstake.methods.withdraw(value).send({from:accounts[0]});
-        alert("unstaked succesfully")
+        setIsOpen(true);
+        setDis("Unstaked Succesfully")
         first()
       }  
 
@@ -151,10 +157,13 @@ const Cbusdstake = () => {
         event.preventDefault();
         if(reward >10000000000){
             const accounts =  await web3.eth.getAccounts();
-            await cbusdstake.methods.claimReward().send({from:accounts[0]});    
+            await cbusdstake.methods.claimReward().send({from:accounts[0]}); 
+            setIsOpen(true);
+            setDis("Rewards Claimed Successfully")   
         }
         else{
-            alert("Your reward amount should be Greater then 10 to Claim ")
+            setIsOpen(true);
+            setDis("Your reward amount should be Greater then 10 to Claim ")
         }
            
         first()
@@ -163,7 +172,9 @@ const Cbusdstake = () => {
       const emergencywithdraw = async(event) => {
         event.preventDefault();
         const accounts =  await web3.eth.getAccounts();
-        await cbusdstake.methods.emergencyWithdraw().send({from:accounts[0]});        
+        await cbusdstake.methods.emergencyWithdraw().send({from:accounts[0]});
+        setIsOpen(true);
+        setDis("Withdrawn Successfully")        
         first()
       }
     
@@ -250,13 +261,26 @@ const Cbusdstake = () => {
         let account = await web3.eth.getAccounts();
         let amount = 1000000000000000000 +"000000000000000000"; 
         await cbusd.methods.approve("0x3a7CD9084072c0178ED6EbACAF1926E2E9e57D43",amount).send({from:account[0]});
+        setIsOpen(true);
+        setDis("Approved Succesfully")
         first()
-        alert("Approved Succesfully")
     }
+    const togglePopup = () => {
+        setIsOpen(false);
+      }
 
 
     return (
         <section className="p-0 my-5">
+            <div>
+    {isOpen && <Popup
+      content={<>
+       <center> <b >{dis}</b><br/>
+        <button onClick={togglePopup}>OK</button></center>
+      </>}
+      handleClose={togglePopup}
+    />}
+  </div>  
              {
             localStorage.getItem("wallet")===null || localStorage.getItem("wallet")===""?(<>
             <Container fluid>

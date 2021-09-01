@@ -7,6 +7,8 @@ import { Link, useHistory } from "react-router-dom";
 import { Button, Dropdown, Card, Col, Container, DropdownItem, DropdownMenu, DropdownToggle, Input, InputGroup, InputGroupAddon, InputGroupButtonDropdown, InputGroupText, Row } from "reactstrap";
 import CFI from "./carbonFinanceAbi";
 import { useDebugValue } from "react";
+import Popup from "../Popup";
+
 
 const Vault = () => {
     // window.onbeforeunload = () => {
@@ -17,7 +19,7 @@ const Vault = () => {
     const [dropdownOpen1, setDropdownOpen1] = useState(false);
     const [multiple, setMultiple] = useState(false);
     const [selectedDropdown, setSelectedDropdown] = useState("cBUSD");
-    const [selectedDropdown1, setSelectedDropdown1] = useState("NO TRANCHE");
+    const [selectedDropdown1, setSelectedDropdown1] = useState("No Yield");
     const toggleDropDown = () => setDropdownOpen(!dropdownOpen);
     const toggle1 = () => setDropdownOpen1(!dropdownOpen1);
 
@@ -33,7 +35,8 @@ const Vault = () => {
     const[liquidatepercent,setliquidatepercent] = useState("");
     var[app1,setApp] = useState("");
     var[ap1,setAP] = useState(""); 
-
+    const [isOpen, setIsOpen] = useState(false);
+    var[dis,setDis] = useState("");
     
 
     var[cbusdbalance,setcbusdbalance] = useState("");
@@ -91,7 +94,8 @@ const Vault = () => {
         var val = valu * 1000000000;
         var value = val + "000000000"
         await CFI.methods.deposit(value).send({from:accounts[0]});
-        alert("deposited succesfully")
+        setIsOpen(true);
+        setDis("Deposited Succesfully")
         overall()
       }
     const withdraw = async(event) => {
@@ -101,7 +105,8 @@ const Vault = () => {
         var val = valu * 1000000000;
         var value = val + "000000000"
         await CFI.methods.withdraw(value).send({from:accounts[0]});
-        alert("withdrawn succesfully")
+        setIsOpen(true);
+        setDis("Withdrawn Succesfully")
         overall()
     }
     const borrow = async(event) => {
@@ -111,7 +116,8 @@ const Vault = () => {
         var val = valu * 1000000000;
         var value = val + "000000000"
         await CFI.methods.mint(value).send({from:accounts[0]});
-        alert("Borrowed succesfully");
+        setIsOpen(true);
+        setDis("Borrowed Succesfully");
       overall()
     }
     const repayborrow = async(event) => {
@@ -122,13 +128,15 @@ const Vault = () => {
         var val = valu * 1000000000;
         var value = val + "000000000"
         await CFI.methods.repay(0,value).send({from:accounts[0]});
-        alert("Borrow amount is repayed By using CBUSD")
+        setIsOpen(true);
+        setDis("Borrowed amount is repayed By using CBUSD")
        }
        else{
         var val = valu * 1000000000;
         var value = val + "000000000"
         await CFI.methods.repay(value,0).send({from:accounts[0]});
-        alert("Borrow amount is repayed By using BUSD")
+        setIsOpen(true);
+        setDis("Borrowed amount is repayed By using BUSD")
        }
         
        overall()
@@ -140,7 +148,8 @@ const Vault = () => {
         var val = valu * 1000000000;
         var value = val + "000000000"
         await CFI.methods.liquidate(value).send({from:accounts[0]});
-        alert("liquidate succesfully")
+        setIsOpen(true);
+        setDis("Liquidate Succesfully")
         overall()
       }
       const balancepercent = async(event) => {
@@ -341,14 +350,21 @@ const Vault = () => {
         let amount = 1000000000000000000 +"0000000000"; 
         await busd.methods.approve("0x81ccB9a3a1df0A01eEd52bBAA4b6363C38BbEEfC",amount).send({from:account[0]});
         //bal()
-        alert("Approved Succesfully")
+        setIsOpen(true);
+        setDis("Approved Succesfully");
+        overall();
       }
       const approv = async() => {
         let account = await web3.eth.getAccounts();
         let amount =  1000000000000000000 +"000000000000000000"; 
         await cbusd.methods.approve("0x81ccB9a3a1df0A01eEd52bBAA4b6363C38BbEEfC",amount).send({from:account[0]});
         //bal()
-        alert("Approved Succesfully")
+        setIsOpen(true);
+        setDis("Approved Succesfully");
+        overall();
+      }
+      const togglePopup = () => {
+        setIsOpen(false);
       }
 
 
@@ -357,6 +373,15 @@ const Vault = () => {
     return (
        
         <section className="p-0 my-5">
+            <div>
+    {isOpen && <Popup
+      content={<>
+       <center> <b >{dis}</b><br/>
+        <button onClick={togglePopup}>OK</button></center>
+      </>}
+      handleClose={togglePopup}
+    />}
+  </div> 
             <Container fluid>
             {
             localStorage.getItem("wallet")===null || localStorage.getItem("wallet")===""?(<>
@@ -543,10 +568,8 @@ const Vault = () => {
                                             {selectedDropdown1}
                                         </DropdownToggle>
                                         <DropdownMenu className="w-100">
-                                        <DropdownItem onClick={e => setSelectedDropdown1("NO TRANCHE")}>NO TRANCHE</DropdownItem>
-                                            <DropdownItem onClick={e => { setSelectedDropdown1("FIXED TRANCHE"); history.push("/carbon-yield")}}>FIXED TRANCHE</DropdownItem>
-                                           
-                                            <DropdownItem onClick={e => { setSelectedDropdown1("VARIABLE TRANCHE"); history.push("/carbon-yield")}}>VARIABLE TRANCHE</DropdownItem>
+                                            <DropdownItem onClick={e => setSelectedDropdown1("No Yield")}>No Yield</DropdownItem>
+                                            <DropdownItem onClick={e => { setSelectedDropdown1("Carbon Yield"); history.push("/carbon-yield")}}>Carbon Yield</DropdownItem>
                                         </DropdownMenu>
                                     </Dropdown>
                                     <h6 className="mt-3">Borrow up to 50% the value of your collateral in cBUSD. Your debt will be automatically paid down by yield from Alpaca finance</h6>
@@ -995,10 +1018,8 @@ const Vault = () => {
                                             {selectedDropdown1}
                                         </DropdownToggle>
                                         <DropdownMenu className="w-100">
-                                            <DropdownItem onClick={e => setSelectedDropdown1("NO TRANCHE")}>NO TRANCHE</DropdownItem>
-                                            <DropdownItem onClick={e => { setSelectedDropdown1("FIXED TRANCHE"); history.push("/carbon-yield")}}>FIXED TRANCHE</DropdownItem>
-                                           
-                                            <DropdownItem onClick={e => { setSelectedDropdown1("VARIABLE TRANCHE"); history.push("/carbon-yield")}}>VARIABLE TRANCHE</DropdownItem>
+                                            <DropdownItem onClick={e => setSelectedDropdown1("No Yield")}>No Yield</DropdownItem>
+                                            <DropdownItem onClick={e => { setSelectedDropdown1("Carbon Yield"); history.push("/carbon-yield")}}>Carbon Yield</DropdownItem>
                                         </DropdownMenu>
                                     </Dropdown>
                                     <h6 className="mt-3">Borrow up to 50% the value of your collateral in cBUSD. Your debt will be automatically paid down by yield from Alpaca finance</h6>

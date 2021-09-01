@@ -232,7 +232,7 @@ class Dashboard extends Component {
                             }}>
                             All transactions<i class="fas fa-sort-down ml-2"></i>
                         </Button> */}
-                        <div  className="d-flex" style={{ paddingLeft: "102px" }}>
+                        <div  className="d-flex" style={{ paddingLeft: "902px" }}>
                         <select outline className="mr-3 text-dark" color="light" 
                          onChange={changeSelectOptionHandler} >
                           <option style={{ border: "1px solid rgba(6, 10, 13, 0.1) ",color:"light"}}value='depo'>Deposit</option>       
@@ -308,8 +308,10 @@ class Dashboard extends Component {
                                          alt="Card image cap"
                                      />
                                      <div className="pl-2 pr-2">
+                                         
                                          {
                                              a.from === "0x81ccb9a3a1df0a01eed52bbaa4b6363c38bbeefc" ?(
+                                                 
                                              <h6 style={{ fontWeight: "600" }}>withdraw</h6>):
                                              (
                                            <h6 style={{ fontWeight: "600" }}>Deposit</h6>
@@ -389,14 +391,14 @@ class Dashboard extends Component {
                             
                         this.state.setfiltdata3 === null || this.state.setfiltdata3 === "" || localStorage.getItem("wallet")===null|| localStorage.getItem("wallet")==="" ?(
                             <>
- <thead>
+ {/* <thead>
                             <tr>
                             <th>Transaction</th>
                                <th>Amount</th>
                                <th>Address</th>
                                <th>Transaction hash/timestamp</th>
                             </tr>
-                        </thead>
+                        </thead> */}
                             </>
                         ):(<>
                          <div>
@@ -432,7 +434,7 @@ class Dashboard extends Component {
                                               marginRight: "5px",
                                               marginLeft: "5px",
                                           }}
-                                          src={icon}
+                                          src={icon3}
                                           alt="Card image cap"
                                       />
                                       <div className="pl-2 pr-2">

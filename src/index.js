@@ -5,6 +5,7 @@ import App from './App';
 // Import CSS here
 import "./assets/scss/custom.scss";
 import "./assets/css/style.css"
+import"./views/style.css";
 
 ReactDOM.render(
   <React.StrictMode>

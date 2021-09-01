@@ -32,10 +32,11 @@ const Sidebar = (props) => {
         monitorNavbar();
     },[])
     return (<>
+    
      
         <div className="sidebar bg-site-secondary">
             <div className="theme-nav-items">
-               
+           
                 <Link to="/dashboard" className={`theme-nav-item ${history.location.pathname == "/dashboard" ? "active" : ""}`}>
                     <i className="fa fa-tachometer-alt "></i>
                     <span className="ml-3">Dashboard</span>
