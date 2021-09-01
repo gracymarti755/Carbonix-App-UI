@@ -54,18 +54,18 @@ const YieldFarming = (props) => {
   return (
     <>
       <Row className="m-3 m-md-5">
-        <Col xl="3" lg="6" xs="12" className="mb-4">
+        <Col xl="4" lg="8" xs="12" className="mb-4">
           <CustomCard title="TOTAL VALUE LOCKED" text={parseFloat(totalvaluelocked).toFixed(3)}  />
         </Col>
-        <Col xl="3" lg="6" xs="12" className="mb-4">
+        <Col xl="4" lg="8" xs="12" className="mb-4">
           <CustomCard title="BLACK REWARDS" text={parseFloat(communitybalance).toFixed(3)} subText="out of 10,000,000" />
         </Col>
-        <Col xl="3" lg="6" xs="12" className="mb-4">
+        <Col xl="4" lg="8" xs="12" className="mb-4">
           <CustomCard title="BLACK PRICE" text="$26.69" subText="Uniswap market" />
         </Col>
-        <Col xl="3" lg="6" xs="12" className="mb-4">
+        {/* <Col xl="3" lg="6" xs="12" className="mb-4">
           <CustomCard title="TIME LEFT" text="3d 14h 41m 39s" subText="until next epoch" />
-        </Col>
+        </Col> */}
       </Row>
       <div className="m-3 m-md-5 pl-3"><h2><b>Pools</b></h2>
         <h6 className="text-muted"><b>Overview</b></h6>
@@ -81,7 +81,7 @@ const YieldFarming = (props) => {
       </div>
       <Container fluid>
 
-        <Card className="custom-card mt-4 ml-md-5 mx-3 mr-md-5">
+        {/* <Card className="custom-card mt-4 ml-md-5 mx-3 mr-md-5">
           <div className="d-flex overflow-auto" style={{ padding: "12px" }}>
             <h6 className="flex-start font-weight-bold mt-auto mb-auto pl-3">
               Transactions
@@ -434,7 +434,7 @@ const YieldFarming = (props) => {
               </div>
             </div>
           </div>
-        </Card>
+        </Card> */}
 
       </Container>
 

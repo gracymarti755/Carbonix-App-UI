@@ -10,20 +10,30 @@ import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
 import black from "../../views/blackAbi";
-
+import carbonoracle from "../../views/carbonOracleAbi";
 
 const Pools = () => {
     const [balance,setbalan] = useState([]);
     const [communitybalance,setcommunitybalan] = useState([]);
     const [aprcarbon,setAprcarbon]= useState([]);
     const [aprblack,setAprblack]=useState([]);
+    const [blackprice,setBlackprice]=useState([]);
+    const[carbonprice,setCarbonprice]=useState([]);
     const bvb = async() => {
        setbalan(await cbusd.methods.balanceOf("0x3a7CD9084072c0178ED6EbACAF1926E2E9e57D43").call());       
        console.log("balan",balance);
+       var tokenPerBlock =1147507;
+       var BLOCKS_PER_YEAR =10512000;
+       const carbonprice1=await  carbonoracle.methods.getDittoBnbRate().call();
+       const carbonprice=(parseFloat((carbonprice1[3])/1000000000000000000).toFixed(11));
+       const blackprice1=await  carbonoracle.methods.getDittoBnbRate().call();
+       const blackprice=(parseFloat((carbonprice1[3])/1000000000000000000).toFixed(11));
+       console.log("blackprice",blackprice);
        setcommunitybalan(await black.methods.balanceOf("0x2fa541c7457fbd89b727dfa2f3b1423c66c353dd").call());
-       const totalRewardPricePerYear = (rewardTokenPrice) * (tokenPerBlock)*(BLOCKS_PER_YEAR);
-       //const totalStakingTokenInPool = (stakingTokenPrice).times(totalStaked)
-       //const aprcarbon = totalRewardPricePerYear.div(totalStakingTokenInPool).times(100)
+       const totalRewardPricePerYear = (carbonprice1[3]) * (tokenPerBlock)*(BLOCKS_PER_YEAR);
+       const totalStakingTokenInPool = (carbonprice1[3])*(balance);
+
+       setAprcarbon((totalRewardPricePerYear)/(totalStakingTokenInPool)*(100));
     }
     useEffect(()=>{bvb()},[balance])
    let a=5;
@@ -89,7 +99,7 @@ const Pools = () => {
                     src={icon}
                     alt="Card image cap"
                 />
-                <b>14.5%</b>
+                <b>{parseFloat(aprcarbon).toFixed(5)}%</b>
             </p>
         </div>
     </div>
