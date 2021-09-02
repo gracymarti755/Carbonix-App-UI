@@ -9,10 +9,12 @@ import Chart from "react-apexcharts";
 import Pools from "./Pools";
 import black from "../../views/blackAbi";
 import cbusdtoken from "../../views/cbusdAbi";
+import blackoracle from "../../views/carbonOracleAbi";
 import { useEffect } from "react";
 const YieldFarming = (props) => {
   const [communitybalance,setCommunitybalance] = useState([]);
   const [totalvaluelocked,setTotalvalueLocked]=useState();
+  const [blackprice,setBlackprice]=useState([]);
   const farmdisplay = async() => {           
 
     var blackreward =await black.methods.balanceOf("0x2fa541c7457fbd89b727dfa2f3b1423c66c353dd").call();
@@ -22,9 +24,13 @@ const YieldFarming = (props) => {
        const totaldepositedcarbonpool =(parseFloat(totaldepositedcarbonpool1/1000000000000000000).toFixed(3));        
        const totaldepositedLppool1=await cbusdtoken.methods.balanceOf("0x3a7CD9084072c0178ED6EbACAF1926E2E9e57D43").call(); 
        const totaldepositedLppool =(parseFloat(totaldepositedLppool1/1000000000000000000).toFixed(3));
-       const totaldepositedblackpool1=await cbusdtoken.methods.balanceOf("0x3a7CD9084072c0178ED6EbACAF1926E2E9e57D43").call(); 
-       const totaldepositedblackpool =(parseFloat(totaldepositedblackpool1/1000000000000000000).toFixed(3));
-      setTotalvalueLocked((parseFloat (totaldepositedcarbonpool)) + (parseFloat(totaldepositedLppool) + parseFloat(totaldepositedblackpool)));
+       const totaldepositedblackpool1=await black.methods.balanceOf("0xb23748eDA11dCeA3f37af78199BDb07774d5798A").call(); 
+       const totaldepositedblackpool =(parseFloat(totaldepositedblackpool1/1000000000).toFixed(3));
+       const blackprice1=await  blackoracle.methods.getDittoBnbRate().call();
+       //const blackprice=(parseFloat((blackprice1[3])/1000000000000000000).toFixed(11));
+       setBlackprice((parseFloat((blackprice1[3])/1000000000000000000).toFixed(11)));
+       console.log("blackprice",blackprice);
+       setTotalvalueLocked((parseFloat (totaldepositedcarbonpool)) + (parseFloat(totaldepositedLppool) + parseFloat(totaldepositedblackpool)));
  }
  useEffect(()=>{farmdisplay()},[communitybalance])
   let [activeTab, setActiveTab] = useState("ViewPool");
@@ -54,18 +60,18 @@ const YieldFarming = (props) => {
   return (
     <>
       <Row className="m-3 m-md-5">
-        <Col xl="3" lg="6" xs="12" className="mb-4">
+        <Col xl="4" lg="8" xs="12" className="mb-4">
           <CustomCard title="TOTAL VALUE LOCKED" text={parseFloat(totalvaluelocked).toFixed(3)}  />
         </Col>
-        <Col xl="3" lg="6" xs="12" className="mb-4">
+        <Col xl="4" lg="8" xs="12" className="mb-4">
           <CustomCard title="BLACK REWARDS" text={parseFloat(communitybalance).toFixed(3)} subText="out of 10,000,000" />
         </Col>
-        <Col xl="3" lg="6" xs="12" className="mb-4">
-          <CustomCard title="BLACK PRICE" text="$26.69" subText="Uniswap market" />
+        <Col xl="4" lg="8" xs="12" className="mb-4">
+          <CustomCard title="BLACK PRICE" text={blackprice} subText="Uniswap market" />
         </Col>
-        <Col xl="3" lg="6" xs="12" className="mb-4">
+        {/* <Col xl="3" lg="6" xs="12" className="mb-4">
           <CustomCard title="TIME LEFT" text="3d 14h 41m 39s" subText="until next epoch" />
-        </Col>
+        </Col> */}
       </Row>
       <div className="m-3 m-md-5 pl-3"><h2><b>Pools</b></h2>
         <h6 className="text-muted"><b>Overview</b></h6>
@@ -81,7 +87,7 @@ const YieldFarming = (props) => {
       </div>
       <Container fluid>
 
-        <Card className="custom-card mt-4 ml-md-5 mx-3 mr-md-5">
+        {/* <Card className="custom-card mt-4 ml-md-5 mx-3 mr-md-5">
           <div className="d-flex overflow-auto" style={{ padding: "12px" }}>
             <h6 className="flex-start font-weight-bold mt-auto mb-auto pl-3">
               Transactions
@@ -434,7 +440,7 @@ const YieldFarming = (props) => {
               </div>
             </div>
           </div>
-        </Card>
+        </Card> */}
 
       </Container>
 

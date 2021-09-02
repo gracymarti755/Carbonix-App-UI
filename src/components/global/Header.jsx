@@ -43,6 +43,7 @@ const Header = (props) => {
             <Container fluid className="px-md-5">
                 <div className="d-flex align-items-center font-semi-bold">
                     <span className="mr-3 toggler-btn" onClick={e=>toggleNav()}><i className="fa fa-bars"></i></span>
+                   
                     <h5 className="m-0" id="header-title"></h5>
                     <div className="ml-auto topbar-btns">
                         <Button color="outline-site-primary">Binance Mainnet</Button>

@@ -24,23 +24,25 @@ const Swap = () => {
     const[depositpercent,setdepositpercent] = useState("");
     const[values,setValues] = useState([]);
     const[totalvaluelocked,setTotalvalueLocked]=useState([]);
-    const[popstate,setPopup]=useState(false);
     const[toalcbusddepo,setTotalcbusddepo]=useState([]);
     const[toalbusddepo,setTotalbusddepo]=useState([]);
     const[toalbusdonalpaca,setTotalbusdonalpaca]=useState([]);
+
     const toggleDropDown = () => setDropdownOpen(!dropdownOpen);
     const toggle1 = () => setDropdownOpen1(!dropdownOpen1);
     let history = useHistory();
+    const [isOpen, setIsOpen] = useState(false);
+    var[dis,setDis] = useState("");
     
  const first = async () => {
      if(localStorage.getItem("wallet")>0){
     const accounts =  await web3.eth.getAccounts();
  
     setcbusdbalance(await cbusd.methods.balanceOf(accounts[0]).call());  
-    setTotalcbusddepo(await cbusd.methods.balanceOf("0x380EF5B39F3F68EF7c80f21384F92EEB0a4c06Cd").call());
-    setTotalbusddepo(await busd.methods.balanceOf("0x380EF5B39F3F68EF7c80f21384F92EEB0a4c06Cd").call());
+    setTotalcbusddepo(await cbusd.methods.balanceOf("0x128F980732d9E675b3BbE913E92E45924F5D7B29").call());
+    setTotalbusddepo(await busd.methods.balanceOf("0x128F980732d9E675b3BbE913E92E45924F5D7B29").call());
     setTotalbusdonalpaca(await swap.methods.getVaultTotalDeposited(0).call());
-    let b= await cbusd.methods.allowance(accounts[0],"0x380EF5B39F3F68EF7c80f21384F92EEB0a4c06Cd").call();
+    let b= await cbusd.methods.allowance(accounts[0],"0x128F980732d9E675b3BbE913E92E45924F5D7B29").call();
  
     if(b>0){
       setAP(true);
@@ -62,26 +64,27 @@ const Swap = () => {
    
     const deposit = async(event) => {
         event.preventDefault();
-        setPopup(true);
         const accounts =  await web3.eth.getAccounts();
         var valu = document.getElementById("tid1").value;
         var val = valu * 1000000000;
         var value = val + "000000000"
         await swap.methods.stake(value).send({from:accounts[0]});
-        
-       alert("deposited succesfully")
-        
+        setIsOpen(true);        
+       setDis("Deposited succesfully");
+       
         first();
       }
 
     const withdraw = async(event) => {
         event.preventDefault();
+       
         const accounts =  await web3.eth.getAccounts();
         var valu = document.getElementById("tid2").value;
         var val = valu * 1000000000;
         var value = val + "000000000"
         await swap.methods.unstake(value).send({from:accounts[0]});
-        alert("withdrawn succesfully")
+        setIsOpen(true);
+        setDis("withdrawn succesfully")
         first()
       }  
 
@@ -90,10 +93,12 @@ const Swap = () => {
         const accounts =  await web3.eth.getAccounts();
         if(values[2] > 0){
           await swap.methods.transmute().send({from:accounts[0]});
-          alert("Transmute succesfully")
+          setIsOpen(true);
+          setDis("Transmute succesfully")
         }
         else{
-          alert("You dont have Transmutable BASE token")
+            setIsOpen(true);
+          setDis("You dont have Transmutable BASE token")
         }
         first()
         
@@ -103,11 +108,13 @@ const Swap = () => {
         const accounts =  await web3.eth.getAccounts();
         if(values[3] > 0){
           await swap.methods.transmuteClaimAndWithdraw().send({from:accounts[0]});
-          alert("Claim and withdraw succesfully")
+          setIsOpen(true);
+          setDis("Claim and withdraw succesfully")
         }
     
         else{
-          alert("You dont have enough Base Token")
+            setIsOpen(true);
+          setDis("You dont have enough Base Token")
         }
         
         first()
@@ -195,23 +202,28 @@ const Swap = () => {
       const approve = async() => {
         let account = await web3.eth.getAccounts();
         let amount = 1000000000000000000 +"000000000000000000"; 
-        await cbusd.methods.approve("0x380EF5B39F3F68EF7c80f21384F92EEB0a4c06Cd",amount).send({from:account[0]});
+        await cbusd.methods.approve("0x128F980732d9E675b3BbE913E92E45924F5D7B29",amount).send({from:account[0]});
         first()
-        alert("Approved Succesfully")
+        setIsOpen(true);
+        setDis("Approved Succesfully");
     }
+    const togglePopup = () => {
+        setIsOpen(false);
+      }
 
 
     return (
         
         <section className="p-0 my-5">
-        <center>  {popstate && <Popup content={<>
-        <b>Notification</b>
-        <p>Your Email has been sent successfully......</p>
-        <button type="button" onClick={popstate}>close</button>
+<div>
+    {isOpen && <Popup
+      content={<>
+       <center> <b >{dis}</b><br/>
+        <button onClick={togglePopup}>OK</button></center>
       </>}
-      // handleClose={togglePopup}
-    />}</center>
-             
+      handleClose={togglePopup}
+    />}
+  </div>             
              {
 
                  

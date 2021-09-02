@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { Button, Container } from "reactstrap";
-import icon from "../../assets/img/icon.PNG";
+import logo from "../../assets/img/logo.PNG";
 const Sidebar = (props) => {
     let history = useHistory();
     const toggleSidebar = () => {
@@ -32,8 +32,12 @@ const Sidebar = (props) => {
         monitorNavbar();
     },[])
     return (<>
+   
      
         <div className="sidebar bg-site-secondary">
+        <center>
+            <img src={logo} style={{width:160}} alt="Logo" />
+            </center>
             <div className="theme-nav-items">
                
                 <Link to="/dashboard" className={`theme-nav-item ${history.location.pathname == "/dashboard" ? "active" : ""}`}>

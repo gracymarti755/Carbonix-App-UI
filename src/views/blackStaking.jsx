@@ -6,6 +6,8 @@ import web3 from "../web3";
 import cbusd from "./cbusdAbi";
 import black from "./blackAbi";
 import blackstake from "./blackStakeAbi";
+import Popup from "../Popup";
+
 const Blackstake = () => {
     let [activeTab, setActiveTab] = useState("Deposit");
     const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -32,11 +34,13 @@ const Blackstake = () => {
     var [time1, settime1]=useState("");
     const [lock1 ,setlock1]=useState("");
     let history = useHistory();
+    const [isOpen, setIsOpen] = useState(false);
+    var[dis,setDis] = useState("");
     
  const first = async () => {
     const accounts =  await web3.eth.getAccounts();     
     setBlackBalance(await black.methods.balanceOf(accounts[0]).call())    
-    let b= await black.methods.allowance(accounts[0],"0x8F686692DFEb9019974dEb21312F2C5826592888").call();
+    let b= await black.methods.allowance(accounts[0],"0x8f40a5c5fE040dBD2B6077f31e6c54DAB6289027").call();
  
     if(b>0){
       setAP(true);
@@ -125,7 +129,8 @@ const Blackstake = () => {
         var valu = document.getElementById("tid1").value;
         var value = valu * 1000000000;      
         await blackstake.methods.deposit(value).send({from:accounts[0]});
-        alert("staked succesfully")
+        setIsOpen(true);
+        setDis("Staked Succesfully")
         first();
       }
 
@@ -135,7 +140,8 @@ const Blackstake = () => {
         var valu = document.getElementById("tid2").value;
         var value = valu * 1000000000;        
         await blackstake.methods.withdraw(value).send({from:accounts[0]});
-        alert("unstaked succesfully")
+        setIsOpen(true);
+        setDis("Unstaked Succesfully")
         first()
       }  
 
@@ -143,10 +149,13 @@ const Blackstake = () => {
         event.preventDefault();
         if(reward >10000000000){
             const accounts =  await web3.eth.getAccounts();
-            await blackstake.methods.claimReward().send({from:accounts[0]});    
+            await blackstake.methods.claimReward().send({from:accounts[0]});  
+            setIsOpen(true);
+            setDis("Rewards Claimed Successfuly");  
         }
         else{
-            alert("Your reward amount should be Greater then 10 to Claim ")
+            setIsOpen(true);
+            setDis("Your reward amount should be Greater then 10 to Claim ")
         }
            
         first()
@@ -155,7 +164,9 @@ const Blackstake = () => {
       const emergencywithdraw = async(event) => {
         event.preventDefault();
         const accounts =  await web3.eth.getAccounts();
-        await blackstake.methods.emergencyWithdraw().send({from:accounts[0]});        
+        await blackstake.methods.emergencyWithdraw().send({from:accounts[0]}); 
+        setIsOpen(true);
+        setDis("Withdrawn Succesfully");       
         first()
       }
     
@@ -241,14 +252,27 @@ const Blackstake = () => {
       const approve = async() => {
         let account = await web3.eth.getAccounts();
         let amount = 1000000000000000000 +"000000000000000000"; 
-        await black.methods.approve("0x8F686692DFEb9019974dEb21312F2C5826592888",amount).send({from:account[0]});
+        await black.methods.approve("0x8f40a5c5fE040dBD2B6077f31e6c54DAB6289027",amount).send({from:account[0]});
         first()
-        alert("Approved Succesfully")
+        setIsOpen(true);
+        setDis("Approved Succesfully")
     }
+    const togglePopup = () => {
+        setIsOpen(false);
+      }
 
 
     return (
         <section className="p-0 my-5">
+            <div>
+    {isOpen && <Popup
+      content={<>
+       <center> <b >{dis}</b><br/>
+        <button onClick={togglePopup}>OK</button></center>
+      </>}
+      handleClose={togglePopup}
+    />}
+  </div>
            {
             localStorage.getItem("wallet")===null || localStorage.getItem("wallet")===""?(<>
             <Container fluid>

@@ -7,6 +7,7 @@ import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
 import { Modal,InputGroup,FormControl } from "react-bootstrap";
+import Popup from "../Popup";
 
 const BurnVault = () => {
     const [modalShow1, setModalShow1] = React.useState(false);
@@ -16,6 +17,8 @@ const BurnVault = () => {
     const [tid3,setId3] = useState([]);
     const [tid4,setId4] = useState([]);
     const [burn,setburn] = useState([]);
+    const [isOpen, setIsOpen] = useState(false);
+    var[dis,setDis] = useState("");
     const bvb = async() => {
         if(localStorage.getItem("wallet")>0){
         let account = await web3.eth.getAccounts();
@@ -35,7 +38,6 @@ const BurnVault = () => {
         }
        else{
         var btn = document.getElementById('tid');
-        btn.disabled = false;
        setId4(false);
       }
     }
@@ -47,7 +49,11 @@ const BurnVault = () => {
         let amount = 1000000000000000000 +"000000000000000000";
         await black.methods.approve("0x2f52686F07F502Ff3F5495E8aDd917898da23117",amount).send({from:account[0]});
         bvb();
-        alert("Approved successfully");
+        setIsOpen(true); 
+        setDis("Approved successfully");
+      }
+      const togglePopup = () => {
+        setIsOpen(false);
       }
 
 
@@ -79,24 +85,30 @@ const BurnVault = () => {
               var bb = maxtx - burnbalan;
              console.log(bb);
              var burnab1=(bb/1000000000);                
-             var a = document.getElementById("tid").value;
-         
+             var a = document.getElementById("tid5").value;
          //alert(maxtx);
-          if(a<=  100000){
-          if( a <= burnab1){
-                 let amount = a * 1000000000;
-              
-              await burnvault.methods.swap(amount).send({from:account[0]});
-          
-          }
-          else{
-          alert("The amount you entered must be less than the Availabe limit ");
-          }}
-          else{
-          alert("The amount you entered must be less than the Maximum Transcation amount");
-          }
-         
+         if(a<=  100000){
+            if( a <= burnab1){
+                let amount = a * 1000000000;
+             
+             await burnvault.methods.swap(amount).send({from:account[0]});
+             setIsOpen(true); 
+             setDis("Successfully Swapped");
             }
+            else{
+                setIsOpen(true); 
+                setDis("The amount you entered must be less than the Availabe limit ");
+              }
+            }
+          
+          
+          else{
+              setIsOpen(true); 
+              setDis("The amount you entered must be less than the Maximum Transcation amount");
+          }
+        
+         
+        }
          
         return (
  
@@ -149,6 +161,15 @@ const BurnVault = () => {
        
       
     return (<>
+    <div>
+    {isOpen && <Popup
+      content={<>
+       <center> <b >{dis}</b><br/>
+        <button onClick={togglePopup}>OK</button></center>
+      </>}
+      handleClose={togglePopup}
+    />}
+  </div> 
         <Row className="m-5">
         {
             localStorage.getItem("wallet")===null || localStorage.getItem("wallet")===""?(<>
@@ -220,9 +241,14 @@ const BurnVault = () => {
 (
 (
 <div>
+                    <p>Convert Your BLACK to BNB</p>
                     <div className="text-center text-Black">
-                        <br></br>
-                    <Button color="dark" >Approved successfully</Button>
+                    {/* <Button color="dark" >Approved successfully</Button> */}
+                    <Button color="dark"  id = "tid"     onClick={() => setModalShow1(true)}>Swap</Button>
+                <MyVerticallyCenteredModal1
+                show={modalShow1}
+                onHide={() => setModalShow1(false)}
+        /><br/>
                     </div>
                    
 </div>
@@ -232,18 +258,21 @@ const BurnVault = () => {
                 </Card>
             </Col>
             <Col xl="4" lg="6" md="6" className="mb-4">
-                <div className="h-100 d-flex flex-column">
+                <CustomCard title="AVAILABLE LIMIT FOR USER TO SWAP" text= {burn}/>
+            </Col>
+            {/* <Col xl="4" lg="6" md="6" className="mb-4">
+                <div className="h-200 d-flex flex-column">
                     <div className="border rounded border-site-primary py-2 px-4 mb-4">
                         Available limit for User to Swap {burn}
                     </div>
-                <Button color="outline-site-primary" className="align-self-end" id = "tid"  disabled ={tid4} block  onClick={() => setModalShow1(true)}>Swap</Button>
+                {/* <Button color="outline-site-primary" className="align-self-end" id = "tid"  disabled ={tid4} block  onClick={() => setModalShow1(true)}>Swap</Button>
                 <MyVerticallyCenteredModal1
                 show={modalShow1}
                 onHide={() => setModalShow1(false)}
         /><br/>
                 </div>
                 </Col>
-              
+               */}
                  </>)
         }
         </Row>
