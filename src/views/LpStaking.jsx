@@ -43,7 +43,7 @@ const Lpstake = () => {
     setcbusdbalance(await cbusd.methods.balanceOf(accounts[0]).call());  
 
     
-    let b= await cbusd.methods.allowance(accounts[0],"0x3a7CD9084072c0178ED6EbACAF1926E2E9e57D43").call();
+    let b= await cbusd.methods.allowance(accounts[0],"0x47b58c81DD4b40E277734Ab16071e488b19430a9").call();
  
     if(b>0){
       setAP(true);
@@ -251,7 +251,7 @@ const Lpstake = () => {
       const approve = async() => {
         let account = await web3.eth.getAccounts();
         let amount = 1000000000000000000 +"000000000000000000"; 
-        await cbusd.methods.approve("0x3a7CD9084072c0178ED6EbACAF1926E2E9e57D43",amount).send({from:account[0]});
+        await cbusd.methods.approve("0x47b58c81DD4b40E277734Ab16071e488b19430a9",amount).send({from:account[0]});
         first()
         alert("Approved Succesfully")
     }

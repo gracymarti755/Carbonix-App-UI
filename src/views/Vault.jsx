@@ -19,7 +19,7 @@ const Vault = () => {
     const [dropdownOpen1, setDropdownOpen1] = useState(false);
     const [multiple, setMultiple] = useState(false);
     const [selectedDropdown, setSelectedDropdown] = useState("cBUSD");
-    const [selectedDropdown1, setSelectedDropdown1] = useState("No Yield");
+    const [selectedDropdown1, setSelectedDropdown1] = useState("NO TRANCHE");
     const toggleDropDown = () => setDropdownOpen(!dropdownOpen);
     const toggle1 = () => setDropdownOpen1(!dropdownOpen1);
 
@@ -68,7 +68,7 @@ const Vault = () => {
   
        setcbusdtotalsupply(await cbusd.methods.totalSupply().call());
        
-        let a = await busd.methods.allowance(accounts[0],"0x81ccB9a3a1df0A01eEd52bBAA4b6363C38BbEEfC").call();
+        let a = await busd.methods.allowance(accounts[0],"0x100190Ee3640D47286AAb1025435D3a8eEbEC7DA").call();
        if(a>0){
         setApp(true);
        }
@@ -76,7 +76,7 @@ const Vault = () => {
         setApp(false);
        }
       
-      let b= await cbusd.methods.allowance(accounts[0],"0x81ccB9a3a1df0A01eEd52bBAA4b6363C38BbEEfC").call();
+      let b= await cbusd.methods.allowance(accounts[0],"0x100190Ee3640D47286AAb1025435D3a8eEbEC7DA").call();
       if(b>0){
         setAP(true);
       }
@@ -127,6 +127,9 @@ const Vault = () => {
        if(selectedDropdown == "cBUSD"){
         var val = valu * 1000000000;
         var value = val + "000000000"
+        if(value>cbusdbalance){
+            value = cbusdbalance
+        }
         await CFI.methods.repay(0,value).send({from:accounts[0]});
         setIsOpen(true);
         setDis("Borrowed amount is repayed By using CBUSD")
@@ -348,7 +351,7 @@ const Vault = () => {
       const approve = async() => {
         let account = await web3.eth.getAccounts();
         let amount = 1000000000000000000 +"0000000000"; 
-        await busd.methods.approve("0x81ccB9a3a1df0A01eEd52bBAA4b6363C38BbEEfC",amount).send({from:account[0]});
+        await busd.methods.approve("0x100190Ee3640D47286AAb1025435D3a8eEbEC7DA",amount).send({from:account[0]});
         //bal()
         setIsOpen(true);
         setDis("Approved Succesfully");
@@ -357,7 +360,7 @@ const Vault = () => {
       const approv = async() => {
         let account = await web3.eth.getAccounts();
         let amount =  1000000000000000000 +"000000000000000000"; 
-        await cbusd.methods.approve("0x81ccB9a3a1df0A01eEd52bBAA4b6363C38BbEEfC",amount).send({from:account[0]});
+        await cbusd.methods.approve("0x100190Ee3640D47286AAb1025435D3a8eEbEC7DA",amount).send({from:account[0]});
         //bal()
         setIsOpen(true);
         setDis("Approved Succesfully");
@@ -568,8 +571,10 @@ const Vault = () => {
                                             {selectedDropdown1}
                                         </DropdownToggle>
                                         <DropdownMenu className="w-100">
-                                            <DropdownItem onClick={e => setSelectedDropdown1("No Yield")}>No Yield</DropdownItem>
-                                            <DropdownItem onClick={e => { setSelectedDropdown1("Carbon Yield"); history.push("/carbon-yield")}}>Carbon Yield</DropdownItem>
+                                        <DropdownItem onClick={e => setSelectedDropdown1("NO TRANCHE")}>NO TRANCHE</DropdownItem>
+                                            <DropdownItem onClick={e => { setSelectedDropdown1("FIXED TRANCHE"); history.push("/carbon-yield")}}>FIXED TRANCHE</DropdownItem>
+                                           
+                                            <DropdownItem onClick={e => { setSelectedDropdown1("VARIABLE TRANCHE"); history.push("/carbon-yield")}}>VARIABLE TRANCHE</DropdownItem>
                                         </DropdownMenu>
                                     </Dropdown>
                                     <h6 className="mt-3">Borrow up to 50% the value of your collateral in cBUSD. Your debt will be automatically paid down by yield from Alpaca finance</h6>
@@ -1018,8 +1023,10 @@ const Vault = () => {
                                             {selectedDropdown1}
                                         </DropdownToggle>
                                         <DropdownMenu className="w-100">
-                                            <DropdownItem onClick={e => setSelectedDropdown1("No Yield")}>No Yield</DropdownItem>
-                                            <DropdownItem onClick={e => { setSelectedDropdown1("Carbon Yield"); history.push("/carbon-yield")}}>Carbon Yield</DropdownItem>
+                                        <DropdownItem onClick={e => setSelectedDropdown1("NO TRANCHE")}>NO TRANCHE</DropdownItem>
+                                            <DropdownItem onClick={e => { setSelectedDropdown1("FIXED TRANCHE"); history.push("/carbon-yield")}}>FIXED TRANCHE</DropdownItem>
+                                           
+                                            <DropdownItem onClick={e => { setSelectedDropdown1("VARIABLE TRANCHE"); history.push("/carbon-yield")}}>VARIABLE TRANCHE</DropdownItem>
                                         </DropdownMenu>
                                     </Dropdown>
                                     <h6 className="mt-3">Borrow up to 50% the value of your collateral in cBUSD. Your debt will be automatically paid down by yield from Alpaca finance</h6>
@@ -1189,7 +1196,7 @@ const Vault = () => {
                                         </div>
                                         <div className="d-flex larger">
                                             <span>Your wallet balance:</span>
-                                            <span className="ml-auto">{parseFloat(busdbalance/1000000000000000000).toFixed(5)} cBUSD</span>
+                                            <span className="ml-auto">{parseFloat(cbusdbalance/1000000000000000000).toFixed(5)} cBUSD</span>
                                         </div>
                                         {/* <div className="d-flex">
                                             <span>Est. Date of Maturity:</span>

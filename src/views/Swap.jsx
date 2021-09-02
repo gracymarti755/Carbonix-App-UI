@@ -8,7 +8,7 @@ import web3 from "../web3";
 import swap from "./swapAbi";
 import cbusd from "./cbusdAbi";
 import valutadapter from"./vaultAdapterAbi";
-
+import busd from "./busdAbi";
 const Swap = () => {
     let [activeTab, setActiveTab] = useState("Deposit");
     const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -24,6 +24,10 @@ const Swap = () => {
     const[depositpercent,setdepositpercent] = useState("");
     const[values,setValues] = useState([]);
     const[totalvaluelocked,setTotalvalueLocked]=useState([]);
+    const[toalcbusddepo,setTotalcbusddepo]=useState([]);
+    const[toalbusddepo,setTotalbusddepo]=useState([]);
+    const[toalbusdonalpaca,setTotalbusdonalpaca]=useState([]);
+
     const toggleDropDown = () => setDropdownOpen(!dropdownOpen);
     const toggle1 = () => setDropdownOpen1(!dropdownOpen1);
     let history = useHistory();
@@ -35,8 +39,10 @@ const Swap = () => {
     const accounts =  await web3.eth.getAccounts();
  
     setcbusdbalance(await cbusd.methods.balanceOf(accounts[0]).call());  
-    
-    let b= await cbusd.methods.allowance(accounts[0],"0x380EF5B39F3F68EF7c80f21384F92EEB0a4c06Cd").call();
+    setTotalcbusddepo(await cbusd.methods.balanceOf("0x128F980732d9E675b3BbE913E92E45924F5D7B29").call());
+    setTotalbusddepo(await busd.methods.balanceOf("0x128F980732d9E675b3BbE913E92E45924F5D7B29").call());
+    setTotalbusdonalpaca(await swap.methods.getVaultTotalDeposited(0).call());
+    let b= await cbusd.methods.allowance(accounts[0],"0x128F980732d9E675b3BbE913E92E45924F5D7B29").call();
  
     if(b>0){
       setAP(true);
@@ -196,7 +202,7 @@ const Swap = () => {
       const approve = async() => {
         let account = await web3.eth.getAccounts();
         let amount = 1000000000000000000 +"000000000000000000"; 
-        await cbusd.methods.approve("0x380EF5B39F3F68EF7c80f21384F92EEB0a4c06Cd",amount).send({from:account[0]});
+        await cbusd.methods.approve("0x128F980732d9E675b3BbE913E92E45924F5D7B29",amount).send({from:account[0]});
         first()
         setIsOpen(true);
         setDis("Approved Succesfully");
@@ -431,11 +437,11 @@ const Swap = () => {
                                 <div className="content">
                                     <div className="d-flex">
                                         <span>Total Deposited cBUSD:</span>
-                                        <span className="ml-auto">{parseFloat(values[0]/1000000000000000000).toFixed(5)}</span>
+                                        <span className="ml-auto">{parseFloat(toalcbusddepo/1000000000000000000).toFixed(5)}</span>
                                     </div>
                                     <div className="d-flex">
                                         <span>Total BUSD Deposited in alpaca:</span>
-                                        <span className="ml-auto">{parseFloat(totalvaluelocked/1000000000000000000).toFixed(5)}</span>
+                                        <span className="ml-auto">{parseFloat(toalbusdonalpaca/1000000000000000000).toFixed(5)}</span>
                                     </div>
                                     {/* <div className="d-flex">
                                         <span>Estimated BUSD Daily Yield:</span>
@@ -443,7 +449,7 @@ const Swap = () => {
                                     </div> */}
                                     <div className="d-flex">
                                         <span>Total BUSD Available for Stabilization:</span>
-                                        <span className="ml-auto" >{parseFloat(values[2]/1000000000000000000).toFixed(5)}</span>
+                                        <span className="ml-auto" >{parseFloat(toalbusddepo/1000000000000000000).toFixed(5)}</span>
                                     </div>
                                     {/* <div className="d-flex">
                                         <span>Yearly Stabilization Rate:</span>
