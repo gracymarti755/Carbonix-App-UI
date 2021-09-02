@@ -51,7 +51,7 @@ const Swap = () => {
 }      
 
     useEffect(() => {
-        document.getElementById("header-title").innerText = "Swap";
+        document.getElementById("header-title").innerText = "Stabilizer";
     } )
     useEffect(() =>         
     {first()},[cbusdbalance,ap1,values[0],values[1],values[2],values[3],ap1])
