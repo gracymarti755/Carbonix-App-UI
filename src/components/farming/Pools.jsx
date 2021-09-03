@@ -26,6 +26,7 @@ const Pools = () => {
     const [blackprice,setBlackprice]=useState([]);
     const[carbonprice,setCarbonprice]=useState([]);
     const [blackperblock,setBlackperblock]=useState([]);
+    const[blackdailyreward,setBlackDailyreward]=useState([]);
     const bvb = async() => {
        setbalan(await cbusd.methods.balanceOf("0xb2690f8851dFa22E7Fc755b0AF697AbD173CF964").call());       
        setBalanceblack(await black.methods.balanceOf("0x8f40a5c5fE040dBD2B6077f31e6c54DAB6289027").call());       
@@ -36,9 +37,10 @@ const Pools = () => {
        
        var tokenPerBlock = 1.157407407;
        var BLOCKS_PER_YEAR =10512000;
-      
-    
-      
+                           
+       const blackdailyreward =1000000/(30 *24);
+       console.log("dailyreward",blackdailyreward);
+       setBlackDailyreward(blackdailyreward);
    
        const carbonprice1=await  carbonoracle.methods.getDittoBnbRate().call();
      
@@ -159,7 +161,7 @@ const Pools = () => {
                     src={"https://blackcollateral.com/wp-content/uploads//2021/05/logo-svg.svg"}
                     alt="Card image cap"
                 />
-                0.00
+               {parseFloat(blackdailyreward).toFixed(5)}
                
             </p>
         </div>
@@ -399,8 +401,7 @@ const Pools = () => {
                                     src={"https://blackcollateral.com/wp-content/uploads//2021/05/logo-svg.svg"}
                                     alt="Card image cap"
                                 />
-                                0.00
-                               
+                                {parseFloat(blackdailyreward).toFixed(5)}
                             </p>
                         </div>
                     </div>
@@ -637,7 +638,7 @@ const Pools = () => {
                                     src={"https://blackcollateral.com/wp-content/uploads//2021/05/logo-svg.svg"}
                                     alt="Card image cap"
                                 />
-                                0.00
+                                  {parseFloat(blackdailyreward).toFixed(5)}
                                
                             </p>
                         </div>
