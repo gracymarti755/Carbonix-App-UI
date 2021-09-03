@@ -48,7 +48,7 @@ const Header = (props) => {
                     <div className="ml-auto topbar-btns">
                         <Button color="outline-site-primary">Binance Mainnet</Button>
                         {
-                            localStorage.getItem("wallet")===null || localStorage.getItem("wallet")==="" ?  
+                            localStorage.getItem("wallet")===null || localStorage.getItem("wallet")==="" ||localStorage.getItem("wallet")==='undefined' ||localStorage.getItem("wallet")===undefined ?  
                             (<Button color="site-primary" className="ml-4"onClick={Connectwallet}>Connect Wallet</Button>):(
                               < ><Button color="site-primary" className="ml-4" onClick={Connectwallet}>{localStorage.getItem("wallet").slice(0,10)}......{localStorage.getItem("wallet").slice(39,42)}</Button>
                                 &nbsp; &nbsp;

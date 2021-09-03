@@ -7,6 +7,7 @@ import swap from "./swapAbi";
 import cbusd from "./cbusdAbi";
 import lpstake from "./lpStakingAbi";
 import black from "./blackAbi";
+import lppair from "./lptokenAbi";
 
 const Lpstake = () => {
     let [activeTab, setActiveTab] = useState("Deposit");
@@ -20,6 +21,7 @@ const Lpstake = () => {
     const[ap1,setAP] = useState("");
     const [totaldep,setTotaldeposit] = useState("");
     var[cbusdbalance,setcbusdbalance] = useState("");
+    var[lpbalance,setLpbalance] = useState("");
     const[depositpercent,setdepositpercent] = useState("");
     const[values,setValues] = useState([]);
     const[staked,setStaked] = useState([]);
@@ -40,10 +42,11 @@ const Lpstake = () => {
  const first = async () => {
     const accounts =  await web3.eth.getAccounts();
  
-    setcbusdbalance(await cbusd.methods.balanceOf(accounts[0]).call());  
+    //setcbusdbalance(await cbusd.methods.balanceOf(accounts[0]).call());  
+    setLpbalance(await lppair.methods.balanceOf(accounts[0]).call());  
 
     
-    let b= await cbusd.methods.allowance(accounts[0],"0x47b58c81DD4b40E277734Ab16071e488b19430a9").call();
+    let b= await lppair.methods.allowance(accounts[0],"0x47b58c81DD4b40E277734Ab16071e488b19430a9").call();
  
     if(b>0){
       setAP(true);
@@ -124,7 +127,7 @@ const Lpstake = () => {
         document.getElementById("header-title").innerText = "Staking";
     } )
     useEffect(() =>         
-    {first()},[cbusdbalance,ap1,staked[0]],reward,blackbal)
+    {first()},[lpbalance,ap1,staked[0]],reward,blackbal)
     useEffect(() =>{first()},[date1,lock1,time1])
    
     const deposit = async(event) => {
@@ -251,7 +254,7 @@ const Lpstake = () => {
       const approve = async() => {
         let account = await web3.eth.getAccounts();
         let amount = 1000000000000000000 +"000000000000000000"; 
-        await cbusd.methods.approve("0x47b58c81DD4b40E277734Ab16071e488b19430a9",amount).send({from:account[0]});
+        await lppair.methods.approve("0x47b58c81DD4b40E277734Ab16071e488b19430a9",amount).send({from:account[0]});
         first()
         alert("Approved Succesfully")
     }
@@ -267,15 +270,15 @@ const Lpstake = () => {
                     <Col xl="8" lg="8" md="10" sm="12">
                         <Card className="custom-card">
                             <div className="p-3">
-                                <h4>stake  cBUSD </h4>
-                                <h6>The Stake cBUSD and get Black token as reward</h6>
+                                <h4>stake  cBUSD/BUSD </h4>
+                                <h6>The Stake cBUSD/BUSD and get Black token as reward</h6>
                                 <Table bordered responsive className="mt-3">
                                     <thead>
                                         <tr>
                                             <
                                                 
-                                                th>Your cBUSD</th>
-                                            <th>Staked cBUSD</th>
+                                                th>Your LP</th>
+                                            <th>Staked LP</th>
                                             <th>Black reward</th>
                                             <th>Your Black</th>
                                         </tr>
@@ -352,23 +355,23 @@ const Lpstake = () => {
                     <Col xl="8" lg="8" md="10" sm="12">
                         <Card className="custom-card">
                             <div className="p-3">
-                                <h4>stake  cBUSD </h4>
-                                <h6>The Stake cBUSD and get Black token as reward</h6>
+                                <h4>stake  cBUSD/BUSD </h4>
+                                <h6>The Stake cBUSD/BUSD and get Black token as reward</h6>
                                 <Table bordered responsive className="mt-3">
                                     <thead>
                                         <tr>
                                             <
                                                 
-                                                th>Your cBUSD</th>
-                                            <th>Staked cBUSD</th>
+                                                th>Your Lp</th>
+                                            <th>Staked Lp</th>
                                             <th>Black reward</th>
                                             <th>Your Black</th>
                                         </tr>
                                     </thead>
                                     <tbody className="text-center">
                                         <tr>
-                                            <td>{parseFloat(cbusdbalance/1000000000000000000).toFixed(5)}</td>
-                                            <td>{parseFloat(staked[0]/1000000000000000000).toFixed(5)}</td>
+                                            <td>{parseFloat(lpbalance/1000000000000000000)}</td>
+                                            <td>{parseFloat(staked[0]/1000000000000000000)}</td>
                                             <td>{parseFloat(reward/1000000000).toFixed(5)}</td>
                                             <td>{parseFloat(blackbal/1000000000).toFixed(5)}</td>
                                         </tr>
