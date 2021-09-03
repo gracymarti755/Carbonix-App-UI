@@ -154,12 +154,12 @@ const Lpstake = () => {
 
       const claimreward = async(event) => {
         event.preventDefault();
-        if(reward >10000000000){
+        if(reward >100000000000){
             const accounts =  await web3.eth.getAccounts();
             await lpstake.methods.claimReward().send({from:accounts[0]});    
         }
         else{
-            alert("Your reward amount should be Greater then 10 to Claim ")
+            alert("Your reward amount should be Greater then 100 to Claim ")
         }
            
         first()

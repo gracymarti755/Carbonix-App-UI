@@ -147,7 +147,7 @@ const Blackstake = () => {
 
       const claimreward = async(event) => {
         event.preventDefault();
-        if(reward >10000000000){
+        if(reward >100000000000){
             const accounts =  await web3.eth.getAccounts();
             await blackstake.methods.claimReward().send({from:accounts[0]});  
             setIsOpen(true);
@@ -155,7 +155,7 @@ const Blackstake = () => {
         }
         else{
             setIsOpen(true);
-            setDis("Your reward amount should be Greater then 10 to Claim ")
+            setDis("Your reward amount should be Greater then 100 to Claim ")
         }
            
         first()
