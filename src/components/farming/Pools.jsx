@@ -17,39 +17,47 @@ const Pools = () => {
     const [balance,setbalan] = useState([]);
     const[balanceblack,setBalanceblack]=useState([]);
     const [communitybalance,setcommunitybalan] = useState([]);
-    const [aprcarbon,setAprcarbon]= useState([]);
-    const [aprblack,setAprblack]=useState([]);
+    const [aprcarbon,setAprcarbon]= useState('');
+    const [aprblack,setAprblack]=useState('');
     const [blackprice,setBlackprice]=useState([]);
     const[carbonprice,setCarbonprice]=useState([]);
     const [blackperblock,setBlackperblock]=useState([]);
     const bvb = async() => {
-       setbalan(await cbusd.methods.balanceOf("0x3a7CD9084072c0178ED6EbACAF1926E2E9e57D43").call());       
-       setBalanceblack(await black.methods.balanceOf("0xb23748eDA11dCeA3f37af78199BDb07774d5798A").call());       
+       setbalan(await cbusd.methods.balanceOf("0xb2690f8851dFa22E7Fc755b0AF697AbD173CF964").call());       
+       setBalanceblack(await black.methods.balanceOf("0x8f40a5c5fE040dBD2B6077f31e6c54DAB6289027").call());       
        
        console.log("balanblack",balanceblack);
-       var tokenPerBlock =1147507;
+       var tokenPerBlock = 1157407407;
+       var tokendiv=1000000000;
+      
+    
        var BLOCKS_PER_YEAR =10512000;
        //const blackperblock = await carbonstake.methods.blackPerBlock().call();
        //setBlackperblock(blackperblock);
        const carbonprice1=await  carbonoracle.methods.getDittoBnbRate().call();
-      const carbonprice=(parseFloat((carbonprice1[3])/1000000000000000000).toFixed(11));
-       const blackprice1=await  blackoracle.methods.getDittoBnbRate().call();
-       
-       const blackprice=(parseFloat((blackprice1[3])/1000000000000000000).toFixed(11));
+       const carbonprice=(parseFloat((carbonprice1[3])/1000000000000000000).toFixed(11));
+
+       const blackprice1=await  blackoracle.methods.getDittoBnbRate().call();       
+       const blackprice=(parseFloat((blackprice1[3])/1000000000000000000).toFixed(13));       
        console.log("blackprice3",blackprice);
+       var price=1.157407407 *blackprice *BLOCKS_PER_YEAR;
+       console.log("pricenew",price);
        setcommunitybalan(await black.methods.balanceOf("0x2fa541c7457fbd89b727dfa2f3b1423c66c353dd").call());
        const totalRewardPricePerYearcarbon = (blackprice) * (tokenPerBlock)*(BLOCKS_PER_YEAR);
-       const totalStakingTokenInPoolcarbon = (carbonprice )*(balance);
+       const totalStakingTokenInPoolcarbon = (carbonprice)*(balance);
        console.log("carbon balance",balance);
        setAprcarbon((totalRewardPricePerYearcarbon)/(totalStakingTokenInPoolcarbon)*(100));
 
-       const totalRewardPricePerYearblack = (blackprice) * (tokenPerBlock)*(BLOCKS_PER_YEAR);
-       console.log("totalRewardPricePerYearblack",totalRewardPricePerYearblack);
-       const totalStakingTokenInPoolblack = (blackprice)*(balanceblack);
+      // const totalRewardPricePerYearblack = (blackprice) * (tokenPerBlock)*(BLOCKS_PER_YEAR);
+       var  totalRewardPricePerYearblack= price;
+      // console.log("totalRewardPricePerYearblack",totalRewardPricePerYearblack);
+       var totalStakingTokenInPoolblack = (blackprice)*(1000000000000);
        console.log("totalStakingTokenInPoolblack",totalStakingTokenInPoolblack);
-
-       setAprblack((totalRewardPricePerYearblack)/((totalStakingTokenInPoolblack)*(100)));
-
+       var pricecalculation= (totalRewardPricePerYearblack)/((totalStakingTokenInPoolblack)*(100));
+       console.log("pricecalculation",pricecalculation);
+       //setAprblack((totalRewardPricePerYearblack)/((totalStakingTokenInPoolblack)*(100)));
+       setAprblack(pricecalculation);
+       console.log("aprvalue",aprblack);
 
     }
     useEffect(()=>{bvb()},[balance,balanceblack])
@@ -594,7 +602,7 @@ const Pools = () => {
                                     src={"https://blackcollateral.com/wp-content/uploads//2021/05/logo-svg.svg"}
                                     alt="Card image cap"
                                 />
-                                <b>{parseFloat(aprblack).toFixed(2)} %</b>
+                                <b>{parseFloat(aprblack).toFixed(6)} %</b>
                             </p>
                         </div>
                     </div>

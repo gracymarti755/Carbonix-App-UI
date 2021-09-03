@@ -90,7 +90,7 @@ class Dashboard extends Component {
        console.log("totaldepositedblackpool",totaldepositedblackpool);
 
        const carbonprice1=await  carbonoracle.methods.getDittoBnbRate().call();
-       const carbonprice=(parseFloat((carbonprice1[3])/1000000000000000000).toFixed(11));
+       const carbonprice=(parseFloat((carbonprice1[3])/1000000000).toFixed(11));
 
        console.log("carbonpricecheck",carbonprice);
        this.setState({setLoading:true});

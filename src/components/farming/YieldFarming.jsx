@@ -9,7 +9,7 @@ import Chart from "react-apexcharts";
 import Pools from "./Pools";
 import black from "../../views/blackAbi";
 import cbusdtoken from "../../views/cbusdAbi";
-import blackoracle from "../../views/carbonOracleAbi";
+import blackoracle from "../../views/blackOracleAbi";
 import { useEffect } from "react";
 const YieldFarming = (props) => {
   const [communitybalance,setCommunitybalance] = useState([]);
@@ -29,7 +29,7 @@ const YieldFarming = (props) => {
        const blackprice1=await  blackoracle.methods.getDittoBnbRate().call();
        //const blackprice=(parseFloat((blackprice1[3])/1000000000000000000).toFixed(11));
        setBlackprice((parseFloat((blackprice1[3])/1000000000000000000).toFixed(11)));
-       console.log("blackprice",blackprice);
+       console.log("blackpriceyield",blackprice);
        setTotalvalueLocked((parseFloat (totaldepositedcarbonpool)) + (parseFloat(totaldepositedLppool) + parseFloat(totaldepositedblackpool)));
  }
  useEffect(()=>{farmdisplay()},[communitybalance])
