@@ -85,7 +85,7 @@ const Vault = () => {
       }
     }
     }
-    useEffect(()=>{overall()},[app1])
+    useEffect(()=>{overall()},[app1,avaltoborrow,totaldebt,totaldep,avatokentowithdraw])
 
     const deposit = async(event) => {
         event.preventDefault();
@@ -94,9 +94,10 @@ const Vault = () => {
         var val = valu * 1000000000;
         var value = val + "000000000"
         await CFI.methods.deposit(value).send({from:accounts[0]});
+        overall()
         setIsOpen(true);
         setDis("Deposited Succesfully")
-        overall()
+        
       }
     const withdraw = async(event) => {
         event.preventDefault();
@@ -105,9 +106,10 @@ const Vault = () => {
         var val = valu * 1000000000;
         var value = val + "000000000"
         await CFI.methods.withdraw(value).send({from:accounts[0]});
+        overall()
         setIsOpen(true);
         setDis("Withdrawn Succesfully")
-        overall()
+        
     }
     const borrow = async(event) => {
         event.preventDefault();
@@ -116,9 +118,11 @@ const Vault = () => {
         var val = valu * 1000000000;
         var value = val + "000000000"
         await CFI.methods.mint(value).send({from:accounts[0]});
+        overall()
         setIsOpen(true);
+       
         setDis("Borrowed Succesfully");
-      overall()
+      //overall()
     }
     const repayborrow = async(event) => {
         event.preventDefault();
@@ -131,6 +135,7 @@ const Vault = () => {
             value = cbusdbalance
         }
         await CFI.methods.repay(0,value).send({from:accounts[0]});
+        overall()
         setIsOpen(true);
         setDis("Borrowed amount is repayed By using CBUSD")
        }
@@ -138,11 +143,12 @@ const Vault = () => {
         var val = valu * 1000000000;
         var value = val + "000000000"
         await CFI.methods.repay(value,0).send({from:accounts[0]});
+        overall()
         setIsOpen(true);
         setDis("Borrowed amount is repayed By using BUSD")
        }
         
-       overall()
+       
       }
       const liquidate = async(event) => {
         event.preventDefault();
@@ -151,9 +157,10 @@ const Vault = () => {
         var val = valu * 1000000000;
         var value = val + "000000000"
         await CFI.methods.liquidate(value).send({from:accounts[0]});
+        overall()
         setIsOpen(true);
         setDis("Liquidate Succesfully")
-        overall()
+       
       }
       const balancepercent = async(event) => {
         event.preventDefault();
@@ -353,18 +360,20 @@ const Vault = () => {
         let amount = 1000000000000000000 +"0000000000"; 
         await busd.methods.approve("0x100190Ee3640D47286AAb1025435D3a8eEbEC7DA",amount).send({from:account[0]});
         //bal()
+        overall();
         setIsOpen(true);
         setDis("Approved Succesfully");
-        overall();
+        
       }
       const approv = async() => {
         let account = await web3.eth.getAccounts();
         let amount =  1000000000000000000 +"000000000000000000"; 
         await cbusd.methods.approve("0x100190Ee3640D47286AAb1025435D3a8eEbEC7DA",amount).send({from:account[0]});
         //bal()
+        overall();
         setIsOpen(true);
         setDis("Approved Succesfully");
-        overall();
+       
       }
       const togglePopup = () => {
         setIsOpen(false);

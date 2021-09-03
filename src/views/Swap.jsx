@@ -69,10 +69,11 @@ const Swap = () => {
         var val = valu * 1000000000;
         var value = val + "000000000"
         await swap.methods.stake(value).send({from:accounts[0]});
+        first()
         setIsOpen(true);        
        setDis("Deposited succesfully");
        
-        first();
+
       }
 
     const withdraw = async(event) => {
@@ -83,9 +84,10 @@ const Swap = () => {
         var val = valu * 1000000000;
         var value = val + "000000000"
         await swap.methods.unstake(value).send({from:accounts[0]});
+        first()
         setIsOpen(true);
         setDis("withdrawn succesfully")
-        first()
+        
       }  
 
       const stabilize = async(event) => {
@@ -93,14 +95,16 @@ const Swap = () => {
         const accounts =  await web3.eth.getAccounts();
         if(values[2] > 0){
           await swap.methods.transmute().send({from:accounts[0]});
+          first()
           setIsOpen(true);
           setDis("Transmute succesfully")
         }
         else{
+            first()
             setIsOpen(true);
           setDis("You dont have Transmutable BASE token")
         }
-        first()
+       
         
       }
       const stabilizeClaimAndWithdraw = async(event) => {
@@ -108,16 +112,18 @@ const Swap = () => {
         const accounts =  await web3.eth.getAccounts();
         if(values[3] > 0){
           await swap.methods.transmuteClaimAndWithdraw().send({from:accounts[0]});
+          first()
           setIsOpen(true);
           setDis("Claim and withdraw succesfully")
         }
     
         else{
+            first()
             setIsOpen(true);
           setDis("You dont have enough Base Token")
         }
         
-        first()
+        
       }
     
       const balancepercent = async(event) => {
