@@ -39,10 +39,10 @@ const Swap = () => {
     const accounts =  await web3.eth.getAccounts();
  
     setcbusdbalance(await cbusd.methods.balanceOf(accounts[0]).call());  
-    setTotalcbusddepo(await cbusd.methods.balanceOf("0x128F980732d9E675b3BbE913E92E45924F5D7B29").call());
-    setTotalbusddepo(await busd.methods.balanceOf("0x128F980732d9E675b3BbE913E92E45924F5D7B29").call());
+    setTotalcbusddepo(await cbusd.methods.balanceOf("0x7F53d063E8aB5bde5e262571777ec4BD586Eaa70").call());
+    setTotalbusddepo(await busd.methods.balanceOf("0x7F53d063E8aB5bde5e262571777ec4BD586Eaa70").call());
     setTotalbusdonalpaca(await swap.methods.getVaultTotalDeposited(0).call());
-    let b= await cbusd.methods.allowance(accounts[0],"0x128F980732d9E675b3BbE913E92E45924F5D7B29").call();
+    let b= await cbusd.methods.allowance(accounts[0],"0x7F53d063E8aB5bde5e262571777ec4BD586Eaa70").call();
  
     if(b>0){
       setAP(true);
@@ -208,7 +208,7 @@ const Swap = () => {
       const approve = async() => {
         let account = await web3.eth.getAccounts();
         let amount = 1000000000000000000 +"000000000000000000"; 
-        await cbusd.methods.approve("0x128F980732d9E675b3BbE913E92E45924F5D7B29",amount).send({from:account[0]});
+        await cbusd.methods.approve("0x7F53d063E8aB5bde5e262571777ec4BD586Eaa70",amount).send({from:account[0]});
         first()
         setIsOpen(true);
         setDis("Approved Succesfully");
