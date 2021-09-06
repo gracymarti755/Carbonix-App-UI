@@ -28,46 +28,51 @@ const Pools = () => {
     const [blackperblock,setBlackperblock]=useState([]);
     const[blackdailyreward,setBlackDailyreward]=useState([]);
     const bvb = async() => {
-       setbalan(await cbusd.methods.balanceOf("0xb2690f8851dFa22E7Fc755b0AF697AbD173CF964").call());       
-       setBalanceblack(await black.methods.balanceOf("0x8f40a5c5fE040dBD2B6077f31e6c54DAB6289027").call());       
-       console.log("balanblack",balanceblack);
-       setBalancepair(await lptokenpair.methods.balanceOf("0x47b58c81DD4b40E277734Ab16071e488b19430a9").call());       
-       console.log("balancepair",balancepair);
-       
-       
-       var tokenPerBlock = 1.157407407;
-       var BLOCKS_PER_YEAR =10512000;
-                           
-       const blackdailyreward =1000000/(30 *24);
-       console.log("dailyreward",blackdailyreward);
-       setBlackDailyreward(blackdailyreward);
-   
-       const carbonprice1=await  carbonoracle.methods.getDittoBnbRate().call();
-     
-       const carbonprice=(parseFloat((carbonprice1[3])/1000000000).toFixed(11));
-
-       const blackprice1=await  blackoracle.methods.getDittoBnbRate().call();       
-       const blackprice=(parseFloat((blackprice1[3])/1000000000000000000).toFixed(13));       
-       console.log("blackprice3",blackprice);
-       //var price=1.157407407 *blackprice *BLOCKS_PER_YEAR;
-       //console.log("pricenew",price);
-       setcommunitybalan(await black.methods.balanceOf("0x2fa541c7457fbd89b727dfa2f3b1423c66c353dd").call());
-       const totalRewardPricePerYearcarbon = (blackprice) * (tokenPerBlock)*(BLOCKS_PER_YEAR);
-       const totalStakingTokenInPoolcarbon = (carbonprice)*((balance)/1000000000000000000);
-       console.log("carbon balance",balance);
-       setAprcarbon(((totalRewardPricePerYearcarbon)/(totalStakingTokenInPoolcarbon))*(100));
-       console.log("aprvaluecarbon",aprcarbon);
-       const totalRewardPricePerYearblack = (blackprice) * (tokenPerBlock)*(BLOCKS_PER_YEAR);
-       const  totalStakingTokenInPoolblack = (blackprice)*((balanceblack)/1000000000);
-       setAprblack(((totalRewardPricePerYearblack)/(totalStakingTokenInPoolblack))*(100));
-       console.log("aprvalue",aprblack);
-       
-       const totalRewardPricePerYearlp = (blackprice) * (tokenPerBlock)*(BLOCKS_PER_YEAR);
-       const totalStakingTokenInPoollp = (carbonprice)*((balancepair)/1000000000000000000);      
-       setAprlp(((totalRewardPricePerYearlp)/(totalStakingTokenInPoollp))*(100));
-       console.log("aprvaluelp",aprlp);
-    }
-    useEffect(()=>{bvb()},[balance,balanceblack])
+        setbalan(await cbusd.methods.balanceOf("0xb2690f8851dFa22E7Fc755b0AF697AbD173CF964").call());       
+        setBalanceblack(await black.methods.balanceOf("0x8f40a5c5fE040dBD2B6077f31e6c54DAB6289027").call());       
+        console.log("balanblack",balanceblack);
+        setBalancepair(await lptokenpair.methods.balanceOf("0x47b58c81DD4b40E277734Ab16071e488b19430a9").call());       
+        console.log("balancepair",balancepair);
+        
+        
+        var tokenPerBlock = 1.157407407;
+        var BLOCKS_PER_YEAR =10512000;
+                            
+        const blackdailyreward =1000000/(30 *24);
+        console.log("dailyreward",blackdailyreward);
+        setBlackDailyreward(blackdailyreward);
+    
+        const carbonprice1=await  carbonoracle.methods.getDittoBnbRate().call();
+      
+        const carbonprices=(parseFloat((carbonprice1[3])/1000000000).toFixed(11));
+        setCarbonprice(carbonprices);
+        console.log("carbonprice",carbonprice)
+        const blackprice1=await  blackoracle.methods.getDittoBnbRate().call();       
+        const blackprices=(parseFloat((blackprice1[3])/1000000000000000000).toFixed(13)); 
+        setBlackprice(blackprices)      
+        console.log("blackprice3",blackprice);
+        //var price=1.157407407 *blackprice *BLOCKS_PER_YEAR;
+        //console.log("pricenew",price);
+        setcommunitybalan(await black.methods.balanceOf("0x2fa541c7457fbd89b727dfa2f3b1423c66c353dd").call());
+        const totalRewardPricePerYearcarbon = (blackprice) * (tokenPerBlock)*(BLOCKS_PER_YEAR);
+        const totalStakingTokenInPoolcarbon = (carbonprice)*((balance)/1000000000000000000);
+        console.log("carbon balance",balance);
+        setAprcarbon(((totalRewardPricePerYearcarbon)/(totalStakingTokenInPoolcarbon))*(100));
+        console.log("aprvaluecarbon",aprcarbon);
+        const totalRewardPricePerYearblack = (blackprice) * (tokenPerBlock)*(BLOCKS_PER_YEAR);
+        const  totalStakingTokenInPoolblack = (blackprice)*((balanceblack)/1000000000);
+        setAprblack(((totalRewardPricePerYearblack)/(totalStakingTokenInPoolblack))*(100));
+        console.log("aprvalue",aprblack);
+        
+        const totalRewardPricePerYearlp = (blackprice) * (tokenPerBlock)*(BLOCKS_PER_YEAR);
+        console.log("totalRewardPricePerYearlp",totalRewardPricePerYearlp)
+        const totalStakingTokenInPoollp = (carbonprice)*((balancepair)/1000000000000000000); 
+        console.log("totalStakingTokenInPoollp",carbonprice)
+        const aprlp = ((totalRewardPricePerYearlp)/(totalStakingTokenInPoollp))*(100);     
+        setAprlp(aprlp);
+        console.log("aprvaluelp",((totalRewardPricePerYearlp)/(totalStakingTokenInPoollp))*(100));
+     }
+     useEffect(()=>{bvb()},[balance,balanceblack,carbonprice,blackprice])
    let a=5;
     let history=useHistory();
     return (

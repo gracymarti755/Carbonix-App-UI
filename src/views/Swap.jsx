@@ -9,6 +9,10 @@ import swap from "./swapAbi";
 import cbusd from "./cbusdAbi";
 import valutadapter from"./vaultAdapterAbi";
 import busd from "./busdAbi";
+import Modald from "../ModalD";
+import FolowStepsd from "../FolowStepsd";
+//import styles from ".././FolowSteps.module.sass";
+
 const Swap = () => {
     let [activeTab, setActiveTab] = useState("Deposit");
     const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -221,7 +225,7 @@ const Swap = () => {
     return (
         
         <section className="p-0 my-5">
-<div>
+{/* <div>
     {isOpen && <Popup
       content={<>
        <center> <b >{dis}</b><br/>
@@ -229,7 +233,10 @@ const Swap = () => {
       </>}
       handleClose={togglePopup}
     />}
-  </div>             
+  </div>              */}
+  <Modald visible={isOpen} onClose={() => setIsOpen(false)}>
+        <FolowStepsd viewhistory={dis}  />
+      </Modald>
              {
 
                  

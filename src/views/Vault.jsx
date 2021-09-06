@@ -8,7 +8,8 @@ import { Button, Dropdown, Card, Col, Container, DropdownItem, DropdownMenu, Dro
 import CFI from "./carbonFinanceAbi";
 import { useDebugValue } from "react";
 import Popup from "../Popup";
-
+import Modald from "../ModalD";
+import FolowStepsd from "../FolowStepsd";
 
 const Vault = () => {
     // window.onbeforeunload = () => {
@@ -385,7 +386,9 @@ const Vault = () => {
     return (
        
         <section className="p-0 my-5">
-           
+           <Modald visible={isOpen} onClose={() => setIsOpen(false)}>
+        <FolowStepsd viewhistory={dis}  />
+      </Modald>
             <Container fluid>
             {
             localStorage.getItem("wallet")===null || localStorage.getItem("wallet")===""?(<>
@@ -1279,15 +1282,7 @@ const Vault = () => {
         }
             
             </Container>
-            <div>
-    {isOpen && <Popup
-      content={<>
-       <center> <b >{dis}</b><br/>
-        <button onClick={togglePopup}>OK</button></center>
-      </>}
-      handleClose={togglePopup}
-    />}
-  </div> 
+           
         </section>
     );
 }
