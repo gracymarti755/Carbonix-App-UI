@@ -385,15 +385,7 @@ const Vault = () => {
     return (
        
         <section className="p-0 my-5">
-            <div>
-    {isOpen && <Popup
-      content={<>
-       <center> <b >{dis}</b><br/>
-        <button onClick={togglePopup}>OK</button></center>
-      </>}
-      handleClose={togglePopup}
-    />}
-  </div> 
+           
             <Container fluid>
             {
             localStorage.getItem("wallet")===null || localStorage.getItem("wallet")===""?(<>
@@ -1287,6 +1279,15 @@ const Vault = () => {
         }
             
             </Container>
+            <div>
+    {isOpen && <Popup
+      content={<>
+       <center> <b >{dis}</b><br/>
+        <button onClick={togglePopup}>OK</button></center>
+      </>}
+      handleClose={togglePopup}
+    />}
+  </div> 
         </section>
     );
 }

@@ -54,7 +54,7 @@ const Lpstake = () => {
     else{
       setAP(false);
     }
-    setValues(await swap.methods.userInfo(accounts[0]).call());
+    //setValues(await swap.methods.userInfo(accounts[0]).call());
     setStaked(await lpstake.methods.userInfo(accounts[0]).call());
     setReward(await lpstake.methods.pendingBlack(accounts[0]).call());
     setBlackBalance(await black.methods.balanceOf(accounts[0]).call())

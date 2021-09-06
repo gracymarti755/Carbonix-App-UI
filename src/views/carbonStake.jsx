@@ -54,7 +54,7 @@ const Cbusdstake = () => {
     else{
       setAP(false);
     }
-    setValues(await swap.methods.userInfo(accounts[0]).call());
+   // setValues(await swap.methods.userInfo(accounts[0]).call());
     setStaked(await cbusdstake.methods.userInfo(accounts[0]).call());
     setBlackBalance(await black.methods.balanceOf(accounts[0]).call());
     setReward(await cbusdstake.methods.pendingBlack(accounts[0]).call());
