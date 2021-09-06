@@ -128,22 +128,35 @@ const Blackstake = () => {
         event.preventDefault();
         const accounts =  await web3.eth.getAccounts();
         var valu = document.getElementById("tid1").value;
-        var value = valu * 1000000000;      
+        var value = valu * 1000000000;    
+        if(value<=blackbal){
         await blackstake.methods.deposit(value).send({from:accounts[0]});
         setIsOpen(true);
         setDis("Staked Succesfully")
         first();
+        }
+        else{
+            setIsOpen(true);
+           setDis("You Are Trying To Stake More Than Your Wallet Balance")
+        }
       }
 
     const withdraw = async(event) => {
         event.preventDefault();
         const accounts =  await web3.eth.getAccounts();
         var valu = document.getElementById("tid2").value;
-        var value = valu * 1000000000;        
-        await blackstake.methods.withdraw(value).send({from:accounts[0]});
-        setIsOpen(true);
-        setDis("Unstaked Succesfully")
-        first()
+        var value = valu * 1000000000;   
+        if(value<=staked[0])     {
+            await blackstake.methods.withdraw(value).send({from:accounts[0]});
+            setIsOpen(true);
+            setDis("Unstaked Succesfully")
+            first()
+        }
+        else{
+            setIsOpen(true);
+            setDis("You Are Trying To UnStake More Than You Staked")
+        }
+        
       }  
 
       const claimreward = async(event) => {

@@ -139,10 +139,17 @@ const Lpstake = () => {
         var valu = document.getElementById("tid1").value;
         var val = valu * 1000000000;
         var value = val + "000000000"
-        await lpstake.methods.deposit(value).send({from:accounts[0]});      
-        setIsOpen(true);
-        setDis("Staked Succesfully")
-        first();
+        if(value<=lpbalance){
+            await lpstake.methods.deposit(value).send({from:accounts[0]});      
+            setIsOpen(true);
+            setDis("Staked Succesfully")
+            first();
+        }
+        else{
+            setIsOpen(true);
+            setDis("You Are Trying To Stake More Than Your Wallet Balance")
+        }
+        
       }
 
     const withdraw = async(event) => {
@@ -151,10 +158,17 @@ const Lpstake = () => {
         var valu = document.getElementById("tid2").value;
         var val = valu * 1000000000;
         var value = val + "000000000"
-        await lpstake.methods.withdraw(value).send({from:accounts[0]});
-        setIsOpen(true);
-        setDis("Unstaked Succesfully")
-        first()
+        if(value<=staked[0]){
+            await lpstake.methods.withdraw(value).send({from:accounts[0]});
+            setIsOpen(true);
+            setDis("Unstaked Succesfully")
+            first()
+        }
+        else{
+            setIsOpen(true);
+            setDis("You Are Trying To Stake More Than You Deposited")
+        }
+        
       }  
 
       const claimreward = async(event) => {

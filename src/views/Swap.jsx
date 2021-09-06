@@ -72,10 +72,17 @@ const Swap = () => {
         var valu = document.getElementById("tid1").value;
         var val = valu * 1000000000;
         var value = val + "000000000"
-        await swap.methods.stake(value).send({from:accounts[0]});
-        first()
-        setIsOpen(true);        
-       setDis("Deposited succesfully");
+        if(value<=cbusdbalance){
+            await swap.methods.stake(value).send({from:accounts[0]});
+            first()
+            setIsOpen(true);        
+            setDis("Deposited succesfully");
+        }
+        else{
+            setIsOpen(true);        
+            setDis("You Are Trying To Deposit More Than Your Wallet Balance");
+        }
+       
        
 
       }
@@ -87,10 +94,18 @@ const Swap = () => {
         var valu = document.getElementById("tid2").value;
         var val = valu * 1000000000;
         var value = val + "000000000"
-        await swap.methods.unstake(value).send({from:accounts[0]});
-        first()
-        setIsOpen(true);
-        setDis("withdrawn succesfully")
+        if(value<=values[0]){
+            await swap.methods.unstake(value).send({from:accounts[0]});
+            first()
+            setIsOpen(true);
+            setDis("withdrawn succesfully")
+        }
+
+        else{
+            setIsOpen(true);
+            setDis("You Are Trying To Withdraw More Than You Deposited")
+        }
+       
         
       }  
 

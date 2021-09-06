@@ -92,13 +92,19 @@ const Vault = () => {
         event.preventDefault();
         const accounts =  await web3.eth.getAccounts();
         var valu = document.getElementById("tid1").value;
+        console.log("valueget",valu);
         var val = valu * 1000000000;
         var value = val + "000000000"
+        if(value<=busdbalance){
         await CFI.methods.deposit(value).send({from:accounts[0]});
         overall()
         setIsOpen(true);
         setDis("Deposited Succesfully")
-        
+        }
+        else{
+            setIsOpen(true);
+            setDis("You Are  Trying To Deposit More Than Your Wallet Balance")   
+        }
       }
     const withdraw = async(event) => {
         event.preventDefault();
@@ -106,11 +112,16 @@ const Vault = () => {
         var valu = document.getElementById("tid2").value;
         var val = valu * 1000000000;
         var value = val + "000000000"
+        if(value<=avatokentowithdraw){
         await CFI.methods.withdraw(value).send({from:accounts[0]});
         overall()
         setIsOpen(true);
         setDis("Withdrawn Succesfully")
-        
+        }
+        else{
+            setIsOpen(true);
+            setDis("You Are Trying To Withdraw More Than You Deposited")   
+        }
     }
     const borrow = async(event) => {
         event.preventDefault();
@@ -118,12 +129,16 @@ const Vault = () => {
         var valu = document.getElementById("tid3").value;
         var val = valu * 1000000000;
         var value = val + "000000000"
+       if(value<=avaltoborrow){
         await CFI.methods.mint(value).send({from:accounts[0]});
         overall()
-        setIsOpen(true);
-       
+        setIsOpen(true);       
         setDis("Borrowed Succesfully");
-      //overall()
+       }
+       else{
+        setIsOpen(true);
+        setDis("You Are Trying To Borrow More Than Your Borrow Limit")   
+       }
     }
     const repayborrow = async(event) => {
         event.preventDefault();
@@ -132,21 +147,31 @@ const Vault = () => {
        if(selectedDropdown == "cBUSD"){
         var val = valu * 1000000000;
         var value = val + "000000000"
-        if(value>cbusdbalance){
-            value = cbusdbalance
+        if(value<=cbusdbalance){
+            await CFI.methods.repay(0,value).send({from:accounts[0]});
+            overall()
+            setIsOpen(true);
+            setDis("Borrowed amount is repayed By using CBUSD")
         }
-        await CFI.methods.repay(0,value).send({from:accounts[0]});
-        overall()
-        setIsOpen(true);
-        setDis("Borrowed amount is repayed By using CBUSD")
+        else{
+            setIsOpen(true);
+            setDis("You Don't Have Enough cBUSD To Repay Your Debt")
+        }
+      
        }
        else{
         var val = valu * 1000000000;
         var value = val + "000000000"
+        if(value<=busdbalance){
         await CFI.methods.repay(value,0).send({from:accounts[0]});
         overall()
         setIsOpen(true);
         setDis("Borrowed amount is repayed By using BUSD")
+        }
+        else{
+            setIsOpen(true);
+            setDis("You Don't Have Enough BUSD To Repay Your Debt")
+        }
        }
         
        
@@ -157,10 +182,16 @@ const Vault = () => {
         var valu = document.getElementById("tid5").value;
         var val = valu * 1000000000;
         var value = val + "000000000"
-        await CFI.methods.liquidate(value).send({from:accounts[0]});
-        overall()
-        setIsOpen(true);
-        setDis("Liquidate Succesfully")
+        if(value<=totaldep){
+            await CFI.methods.liquidate(value).send({from:accounts[0]});
+            overall()
+            setIsOpen(true);
+            setDis("Liquidate Succesfully")
+        }
+         else{
+            setIsOpen(true);
+            setDis("You Don't Have Enough BUSD In Collateral Balance To Liquidate")
+         }
        
       }
       const balancepercent = async(event) => {
