@@ -8,7 +8,8 @@ import cbusd from "./cbusdAbi";
 import cbusdstake from "./carbonStakeAbi";
 import black from "./blackAbi";
 import Popup from "../Popup";
-
+import Modald from "../ModalD";
+import FolowStepsd from "../FolowStepsd";
 const Cbusdstake = () => {
     let [activeTab, setActiveTab] = useState("Deposit");
     const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -272,7 +273,7 @@ const Cbusdstake = () => {
 
     return (
         <section className="p-0 my-5">
-            <div>
+            {/* <div>
     {isOpen && <Popup
       content={<>
        <center> <b >{dis}</b><br/>
@@ -280,7 +281,10 @@ const Cbusdstake = () => {
       </>}
       handleClose={togglePopup}
     />}
-  </div>  
+  </div>   */}
+  <Modald visible={isOpen} onClose={() => setIsOpen(false)}>
+        <FolowStepsd viewhistory={dis}  />
+      </Modald>
              {
             localStorage.getItem("wallet")===null || localStorage.getItem("wallet")===""?(<>
             <Container fluid>

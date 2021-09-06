@@ -8,7 +8,8 @@ import cbusd from "./cbusdAbi";
 import lpstake from "./lpStakingAbi";
 import black from "./blackAbi";
 import lppair from "./lptokenAbi";
-
+import Modald from "../ModalD";
+import FolowStepsd from "../FolowStepsd";
 const Lpstake = () => {
     let [activeTab, setActiveTab] = useState("Deposit");
     const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -35,6 +36,8 @@ const Lpstake = () => {
     var [date1, setdate1]=useState("");
     var [time1, settime1]=useState("");
     const [lock1 ,setlock1]=useState("");
+    const [isOpen, setIsOpen] = useState(false);
+    var[dis,setDis] = useState("");
     const toggleDropDown = () => setDropdownOpen(!dropdownOpen);
     const toggle1 = () => setDropdownOpen1(!dropdownOpen1);
     let history = useHistory();
@@ -136,8 +139,9 @@ const Lpstake = () => {
         var valu = document.getElementById("tid1").value;
         var val = valu * 1000000000;
         var value = val + "000000000"
-        await lpstake.methods.deposit(value).send({from:accounts[0]});
-        alert("staked succesfully")
+        await lpstake.methods.deposit(value).send({from:accounts[0]});      
+        setIsOpen(true);
+        setDis("Staked Succesfully")
         first();
       }
 
@@ -148,7 +152,8 @@ const Lpstake = () => {
         var val = valu * 1000000000;
         var value = val + "000000000"
         await lpstake.methods.withdraw(value).send({from:accounts[0]});
-        alert("unstaked succesfully")
+        setIsOpen(true);
+        setDis("Unstaked Succesfully")
         first()
       }  
 
@@ -157,9 +162,12 @@ const Lpstake = () => {
         if(reward >100000000000){
             const accounts =  await web3.eth.getAccounts();
             await lpstake.methods.claimReward().send({from:accounts[0]});    
+            setIsOpen(true);
+            setDis("Rewards Claimed Successfully") 
         }
         else{
-            alert("Your reward amount should be Greater then 100 to Claim ")
+            setIsOpen(true);
+            setDis("Your reward amount should be Greater then 100 to Claim ")
         }
            
         first()
@@ -256,12 +264,16 @@ const Lpstake = () => {
         let amount = 1000000000000000000 +"000000000000000000"; 
         await lppair.methods.approve("0x47b58c81DD4b40E277734Ab16071e488b19430a9",amount).send({from:account[0]});
         first()
-        alert("Approved Succesfully")
+        setIsOpen(true);
+        setDis("Approved Succesfully")
     }
 
 
     return (
         <section className="p-0 my-5">
+            <Modald visible={isOpen} onClose={() => setIsOpen(false)}>
+        <FolowStepsd viewhistory={dis}  />
+      </Modald>
           {
             localStorage.getItem("wallet")===null || localStorage.getItem("wallet")===""?(<>
            
