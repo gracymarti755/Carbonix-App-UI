@@ -176,7 +176,7 @@ const Lpstake = () => {
         event.preventDefault();
         const accounts =  await web3.eth.getAccounts(); 
         document.getElementById("tid1").value = false;  
-        var twentyfive=(cbusdbalance * 25)/100;
+        var twentyfive=(lpbalance * 25)/100;
         setdepositpercent(parseFloat(twentyfive/1000000000000000000).toFixed(5));
        
         document.getElementById("tid1").value = parseFloat(twentyfive/1000000000000000000).toFixed(5);        
@@ -186,7 +186,7 @@ const Lpstake = () => {
         event.preventDefault();
         const accounts =  await web3.eth.getAccounts(); 
         document.getElementById("tid1").value = false;    
-        var fifty=(cbusdbalance * 50)/100;
+        var fifty=(lpbalance * 50)/100;
         setdepositpercent(parseFloat(fifty/1000000000000000000).toFixed(5));
         document.getElementById("tid1").value =  parseFloat(fifty/1000000000000000000).toFixed(5);          
         
@@ -197,7 +197,7 @@ const Lpstake = () => {
         event.preventDefault();
         const accounts =  await web3.eth.getAccounts(); 
         document.getElementById("tid1").value = false;    
-        var seventyfive=(cbusdbalance * 75)/100;
+        var seventyfive=(lpbalance * 75)/100;
         setdepositpercent(parseFloat(seventyfive/1000000000000000000).toFixed(5)); 
         document.getElementById("tid1").value = parseFloat(seventyfive/1000000000000000000).toFixed(5);         
         
@@ -206,7 +206,7 @@ const Lpstake = () => {
         event.preventDefault();
         const accounts =  await web3.eth.getAccounts(); 
         document.getElementById("tid1").value = false;    
-        var hundred=(cbusdbalance * 100)/100;
+        var hundred=(lpbalance * 100)/100;
         setdepositpercent(parseFloat(hundred/1000000000000000000).toFixed(5)); 
         document.getElementById("tid1").value =  parseFloat(hundred/1000000000000000000).toFixed(5);         
         
