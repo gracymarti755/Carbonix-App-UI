@@ -71,7 +71,7 @@ const Swap = () => {
         var valu = document.getElementById("tid1").value;
         var val = valu * 1000000000;
         var value = val + "000000000"
-        if(value<=cbusdbalance){
+        if(parseInt(value)<=parseInt(cbusdbalance)){
             await swap.methods.stake(value).send({from:accounts[0]});
             first()
             setIsOpen(true);        
@@ -93,7 +93,7 @@ const Swap = () => {
         var valu = document.getElementById("tid2").value;
         var val = valu * 1000000000;
         var value = val + "000000000"
-        if(value<=values[0]){
+        if(parseInt(value)<=parseInt(values[0])){
             await swap.methods.unstake(value).send({from:accounts[0]});
             first()
             setIsOpen(true);
@@ -111,7 +111,7 @@ const Swap = () => {
       const stabilize = async(event) => {
         event.preventDefault();
         const accounts =  await web3.eth.getAccounts();
-        if(values[2] > 0){
+        if(parseInt(values[2]) >parseInt(0)){
           await swap.methods.transmute().send({from:accounts[0]});
           first()
           setIsOpen(true);
@@ -128,7 +128,7 @@ const Swap = () => {
       const stabilizeClaimAndWithdraw = async(event) => {
         event.preventDefault();
         const accounts =  await web3.eth.getAccounts();
-        if(values[3] > 0){
+        if(parseInt(values[3]) >parseInt(0)){
           await swap.methods.transmuteClaimAndWithdraw().send({from:accounts[0]});
           first()
           setIsOpen(true);
@@ -319,7 +319,7 @@ const Swap = () => {
                                                     <Button color="outline-site-primary" block >Stabilize</Button>
                                                 </Col>
                                                 <Col xl="6" md="12" className='mt-3 mt-xl-0'>
-                                                    <Button color="outline-site-primary" block   >Stabilize & Exit</Button>
+                                                    <Button color="outline-site-primary" block   >Claim & Withdraw</Button>
                                                 </Col>
                                             </Row>
 
@@ -434,7 +434,7 @@ const Swap = () => {
                                                     <Button color="outline-site-primary" block onClick={stabilize}>Stabilize</Button>
                                                 </Col>
                                                 <Col xl="6" md="12" className='mt-3 mt-xl-0'>
-                                                    <Button color="outline-site-primary" block  onClick={stabilizeClaimAndWithdraw} >Stabilize & Exit</Button>
+                                                    <Button color="outline-site-primary" block  onClick={stabilizeClaimAndWithdraw} >Claim & Withdraw</Button>
                                                 </Col>
                                             </Row>
 

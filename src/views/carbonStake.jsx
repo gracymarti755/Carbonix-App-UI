@@ -136,7 +136,7 @@ const Cbusdstake = () => {
         var valu = document.getElementById("tid1").value;
         var val = valu * 1000000000;
         var value = val + "000000000"
-        if(value<=cbusdbalance){
+        if(parseInt(value)<=parseInt(cbusdbalance)){
         await cbusdstake.methods.deposit(value).send({from:accounts[0]});
         setIsOpen(true);
         setDis("Staked Succesfully")
@@ -154,7 +154,7 @@ const Cbusdstake = () => {
         var valu = document.getElementById("tid2").value;
         var val = valu * 1000000000;
         var value = val + "000000000"
-        if(value<=staked[0]){
+        if(parseInt(value)<=parseInt(staked[0])){
             await cbusdstake.methods.withdraw(value).send({from:accounts[0]});
             setIsOpen(true);
             setDis("Unstaked Succesfully")
@@ -168,7 +168,7 @@ const Cbusdstake = () => {
 
       const claimreward = async(event) => {
         event.preventDefault();
-        if(reward >100000000000){
+        if(parseInt(reward) >parseInt(100000000000)){
             const accounts =  await web3.eth.getAccounts();
             await cbusdstake.methods.claimReward().send({from:accounts[0]}); 
             setIsOpen(true);

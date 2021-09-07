@@ -129,7 +129,7 @@ const Blackstake = () => {
         const accounts =  await web3.eth.getAccounts();
         var valu = document.getElementById("tid1").value;
         var value = valu * 1000000000;    
-        if(value<=blackbal){
+        if(parseInt(value)<=parseInt(blackbal)){
         await blackstake.methods.deposit(value).send({from:accounts[0]});
         setIsOpen(true);
         setDis("Staked Succesfully")
@@ -146,7 +146,7 @@ const Blackstake = () => {
         const accounts =  await web3.eth.getAccounts();
         var valu = document.getElementById("tid2").value;
         var value = valu * 1000000000;   
-        if(value<=staked[0])     {
+        if(parseInt(value)<=parseInt(staked[0]))     {
             await blackstake.methods.withdraw(value).send({from:accounts[0]});
             setIsOpen(true);
             setDis("Unstaked Succesfully")
@@ -161,7 +161,7 @@ const Blackstake = () => {
 
       const claimreward = async(event) => {
         event.preventDefault();
-        if(reward >100000000000){
+        if(parseInt(reward) >parseInt(100000000000)){
             const accounts =  await web3.eth.getAccounts();
             await blackstake.methods.claimReward().send({from:accounts[0]});  
             setIsOpen(true);

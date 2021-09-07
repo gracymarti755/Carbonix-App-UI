@@ -95,7 +95,7 @@ const Vault = () => {
         console.log("valueget",valu);
         var val = valu * 1000000000;
         var value = val + "000000000"
-        if(value<=busdbalance){
+        if(parseInt(value)<=parseInt(busdbalance)){
         await CFI.methods.deposit(value).send({from:accounts[0]});
         overall()
         setIsOpen(true);
@@ -112,7 +112,7 @@ const Vault = () => {
         var valu = document.getElementById("tid2").value;
         var val = valu * 1000000000;
         var value = val + "000000000"
-        if(value<=avatokentowithdraw){
+        if(parseInt(value)<=parseInt(avatokentowithdraw)){
         await CFI.methods.withdraw(value).send({from:accounts[0]});
         overall()
         setIsOpen(true);
@@ -129,7 +129,7 @@ const Vault = () => {
         var valu = document.getElementById("tid3").value;
         var val = valu * 1000000000;
         var value = val + "000000000"
-       if(value<=avaltoborrow){
+       if(parseInt(value)<=parseInt(avaltoborrow)){
         await CFI.methods.mint(value).send({from:accounts[0]});
         overall()
         setIsOpen(true);       
@@ -147,7 +147,7 @@ const Vault = () => {
        if(selectedDropdown == "cBUSD"){
         var val = valu * 1000000000;
         var value = val + "000000000"
-        if(value<=cbusdbalance){
+        if(parseInt(value)<=parseInt(cbusdbalance)){
             await CFI.methods.repay(0,value).send({from:accounts[0]});
             overall()
             setIsOpen(true);
@@ -162,7 +162,7 @@ const Vault = () => {
        else{
         var val = valu * 1000000000;
         var value = val + "000000000"
-        if(value<=busdbalance){
+        if(parseInt(value)<=parseInt(busdbalance)){
         await CFI.methods.repay(value,0).send({from:accounts[0]});
         overall()
         setIsOpen(true);
@@ -182,7 +182,7 @@ const Vault = () => {
         var valu = document.getElementById("tid5").value;
         var val = valu * 1000000000;
         var value = val + "000000000"
-        if(value<=totaldep){
+        if(parseInt(value)<=parseInt(totaldep)){
             await CFI.methods.liquidate(value).send({from:accounts[0]});
             overall()
             setIsOpen(true);
