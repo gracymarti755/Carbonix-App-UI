@@ -40,8 +40,7 @@ const Swap = () => {
     
  const first = async () => {
      if(localStorage.getItem("wallet")>0){
-    const accounts =  await web3.eth.getAccounts();
- 
+    const accounts =  await web3.eth.getAccounts(); 
     setcbusdbalance(await cbusd.methods.balanceOf(accounts[0]).call());  
     setTotalcbusddepo(await cbusd.methods.balanceOf("0x7F53d063E8aB5bde5e262571777ec4BD586Eaa70").call());
     setTotalbusddepo(await busd.methods.balanceOf("0x7F53d063E8aB5bde5e262571777ec4BD586Eaa70").call());
