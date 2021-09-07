@@ -963,7 +963,7 @@ const Markets = (props) => {
                   <td>
                     <div className="d-flex justify-content-left">
                       <div className=" align-items-baseline">
-                        <h6 style={{ verticalAlign: "middle",fontWeight: "600" ,marginTop:"20px" }}> {parseFloat(totalvaluelocked/1000000000000000000).toFixed(5)}{"BUSD"}</h6>
+                        <h6 style={{ verticalAlign: "middle",fontWeight: "600" ,marginTop:"20px" }}> {parseFloat(totalvaluelocked/1000000000000000000).toFixed(5)} &nbsp;{"BUSD"}</h6>
                         <div
                           className="mb-0 text-muted"
                           style={{ fontSize: "12px", fontWeight: "600" }}
