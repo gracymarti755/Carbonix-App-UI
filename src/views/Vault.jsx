@@ -99,7 +99,8 @@ const Vault = () => {
         await CFI.methods.deposit(value).send({from:accounts[0]});
         overall()
         setIsOpen(true);
-        setDis("Deposited Succesfully")
+        
+        setDis("Deposited Succesfully!")
         }
         else{
             setIsOpen(true);
@@ -116,7 +117,7 @@ const Vault = () => {
         await CFI.methods.withdraw(value).send({from:accounts[0]});
         overall()
         setIsOpen(true);
-        setDis("Withdrawn Succesfully")
+        setDis("Withdrawn Succesfully!")
         }
         else{
             setIsOpen(true);
@@ -133,7 +134,7 @@ const Vault = () => {
         await CFI.methods.mint(value).send({from:accounts[0]});
         overall()
         setIsOpen(true);       
-        setDis("Borrowed Succesfully");
+        setDis("Borrowed Succesfully!");
        }
        else{
         setIsOpen(true);
@@ -186,7 +187,7 @@ const Vault = () => {
             await CFI.methods.liquidate(value).send({from:accounts[0]});
             overall()
             setIsOpen(true);
-            setDis("Liquidate Succesfully")
+            setDis("Liquidated Succesfully!")
         }
          else{
             setIsOpen(true);
@@ -394,7 +395,7 @@ const Vault = () => {
         //bal()
         overall();
         setIsOpen(true);
-        setDis("Approved Succesfully");
+        setDis("Approved Succesfully!");
         
       }
       const approv = async() => {
@@ -404,7 +405,7 @@ const Vault = () => {
         //bal()
         overall();
         setIsOpen(true);
-        setDis("Approved Succesfully");
+        setDis("Approved Succesfully!");
        
       }
       const togglePopup = () => {
@@ -607,12 +608,12 @@ const Vault = () => {
                                         </DropdownToggle>
                                         <DropdownMenu className="w-100">
                                         <DropdownItem onClick={e => setSelectedDropdown1("NO TRANCHE")}>NO TRANCHE</DropdownItem>
-                                            <DropdownItem onClick={e => { setSelectedDropdown1("FIXED TRANCHE"); history.push("/carbon-yield")}}>FIXED TRANCHE</DropdownItem>
+                                            <DropdownItem onClick={e => { setSelectedDropdown1("FIXED TRANCHE"); history.push("/carbon-yield")}}>FIXED TRANCHE(UPCOMING)</DropdownItem>
                                            
                                             <DropdownItem onClick={e => { setSelectedDropdown1("VARIABLE TRANCHE"); history.push("/carbon-yield")}}>VARIABLE TRANCHE</DropdownItem>
                                         </DropdownMenu>
                                     </Dropdown>
-                                    <h6 className="mt-3">Borrow up to 50% the value of your collateral in cBUSD. Your debt will be automatically paid down by yield from Alpaca finance</h6>
+                                    <h6 className="mt-3">Borrow up to 50% the value of your collateral in cbUSD. Your debt will be automatically paid down by yield from Alpaca finance</h6>
                                     <InputGroup className="mt-3">
                                     <Input placeholder={{borrowpercent},"0.00"} style={{ height: "auto" }} type = "number" id="tid3" />
                                         <InputGroupAddon addonType="append"><Button color="site-primary" >Borrow</Button></InputGroupAddon>
@@ -645,24 +646,24 @@ const Vault = () => {
                                     <div className="mt-4">
                                         <h5>Borrows</h5>
                                         <div className="d-flex">
-                                            <span>Remaining cBUSD debt:</span>
-                                            <span className="ml-auto">0.00 cBUSD</span>
+                                            <span>Remaining cbUSD debt:</span>
+                                            <span className="ml-auto">0.00 cbUSD</span>
                                         </div>
                                         <div className="d-flex larger">
                                             <span>Available to borrow:</span>
-                                            <span className="ml-auto">0.00 cBUSD</span>
+                                            <span className="ml-auto">0.00 cbUSD</span>
                                         </div>
                                         <div className="d-flex">
                                             <span>Your wallet balance:</span>
-                                            <span className="ml-auto">0.00 cBUSD</span>
+                                            <span className="ml-auto">0.00 cbUSD</span>
                                         </div>
                                         {/* <div className="d-flex">
                                             <span>Est. Date of Maturity:</span>
                                             <span className="ml-auto">...</span>
                                         </div> */}
                                         <div className="d-flex larger">
-                                            <span>Global Mintable cBUSD:</span>
-                                            <span className="ml-auto">0.00 cBUSD</span>
+                                            <span>Global Mintable cbUSD:</span>
+                                            <span className="ml-auto">0.00 cbUSD</span>
                                         </div>
                                     </div>
 
@@ -676,7 +677,7 @@ const Vault = () => {
 (
 (
 <div>
-                                    <h6>Repay the remaining 0.00 cBUSD debt from your wallet using cBUSD and/or BUSD</h6>
+                                    <h6>Repay the remaining 0.00 cbUSD debt from your wallet using cbUSD and/or BUSD</h6>
                                     {!multiple ?
                                         <InputGroup className="mt-3">
                                         <Input placeholder={{repaypercent},"0.00"} style={{ height: "auto" }} type = "number" id="tid4" />
@@ -685,7 +686,7 @@ const Vault = () => {
                                                     {selectedDropdown}
                                                 </DropdownToggle>
                                                 <DropdownMenu>
-                                                    <DropdownItem onClick={e => setSelectedDropdown("cBUSD")}>cBUSD</DropdownItem>
+                                                    <DropdownItem onClick={e => setSelectedDropdown("cbUSD")}>cbUSD</DropdownItem>
                                                     <DropdownItem onClick={e => setSelectedDropdown("BUSD")}>BUSD</DropdownItem>
                                                 </DropdownMenu>
                                             </InputGroupButtonDropdown>
@@ -695,7 +696,7 @@ const Vault = () => {
                                             <InputGroup className="mt-3">
                                                 <Input placeholder="0.00" style={{ height: "auto" }}  />
                                                 <InputGroupAddon addonType="append">
-                                                    <InputGroupText className="bg-site-primary text-white font-weight-bold">cBUSD</InputGroupText>
+                                                    <InputGroupText className="bg-site-primary text-white font-weight-bold">cbUSD</InputGroupText>
                                                 </InputGroupAddon>
                                                 <InputGroupAddon addonType="append">
                                                     <Button size="sm" onClick={e => setMultiple(!multiple)} color="outline-site-primary"><i className="fa fa-minus"></i></Button></InputGroupAddon>
@@ -718,7 +719,7 @@ const Vault = () => {
                                                 </div>
                                                 <div className="d-inline-flex mx-auto">
                                                     <div style={{ width: 70 }}>
-                                                        cBUSD
+                                                        cbUSD
                                                     </div>
                                                     <input type="range" min="1" max="100" defaultValue="0"></input>
                                                     <div style={{ width: 70 }} className="text-right">
@@ -770,24 +771,24 @@ const Vault = () => {
                                     <div className="mt-4">
                                         <h5>Borrows</h5>
                                         <div className="d-flex larger">
-                                            <span>Remaining cBUSD debt:</span>
-                                            <span className="ml-auto">0.00 cBUSD</span>
+                                            <span>Remaining cbUSD debt:</span>
+                                            <span className="ml-auto">0.00 cbUSD</span>
                                         </div>
                                         <div className="d-flex">
                                             <span>Available to borrow:</span>
-                                            <span className="ml-auto">0.00 cBUSD</span>
+                                            <span className="ml-auto">0.00 cbUSD</span>
                                         </div>
                                         <div className="d-flex larger">
                                             <span>Your wallet balance:</span>
-                                            <span className="ml-auto">0.00 cBUSD</span>
+                                            <span className="ml-auto">0.00 cbUSD</span>
                                         </div>
                                         {/* <div className="d-flex">
                                             <span>Est. Date of Maturity:</span>
                                             <span className="ml-auto">...</span>
                                         </div> */}
                                         <div className="d-flex">
-                                            <span>Global Mintable cBUSD:</span>
-                                            <span className="ml-auto">0.00 cBUSD</span>
+                                            <span>Global Mintable cbUSD:</span>
+                                            <span className="ml-auto">0.00 cbUSD</span>
                                         </div>
                                     </div>
 
@@ -795,8 +796,8 @@ const Vault = () => {
                             )}
                             {activeTab == "Liquidate" && (
                                 <div className="p-3">
-                                    <h6>Repay the remaining 0.00 cBUSD debt by liquidating your BUSD collateral.</h6>
-                                    <small className="text-danger">WARNING: this will use your collateral to repay your cBUSD debt.</small>
+                                    <h6>Repay the remaining 0.00 cbUSD debt by liquidating your BUSD collateral.</h6>
+                                    <small className="text-danger">WARNING: this will use your collateral to repay your cbUSD debt.</small>
                                     <InputGroup className="mt-3">
                                     <Input placeholder={{liquidatepercent},"0.00"} style={{ height: "auto" }} type = "number" id="tid5" />
                                         <InputGroupAddon addonType="append"><Button color="site-primary" >Liquidate</Button></InputGroupAddon>
@@ -829,24 +830,24 @@ const Vault = () => {
                                     <div className="mt-4">
                                         <h5>Borrows</h5>
                                         <div className="d-flex larger">
-                                            <span>Remaining cBUSD debt:</span>
-                                            <span className="ml-auto">0.00 cBUSD</span>
+                                            <span>Remaining cbUSD debt:</span>
+                                            <span className="ml-auto">0.00 cbUSD</span>
                                         </div>
                                         <div className="d-flex">
                                             <span>Available to borrow:</span>
-                                            <span className="ml-auto">0.00 cBUSD</span>
+                                            <span className="ml-auto">0.00 cbUSD</span>
                                         </div>
                                         <div className="d-flex">
                                             <span>Your wallet balance:</span>
-                                            <span className="ml-auto">0.00 cBUSD</span>
+                                            <span className="ml-auto">0.00 cbUSD</span>
                                         </div>
                                         {/* <div className="d-flex">
                                             <span>Est. Date of Maturity:</span>
                                             <span className="ml-auto">...</span>
                                         </div> */}
                                         <div className="d-flex">
-                                            <span>Global Mintable cBUSD:</span>
-                                            <span className="ml-auto">0.00 cBUSD</span>
+                                            <span>Global Mintable cbUSD:</span>
+                                            <span className="ml-auto">0.00 cbUSD</span>
                                         </div>
                                     </div>
 
@@ -919,7 +920,7 @@ const Vault = () => {
 (
 (
     <div>
-                                <h6>Deposit BUSD in order to borrow cBUSD</h6>
+                                <h6>Deposit BUSD in order to borrow cbUSD</h6>
                                     <InputGroup className="mt-3">
                                         {/* <Input placeholder={depositpercent} style={{ height: "auto" }} type = "number" name="tid1"  onChange={event => setId1( event.target.value)}  ></Input> */}
                                         <Input placeholder={{depositpercent},"0.00" }style={{ height: "auto" }} type = "number" id="tid1"  ></Input>
@@ -970,24 +971,24 @@ const Vault = () => {
                                     <div className="mt-4">
                                         <h5>Borrows</h5>
                                         <div className="d-flex">
-                                            <span>Remaining cBUSD debt:</span>
-                                            <span className="ml-auto">{parseFloat(totaldebt/1000000000000000000).toFixed(5)} cBUSD</span>
+                                            <span>Remaining cbUSD debt:</span>
+                                            <span className="ml-auto">{parseFloat(totaldebt/1000000000000000000).toFixed(5)} cbUSD</span>
                                         </div>
                                         <div className="d-flex">
                                             <span>Available to borrow:</span>
-                                            <span className="ml-auto">{parseFloat(avaltoborrow/1000000000000000000).toFixed(5)} cBUSD</span>
+                                            <span className="ml-auto">{parseFloat(avaltoborrow/1000000000000000000).toFixed(5)} cbUSD</span>
                                         </div>
                                         <div className="d-flex">
                                             <span>Your wallet balance:</span>
-                                            <span className="ml-auto">{parseFloat(cbusdbalance/1000000000000000000).toFixed(5)} cBUSD</span>
+                                            <span className="ml-auto">{parseFloat(cbusdbalance/1000000000000000000).toFixed(5)} cbUSD</span>
                                         </div>
                                         {/* <div className="d-flex">
                                             <span>Est. Date of Maturity:</span>
                                             <span className="ml-auto">...</span>
                                         </div> */}
                                         <div className="d-flex">
-                                            <span>Global Mintable cBUSD:</span>
-                                            <span className="ml-auto">{parseFloat(cbusdtotalsupply/1000000000000000000).toFixed(5)}cBUSD</span>
+                                            <span>Global Mintable cbUSD:</span>
+                                            <span className="ml-auto">{parseFloat(cbusdtotalsupply/1000000000000000000).toFixed(5)}cbUSD</span>
                                         </div>
                                     </div>
 
@@ -1028,24 +1029,24 @@ const Vault = () => {
                                     <div className="mt-4">
                                         <h5>Borrows</h5>
                                         <div className="d-flex">
-                                            <span>Remaining cBUSD debt:</span>
-                                            <span className="ml-auto">{parseFloat(totaldebt/1000000000000000000).toFixed(5)} cBUSD</span>
+                                            <span>Remaining cbUSD debt:</span>
+                                            <span className="ml-auto">{parseFloat(totaldebt/1000000000000000000).toFixed(5)} cbUSD</span>
                                         </div>
                                         <div className="d-flex">
                                             <span>Available to borrow:</span>
-                                            <span className="ml-auto">{parseFloat(avaltoborrow/1000000000000000000).toFixed(5)} cBUSD</span>
+                                            <span className="ml-auto">{parseFloat(avaltoborrow/1000000000000000000).toFixed(5)} cbUSD</span>
                                         </div>
                                         <div className="d-flex">
                                             <span>Your wallet balance:</span>
-                                            <span className="ml-auto">{parseFloat(cbusdbalance/1000000000000000000).toFixed(5)} cBUSD</span>
+                                            <span className="ml-auto">{parseFloat(cbusdbalance/1000000000000000000).toFixed(5)} cbUSD</span>
                                         </div>
                                         {/* <div className="d-flex">
                                             <span>Est. Date of Maturity:</span>
                                             <span className="ml-auto">...</span>
                                         </div> */}
                                         <div className="d-flex">
-                                            <span>Global Mintable cBUSD:</span>
-                                            <span className="ml-auto">{parseFloat(cbusdtotalsupply/1000000000000000000).toFixed(5)} cBUSD</span>
+                                            <span>Global Mintable cbUSD:</span>
+                                            <span className="ml-auto">{parseFloat(cbusdtotalsupply/1000000000000000000).toFixed(5)} cbUSD</span>
                                         </div>
                                     </div>
 
@@ -1059,12 +1060,12 @@ const Vault = () => {
                                         </DropdownToggle>
                                         <DropdownMenu className="w-100">
                                         <DropdownItem onClick={e => setSelectedDropdown1("NO TRANCHE")}>NO TRANCHE</DropdownItem>
-                                            <DropdownItem onClick={e => { setSelectedDropdown1("FIXED TRANCHE"); history.push("/carbon-yield")}}>FIXED TRANCHE</DropdownItem>
+                                            <DropdownItem onClick={e => { setSelectedDropdown1("FIXED TRANCHE"); history.push("/carbon-yield")}}>FIXED TRANCHE(UPCOMING)</DropdownItem>
                                            
-                                            <DropdownItem onClick={e => { setSelectedDropdown1("VARIABLE TRANCHE"); history.push("/carbon-yield")}}>VARIABLE TRANCHE</DropdownItem>
+                                            <DropdownItem onClick={e => { setSelectedDropdown1("VARIABLE TRANCHE"); history.push("/carbon-yield")}}>VARIABLE TRANCHE(UPCOMING)</DropdownItem>
                                         </DropdownMenu>
                                     </Dropdown>
-                                    <h6 className="mt-3">Borrow up to 50% the value of your collateral in cBUSD. Your debt will be automatically paid down by yield from Alpaca finance</h6>
+                                    <h6 className="mt-3">Borrow up to 50% the value of your collateral in cbUSD. Your debt will be automatically paid down by yield from Alpaca finance</h6>
                                     <InputGroup className="mt-3">
                                     <Input placeholder={{borrowpercent},"0.00"} style={{ height: "auto" }} type = "number" id="tid3" />
                                         <InputGroupAddon addonType="append"><Button color="site-primary" onClick={borrow}>Borrow</Button></InputGroupAddon>
@@ -1097,24 +1098,24 @@ const Vault = () => {
                                     <div className="mt-4">
                                         <h5>Borrows</h5>
                                         <div className="d-flex">
-                                            <span>Remaining cBUSD debt:</span>
-                                            <span className="ml-auto">{parseFloat(totaldebt/1000000000000000000).toFixed(5)} cBUSD</span>
+                                            <span>Remaining cbUSD debt:</span>
+                                            <span className="ml-auto">{parseFloat(totaldebt/1000000000000000000).toFixed(5)} cbUSD</span>
                                         </div>
                                         <div className="d-flex larger">
                                             <span>Available to borrow:</span>
-                                            <span className="ml-auto">{parseFloat(avaltoborrow/1000000000000000000).toFixed(5)} cBUSD</span>
+                                            <span className="ml-auto">{parseFloat(avaltoborrow/1000000000000000000).toFixed(5)} cbUSD</span>
                                         </div>
                                         <div className="d-flex">
                                             <span>Your wallet balance:</span>
-                                            <span className="ml-auto">{parseFloat(cbusdbalance/1000000000000000000).toFixed(5)} cBUSD</span>
+                                            <span className="ml-auto">{parseFloat(cbusdbalance/1000000000000000000).toFixed(5)} cbUSD</span>
                                         </div>
                                         {/* <div className="d-flex">
                                             <span>Est. Date of Maturity:</span>
                                             <span className="ml-auto">...</span>
                                         </div> */}
                                         <div className="d-flex larger">
-                                            <span>Global Mintable cBUSD:</span>
-                                            <span className="ml-auto">{parseFloat(cbusdtotalsupply/1000000000000000000).toFixed(5)} cBUSD</span>
+                                            <span>Global Mintable cbUSD:</span>
+                                            <span className="ml-auto">{parseFloat(cbusdtotalsupply/1000000000000000000).toFixed(5)} cbUSD</span>
                                         </div>
                                     </div>
 
@@ -1128,7 +1129,7 @@ const Vault = () => {
 (
 (
 <div>
-                                    <h6>Repay the remaining {parseFloat(totaldebt/1000000000000000000).toFixed(5)} cBUSD debt from your wallet using cBUSD and/or BUSD</h6>
+                                    <h6>Repay the remaining {parseFloat(totaldebt/1000000000000000000).toFixed(5)} cbUSD debt from your wallet using cbUSD and/or BUSD</h6>
                                     {!multiple ?
                                         <InputGroup className="mt-3">
                                         <Input placeholder={{repaypercent},"0.00"} style={{ height: "auto" }} type = "number" id="tid4" />
@@ -1137,7 +1138,7 @@ const Vault = () => {
                                                     {selectedDropdown}
                                                 </DropdownToggle>
                                                 <DropdownMenu>
-                                                    <DropdownItem onClick={e => setSelectedDropdown("cBUSD")}>cBUSD</DropdownItem>
+                                                    <DropdownItem onClick={e => setSelectedDropdown("cbUSD")}>cbUSD</DropdownItem>
                                                     <DropdownItem onClick={e => setSelectedDropdown("BUSD")}>BUSD</DropdownItem>
                                                 </DropdownMenu>
                                             </InputGroupButtonDropdown>
@@ -1147,7 +1148,7 @@ const Vault = () => {
                                             <InputGroup className="mt-3">
                                                 <Input placeholder="0.00" style={{ height: "auto" }}  />
                                                 <InputGroupAddon addonType="append">
-                                                    <InputGroupText className="bg-site-primary text-white font-weight-bold">cBUSD</InputGroupText>
+                                                    <InputGroupText className="bg-site-primary text-white font-weight-bold">cbUSD</InputGroupText>
                                                 </InputGroupAddon>
                                                 <InputGroupAddon addonType="append">
                                                     <Button size="sm" onClick={e => setMultiple(!multiple)} color="outline-site-primary"><i className="fa fa-minus"></i></Button></InputGroupAddon>
@@ -1170,7 +1171,7 @@ const Vault = () => {
                                                 </div>
                                                 <div className="d-inline-flex mx-auto">
                                                     <div style={{ width: 70 }}>
-                                                        cBUSD
+                                                        cbUSD
                                                     </div>
                                                     <input type="range" min="1" max="100" defaultValue="0"></input>
                                                     <div style={{ width: 70 }} className="text-right">
@@ -1222,24 +1223,24 @@ const Vault = () => {
                                     <div className="mt-4">
                                         <h5>Borrows</h5>
                                         <div className="d-flex larger">
-                                            <span>Remaining cBUSD debt:</span>
-                                            <span className="ml-auto">{parseFloat(totaldebt/1000000000000000000).toFixed(5)} cBUSD</span>
+                                            <span>Remaining cbUSD debt:</span>
+                                            <span className="ml-auto">{parseFloat(totaldebt/1000000000000000000).toFixed(5)} cbUSD</span>
                                         </div>
                                         <div className="d-flex">
                                             <span>Available to borrow:</span>
-                                            <span className="ml-auto">{parseFloat(avaltoborrow/1000000000000000000).toFixed(5)} cBUSD</span>
+                                            <span className="ml-auto">{parseFloat(avaltoborrow/1000000000000000000).toFixed(5)} cbUSD</span>
                                         </div>
                                         <div className="d-flex larger">
                                             <span>Your wallet balance:</span>
-                                            <span className="ml-auto">{parseFloat(cbusdbalance/1000000000000000000).toFixed(5)} cBUSD</span>
+                                            <span className="ml-auto">{parseFloat(cbusdbalance/1000000000000000000).toFixed(5)} cbUSD</span>
                                         </div>
                                         {/* <div className="d-flex">
                                             <span>Est. Date of Maturity:</span>
                                             <span className="ml-auto">...</span>
                                         </div> */}
                                         <div className="d-flex">
-                                            <span>Global Mintable cBUSD:</span>
-                                            <span className="ml-auto">{parseFloat(cbusdtotalsupply/1000000000000000000).toFixed(5)} cBUSD</span>
+                                            <span>Global Mintable cbUSD:</span>
+                                            <span className="ml-auto">{parseFloat(cbusdtotalsupply/1000000000000000000).toFixed(5)} cbUSD</span>
                                         </div>
                                     </div>
 
@@ -1247,8 +1248,8 @@ const Vault = () => {
                             )}
                             {activeTab == "Liquidate" && (
                                 <div className="p-3">
-                                    <h6>Repay the remaining {parseFloat(totaldebt/1000000000000000000).toFixed(5)} cBUSD debt by liquidating your BUSD collateral.</h6>
-                                    <small className="text-danger">WARNING: this will use your collateral to repay your cBUSD debt.</small>
+                                    <h6>Repay the remaining {parseFloat(totaldebt/1000000000000000000).toFixed(5)} cbUSD debt by liquidating your BUSD collateral.</h6>
+                                    <small className="text-danger">WARNING: this will use your collateral to repay your cbUSD debt.</small>
                                     <InputGroup className="mt-3">
                                     <Input placeholder={{liquidatepercent},"0.00"} style={{ height: "auto" }} type = "number" id="tid5" />
                                         <InputGroupAddon addonType="append"><Button color="site-primary" onClick={liquidate}>Liquidate</Button></InputGroupAddon>
@@ -1281,24 +1282,24 @@ const Vault = () => {
                                     <div className="mt-4">
                                         <h5>Borrows</h5>
                                         <div className="d-flex larger">
-                                            <span>Remaining cBUSD debt:</span>
-                                            <span className="ml-auto">{parseFloat(totaldebt/1000000000000000000).toFixed(5)} cBUSD</span>
+                                            <span>Remaining cbUSD debt:</span>
+                                            <span className="ml-auto">{parseFloat(totaldebt/1000000000000000000).toFixed(5)} cbUSD</span>
                                         </div>
                                         <div className="d-flex">
                                             <span>Available to borrow:</span>
-                                            <span className="ml-auto">{parseFloat(avaltoborrow/1000000000000000000).toFixed(5)} cBUSD</span>
+                                            <span className="ml-auto">{parseFloat(avaltoborrow/1000000000000000000).toFixed(5)} cbUSD</span>
                                         </div>
                                         <div className="d-flex">
                                             <span>Your wallet balance:</span>
-                                            <span className="ml-auto">{parseFloat(cbusdbalance/1000000000000000000).toFixed(5)} cBUSD</span>
+                                            <span className="ml-auto">{parseFloat(cbusdbalance/1000000000000000000).toFixed(5)} cbUSD</span>
                                         </div>
                                         {/* <div className="d-flex">
                                             <span>Est. Date of Maturity:</span>
                                             <span className="ml-auto">...</span>
                                         </div> */}
                                         <div className="d-flex">
-                                            <span>Global Mintable cBUSD:</span>
-                                            <span className="ml-auto">{parseFloat(cbusdtotalsupply/1000000000000000000).toFixed(5)} cBUSD</span>
+                                            <span>Global Mintable cbUSD:</span>
+                                            <span className="ml-auto">{parseFloat(cbusdtotalsupply/1000000000000000000).toFixed(5)} cbUSD</span>
                                         </div>
                                     </div>
 

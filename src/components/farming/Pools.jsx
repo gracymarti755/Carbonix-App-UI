@@ -98,7 +98,7 @@ const Pools = () => {
             }}
         >
             <p style={{ fontWeight: "600", margin: "auto" }}>
-                cBUSD
+                cbUSD
             </p>
         </div>
     </div>
@@ -258,7 +258,7 @@ const Pools = () => {
                         }}
                     >
                         <p style={{ fontWeight: "600", margin: "auto" }}>
-                            cBUSD
+                            cbUSD
                         </p>
                         <p className="text-danger mb-0 font-weight-bold" style={{ fontSize: '12px' }}>Epoch 25 / 25</p>
                     </div>
@@ -338,7 +338,7 @@ const Pools = () => {
                             }}
                         >
                             <p style={{ fontWeight: "600", margin: "auto" }}>
-                                cBUSD/BUSD
+                                cbUSD/BUSD
                             </p>
                         </div>
                     </div>
@@ -497,7 +497,7 @@ const Pools = () => {
                         }}
                     >
                         <p style={{ fontWeight: "600", margin: "auto" }}>
-                            cBUSD/BUSD
+                            cbUSD/BUSD
                         </p>
                         <p className="text-danger mb-0 font-weight-bold" style={{ fontSize: '12px' }}>Epoch 25 / 25</p>
                     </div>

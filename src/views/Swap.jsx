@@ -18,7 +18,7 @@ const Swap = () => {
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const [dropdownOpen1, setDropdownOpen1] = useState(false);
     const [multiple, setMultiple] = useState(false);
-    const [selectedDropdown, setSelectedDropdown] = useState("cBUSD");
+    const [selectedDropdown, setSelectedDropdown] = useState("cbUSD");
     const [selectedDropdown1, setSelectedDropdown1] = useState("No Yield");
     const[tid,setId] = useState("");
     const[tid1,setId1] = useState("");
@@ -115,7 +115,7 @@ const Swap = () => {
           await swap.methods.transmute().send({from:accounts[0]});
           first()
           setIsOpen(true);
-          setDis("Transmute succesfully")
+          setDis("Stabilize succesfully !")
         }
         else{
             first()
@@ -261,13 +261,13 @@ const Swap = () => {
                     <Col xl="8" lg="8" md="10" sm="12">
                         <Card className="custom-card">
                             <div className="p-3">
-                                <h4>Stabilize cBUSD to BUSD</h4>
-                                <h6>The Stabilizer exists to ensure cBUSD is pegged to the dollar. Depositing your cBUSD will gradually convert it into BUSD. This is only useful if cBUSD is trading under one dollar on Curve.</h6>
+                                <h4>Stabilize cbUSD to BUSD</h4>
+                                <h6>The Stabilizer exists to ensure cbUSD is pegged to the dollar. Depositing your cbUSD will gradually convert it into BUSD. This is only useful if cbUSD is trading under one dollar on Curve.</h6>
                                 <Table bordered responsive className="mt-3">
                                     <thead>
                                         <tr>
-                                            <th>Your cBUSD</th>
-                                            <th>Deposited cBUSD</th>
+                                            <th>Your cbUSD</th>
+                                            <th>Deposited cbUSD</th>
                                             <th>Stabilizable BUSD</th>
                                             <th>Your BUSD</th>
                                         </tr>
@@ -339,7 +339,7 @@ const Swap = () => {
                                 <h4 className="mb-4">Global Stabilizer Status</h4>
                                 <div className="content">
                                     <div className="d-flex">
-                                        <span>Total Deposited cBUSD:</span>
+                                        <span>Total Deposited cbUSD:</span>
                                         <span className="ml-auto">0.00</span>
                                     </div>
                                     <div className="d-flex">
@@ -372,13 +372,13 @@ const Swap = () => {
                     <Col xl="8" lg="8" md="10" sm="12">
                         <Card className="custom-card">
                             <div className="p-3">
-                                <h4>Stabilize cBUSD to BUSD</h4>
-                                <h6>The Stabilizer exists to ensure cBUSD is pegged to the dollar. Depositing your cBUSD will gradually convert it into BUSD. This is only useful if cBUSD is trading under one dollar on Curve.</h6>
+                                <h4>Stabilize cbUSD to BUSD</h4>
+                                <h6>The Stabilizer exists to ensure cbUSD is pegged to the dollar. Depositing your cbUSD will gradually convert it into BUSD. This is only useful if cbUSD is trading under one dollar on Curve.</h6>
                                 <Table bordered responsive className="mt-3">
                                     <thead>
                                         <tr>
-                                            <th>Your cBUSD</th>
-                                            <th>Deposited cBUSD</th>
+                                            <th>Your cbUSD</th>
+                                            <th>Deposited cbUSD</th>
                                             <th>Stabilizable BUSD</th>
                                             <th>Your BUSD</th>
                                         </tr>
@@ -463,7 +463,7 @@ const Swap = () => {
                                 <h4 className="mb-4">Global Stabilizer Status</h4>
                                 <div className="content">
                                     <div className="d-flex">
-                                        <span>Total Deposited cBUSD:</span>
+                                        <span>Total Deposited cbUSD:</span>
                                         <span className="ml-auto">{parseFloat(toalcbusddepo/1000000000000000000).toFixed(5)}</span>
                                     </div>
                                     <div className="d-flex">

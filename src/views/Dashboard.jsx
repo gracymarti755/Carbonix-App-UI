@@ -203,10 +203,10 @@ class Dashboard extends Component {
                     <CustomCard title="Total Deposited" title2="$" text= {this.state.totaldeposited}></CustomCard>
                 </Col>
                 <Col className="mb-4">
-                    <CustomCard title="Total Borrowed" text={this.state.totalsupply} subText1="CBUSD"/>
+                    <CustomCard title="Total Borrowed" text={this.state.totalsupply} subText1="cbUSD"/>
                 </Col>
                 <Col className="mb-4">
-                    <CustomCard title="Circulating Supply" text={this.state.totalsupply} subText1="CBUSD"/>
+                    <CustomCard title="Circulating Supply" text={this.state.totalsupply} subText1="cbUSD"/>
                 </Col>
             </Row>
             <div className="m-5 pl-3"><h2><b>Pools</b></h2>
@@ -524,7 +524,7 @@ class Dashboard extends Component {
                     </Table>
                     <div className="p-24 pagination-wrapper">
                         <div className="d-md-flex">
-                            <small className="m-0 font-weight-bold text-muted">Showing 1 to 10 out of 28839 transactions</small>
+                            <small className="m-0 font-weight-bold text-muted"></small>
                             <div className="d-flex pagination align-items-center mt-3 mt-md-0 ml-md-auto">
                                 <i className="fa fa-angle-left"></i>
                                 {new Array(pagesCount).fill("1").map((c, i) => {

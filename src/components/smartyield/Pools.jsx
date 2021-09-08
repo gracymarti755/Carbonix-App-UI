@@ -906,7 +906,7 @@ const Pools = (props) => {
             </Table>
             <div className="p-24 pagination-wrapper">
                 <div className="d-md-flex">
-                    <small className="m-0 font-weight-bold text-muted">Showing 1 to 10 out of 28839 transactions</small>
+                    <small className="m-0 font-weight-bold text-muted"></small>
                     <div className="d-flex pagination align-items-center mt-3 mt-md-0 ml-md-auto">
                         <i className="fa fa-angle-left"></i>
                         <span className="active">1</span>
