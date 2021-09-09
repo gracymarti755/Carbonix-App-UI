@@ -8,7 +8,8 @@ import { Button, Dropdown, Card, Col, Container, DropdownItem, DropdownMenu, Dro
 import CFI from "./carbonFinanceAbi";
 import { useDebugValue } from "react";
 import Popup from "../Popup";
-
+import Modald from "../ModalD";
+import FolowStepsd from "../FolowStepsd";
 
 const Vault = () => {
     // window.onbeforeunload = () => {
@@ -68,7 +69,7 @@ const Vault = () => {
   
        setcbusdtotalsupply(await cbusd.methods.totalSupply().call());
        
-        let a = await busd.methods.allowance(accounts[0],"0x100190Ee3640D47286AAb1025435D3a8eEbEC7DA").call();
+        let a = await busd.methods.allowance(accounts[0],"0x27A8DE88408102b4C14c1DbB1695a666A8686e6a").call();
        if(a>0){
         setApp(true);
        }
@@ -76,7 +77,7 @@ const Vault = () => {
         setApp(false);
        }
       
-      let b= await cbusd.methods.allowance(accounts[0],"0x100190Ee3640D47286AAb1025435D3a8eEbEC7DA").call();
+      let b= await cbusd.methods.allowance(accounts[0],"0x27A8DE88408102b4C14c1DbB1695a666A8686e6a").call();
       if(b>0){
         setAP(true);
       }
@@ -85,18 +86,26 @@ const Vault = () => {
       }
     }
     }
-    useEffect(()=>{overall()},[app1])
+    useEffect(()=>{overall()},[app1,avaltoborrow,totaldebt,totaldep,avatokentowithdraw])
 
     const deposit = async(event) => {
         event.preventDefault();
         const accounts =  await web3.eth.getAccounts();
         var valu = document.getElementById("tid1").value;
+        console.log("valueget",valu);
         var val = valu * 1000000000;
         var value = val + "000000000"
+        if(parseInt(value)<=parseInt(busdbalance)){
         await CFI.methods.deposit(value).send({from:accounts[0]});
-        setIsOpen(true);
-        setDis("Deposited Succesfully")
         overall()
+        setIsOpen(true);
+        
+        setDis("Deposited Succesfully!")
+        }
+        else{
+            setIsOpen(true);
+            setDis("You Are  Trying To Deposit More Than Your Wallet Balance")   
+        }
       }
     const withdraw = async(event) => {
         event.preventDefault();
@@ -104,10 +113,16 @@ const Vault = () => {
         var valu = document.getElementById("tid2").value;
         var val = valu * 1000000000;
         var value = val + "000000000"
+        if(parseInt(value)<=parseInt(avatokentowithdraw)){
         await CFI.methods.withdraw(value).send({from:accounts[0]});
-        setIsOpen(true);
-        setDis("Withdrawn Succesfully")
         overall()
+        setIsOpen(true);
+        setDis("Withdrawn Succesfully!")
+        }
+        else{
+            setIsOpen(true);
+            setDis("You Are Trying To Withdraw More Than You Deposited")   
+        }
     }
     const borrow = async(event) => {
         event.preventDefault();
@@ -115,10 +130,16 @@ const Vault = () => {
         var valu = document.getElementById("tid3").value;
         var val = valu * 1000000000;
         var value = val + "000000000"
+       if(parseInt(value)<=parseInt(avaltoborrow)){
         await CFI.methods.mint(value).send({from:accounts[0]});
+        overall()
+        setIsOpen(true);       
+        setDis("Borrowed Succesfully!");
+       }
+       else{
         setIsOpen(true);
-        setDis("Borrowed Succesfully");
-      overall()
+        setDis("You Are Trying To Borrow More Than Your Borrow Limit")   
+       }
     }
     const repayborrow = async(event) => {
         event.preventDefault();
@@ -127,22 +148,34 @@ const Vault = () => {
        if(selectedDropdown == "cBUSD"){
         var val = valu * 1000000000;
         var value = val + "000000000"
-        if(value>cbusdbalance){
-            value = cbusdbalance
+        if(parseInt(value)<=parseInt(cbusdbalance)){
+            await CFI.methods.repay(0,value).send({from:accounts[0]});
+            overall()
+            setIsOpen(true);
+            setDis("Borrowed amount is repayed By using CBUSD")
         }
-        await CFI.methods.repay(0,value).send({from:accounts[0]});
-        setIsOpen(true);
-        setDis("Borrowed amount is repayed By using CBUSD")
+        else{
+            setIsOpen(true);
+            setDis("You Don't Have Enough cBUSD To Repay Your Debt")
+        }
+      
        }
        else{
         var val = valu * 1000000000;
         var value = val + "000000000"
+        if(parseInt(value)<=parseInt(busdbalance)){
         await CFI.methods.repay(value,0).send({from:accounts[0]});
+        overall()
         setIsOpen(true);
         setDis("Borrowed amount is repayed By using BUSD")
+        }
+        else{
+            setIsOpen(true);
+            setDis("You Don't Have Enough BUSD To Repay Your Debt")
+        }
        }
         
-       overall()
+       
       }
       const liquidate = async(event) => {
         event.preventDefault();
@@ -150,18 +183,27 @@ const Vault = () => {
         var valu = document.getElementById("tid5").value;
         var val = valu * 1000000000;
         var value = val + "000000000"
-        await CFI.methods.liquidate(value).send({from:accounts[0]});
-        setIsOpen(true);
-        setDis("Liquidate Succesfully")
-        overall()
+        if(parseInt(value)<=parseInt(totaldep)){
+            await CFI.methods.liquidate(value).send({from:accounts[0]});
+            overall()
+            setIsOpen(true);
+            setDis("Liquidated Succesfully!")
+        }
+         else{
+            setIsOpen(true);
+            setDis("You Don't Have Enough BUSD In Collateral Balance To Liquidate")
+         }
+       
       }
       const balancepercent = async(event) => {
         event.preventDefault();
         const accounts =  await web3.eth.getAccounts(); 
         document.getElementById("tid1").value = false;  
         var twentyfive=(busdbalance * 25)/100;
-        setdepositpercent(parseFloat(twentyfive/1000000000000000000).toFixed(5));
-        document.getElementById("tid1").value =  parseFloat(twentyfive/1000000000000000000).toFixed(5);        
+    //     var printtwenty = ((twentyfive/1000000000000000000));
+    //    console.log("printtwentycheck",Math.floor((printtwenty)));
+       setdepositpercent(Number((twentyfive/1000000000000000000).toString().match(/^\d+(?:\.\d{0,3})?/)));
+       document.getElementById("tid1").value = Number((twentyfive/1000000000000000000).toString().match(/^\d+(?:\.\d{0,3})?/));        
         
       }
        const balancepercent1 = async(event) => {
@@ -169,8 +211,8 @@ const Vault = () => {
         const accounts =  await web3.eth.getAccounts(); 
         document.getElementById("tid1").value = false;    
         var fifty=(busdbalance * 50)/100;
-        setdepositpercent(parseFloat(fifty/1000000000000000000).toFixed(5));
-        document.getElementById("tid1").value = parseFloat(fifty/1000000000000000000).toFixed(5);          
+        setdepositpercent(Number((fifty/1000000000000000000).toString().match(/^\d+(?:\.\d{0,3})?/)));
+        document.getElementById("tid1").value = Number((fifty/1000000000000000000).toString().match(/^\d+(?:\.\d{0,3})?/));          
         
       }
       const balancepercent2 = async(event) => {
@@ -178,8 +220,8 @@ const Vault = () => {
         const accounts =  await web3.eth.getAccounts(); 
         document.getElementById("tid1").value = false;    
         var seventyfive=(busdbalance * 75)/100;
-        setdepositpercent(parseFloat(seventyfive/1000000000000000000).toFixed(5)); 
-        document.getElementById("tid1").value =parseFloat(seventyfive/1000000000000000000).toFixed(5);         
+        setdepositpercent(Number((seventyfive/1000000000000000000).toString().match(/^\d+(?:\.\d{0,3})?/))); 
+        document.getElementById("tid1").value =Number((seventyfive/1000000000000000000).toString().match(/^\d+(?:\.\d{0,3})?/));         
         
       }
       const balancepercent3 = async(event) => {
@@ -187,8 +229,8 @@ const Vault = () => {
         const accounts =  await web3.eth.getAccounts(); 
         document.getElementById("tid1").value = false;    
         var hundred=(busdbalance * 100)/100;
-        setdepositpercent(parseFloat(hundred/1000000000000000000).toFixed(5)); 
-        document.getElementById("tid1").value = parseFloat(hundred/1000000000000000000).toFixed(5);         
+        setdepositpercent(Number((hundred/1000000000000000000).toString().match(/^\d+(?:\.\d{0,3})?/))); 
+        document.getElementById("tid1").value = Number((hundred/1000000000000000000).toString().match(/^\d+(?:\.\d{0,3})?/));         
         
       }
       const withdrawbalancepercent = async(event) => {
@@ -196,8 +238,8 @@ const Vault = () => {
         const accounts =  await web3.eth.getAccounts(); 
         document.getElementById("tid2").value = false;    
         var twentyfive=(avatokentowithdraw * 25)/100;
-        setwithdrawpercent(parseFloat(twentyfive/1000000000000000000).toFixed(5));  
-        document.getElementById("tid2").value = parseFloat(twentyfive/1000000000000000000).toFixed(5);        
+        setwithdrawpercent(Number((twentyfive/1000000000000000000).toString().match(/^\d+(?:\.\d{0,3})?/)));  
+        document.getElementById("tid2").value = Number((twentyfive/1000000000000000000).toString().match(/^\d+(?:\.\d{0,3})?/));        
         
       }
       const withdrawbalancepercent1 = async(event) => {
@@ -205,8 +247,8 @@ const Vault = () => {
         const accounts =  await web3.eth.getAccounts(); 
         document.getElementById("tid2").value = false;   
         var fifty=(avatokentowithdraw * 50)/100;
-        setwithdrawpercent(parseFloat(fifty/1000000000000000000).toFixed(5));  
-        document.getElementById("tid2").value = parseFloat(fifty/1000000000000000000).toFixed(5);       
+        setwithdrawpercent(Number((fifty/1000000000000000000).toString().match(/^\d+(?:\.\d{0,3})?/)));  
+        document.getElementById("tid2").value = Number((fifty/1000000000000000000).toString().match(/^\d+(?:\.\d{0,3})?/));       
         
       }
       const withdrawbalancepercent2 = async(event) => {
@@ -214,8 +256,8 @@ const Vault = () => {
         const accounts =  await web3.eth.getAccounts();
         document.getElementById("tid2").value = false;    
         var seventyfive=(avatokentowithdraw * 75)/100;
-        setwithdrawpercent(parseFloat(seventyfive/1000000000000000000).toFixed(5)); 
-        document.getElementById("tid2").value = parseFloat(seventyfive/1000000000000000000).toFixed(5);        
+        setwithdrawpercent(Number((seventyfive/1000000000000000000).toString().match(/^\d+(?:\.\d{0,3})?/)));  
+        document.getElementById("tid2").value = Number((seventyfive/1000000000000000000).toString().match(/^\d+(?:\.\d{0,3})?/));        
         
       }
       const withdrawbalancepercent3 = async(event) => {
@@ -223,8 +265,8 @@ const Vault = () => {
         const accounts =  await web3.eth.getAccounts(); 
         document.getElementById("tid2").value = false;   
         var hundred=(avatokentowithdraw * 100)/100;
-        setwithdrawpercent(parseFloat(hundred/1000000000000000000).toFixed(5));
-        document.getElementById("tid2").value = parseFloat(hundred/1000000000000000000).toFixed(5);         
+        setwithdrawpercent(Number((hundred/1000000000000000000).toString().match(/^\d+(?:\.\d{0,3})?/)));  
+        document.getElementById("tid2").value = Number((hundred/1000000000000000000).toString().match(/^\d+(?:\.\d{0,3})?/));         
         
       }
 
@@ -233,8 +275,8 @@ const Vault = () => {
         const accounts =  await web3.eth.getAccounts(); 
         document.getElementById("tid3").value = false;   
         var twentyfive=(avaltoborrow * 25)/100;
-        setborrowpercent(parseFloat(twentyfive/1000000000000000000).toFixed(5)); 
-        document.getElementById("tid3").value =parseFloat(twentyfive/1000000000000000000).toFixed(5);        
+        setborrowpercent(Number((twentyfive/1000000000000000000).toString().match(/^\d+(?:\.\d{0,3})?/))); 
+        document.getElementById("tid3").value =Number((twentyfive/1000000000000000000).toString().match(/^\d+(?:\.\d{0,3})?/));        
         
       }
       const borrowbalancepercent1 = async(event) => {
@@ -242,8 +284,8 @@ const Vault = () => {
         const accounts =  await web3.eth.getAccounts();
         document.getElementById("tid3").value = false;           
         var fifty=(avaltoborrow * 50)/100;
-        setborrowpercent(parseFloat(fifty/1000000000000000000).toFixed(5)); 
-        document.getElementById("tid3").value = parseFloat(fifty/1000000000000000000).toFixed(5);        
+        setborrowpercent(Number((fifty/1000000000000000000).toString().match(/^\d+(?:\.\d{0,3})?/))); 
+        document.getElementById("tid3").value = Math.floor(fifty/1000000000000000000);        
        
         
       }
@@ -253,8 +295,8 @@ const Vault = () => {
         const accounts =  await web3.eth.getAccounts();
         document.getElementById("tid3").value = false;           
         var seventyfive=(avaltoborrow * 75)/100;
-        setborrowpercent(parseFloat(seventyfive/1000000000000000000).toFixed(5)); 
-        document.getElementById("tid3").value = parseFloat(seventyfive/1000000000000000000).toFixed(5);        
+        setborrowpercent(Number((seventyfive/1000000000000000000).toString().match(/^\d+(?:\.\d{0,3})?/))); 
+        document.getElementById("tid3").value = Number((seventyfive/1000000000000000000).toString().match(/^\d+(?:\.\d{0,3})?/));        
        
         
       }
@@ -264,8 +306,8 @@ const Vault = () => {
         const accounts =  await web3.eth.getAccounts();
         document.getElementById("tid3").value = false;     
         var hundred=(avaltoborrow * 100)/100;
-        setborrowpercent(parseFloat(hundred/1000000000000000000).toFixed(5));     
-        document.getElementById("tid3").value =parseFloat(hundred/1000000000000000000).toFixed(5);        
+        setborrowpercent(Number((hundred/1000000000000000000).toString().match(/^\d+(?:\.\d{0,3})?/)));     
+        document.getElementById("tid3").value =Number((hundred/1000000000000000000).toString().match(/^\d+(?:\.\d{0,3})?/));        
    
         
       }
@@ -275,8 +317,8 @@ const Vault = () => {
         const accounts =  await web3.eth.getAccounts(); 
         document.getElementById("tid4").value = false;          
         var twentyfive=(totaldebt * 25)/100;
-        setrepaypercent(parseFloat(twentyfive/1000000000000000000).toFixed(5)); 
-        document.getElementById("tid4").value = parseFloat(twentyfive/1000000000000000000).toFixed(5);        
+        setrepaypercent(Number((twentyfive/1000000000000000000).toString().match(/^\d+(?:\.\d{0,3})?/))); 
+        document.getElementById("tid4").value = Number((twentyfive/1000000000000000000).toString().match(/^\d+(?:\.\d{0,3})?/));        
        
         
       }
@@ -286,8 +328,8 @@ const Vault = () => {
         const accounts =  await web3.eth.getAccounts();
         document.getElementById("tid4").value = false;    
         var fifty=(totaldebt * 50)/100;
-        setrepaypercent(parseFloat(fifty/1000000000000000000).toFixed(5)); 
-        document.getElementById("tid4").value = parseFloat(fifty/1000000000000000000).toFixed(5);        
+        setrepaypercent(Number((fifty/1000000000000000000).toString().match(/^\d+(?:\.\d{0,3})?/))); 
+        document.getElementById("tid4").value = Number((fifty/1000000000000000000).toString().match(/^\d+(?:\.\d{0,3})?/));        
         
       }
 
@@ -296,16 +338,16 @@ const Vault = () => {
         const accounts =  await web3.eth.getAccounts();   
         document.getElementById("tid4").value = false; 
         var seventyfive=(totaldebt * 75)/100;
-        setrepaypercent(parseFloat(seventyfive/1000000000000000000).toFixed(5));        
-        document.getElementById("tid4").value = parseFloat(seventyfive/1000000000000000000).toFixed(5); 
+        setrepaypercent(Number((seventyfive/1000000000000000000).toString().match(/^\d+(?:\.\d{0,3})?/)));        
+        document.getElementById("tid4").value = Number((seventyfive/1000000000000000000).toString().match(/^\d+(?:\.\d{0,3})?/)); 
       }
       const repaybalancepercent3 = async(event) => {
         event.preventDefault();
         const accounts =  await web3.eth.getAccounts(); 
         document.getElementById("tid4").value = false;   
         var hundred=(totaldebt * 100)/100;
-        setrepaypercent(parseFloat(hundred/1000000000000000000).toFixed(5));
-        document.getElementById("tid4").value = parseFloat(hundred/1000000000000000000).toFixed(5);         
+        setrepaypercent(Number((hundred/1000000000000000000).toString().match(/^\d+(?:\.\d{0,3})?/)));
+        document.getElementById("tid4").value = Number((hundred/1000000000000000000).toString().match(/^\d+(?:\.\d{0,3})?/));         
         
       }
 
@@ -315,8 +357,8 @@ const Vault = () => {
         const accounts =  await web3.eth.getAccounts();  
         document.getElementById("tid5").value = false;  
         var twentyfive=(totaldebt * 25)/100;
-        setliquidatepercent(parseFloat(twentyfive/1000000000000000000).toFixed(5)); 
-        document.getElementById("tid5").value = parseFloat(twentyfive/1000000000000000000).toFixed(5);        
+        setliquidatepercent(Number((twentyfive/1000000000000000000).toString().match(/^\d+(?:\.\d{0,3})?/))); 
+        document.getElementById("tid5").value = Number((twentyfive/1000000000000000000).toString().match(/^\d+(?:\.\d{0,3})?/));        
         
       }
 
@@ -325,8 +367,8 @@ const Vault = () => {
         const accounts =  await web3.eth.getAccounts(); 
         document.getElementById("tid5").value = false;   
         var fifty=(totaldebt * 50)/100;
-        setliquidatepercent(parseFloat(fifty/1000000000000000000).toFixed(5)); 
-        document.getElementById("tid5").value = parseFloat(fifty/1000000000000000000).toFixed(5);        
+        setliquidatepercent(Number((fifty/1000000000000000000).toString().match(/^\d+(?:\.\d{0,3})?/))); 
+        document.getElementById("tid5").value = Number((fifty/1000000000000000000).toString().match(/^\d+(?:\.\d{0,3})?/));        
         
       }
       
@@ -335,8 +377,8 @@ const Vault = () => {
         const accounts =  await web3.eth.getAccounts();  
         document.getElementById("tid5").value = false;  
         var seventyfive=(totaldebt * 75)/100;
-        setliquidatepercent(parseFloat(seventyfive/1000000000000000000).toFixed(5)); 
-        document.getElementById("tid5").value = parseFloat(seventyfive/1000000000000000000).toFixed(5);        
+        setliquidatepercent(Number((seventyfive/1000000000000000000).toString().match(/^\d+(?:\.\d{0,3})?/))); 
+        document.getElementById("tid5").value = Number((seventyfive/1000000000000000000).toString().match(/^\d+(?:\.\d{0,3})?/));        
         
       }
       const liquidatebalancepercent3 = async(event) => {
@@ -344,27 +386,29 @@ const Vault = () => {
         const accounts =  await web3.eth.getAccounts(); 
         document.getElementById("tid5").value = false;   
         var hundred=(totaldebt * 100)/100;
-        setliquidatepercent(parseFloat(hundred/1000000000000000000).toFixed(5)); 
-        document.getElementById("tid5").value = parseFloat(hundred/1000000000000000000).toFixed(5);     
+        setliquidatepercent(Number((hundred/1000000000000000000).toString().match(/^\d+(?:\.\d{0,3})?/))); 
+        document.getElementById("tid5").value = Number((hundred/1000000000000000000).toString().match(/^\d+(?:\.\d{0,3})?/));     
         
       }
       const approve = async() => {
         let account = await web3.eth.getAccounts();
         let amount = 1000000000000000000 +"0000000000"; 
-        await busd.methods.approve("0x100190Ee3640D47286AAb1025435D3a8eEbEC7DA",amount).send({from:account[0]});
+        await busd.methods.approve("0x27A8DE88408102b4C14c1DbB1695a666A8686e6a",amount).send({from:account[0]});
         //bal()
-        setIsOpen(true);
-        setDis("Approved Succesfully");
         overall();
+        setIsOpen(true);
+        setDis("Approved Succesfully!");
+        
       }
       const approv = async() => {
         let account = await web3.eth.getAccounts();
         let amount =  1000000000000000000 +"000000000000000000"; 
-        await cbusd.methods.approve("0x100190Ee3640D47286AAb1025435D3a8eEbEC7DA",amount).send({from:account[0]});
+        await cbusd.methods.approve("0x27A8DE88408102b4C14c1DbB1695a666A8686e6a",amount).send({from:account[0]});
         //bal()
-        setIsOpen(true);
-        setDis("Approved Succesfully");
         overall();
+        setIsOpen(true);
+        setDis("Approved Succesfully!");
+       
       }
       const togglePopup = () => {
         setIsOpen(false);
@@ -376,15 +420,9 @@ const Vault = () => {
     return (
        
         <section className="p-0 my-5">
-            <div>
-    {isOpen && <Popup
-      content={<>
-       <center> <b >{dis}</b><br/>
-        <button onClick={togglePopup}>OK</button></center>
-      </>}
-      handleClose={togglePopup}
-    />}
-  </div> 
+           <Modald visible={isOpen} onClose={() => setIsOpen(false)}>
+        <FolowStepsd viewhistory={dis}  />
+      </Modald>
             <Container fluid>
             {
             localStorage.getItem("wallet")===null || localStorage.getItem("wallet")===""?(<>
@@ -475,10 +513,10 @@ const Vault = () => {
                                             <span>Available to withdraw:</span>
                                             <span className="ml-auto">0.00 BUSD</span>
                                         </div>
-                                        <div className="d-flex">
+                                        {/* <div className="d-flex">
                                             <span>BUSD APY:</span>
                                             <span className="ml-auto">0.000%</span>
-                                        </div>
+                                        </div> */}
                                     </div>
                                     <div className="mt-4">
                                         <h5>Borrows</h5>
@@ -533,10 +571,10 @@ const Vault = () => {
                                             <span>Available to withdraw:</span>
                                             <span className="ml-auto">0.00 BUSD</span>
                                         </div>
-                                        <div className="d-flex">
+                                        {/* <div className="d-flex">
                                             <span>BUSD APY:</span>
                                             <span className="ml-auto">0.000%</span>
-                                        </div>
+                                        </div> */}
                                     </div>
                                     <div className="mt-4">
                                         <h5>Borrows</h5>
@@ -572,12 +610,12 @@ const Vault = () => {
                                         </DropdownToggle>
                                         <DropdownMenu className="w-100">
                                         <DropdownItem onClick={e => setSelectedDropdown1("NO TRANCHE")}>NO TRANCHE</DropdownItem>
-                                            <DropdownItem onClick={e => { setSelectedDropdown1("FIXED TRANCHE"); history.push("/carbon-yield")}}>FIXED TRANCHE</DropdownItem>
+                                            <DropdownItem onClick={e => { setSelectedDropdown1("FIXED TRANCHE"); history.push("/carbon-yield")}}>FIXED TRANCHE(UPCOMING)</DropdownItem>
                                            
                                             <DropdownItem onClick={e => { setSelectedDropdown1("VARIABLE TRANCHE"); history.push("/carbon-yield")}}>VARIABLE TRANCHE</DropdownItem>
                                         </DropdownMenu>
                                     </Dropdown>
-                                    <h6 className="mt-3">Borrow up to 50% the value of your collateral in cBUSD. Your debt will be automatically paid down by yield from Alpaca finance</h6>
+                                    <h6 className="mt-3">Borrow up to 50% the value of your collateral in cbUSD. Your debt will be automatically paid down by yield from Alpaca finance</h6>
                                     <InputGroup className="mt-3">
                                     <Input placeholder={{borrowpercent},"0.00"} style={{ height: "auto" }} type = "number" id="tid3" />
                                         <InputGroupAddon addonType="append"><Button color="site-primary" >Borrow</Button></InputGroupAddon>
@@ -602,32 +640,32 @@ const Vault = () => {
                                             <span>Available to withdraw:</span>
                                             <span className="ml-auto">0.00 BUSD</span>
                                         </div>
-                                        <div className="d-flex">
+                                        {/* <div className="d-flex">
                                             <span>BUSD APY:</span>
                                             <span className="ml-auto">0.000%</span>
-                                        </div>
+                                        </div> */}
                                     </div>
                                     <div className="mt-4">
                                         <h5>Borrows</h5>
                                         <div className="d-flex">
-                                            <span>Remaining cBUSD debt:</span>
-                                            <span className="ml-auto">0.00 cBUSD</span>
+                                            <span>Remaining cbUSD debt:</span>
+                                            <span className="ml-auto">0.00 cbUSD</span>
                                         </div>
                                         <div className="d-flex larger">
                                             <span>Available to borrow:</span>
-                                            <span className="ml-auto">0.00 cBUSD</span>
+                                            <span className="ml-auto">0.00 cbUSD</span>
                                         </div>
                                         <div className="d-flex">
                                             <span>Your wallet balance:</span>
-                                            <span className="ml-auto">0.00 cBUSD</span>
+                                            <span className="ml-auto">0.00 cbUSD</span>
                                         </div>
                                         {/* <div className="d-flex">
                                             <span>Est. Date of Maturity:</span>
                                             <span className="ml-auto">...</span>
                                         </div> */}
                                         <div className="d-flex larger">
-                                            <span>Global Mintable cBUSD:</span>
-                                            <span className="ml-auto">0.00 cBUSD</span>
+                                            <span>Global Mintable cbUSD:</span>
+                                            <span className="ml-auto">0.00 cbUSD</span>
                                         </div>
                                     </div>
 
@@ -641,7 +679,7 @@ const Vault = () => {
 (
 (
 <div>
-                                    <h6>Repay the remaining 0.00 cBUSD debt from your wallet using cBUSD and/or BUSD</h6>
+                                    <h6>Repay the remaining 0.00 cbUSD debt from your wallet using cbUSD and/or BUSD</h6>
                                     {!multiple ?
                                         <InputGroup className="mt-3">
                                         <Input placeholder={{repaypercent},"0.00"} style={{ height: "auto" }} type = "number" id="tid4" />
@@ -650,7 +688,7 @@ const Vault = () => {
                                                     {selectedDropdown}
                                                 </DropdownToggle>
                                                 <DropdownMenu>
-                                                    <DropdownItem onClick={e => setSelectedDropdown("cBUSD")}>cBUSD</DropdownItem>
+                                                    <DropdownItem onClick={e => setSelectedDropdown("cbUSD")}>cbUSD</DropdownItem>
                                                     <DropdownItem onClick={e => setSelectedDropdown("BUSD")}>BUSD</DropdownItem>
                                                 </DropdownMenu>
                                             </InputGroupButtonDropdown>
@@ -660,7 +698,7 @@ const Vault = () => {
                                             <InputGroup className="mt-3">
                                                 <Input placeholder="0.00" style={{ height: "auto" }}  />
                                                 <InputGroupAddon addonType="append">
-                                                    <InputGroupText className="bg-site-primary text-white font-weight-bold">cBUSD</InputGroupText>
+                                                    <InputGroupText className="bg-site-primary text-white font-weight-bold">cbUSD</InputGroupText>
                                                 </InputGroupAddon>
                                                 <InputGroupAddon addonType="append">
                                                     <Button size="sm" onClick={e => setMultiple(!multiple)} color="outline-site-primary"><i className="fa fa-minus"></i></Button></InputGroupAddon>
@@ -683,7 +721,7 @@ const Vault = () => {
                                                 </div>
                                                 <div className="d-inline-flex mx-auto">
                                                     <div style={{ width: 70 }}>
-                                                        cBUSD
+                                                        cbUSD
                                                     </div>
                                                     <input type="range" min="1" max="100" defaultValue="0"></input>
                                                     <div style={{ width: 70 }} className="text-right">
@@ -727,32 +765,32 @@ const Vault = () => {
                                             <span>Available to withdraw:</span>
                                             <span className="ml-auto">0.00 BUSD</span>
                                         </div>
-                                        <div className="d-flex">
+                                        {/* <div className="d-flex">
                                             <span>BUSD APY:</span>
                                             <span className="ml-auto">0.000%</span>
-                                        </div>
+                                        </div> */}
                                     </div>
                                     <div className="mt-4">
                                         <h5>Borrows</h5>
                                         <div className="d-flex larger">
-                                            <span>Remaining cBUSD debt:</span>
-                                            <span className="ml-auto">0.00 cBUSD</span>
+                                            <span>Remaining cbUSD debt:</span>
+                                            <span className="ml-auto">0.00 cbUSD</span>
                                         </div>
                                         <div className="d-flex">
                                             <span>Available to borrow:</span>
-                                            <span className="ml-auto">0.00 cBUSD</span>
+                                            <span className="ml-auto">0.00 cbUSD</span>
                                         </div>
                                         <div className="d-flex larger">
                                             <span>Your wallet balance:</span>
-                                            <span className="ml-auto">0.00 cBUSD</span>
+                                            <span className="ml-auto">0.00 cbUSD</span>
                                         </div>
                                         {/* <div className="d-flex">
                                             <span>Est. Date of Maturity:</span>
                                             <span className="ml-auto">...</span>
                                         </div> */}
                                         <div className="d-flex">
-                                            <span>Global Mintable cBUSD:</span>
-                                            <span className="ml-auto">0.00 cBUSD</span>
+                                            <span>Global Mintable cbUSD:</span>
+                                            <span className="ml-auto">0.00 cbUSD</span>
                                         </div>
                                     </div>
 
@@ -760,8 +798,8 @@ const Vault = () => {
                             )}
                             {activeTab == "Liquidate" && (
                                 <div className="p-3">
-                                    <h6>Repay the remaining 0.00 cBUSD debt by liquidating your BUSD collateral.</h6>
-                                    <small className="text-danger">WARNING: this will use your collateral to repay your cBUSD debt.</small>
+                                    <h6>Repay the remaining 0.00 cbUSD debt by liquidating your BUSD collateral.</h6>
+                                    <small className="text-danger">WARNING: this will use your collateral to repay your cbUSD debt.</small>
                                     <InputGroup className="mt-3">
                                     <Input placeholder={{liquidatepercent},"0.00"} style={{ height: "auto" }} type = "number" id="tid5" />
                                         <InputGroupAddon addonType="append"><Button color="site-primary" >Liquidate</Button></InputGroupAddon>
@@ -786,32 +824,32 @@ const Vault = () => {
                                             <span>Available to withdraw:</span>
                                             <span className="ml-auto">0.00 BUSD</span>
                                         </div>
-                                        <div className="d-flex">
+                                        {/* <div className="d-flex">
                                             <span>BUSD APY:</span>
                                             <span className="ml-auto">0.000%</span>
-                                        </div>
+                                        </div> */}
                                     </div>
                                     <div className="mt-4">
                                         <h5>Borrows</h5>
                                         <div className="d-flex larger">
-                                            <span>Remaining cBUSD debt:</span>
-                                            <span className="ml-auto">0.00 cBUSD</span>
+                                            <span>Remaining cbUSD debt:</span>
+                                            <span className="ml-auto">0.00 cbUSD</span>
                                         </div>
                                         <div className="d-flex">
                                             <span>Available to borrow:</span>
-                                            <span className="ml-auto">0.00 cBUSD</span>
+                                            <span className="ml-auto">0.00 cbUSD</span>
                                         </div>
                                         <div className="d-flex">
                                             <span>Your wallet balance:</span>
-                                            <span className="ml-auto">0.00 cBUSD</span>
+                                            <span className="ml-auto">0.00 cbUSD</span>
                                         </div>
                                         {/* <div className="d-flex">
                                             <span>Est. Date of Maturity:</span>
                                             <span className="ml-auto">...</span>
                                         </div> */}
                                         <div className="d-flex">
-                                            <span>Global Mintable cBUSD:</span>
-                                            <span className="ml-auto">0.00 cBUSD</span>
+                                            <span>Global Mintable cbUSD:</span>
+                                            <span className="ml-auto">0.00 cbUSD</span>
                                         </div>
                                     </div>
 
@@ -884,7 +922,7 @@ const Vault = () => {
 (
 (
     <div>
-                                <h6>Deposit BUSD in order to borrow cBUSD</h6>
+                                <h6>Deposit BUSD in order to borrow cbUSD</h6>
                                     <InputGroup className="mt-3">
                                         {/* <Input placeholder={depositpercent} style={{ height: "auto" }} type = "number" name="tid1"  onChange={event => setId1( event.target.value)}  ></Input> */}
                                         <Input placeholder={{depositpercent},"0.00" }style={{ height: "auto" }} type = "number" id="tid1"  ></Input>
@@ -927,32 +965,32 @@ const Vault = () => {
                                             <span>Available to withdraw:</span>
                                             <span className="ml-auto">{parseFloat(avatokentowithdraw/1000000000000000000).toFixed(5)} BUSD</span>
                                         </div>
-                                        <div className="d-flex">
+                                        {/* <div className="d-flex">
                                             <span>BUSD APY:</span>
                                             <span className="ml-auto">0.000%</span>
-                                        </div>
+                                        </div> */}
                                     </div>
                                     <div className="mt-4">
                                         <h5>Borrows</h5>
                                         <div className="d-flex">
-                                            <span>Remaining cBUSD debt:</span>
-                                            <span className="ml-auto">{parseFloat(totaldebt/1000000000000000000).toFixed(5)} cBUSD</span>
+                                            <span>Remaining cbUSD debt:</span>
+                                            <span className="ml-auto">{parseFloat(totaldebt/1000000000000000000).toFixed(5)} cbUSD</span>
                                         </div>
                                         <div className="d-flex">
                                             <span>Available to borrow:</span>
-                                            <span className="ml-auto">{parseFloat(avaltoborrow/1000000000000000000).toFixed(5)} cBUSD</span>
+                                            <span className="ml-auto">{parseFloat(avaltoborrow/1000000000000000000).toFixed(5)} cbUSD</span>
                                         </div>
                                         <div className="d-flex">
                                             <span>Your wallet balance:</span>
-                                            <span className="ml-auto">{parseFloat(cbusdbalance/1000000000000000000).toFixed(5)} cBUSD</span>
+                                            <span className="ml-auto">{parseFloat(cbusdbalance/1000000000000000000).toFixed(5)} cbUSD</span>
                                         </div>
                                         {/* <div className="d-flex">
                                             <span>Est. Date of Maturity:</span>
                                             <span className="ml-auto">...</span>
                                         </div> */}
                                         <div className="d-flex">
-                                            <span>Global Mintable cBUSD:</span>
-                                            <span className="ml-auto">{parseFloat(cbusdtotalsupply/1000000000000000000).toFixed(5)}cBUSD</span>
+                                            <span>Global Mintable cbUSD:</span>
+                                            <span className="ml-auto">{parseFloat(cbusdtotalsupply/1000000000000000000).toFixed(5)}cbUSD</span>
                                         </div>
                                     </div>
 
@@ -985,32 +1023,32 @@ const Vault = () => {
                                             <span>Available to withdraw:</span>
                                             <span className="ml-auto">{parseFloat(avatokentowithdraw/1000000000000000000).toFixed(5)} BUSD</span>
                                         </div>
-                                        <div className="d-flex">
+                                        {/* <div className="d-flex">
                                             <span>BUSD APY:</span>
                                             <span className="ml-auto">0.000%</span>
-                                        </div>
+                                        </div> */}
                                     </div>
                                     <div className="mt-4">
                                         <h5>Borrows</h5>
                                         <div className="d-flex">
-                                            <span>Remaining cBUSD debt:</span>
-                                            <span className="ml-auto">{parseFloat(totaldebt/1000000000000000000).toFixed(5)} cBUSD</span>
+                                            <span>Remaining cbUSD debt:</span>
+                                            <span className="ml-auto">{parseFloat(totaldebt/1000000000000000000).toFixed(5)} cbUSD</span>
                                         </div>
                                         <div className="d-flex">
                                             <span>Available to borrow:</span>
-                                            <span className="ml-auto">{parseFloat(avaltoborrow/1000000000000000000).toFixed(5)} cBUSD</span>
+                                            <span className="ml-auto">{parseFloat(avaltoborrow/1000000000000000000).toFixed(5)} cbUSD</span>
                                         </div>
                                         <div className="d-flex">
                                             <span>Your wallet balance:</span>
-                                            <span className="ml-auto">{parseFloat(cbusdbalance/1000000000000000000).toFixed(5)} cBUSD</span>
+                                            <span className="ml-auto">{parseFloat(cbusdbalance/1000000000000000000).toFixed(5)} cbUSD</span>
                                         </div>
                                         {/* <div className="d-flex">
                                             <span>Est. Date of Maturity:</span>
                                             <span className="ml-auto">...</span>
                                         </div> */}
                                         <div className="d-flex">
-                                            <span>Global Mintable cBUSD:</span>
-                                            <span className="ml-auto">{parseFloat(cbusdtotalsupply/1000000000000000000).toFixed(5)} cBUSD</span>
+                                            <span>Global Mintable cbUSD:</span>
+                                            <span className="ml-auto">{parseFloat(cbusdtotalsupply/1000000000000000000).toFixed(5)} cbUSD</span>
                                         </div>
                                     </div>
 
@@ -1024,12 +1062,12 @@ const Vault = () => {
                                         </DropdownToggle>
                                         <DropdownMenu className="w-100">
                                         <DropdownItem onClick={e => setSelectedDropdown1("NO TRANCHE")}>NO TRANCHE</DropdownItem>
-                                            <DropdownItem onClick={e => { setSelectedDropdown1("FIXED TRANCHE"); history.push("/carbon-yield")}}>FIXED TRANCHE</DropdownItem>
+                                            <DropdownItem onClick={e => { setSelectedDropdown1("FIXED TRANCHE"); history.push("/carbon-yield")}}>FIXED TRANCHE(UPCOMING)</DropdownItem>
                                            
-                                            <DropdownItem onClick={e => { setSelectedDropdown1("VARIABLE TRANCHE"); history.push("/carbon-yield")}}>VARIABLE TRANCHE</DropdownItem>
+                                            <DropdownItem onClick={e => { setSelectedDropdown1("VARIABLE TRANCHE"); history.push("/carbon-yield")}}>VARIABLE TRANCHE(UPCOMING)</DropdownItem>
                                         </DropdownMenu>
                                     </Dropdown>
-                                    <h6 className="mt-3">Borrow up to 50% the value of your collateral in cBUSD. Your debt will be automatically paid down by yield from Alpaca finance</h6>
+                                    <h6 className="mt-3">Borrow up to 50% the value of your collateral in cbUSD. Your debt will be automatically paid down by yield from Alpaca finance</h6>
                                     <InputGroup className="mt-3">
                                     <Input placeholder={{borrowpercent},"0.00"} style={{ height: "auto" }} type = "number" id="tid3" />
                                         <InputGroupAddon addonType="append"><Button color="site-primary" onClick={borrow}>Borrow</Button></InputGroupAddon>
@@ -1054,32 +1092,32 @@ const Vault = () => {
                                             <span>Available to withdraw:</span>
                                             <span className="ml-auto">{parseFloat(avatokentowithdraw/1000000000000000000).toFixed(5)} BUSD</span>
                                         </div>
-                                        <div className="d-flex">
+                                        {/* <div className="d-flex">
                                             <span>BUSD APY:</span>
                                             <span className="ml-auto">0.000%</span>
-                                        </div>
+                                        </div> */}
                                     </div>
                                     <div className="mt-4">
                                         <h5>Borrows</h5>
                                         <div className="d-flex">
-                                            <span>Remaining cBUSD debt:</span>
-                                            <span className="ml-auto">{parseFloat(totaldebt/1000000000000000000).toFixed(5)} cBUSD</span>
+                                            <span>Remaining cbUSD debt:</span>
+                                            <span className="ml-auto">{parseFloat(totaldebt/1000000000000000000).toFixed(5)} cbUSD</span>
                                         </div>
                                         <div className="d-flex larger">
                                             <span>Available to borrow:</span>
-                                            <span className="ml-auto">{parseFloat(avaltoborrow/1000000000000000000).toFixed(5)} cBUSD</span>
+                                            <span className="ml-auto">{parseFloat(avaltoborrow/1000000000000000000).toFixed(5)} cbUSD</span>
                                         </div>
                                         <div className="d-flex">
                                             <span>Your wallet balance:</span>
-                                            <span className="ml-auto">{parseFloat(cbusdbalance/1000000000000000000).toFixed(5)} cBUSD</span>
+                                            <span className="ml-auto">{parseFloat(cbusdbalance/1000000000000000000).toFixed(5)} cbUSD</span>
                                         </div>
                                         {/* <div className="d-flex">
                                             <span>Est. Date of Maturity:</span>
                                             <span className="ml-auto">...</span>
                                         </div> */}
                                         <div className="d-flex larger">
-                                            <span>Global Mintable cBUSD:</span>
-                                            <span className="ml-auto">{parseFloat(cbusdtotalsupply/1000000000000000000).toFixed(5)} cBUSD</span>
+                                            <span>Global Mintable cbUSD:</span>
+                                            <span className="ml-auto">{parseFloat(cbusdtotalsupply/1000000000000000000).toFixed(5)} cbUSD</span>
                                         </div>
                                     </div>
 
@@ -1093,7 +1131,7 @@ const Vault = () => {
 (
 (
 <div>
-                                    <h6>Repay the remaining {parseFloat(totaldebt/1000000000000000000).toFixed(5)} cBUSD debt from your wallet using cBUSD and/or BUSD</h6>
+                                    <h6>Repay the remaining {parseFloat(totaldebt/1000000000000000000).toFixed(5)} cbUSD debt from your wallet using cbUSD and/or BUSD</h6>
                                     {!multiple ?
                                         <InputGroup className="mt-3">
                                         <Input placeholder={{repaypercent},"0.00"} style={{ height: "auto" }} type = "number" id="tid4" />
@@ -1102,7 +1140,7 @@ const Vault = () => {
                                                     {selectedDropdown}
                                                 </DropdownToggle>
                                                 <DropdownMenu>
-                                                    <DropdownItem onClick={e => setSelectedDropdown("cBUSD")}>cBUSD</DropdownItem>
+                                                    <DropdownItem onClick={e => setSelectedDropdown("cbUSD")}>cbUSD</DropdownItem>
                                                     <DropdownItem onClick={e => setSelectedDropdown("BUSD")}>BUSD</DropdownItem>
                                                 </DropdownMenu>
                                             </InputGroupButtonDropdown>
@@ -1112,7 +1150,7 @@ const Vault = () => {
                                             <InputGroup className="mt-3">
                                                 <Input placeholder="0.00" style={{ height: "auto" }}  />
                                                 <InputGroupAddon addonType="append">
-                                                    <InputGroupText className="bg-site-primary text-white font-weight-bold">cBUSD</InputGroupText>
+                                                    <InputGroupText className="bg-site-primary text-white font-weight-bold">cbUSD</InputGroupText>
                                                 </InputGroupAddon>
                                                 <InputGroupAddon addonType="append">
                                                     <Button size="sm" onClick={e => setMultiple(!multiple)} color="outline-site-primary"><i className="fa fa-minus"></i></Button></InputGroupAddon>
@@ -1135,7 +1173,7 @@ const Vault = () => {
                                                 </div>
                                                 <div className="d-inline-flex mx-auto">
                                                     <div style={{ width: 70 }}>
-                                                        cBUSD
+                                                        cbUSD
                                                     </div>
                                                     <input type="range" min="1" max="100" defaultValue="0"></input>
                                                     <div style={{ width: 70 }} className="text-right">
@@ -1179,32 +1217,32 @@ const Vault = () => {
                                             <span>Available to withdraw:</span>
                                             <span className="ml-auto">{parseFloat(avatokentowithdraw/1000000000000000000).toFixed(5)} BUSD</span>
                                         </div>
-                                        <div className="d-flex">
+                                        {/* <div className="d-flex">
                                             <span>BUSD APY:</span>
                                             <span className="ml-auto">0.000%</span>
-                                        </div>
+                                        </div> */}
                                     </div>
                                     <div className="mt-4">
                                         <h5>Borrows</h5>
                                         <div className="d-flex larger">
-                                            <span>Remaining cBUSD debt:</span>
-                                            <span className="ml-auto">{parseFloat(totaldebt/1000000000000000000).toFixed(5)} cBUSD</span>
+                                            <span>Remaining cbUSD debt:</span>
+                                            <span className="ml-auto">{parseFloat(totaldebt/1000000000000000000).toFixed(5)} cbUSD</span>
                                         </div>
                                         <div className="d-flex">
                                             <span>Available to borrow:</span>
-                                            <span className="ml-auto">{parseFloat(avaltoborrow/1000000000000000000).toFixed(5)} cBUSD</span>
+                                            <span className="ml-auto">{parseFloat(avaltoborrow/1000000000000000000).toFixed(5)} cbUSD</span>
                                         </div>
                                         <div className="d-flex larger">
                                             <span>Your wallet balance:</span>
-                                            <span className="ml-auto">{parseFloat(cbusdbalance/1000000000000000000).toFixed(5)} cBUSD</span>
+                                            <span className="ml-auto">{parseFloat(cbusdbalance/1000000000000000000).toFixed(5)} cbUSD</span>
                                         </div>
                                         {/* <div className="d-flex">
                                             <span>Est. Date of Maturity:</span>
                                             <span className="ml-auto">...</span>
                                         </div> */}
                                         <div className="d-flex">
-                                            <span>Global Mintable cBUSD:</span>
-                                            <span className="ml-auto">{parseFloat(cbusdtotalsupply/1000000000000000000).toFixed(5)} cBUSD</span>
+                                            <span>Global Mintable cbUSD:</span>
+                                            <span className="ml-auto">{parseFloat(cbusdtotalsupply/1000000000000000000).toFixed(5)} cbUSD</span>
                                         </div>
                                     </div>
 
@@ -1212,8 +1250,8 @@ const Vault = () => {
                             )}
                             {activeTab == "Liquidate" && (
                                 <div className="p-3">
-                                    <h6>Repay the remaining {parseFloat(totaldebt/1000000000000000000).toFixed(5)} cBUSD debt by liquidating your BUSD collateral.</h6>
-                                    <small className="text-danger">WARNING: this will use your collateral to repay your cBUSD debt.</small>
+                                    <h6>Repay the remaining {parseFloat(totaldebt/1000000000000000000).toFixed(5)} cbUSD debt by liquidating your BUSD collateral.</h6>
+                                    <small className="text-danger">WARNING: this will use your collateral to repay your cbUSD debt.</small>
                                     <InputGroup className="mt-3">
                                     <Input placeholder={{liquidatepercent},"0.00"} style={{ height: "auto" }} type = "number" id="tid5" />
                                         <InputGroupAddon addonType="append"><Button color="site-primary" onClick={liquidate}>Liquidate</Button></InputGroupAddon>
@@ -1238,32 +1276,32 @@ const Vault = () => {
                                             <span>Available to withdraw:</span>
                                             <span className="ml-auto">{parseFloat(avatokentowithdraw/1000000000000000000).toFixed(5)} BUSD</span>
                                         </div>
-                                        <div className="d-flex">
+                                        {/* <div className="d-flex">
                                             <span>BUSD APY:</span>
                                             <span className="ml-auto">0.000%</span>
-                                        </div>
+                                        </div> */}
                                     </div>
                                     <div className="mt-4">
                                         <h5>Borrows</h5>
                                         <div className="d-flex larger">
-                                            <span>Remaining cBUSD debt:</span>
-                                            <span className="ml-auto">{parseFloat(totaldebt/1000000000000000000).toFixed(5)} cBUSD</span>
+                                            <span>Remaining cbUSD debt:</span>
+                                            <span className="ml-auto">{parseFloat(totaldebt/1000000000000000000).toFixed(5)} cbUSD</span>
                                         </div>
                                         <div className="d-flex">
                                             <span>Available to borrow:</span>
-                                            <span className="ml-auto">{parseFloat(avaltoborrow/1000000000000000000).toFixed(5)} cBUSD</span>
+                                            <span className="ml-auto">{parseFloat(avaltoborrow/1000000000000000000).toFixed(5)} cbUSD</span>
                                         </div>
                                         <div className="d-flex">
                                             <span>Your wallet balance:</span>
-                                            <span className="ml-auto">{parseFloat(cbusdbalance/1000000000000000000).toFixed(5)} cBUSD</span>
+                                            <span className="ml-auto">{parseFloat(cbusdbalance/1000000000000000000).toFixed(5)} cbUSD</span>
                                         </div>
                                         {/* <div className="d-flex">
                                             <span>Est. Date of Maturity:</span>
                                             <span className="ml-auto">...</span>
                                         </div> */}
                                         <div className="d-flex">
-                                            <span>Global Mintable cBUSD:</span>
-                                            <span className="ml-auto">{parseFloat(cbusdtotalsupply/1000000000000000000).toFixed(5)} cBUSD</span>
+                                            <span>Global Mintable cbUSD:</span>
+                                            <span className="ml-auto">{parseFloat(cbusdtotalsupply/1000000000000000000).toFixed(5)} cbUSD</span>
                                         </div>
                                     </div>
 
@@ -1278,6 +1316,7 @@ const Vault = () => {
         }
             
             </Container>
+           
         </section>
     );
 }

@@ -12,47 +12,67 @@ import { useState } from "react";
 import black from "../../views/blackAbi";
 import carbonoracle from "../../views/carbonOracleAbi";
 import blackoracle from "../../views/blackOracleAbi";
+import lptokenstake from "../../views/lpStakingAbi";
+import lptokenpair from "../../views/lptokenAbi";
 
 const Pools = () => {
     const [balance,setbalan] = useState([]);
     const[balanceblack,setBalanceblack]=useState([]);
+    const[balancepair,setBalancepair]=useState([]);
     const [communitybalance,setcommunitybalan] = useState([]);
-    const [aprcarbon,setAprcarbon]= useState([]);
-    const [aprblack,setAprblack]=useState([]);
+    const [aprcarbon,setAprcarbon]= useState('');
+    const [aprblack,setAprblack]=useState('');
+    const [aprlp,setAprlp]=useState('');
     const [blackprice,setBlackprice]=useState([]);
     const[carbonprice,setCarbonprice]=useState([]);
     const [blackperblock,setBlackperblock]=useState([]);
+    const[blackdailyreward,setBlackDailyreward]=useState([]);
     const bvb = async() => {
-       setbalan(await cbusd.methods.balanceOf("0x3a7CD9084072c0178ED6EbACAF1926E2E9e57D43").call());       
-       setBalanceblack(await black.methods.balanceOf("0xb23748eDA11dCeA3f37af78199BDb07774d5798A").call());       
-       
-       console.log("balanblack",balanceblack);
-       var tokenPerBlock =1147507;
-       var BLOCKS_PER_YEAR =10512000;
-       //const blackperblock = await carbonstake.methods.blackPerBlock().call();
-       //setBlackperblock(blackperblock);
-       const carbonprice1=await  carbonoracle.methods.getDittoBnbRate().call();
-      const carbonprice=(parseFloat((carbonprice1[3])/1000000000000000000).toFixed(11));
-       const blackprice1=await  blackoracle.methods.getDittoBnbRate().call();
-       
-       const blackprice=(parseFloat((blackprice1[3])/1000000000000000000).toFixed(11));
-       console.log("blackprice3",blackprice);
-       setcommunitybalan(await black.methods.balanceOf("0x2fa541c7457fbd89b727dfa2f3b1423c66c353dd").call());
-       const totalRewardPricePerYearcarbon = (blackprice) * (tokenPerBlock)*(BLOCKS_PER_YEAR);
-       const totalStakingTokenInPoolcarbon = (carbonprice )*(balance);
-       console.log("carbon balance",balance);
-       setAprcarbon((totalRewardPricePerYearcarbon)/(totalStakingTokenInPoolcarbon)*(100));
-
-       const totalRewardPricePerYearblack = (blackprice) * (tokenPerBlock)*(BLOCKS_PER_YEAR);
-       console.log("totalRewardPricePerYearblack",totalRewardPricePerYearblack);
-       const totalStakingTokenInPoolblack = (blackprice)*(balanceblack);
-       console.log("totalStakingTokenInPoolblack",totalStakingTokenInPoolblack);
-
-       setAprblack((totalRewardPricePerYearblack)/((totalStakingTokenInPoolblack)*(100)));
-
-
-    }
-    useEffect(()=>{bvb()},[balance,balanceblack])
+        setbalan(await cbusd.methods.balanceOf("0xb2690f8851dFa22E7Fc755b0AF697AbD173CF964").call());       
+        setBalanceblack(await black.methods.balanceOf("0x8f40a5c5fE040dBD2B6077f31e6c54DAB6289027").call());       
+        console.log("balanblack",balanceblack);
+        setBalancepair(await lptokenpair.methods.balanceOf("0x47b58c81DD4b40E277734Ab16071e488b19430a9").call());       
+        console.log("balancepair",balancepair);
+        
+        
+        var tokenPerBlock = 1.157407407;
+        var BLOCKS_PER_YEAR =10512000;
+                            
+        const blackdailyreward =1000000/(30 *24);
+        console.log("dailyreward",blackdailyreward);
+        setBlackDailyreward(blackdailyreward);
+    
+        const carbonprice1=await  carbonoracle.methods.getDittoBnbRate().call();
+      
+        const carbonprices=(parseFloat((carbonprice1[3])/1000000000).toFixed(11));
+        setCarbonprice(carbonprices);
+        console.log("carbonprice",carbonprice)
+        const blackprice1=await  blackoracle.methods.getDittoBnbRate().call();       
+        const blackprices=(parseFloat((blackprice1[3])/1000000000000000000).toFixed(13)); 
+        setBlackprice(blackprices)      
+        console.log("blackprice3",blackprice);
+        //var price=1.157407407 *blackprice *BLOCKS_PER_YEAR;
+        //console.log("pricenew",price);
+        setcommunitybalan(await black.methods.balanceOf("0x2fa541c7457fbd89b727dfa2f3b1423c66c353dd").call());
+        const totalRewardPricePerYearcarbon = (blackprice) * (tokenPerBlock)*(BLOCKS_PER_YEAR);
+        const totalStakingTokenInPoolcarbon = (carbonprice)*((balance)/1000000000000000000);
+        console.log("carbon balance",balance);
+        setAprcarbon(((totalRewardPricePerYearcarbon)/(totalStakingTokenInPoolcarbon))*(100));
+        console.log("aprvaluecarbon",aprcarbon);
+        const totalRewardPricePerYearblack = (blackprice) * (tokenPerBlock)*(BLOCKS_PER_YEAR);
+        const  totalStakingTokenInPoolblack = (blackprice)*((balanceblack)/1000000000);
+        setAprblack(((totalRewardPricePerYearblack)/(totalStakingTokenInPoolblack))*(100));
+        console.log("aprvalue",aprblack);
+        
+        const totalRewardPricePerYearlp = (blackprice) * (tokenPerBlock)*(BLOCKS_PER_YEAR);
+        console.log("totalRewardPricePerYearlp",totalRewardPricePerYearlp)
+        const totalStakingTokenInPoollp = (carbonprice)*((balancepair)/1000000000000000000); 
+        console.log("totalStakingTokenInPoollp",carbonprice)
+        const aprlp = ((totalRewardPricePerYearlp)/(totalStakingTokenInPoollp))*(100);     
+        setAprlp(aprlp);
+        console.log("aprvaluelp",((totalRewardPricePerYearlp)/(totalStakingTokenInPoollp))*(100));
+     }
+     useEffect(()=>{bvb()},[balance,balanceblack,carbonprice,blackprice])
    let a=5;
     let history=useHistory();
     return (
@@ -78,7 +98,7 @@ const Pools = () => {
             }}
         >
             <p style={{ fontWeight: "600", margin: "auto" }}>
-                cBUSD
+                cbUSD
             </p>
         </div>
     </div>
@@ -146,7 +166,7 @@ const Pools = () => {
                     src={"https://blackcollateral.com/wp-content/uploads//2021/05/logo-svg.svg"}
                     alt="Card image cap"
                 />
-                0.00
+               {parseFloat(blackdailyreward).toFixed(5)}
                
             </p>
         </div>
@@ -238,7 +258,7 @@ const Pools = () => {
                         }}
                     >
                         <p style={{ fontWeight: "600", margin: "auto" }}>
-                            cBUSD
+                            cbUSD
                         </p>
                         <p className="text-danger mb-0 font-weight-bold" style={{ fontSize: '12px' }}>Epoch 25 / 25</p>
                     </div>
@@ -318,7 +338,7 @@ const Pools = () => {
                             }}
                         >
                             <p style={{ fontWeight: "600", margin: "auto" }}>
-                                cBUSD/BUSD
+                                cbUSD/BUSD
                             </p>
                         </div>
                     </div>
@@ -356,7 +376,7 @@ const Pools = () => {
                                     src={icon}
                                     alt="Card image cap"
                                 />
-                                <b>14.5%</b>
+                                <b>{parseFloat(aprlp).toFixed(5)}%</b>
                             </p>
                         </div>
                     </div>
@@ -386,8 +406,7 @@ const Pools = () => {
                                     src={"https://blackcollateral.com/wp-content/uploads//2021/05/logo-svg.svg"}
                                     alt="Card image cap"
                                 />
-                                0.00
-                               
+                                {parseFloat(blackdailyreward).toFixed(5)}
                             </p>
                         </div>
                     </div>
@@ -447,13 +466,13 @@ const Pools = () => {
                                     src={icon1}
                                     alt="Card image cap"
                                 />
-                               {parseFloat(balance/1000000000000000000).toFixed(3)}
+                               {parseFloat(balancepair/1000000000000000000).toFixed(3)}
                             </p>
                         </div>
                     </div>
                        
                     <Button  className={`ml-3 mr-3 pb-0 mb-0 mt-2 mb-2
-                        `} color="site-primary" width="full" onClick={e => {history.push("/carbon-stake")}}>View pool</Button> 
+                        `} color="site-primary" width="full" onClick={e => {history.push("/lp-stake")}}>View pool</Button> 
                 </Card>
             </Col>
               </>
@@ -478,7 +497,7 @@ const Pools = () => {
                         }}
                     >
                         <p style={{ fontWeight: "600", margin: "auto" }}>
-                            cBUSD/BUSD
+                            cbUSD/BUSD
                         </p>
                         <p className="text-danger mb-0 font-weight-bold" style={{ fontSize: '12px' }}>Epoch 25 / 25</p>
                     </div>
@@ -594,7 +613,7 @@ const Pools = () => {
                                     src={"https://blackcollateral.com/wp-content/uploads//2021/05/logo-svg.svg"}
                                     alt="Card image cap"
                                 />
-                                <b>{parseFloat(aprblack).toFixed(2)} %</b>
+                                <b>{parseFloat(aprblack).toFixed(9)} %</b>
                             </p>
                         </div>
                     </div>
@@ -624,7 +643,7 @@ const Pools = () => {
                                     src={"https://blackcollateral.com/wp-content/uploads//2021/05/logo-svg.svg"}
                                     alt="Card image cap"
                                 />
-                                0.00
+                                  {parseFloat(blackdailyreward).toFixed(5)}
                                
                             </p>
                         </div>

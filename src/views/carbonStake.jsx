@@ -8,7 +8,8 @@ import cbusd from "./cbusdAbi";
 import cbusdstake from "./carbonStakeAbi";
 import black from "./blackAbi";
 import Popup from "../Popup";
-
+import Modald from "../ModalD";
+import FolowStepsd from "../FolowStepsd";
 const Cbusdstake = () => {
     let [activeTab, setActiveTab] = useState("Deposit");
     const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -54,7 +55,7 @@ const Cbusdstake = () => {
     else{
       setAP(false);
     }
-    setValues(await swap.methods.userInfo(accounts[0]).call());
+   // setValues(await swap.methods.userInfo(accounts[0]).call());
     setStaked(await cbusdstake.methods.userInfo(accounts[0]).call());
     setBlackBalance(await black.methods.balanceOf(accounts[0]).call());
     setReward(await cbusdstake.methods.pendingBlack(accounts[0]).call());
@@ -135,10 +136,16 @@ const Cbusdstake = () => {
         var valu = document.getElementById("tid1").value;
         var val = valu * 1000000000;
         var value = val + "000000000"
+        if(parseInt(value)<=parseInt(cbusdbalance)){
         await cbusdstake.methods.deposit(value).send({from:accounts[0]});
         setIsOpen(true);
         setDis("Staked Succesfully")
         first();
+    }
+    else{
+        setIsOpen(true);
+        setDis("You Are Trying To Stake More Than Your Wallet Balance")
+    }
       }
 
     const withdraw = async(event) => {
@@ -147,15 +154,21 @@ const Cbusdstake = () => {
         var valu = document.getElementById("tid2").value;
         var val = valu * 1000000000;
         var value = val + "000000000"
-        await cbusdstake.methods.withdraw(value).send({from:accounts[0]});
-        setIsOpen(true);
-        setDis("Unstaked Succesfully")
-        first()
+        if(parseInt(value)<=parseInt(staked[0])){
+            await cbusdstake.methods.withdraw(value).send({from:accounts[0]});
+            setIsOpen(true);
+            setDis("Unstaked Succesfully")
+            first()
+        }
+        else{
+            setIsOpen(true);
+            setDis("You Are Trying To UnStake More Than You Staked")
+        }
       }  
 
       const claimreward = async(event) => {
         event.preventDefault();
-        if(reward >10000000000){
+        if(parseInt(reward) >parseInt(100000000000)){
             const accounts =  await web3.eth.getAccounts();
             await cbusdstake.methods.claimReward().send({from:accounts[0]}); 
             setIsOpen(true);
@@ -163,7 +176,7 @@ const Cbusdstake = () => {
         }
         else{
             setIsOpen(true);
-            setDis("Your reward amount should be Greater then 10 to Claim ")
+            setDis("Your reward amount should be Greater then 100 to Claim ")
         }
            
         first()
@@ -183,9 +196,9 @@ const Cbusdstake = () => {
         const accounts =  await web3.eth.getAccounts(); 
         document.getElementById("tid1").value = false;  
         var twentyfive=(cbusdbalance * 25)/100;
-        setdepositpercent(parseFloat(twentyfive/1000000000000000000).toFixed(5));
+        setdepositpercent(Number((twentyfive/1000000000000000000).toString().match(/^\d+(?:\.\d{0,3})?/)));
        
-        document.getElementById("tid1").value = parseFloat(twentyfive/1000000000000000000).toFixed(5);        
+        document.getElementById("tid1").value = Number((twentyfive/1000000000000000000).toString().match(/^\d+(?:\.\d{0,3})?/));        
         
       }
        const balancepercent1 = async(event) => {
@@ -193,8 +206,8 @@ const Cbusdstake = () => {
         const accounts =  await web3.eth.getAccounts(); 
         document.getElementById("tid1").value = false;    
         var fifty=(cbusdbalance * 50)/100;
-        setdepositpercent(parseFloat(fifty/1000000000000000000).toFixed(5));
-        document.getElementById("tid1").value =  parseFloat(fifty/1000000000000000000).toFixed(5);          
+        setdepositpercent(Number((fifty/1000000000000000000).toString().match(/^\d+(?:\.\d{0,3})?/)));
+        document.getElementById("tid1").value =  Number((fifty/1000000000000000000).toString().match(/^\d+(?:\.\d{0,3})?/));          
         
       } 
 
@@ -204,8 +217,8 @@ const Cbusdstake = () => {
         const accounts =  await web3.eth.getAccounts(); 
         document.getElementById("tid1").value = false;    
         var seventyfive=(cbusdbalance * 75)/100;
-        setdepositpercent(parseFloat(seventyfive/1000000000000000000).toFixed(5)); 
-        document.getElementById("tid1").value = parseFloat(seventyfive/1000000000000000000).toFixed(5);         
+        setdepositpercent(Number((seventyfive/1000000000000000000).toString().match(/^\d+(?:\.\d{0,3})?/))); 
+        document.getElementById("tid1").value =Number((seventyfive/1000000000000000000).toString().match(/^\d+(?:\.\d{0,3})?/)) ;         
         
       }
       const balancepercent3 = async(event) => {
@@ -213,8 +226,8 @@ const Cbusdstake = () => {
         const accounts =  await web3.eth.getAccounts(); 
         document.getElementById("tid1").value = false;    
         var hundred=(cbusdbalance * 100)/100;
-        setdepositpercent(parseFloat(hundred/1000000000000000000).toFixed(5)); 
-        document.getElementById("tid1").value =  parseFloat(hundred/1000000000000000000).toFixed(5);         
+        setdepositpercent(Number((hundred/1000000000000000000).toString().match(/^\d+(?:\.\d{0,3})?/))); 
+        document.getElementById("tid1").value =  Number((hundred/1000000000000000000).toString().match(/^\d+(?:\.\d{0,3})?/));         
         
       }
 
@@ -224,8 +237,8 @@ const Cbusdstake = () => {
         const accounts =  await web3.eth.getAccounts(); 
         document.getElementById("tid2").value = false;  
         var twentyfive=(staked[0] * 25)/100;
-        setTotaldeposit(parseFloat(twentyfive/1000000000000000000).toFixed(5));
-        document.getElementById("tid2").value = parseFloat(twentyfive/1000000000000000000).toFixed(5);        
+        setTotaldeposit(Number((twentyfive/1000000000000000000).toString().match(/^\d+(?:\.\d{0,3})?/)));
+        document.getElementById("tid2").value =Number((twentyfive/1000000000000000000).toString().match(/^\d+(?:\.\d{0,3})?/)) ;        
         
       }
        const withdrawbalancepercent1 = async(event) => {
@@ -233,8 +246,8 @@ const Cbusdstake = () => {
         const accounts =  await web3.eth.getAccounts(); 
         document.getElementById("tid2").value = false;    
         var fifty=(staked[0]  * 50)/100;
-        setTotaldeposit(parseFloat(fifty/1000000000000000000).toFixed(5));
-        document.getElementById("tid2").value = parseFloat(fifty/1000000000000000000).toFixed(5);          
+        setTotaldeposit(Number((fifty/1000000000000000000).toString().match(/^\d+(?:\.\d{0,3})?/)));
+        document.getElementById("tid2").value = Number((fifty/1000000000000000000).toString().match(/^\d+(?:\.\d{0,3})?/));          
         
       } 
 
@@ -244,8 +257,8 @@ const Cbusdstake = () => {
         const accounts =  await web3.eth.getAccounts(); 
         document.getElementById("tid2").value = false;    
         var seventyfive=(staked[0]  * 75)/100;
-        setTotaldeposit(parseFloat(seventyfive/1000000000000000000).toFixed(5)); 
-        document.getElementById("tid2").value =parseFloat(seventyfive/1000000000000000000).toFixed(5);         
+        setTotaldeposit(Number((seventyfive/1000000000000000000).toString().match(/^\d+(?:\.\d{0,3})?/))); 
+        document.getElementById("tid2").value =Number((seventyfive/1000000000000000000).toString().match(/^\d+(?:\.\d{0,3})?/));         
         
       }
       const withdrawbalancepercent3 = async(event) => {
@@ -253,8 +266,8 @@ const Cbusdstake = () => {
         const accounts =  await web3.eth.getAccounts(); 
         document.getElementById("tid2").value = false;    
         var hundred=(staked[0]  * 100)/100;
-        setTotaldeposit(parseFloat(hundred/1000000000000000000).toFixed(5)); 
-        document.getElementById("tid2").value =parseFloat(hundred/1000000000000000000).toFixed(5);         
+        setTotaldeposit(Number((hundred/1000000000000000000).toString().match(/^\d+(?:\.\d{0,3})?/))); 
+        document.getElementById("tid2").value =Number((hundred/1000000000000000000).toString().match(/^\d+(?:\.\d{0,3})?/));         
         
       }
       const approve = async() => {
@@ -272,7 +285,7 @@ const Cbusdstake = () => {
 
     return (
         <section className="p-0 my-5">
-            <div>
+            {/* <div>
     {isOpen && <Popup
       content={<>
        <center> <b >{dis}</b><br/>
@@ -280,7 +293,10 @@ const Cbusdstake = () => {
       </>}
       handleClose={togglePopup}
     />}
-  </div>  
+  </div>   */}
+  <Modald visible={isOpen} onClose={() => setIsOpen(false)}>
+        <FolowStepsd viewhistory={dis}  />
+      </Modald>
              {
             localStorage.getItem("wallet")===null || localStorage.getItem("wallet")===""?(<>
             <Container fluid>

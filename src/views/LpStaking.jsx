@@ -7,7 +7,9 @@ import swap from "./swapAbi";
 import cbusd from "./cbusdAbi";
 import lpstake from "./lpStakingAbi";
 import black from "./blackAbi";
-
+import lppair from "./lptokenAbi";
+import Modald from "../ModalD";
+import FolowStepsd from "../FolowStepsd";
 const Lpstake = () => {
     let [activeTab, setActiveTab] = useState("Deposit");
     const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -20,6 +22,7 @@ const Lpstake = () => {
     const[ap1,setAP] = useState("");
     const [totaldep,setTotaldeposit] = useState("");
     var[cbusdbalance,setcbusdbalance] = useState("");
+    var[lpbalance,setLpbalance] = useState("");
     const[depositpercent,setdepositpercent] = useState("");
     const[values,setValues] = useState([]);
     const[staked,setStaked] = useState([]);
@@ -33,6 +36,8 @@ const Lpstake = () => {
     var [date1, setdate1]=useState("");
     var [time1, settime1]=useState("");
     const [lock1 ,setlock1]=useState("");
+    const [isOpen, setIsOpen] = useState(false);
+    var[dis,setDis] = useState("");
     const toggleDropDown = () => setDropdownOpen(!dropdownOpen);
     const toggle1 = () => setDropdownOpen1(!dropdownOpen1);
     let history = useHistory();
@@ -40,10 +45,11 @@ const Lpstake = () => {
  const first = async () => {
     const accounts =  await web3.eth.getAccounts();
  
-    setcbusdbalance(await cbusd.methods.balanceOf(accounts[0]).call());  
+    //setcbusdbalance(await cbusd.methods.balanceOf(accounts[0]).call());  
+    setLpbalance(await lppair.methods.balanceOf(accounts[0]).call());  
 
     
-    let b= await cbusd.methods.allowance(accounts[0],"0x47b58c81DD4b40E277734Ab16071e488b19430a9").call();
+    let b= await lppair.methods.allowance(accounts[0],"0x47b58c81DD4b40E277734Ab16071e488b19430a9").call();
  
     if(b>0){
       setAP(true);
@@ -51,7 +57,7 @@ const Lpstake = () => {
     else{
       setAP(false);
     }
-    setValues(await swap.methods.userInfo(accounts[0]).call());
+    //setValues(await swap.methods.userInfo(accounts[0]).call());
     setStaked(await lpstake.methods.userInfo(accounts[0]).call());
     setReward(await lpstake.methods.pendingBlack(accounts[0]).call());
     setBlackBalance(await black.methods.balanceOf(accounts[0]).call())
@@ -124,7 +130,7 @@ const Lpstake = () => {
         document.getElementById("header-title").innerText = "Staking";
     } )
     useEffect(() =>         
-    {first()},[cbusdbalance,ap1,staked[0]],reward,blackbal)
+    {first()},[lpbalance,ap1,staked[0]],reward,blackbal)
     useEffect(() =>{first()},[date1,lock1,time1])
    
     const deposit = async(event) => {
@@ -133,9 +139,17 @@ const Lpstake = () => {
         var valu = document.getElementById("tid1").value;
         var val = valu * 1000000000;
         var value = val + "000000000"
-        await lpstake.methods.deposit(value).send({from:accounts[0]});
-        alert("staked succesfully")
-        first();
+        if(parseInt(value)<=parseInt(lpbalance)){
+            await lpstake.methods.deposit(value).send({from:accounts[0]});      
+            setIsOpen(true);
+            setDis("Staked Succesfully")
+            first();
+        }
+        else{
+            setIsOpen(true);
+            setDis("You Are Trying To Stake More Than Your Wallet Balance")
+        }
+        
       }
 
     const withdraw = async(event) => {
@@ -144,19 +158,30 @@ const Lpstake = () => {
         var valu = document.getElementById("tid2").value;
         var val = valu * 1000000000;
         var value = val + "000000000"
-        await lpstake.methods.withdraw(value).send({from:accounts[0]});
-        alert("unstaked succesfully")
-        first()
+        if(parseInt(value)<=parseInt(staked[0])){
+            await lpstake.methods.withdraw(value).send({from:accounts[0]});
+            setIsOpen(true);
+            setDis("Unstaked Succesfully")
+            first()
+        }
+        else{
+            setIsOpen(true);
+            setDis("You Are Trying To Stake More Than You Deposited")
+        }
+        
       }  
 
       const claimreward = async(event) => {
         event.preventDefault();
-        if(reward >10000000000){
+        if(parseInt(reward) >parseInt(100000000000)){
             const accounts =  await web3.eth.getAccounts();
             await lpstake.methods.claimReward().send({from:accounts[0]});    
+            setIsOpen(true);
+            setDis("Rewards Claimed Successfully") 
         }
         else{
-            alert("Your reward amount should be Greater then 10 to Claim ")
+            setIsOpen(true);
+            setDis("Your reward amount should be Greater then 100 to Claim ")
         }
            
         first()
@@ -173,19 +198,22 @@ const Lpstake = () => {
         event.preventDefault();
         const accounts =  await web3.eth.getAccounts(); 
         document.getElementById("tid1").value = false;  
-        var twentyfive=(cbusdbalance * 25)/100;
-        setdepositpercent(parseFloat(twentyfive/1000000000000000000).toFixed(5));
+        var twentyfive=(lpbalance * 25)/100;
        
-        document.getElementById("tid1").value = parseFloat(twentyfive/1000000000000000000).toFixed(5);        
+            setdepositpercent(Number((twentyfive/1000000000000000000).toString().match(/^\d+(?:\.\d{0,3})?/)));
+       
+            document.getElementById("tid1").value = Number((twentyfive/1000000000000000000).toString().match(/^\d+(?:\.\d{0,3})?/));           
+        
+      
         
       }
        const balancepercent1 = async(event) => {
         event.preventDefault();
         const accounts =  await web3.eth.getAccounts(); 
         document.getElementById("tid1").value = false;    
-        var fifty=(cbusdbalance * 50)/100;
-        setdepositpercent(parseFloat(fifty/1000000000000000000).toFixed(5));
-        document.getElementById("tid1").value =  parseFloat(fifty/1000000000000000000).toFixed(5);          
+        var fifty=(lpbalance * 50)/100;        
+        setdepositpercent(Number((fifty/1000000000000000000).toString().match(/^\d+(?:\.\d{0,3})?/)));
+        document.getElementById("tid1").value =  Number((fifty/1000000000000000000).toString().match(/^\d+(?:\.\d{0,3})?/));            
         
       } 
 
@@ -194,18 +222,20 @@ const Lpstake = () => {
         event.preventDefault();
         const accounts =  await web3.eth.getAccounts(); 
         document.getElementById("tid1").value = false;    
-        var seventyfive=(cbusdbalance * 75)/100;
-        setdepositpercent(parseFloat(seventyfive/1000000000000000000).toFixed(5)); 
-        document.getElementById("tid1").value = parseFloat(seventyfive/1000000000000000000).toFixed(5);         
+        var seventyfive=(lpbalance * 75)/100;
+        setdepositpercent(Number((seventyfive/1000000000000000000).toString().match(/^\d+(?:\.\d{0,3})?/))); 
+        document.getElementById("tid1").value = Number((seventyfive/1000000000000000000).toString().match(/^\d+(?:\.\d{0,3})?/));        
         
       }
       const balancepercent3 = async(event) => {
         event.preventDefault();
         const accounts =  await web3.eth.getAccounts(); 
         document.getElementById("tid1").value = false;    
-        var hundred=(cbusdbalance * 100)/100;
-        setdepositpercent(parseFloat(hundred/1000000000000000000).toFixed(5)); 
-        document.getElementById("tid1").value =  parseFloat(hundred/1000000000000000000).toFixed(5);         
+        var hundred=(lpbalance * 100)/100;
+        // var num2 = Number((0.059786786876868).toString().match(/^\d+(?:\.\d{0,3})?/));
+        // console.log("checkdigit",num2);
+        setdepositpercent( Number((hundred/1000000000000000000).toString().match(/^\d+(?:\.\d{0,3})?/))); 
+        document.getElementById("tid1").value =  Number((hundred/1000000000000000000).toString().match(/^\d+(?:\.\d{0,3})?/));         
         
       }
 
@@ -215,8 +245,8 @@ const Lpstake = () => {
         const accounts =  await web3.eth.getAccounts(); 
         document.getElementById("tid2").value = false;  
         var twentyfive=(staked[0] * 25)/100;
-        setTotaldeposit(parseFloat(twentyfive/1000000000000000000).toFixed(5));
-        document.getElementById("tid2").value = parseFloat(twentyfive/1000000000000000000).toFixed(5);        
+        setTotaldeposit( Number((twentyfive/1000000000000000000).toString().match(/^\d+(?:\.\d{0,3})?/)));
+        document.getElementById("tid2").value = Number((twentyfive/1000000000000000000).toString().match(/^\d+(?:\.\d{0,3})?/));        
         
       }
        const withdrawbalancepercent1 = async(event) => {
@@ -224,8 +254,8 @@ const Lpstake = () => {
         const accounts =  await web3.eth.getAccounts(); 
         document.getElementById("tid2").value = false;    
         var fifty=(staked[0]  * 50)/100;
-        setTotaldeposit(parseFloat(fifty/1000000000000000000).toFixed(5));
-        document.getElementById("tid2").value = parseFloat(fifty/1000000000000000000).toFixed(5);          
+        setTotaldeposit(Number((fifty/1000000000000000000).toString().match(/^\d+(?:\.\d{0,3})?/)));
+        document.getElementById("tid2").value = Number((fifty/1000000000000000000).toString().match(/^\d+(?:\.\d{0,3})?/));          
         
       } 
 
@@ -235,8 +265,8 @@ const Lpstake = () => {
         const accounts =  await web3.eth.getAccounts(); 
         document.getElementById("tid2").value = false;    
         var seventyfive=(staked[0]  * 75)/100;
-        setTotaldeposit(parseFloat(seventyfive/1000000000000000000).toFixed(5)); 
-        document.getElementById("tid2").value =parseFloat(seventyfive/1000000000000000000).toFixed(5);         
+        setTotaldeposit(Number((seventyfive/1000000000000000000).toString().match(/^\d+(?:\.\d{0,3})?/))); 
+        document.getElementById("tid2").value =Number((seventyfive/1000000000000000000).toString().match(/^\d+(?:\.\d{0,3})?/));       
         
       }
       const withdrawbalancepercent3 = async(event) => {
@@ -244,21 +274,25 @@ const Lpstake = () => {
         const accounts =  await web3.eth.getAccounts(); 
         document.getElementById("tid2").value = false;    
         var hundred=(staked[0]  * 100)/100;
-        setTotaldeposit(parseFloat(hundred/1000000000000000000).toFixed(5)); 
-        document.getElementById("tid2").value =parseFloat(hundred/1000000000000000000).toFixed(5);         
+        setTotaldeposit(Number((hundred/1000000000000000000).toString().match(/^\d+(?:\.\d{0,3})?/))); 
+        document.getElementById("tid2").value =Number((hundred/1000000000000000000).toString().match(/^\d+(?:\.\d{0,3})?/));         
         
       }
       const approve = async() => {
         let account = await web3.eth.getAccounts();
         let amount = 1000000000000000000 +"000000000000000000"; 
-        await cbusd.methods.approve("0x47b58c81DD4b40E277734Ab16071e488b19430a9",amount).send({from:account[0]});
+        await lppair.methods.approve("0x47b58c81DD4b40E277734Ab16071e488b19430a9",amount).send({from:account[0]});
         first()
-        alert("Approved Succesfully")
+        setIsOpen(true);
+        setDis("Approved Succesfully")
     }
 
 
     return (
         <section className="p-0 my-5">
+            <Modald visible={isOpen} onClose={() => setIsOpen(false)}>
+        <FolowStepsd viewhistory={dis}  />
+      </Modald>
           {
             localStorage.getItem("wallet")===null || localStorage.getItem("wallet")===""?(<>
            
@@ -267,15 +301,15 @@ const Lpstake = () => {
                     <Col xl="8" lg="8" md="10" sm="12">
                         <Card className="custom-card">
                             <div className="p-3">
-                                <h4>stake  cBUSD </h4>
-                                <h6>The Stake cBUSD and get Black token as reward</h6>
+                                <h4>stake  cBUSD/BUSD </h4>
+                                <h6>The Stake cBUSD/BUSD and get Black token as reward</h6>
                                 <Table bordered responsive className="mt-3">
                                     <thead>
                                         <tr>
                                             <
                                                 
-                                                th>Your cBUSD</th>
-                                            <th>Staked cBUSD</th>
+                                                th>Your LP</th>
+                                            <th>Staked LP</th>
                                             <th>Black reward</th>
                                             <th>Your Black</th>
                                         </tr>
@@ -352,23 +386,23 @@ const Lpstake = () => {
                     <Col xl="8" lg="8" md="10" sm="12">
                         <Card className="custom-card">
                             <div className="p-3">
-                                <h4>stake  cBUSD </h4>
-                                <h6>The Stake cBUSD and get Black token as reward</h6>
+                                <h4>stake  cBUSD/BUSD </h4>
+                                <h6>The Stake cBUSD/BUSD and get Black token as reward</h6>
                                 <Table bordered responsive className="mt-3">
                                     <thead>
                                         <tr>
                                             <
                                                 
-                                                th>Your cBUSD</th>
-                                            <th>Staked cBUSD</th>
+                                                th>Your Lp</th>
+                                            <th>Staked Lp</th>
                                             <th>Black reward</th>
                                             <th>Your Black</th>
                                         </tr>
                                     </thead>
                                     <tbody className="text-center">
                                         <tr>
-                                            <td>{parseFloat(cbusdbalance/1000000000000000000).toFixed(5)}</td>
-                                            <td>{parseFloat(staked[0]/1000000000000000000).toFixed(5)}</td>
+                                            <td>{parseFloat(lpbalance/1000000000000000000)}</td>
+                                            <td>{parseFloat(staked[0]/1000000000000000000)}</td>
                                             <td>{parseFloat(reward/1000000000).toFixed(5)}</td>
                                             <td>{parseFloat(blackbal/1000000000).toFixed(5)}</td>
                                         </tr>

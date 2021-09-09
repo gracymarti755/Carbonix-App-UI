@@ -120,7 +120,7 @@ const Overview = (props) => {
             </Table>
             <div className="p-24 pagination-wrapper">
                 <div className="d-md-flex">
-                    <small className="m-0">Showing 0 to 0 out of 0 stakers</small>
+                    <small className="m-0"></small>
                     <div className="d-flex pagination align-items-center mt-3 mt-md-0 ml-md-auto">
                         <i className="fa fa-angle-left"></i>
                         <span className="active">1</span>

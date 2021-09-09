@@ -18,7 +18,9 @@ import valutadapter from"./vaultAdapterAbi";
 import carbonoracle from "./carbonOracleAbi";
 import carbonStake from "./carbonStakeAbi";
 import busd from "./busdAbi";
-import cbusdtoken from "./cbusdAbi"
+import cbusdtoken from "./cbusdAbi";
+import cbusdpair from "./lptokenAbi";
+//import black from "./blackabi";
 class Dashboard extends Component {
     state={
         activeTab: "ViewPool",
@@ -76,11 +78,11 @@ class Dashboard extends Component {
        //const totaldepositedcarbonpool=await cbusd.methods.balanceOf("0x3a7CD9084072c0178ED6EbACAF1926E2E9e57D43").call()); 
        const totaldeposited =(parseFloat(totaldeposited1/1000000000000000000).toFixed(3));
        //const totalvaluelock1 =await valutadapter.methods.totalValue().call();
-       const totaldepositedcarbonpool1=await cbusdtoken.methods.balanceOf("0x3a7CD9084072c0178ED6EbACAF1926E2E9e57D43").call(); 
+       const totaldepositedcarbonpool1=await cbusdtoken.methods.balanceOf("0xb2690f8851dFa22E7Fc755b0AF697AbD173CF964").call(); 
        const totaldepositedcarbonpool =(parseFloat(totaldepositedcarbonpool1/1000000000000000000).toFixed(3));
-       const totaldepositedLppool1=await cbusdtoken.methods.balanceOf("0x3a7CD9084072c0178ED6EbACAF1926E2E9e57D43").call(); 
+       const totaldepositedLppool1=await cbusdpair.methods.balanceOf("0x47b58c81DD4b40E277734Ab16071e488b19430a9").call(); 
        const totaldepositedLppool =(parseFloat(totaldepositedLppool1/1000000000000000000).toFixed(3));
-       const totaldepositedblackpool1=await cbusdtoken.methods.balanceOf("0x3a7CD9084072c0178ED6EbACAF1926E2E9e57D43").call(); 
+       const totaldepositedblackpool1=await black.methods.balanceOf("0x8f40a5c5fE040dBD2B6077f31e6c54DAB6289027").call(); 
        const totaldepositedblackpool =(parseFloat(totaldepositedblackpool1/1000000000000000000).toFixed(3));
       // const totalvaluelocked =(parseFloat(((totaldeposited) + (totaldepositedcarbonpool) + (totaldepositedLppool) + (totaldepositedblackpool))).toFixed(3));
        const totalvaluelocked = (parseFloat (totaldeposited) +parseFloat (totaldepositedcarbonpool)) + (parseFloat(totaldepositedLppool) + parseFloat(totaldepositedblackpool));
@@ -90,11 +92,11 @@ class Dashboard extends Component {
        console.log("totaldepositedblackpool",totaldepositedblackpool);
 
        const carbonprice1=await  carbonoracle.methods.getDittoBnbRate().call();
-       const carbonprice=(parseFloat((carbonprice1[3])/1000000000000000000).toFixed(11));
+       const carbonprice=(parseFloat((carbonprice1[3])/1000000000).toFixed(11));
 
        console.log("carbonpricecheck",carbonprice);
        this.setState({setLoading:true});
-       const response = await fetch("https://api-testnet.bscscan.com/api?module=account&action=tokentx&address=0x100190Ee3640D47286AAb1025435D3a8eEbEC7DA&startblock=0&endblock=250000000000&sort=desc&apikey=YourApiKeyToken");
+       const response = await fetch("https://api-testnet.bscscan.com/api?module=account&action=tokentx&address=0x27A8DE88408102b4C14c1DbB1695a666A8686e6a&startblock=0&endblock=250000000000&sort=desc&apikey=YourApiKeyToken");
        const data = await response.json();
        console.log("data",data);
         //var assign= data.result; 
@@ -165,7 +167,7 @@ class Dashboard extends Component {
            console.log("filterddata",filtdata);  
            this.setState({setfiltdata:filtdata}) 
 
-           const filtdata2=data.result.filter((a)=>parseInt(a.from)===parseInt("0x100190Ee3640D47286AAb1025435D3a8eEbEC7DA"));
+           const filtdata2=data.result.filter((a)=>parseInt(a.from)===parseInt("0x27A8DE88408102b4C14c1DbB1695a666A8686e6a"));
            console.log("filterddata2",filtdata2);  
            this.setState({setfiltdata2:filtdata2}) 
         //    this.setState({cart: [this.state.filtdata, this.state.input]});
@@ -201,10 +203,10 @@ class Dashboard extends Component {
                     <CustomCard title="Total Deposited" title2="$" text= {this.state.totaldeposited}></CustomCard>
                 </Col>
                 <Col className="mb-4">
-                    <CustomCard title="Total Borrowed" text={this.state.totalsupply} subText1="CBUSD"/>
+                    <CustomCard title="Total Borrowed" text={this.state.totalsupply} subText1="cbUSD"/>
                 </Col>
                 <Col className="mb-4">
-                    <CustomCard title="Circulating Supply" text={this.state.totalsupply} subText1="CBUSD"/>
+                    <CustomCard title="Circulating Supply" text={this.state.totalsupply} subText1="cbUSD"/>
                 </Col>
             </Row>
             <div className="m-5 pl-3"><h2><b>Pools</b></h2>
@@ -310,7 +312,7 @@ class Dashboard extends Component {
                                      <div className="pl-2 pr-2">
                                          
                                          {
-                                             a.from === "0x100190Ee3640D47286AAb1025435D3a8eEbEC7DA" ?(
+                                             a.from === "0x27A8DE88408102b4C14c1DbB1695a666A8686e6a" ?(
                                                  
                                              <h6 style={{ fontWeight: "600" }}>withdraw</h6>):
                                              (
@@ -439,7 +441,7 @@ class Dashboard extends Component {
                                       />
                                       <div className="pl-2 pr-2">
                                           {
-                                              a.from === "0x100190Ee3640D47286AAb1025435D3a8eEbEC7DA" ?(
+                                              a.from === "0x27A8DE88408102b4C14c1DbB1695a666A8686e6a" ?(
                                               <h6 style={{ fontWeight: "600" }}>withdraw</h6>):
                                               (
                                             <h6 style={{ fontWeight: "600" }}>Deposit</h6>
@@ -522,7 +524,7 @@ class Dashboard extends Component {
                     </Table>
                     <div className="p-24 pagination-wrapper">
                         <div className="d-md-flex">
-                            <small className="m-0 font-weight-bold text-muted">Showing 1 to 10 out of 28839 transactions</small>
+                            <small className="m-0 font-weight-bold text-muted"></small>
                             <div className="d-flex pagination align-items-center mt-3 mt-md-0 ml-md-auto">
                                 <i className="fa fa-angle-left"></i>
                                 {new Array(pagesCount).fill("1").map((c, i) => {
