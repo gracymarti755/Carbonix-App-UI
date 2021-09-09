@@ -200,8 +200,10 @@ const Vault = () => {
         const accounts =  await web3.eth.getAccounts(); 
         document.getElementById("tid1").value = false;  
         var twentyfive=(busdbalance * 25)/100;
-        setdepositpercent(parseFloat(twentyfive/1000000000000000000).toFixed(5));
-        document.getElementById("tid1").value =  parseFloat(twentyfive/1000000000000000000).toFixed(5);        
+    //     var printtwenty = ((twentyfive/1000000000000000000));
+    //    console.log("printtwentycheck",Math.floor((printtwenty)));
+       setdepositpercent(Number((twentyfive/1000000000000000000).toString().match(/^\d+(?:\.\d{0,3})?/)));
+       document.getElementById("tid1").value = Number((twentyfive/1000000000000000000).toString().match(/^\d+(?:\.\d{0,3})?/));        
         
       }
        const balancepercent1 = async(event) => {
@@ -209,8 +211,8 @@ const Vault = () => {
         const accounts =  await web3.eth.getAccounts(); 
         document.getElementById("tid1").value = false;    
         var fifty=(busdbalance * 50)/100;
-        setdepositpercent(parseFloat(fifty/1000000000000000000).toFixed(5));
-        document.getElementById("tid1").value = parseFloat(fifty/1000000000000000000).toFixed(5);          
+        setdepositpercent(Number((fifty/1000000000000000000).toString().match(/^\d+(?:\.\d{0,3})?/)));
+        document.getElementById("tid1").value = Number((fifty/1000000000000000000).toString().match(/^\d+(?:\.\d{0,3})?/));          
         
       }
       const balancepercent2 = async(event) => {
@@ -218,8 +220,8 @@ const Vault = () => {
         const accounts =  await web3.eth.getAccounts(); 
         document.getElementById("tid1").value = false;    
         var seventyfive=(busdbalance * 75)/100;
-        setdepositpercent(parseFloat(seventyfive/1000000000000000000).toFixed(5)); 
-        document.getElementById("tid1").value =parseFloat(seventyfive/1000000000000000000).toFixed(5);         
+        setdepositpercent(Number((seventyfive/1000000000000000000).toString().match(/^\d+(?:\.\d{0,3})?/))); 
+        document.getElementById("tid1").value =Number((seventyfive/1000000000000000000).toString().match(/^\d+(?:\.\d{0,3})?/));         
         
       }
       const balancepercent3 = async(event) => {
@@ -227,8 +229,8 @@ const Vault = () => {
         const accounts =  await web3.eth.getAccounts(); 
         document.getElementById("tid1").value = false;    
         var hundred=(busdbalance * 100)/100;
-        setdepositpercent(parseFloat(hundred/1000000000000000000).toFixed(5)); 
-        document.getElementById("tid1").value = parseFloat(hundred/1000000000000000000).toFixed(5);         
+        setdepositpercent(Number((hundred/1000000000000000000).toString().match(/^\d+(?:\.\d{0,3})?/))); 
+        document.getElementById("tid1").value = Number((hundred/1000000000000000000).toString().match(/^\d+(?:\.\d{0,3})?/));         
         
       }
       const withdrawbalancepercent = async(event) => {
@@ -236,8 +238,8 @@ const Vault = () => {
         const accounts =  await web3.eth.getAccounts(); 
         document.getElementById("tid2").value = false;    
         var twentyfive=(avatokentowithdraw * 25)/100;
-        setwithdrawpercent(parseFloat(twentyfive/1000000000000000000).toFixed(5));  
-        document.getElementById("tid2").value = parseFloat(twentyfive/1000000000000000000).toFixed(5);        
+        setwithdrawpercent(Number((twentyfive/1000000000000000000).toString().match(/^\d+(?:\.\d{0,3})?/)));  
+        document.getElementById("tid2").value = Number((twentyfive/1000000000000000000).toString().match(/^\d+(?:\.\d{0,3})?/));        
         
       }
       const withdrawbalancepercent1 = async(event) => {
@@ -245,8 +247,8 @@ const Vault = () => {
         const accounts =  await web3.eth.getAccounts(); 
         document.getElementById("tid2").value = false;   
         var fifty=(avatokentowithdraw * 50)/100;
-        setwithdrawpercent(parseFloat(fifty/1000000000000000000).toFixed(5));  
-        document.getElementById("tid2").value = parseFloat(fifty/1000000000000000000).toFixed(5);       
+        setwithdrawpercent(Number((fifty/1000000000000000000).toString().match(/^\d+(?:\.\d{0,3})?/)));  
+        document.getElementById("tid2").value = Number((fifty/1000000000000000000).toString().match(/^\d+(?:\.\d{0,3})?/));       
         
       }
       const withdrawbalancepercent2 = async(event) => {
@@ -254,8 +256,8 @@ const Vault = () => {
         const accounts =  await web3.eth.getAccounts();
         document.getElementById("tid2").value = false;    
         var seventyfive=(avatokentowithdraw * 75)/100;
-        setwithdrawpercent(parseFloat(seventyfive/1000000000000000000).toFixed(5)); 
-        document.getElementById("tid2").value = parseFloat(seventyfive/1000000000000000000).toFixed(5);        
+        setwithdrawpercent(Number((seventyfive/1000000000000000000).toString().match(/^\d+(?:\.\d{0,3})?/)));  
+        document.getElementById("tid2").value = Number((seventyfive/1000000000000000000).toString().match(/^\d+(?:\.\d{0,3})?/));        
         
       }
       const withdrawbalancepercent3 = async(event) => {
@@ -263,8 +265,8 @@ const Vault = () => {
         const accounts =  await web3.eth.getAccounts(); 
         document.getElementById("tid2").value = false;   
         var hundred=(avatokentowithdraw * 100)/100;
-        setwithdrawpercent(parseFloat(hundred/1000000000000000000).toFixed(5));
-        document.getElementById("tid2").value = parseFloat(hundred/1000000000000000000).toFixed(5);         
+        setwithdrawpercent(Number((hundred/1000000000000000000).toString().match(/^\d+(?:\.\d{0,3})?/)));  
+        document.getElementById("tid2").value = Number((hundred/1000000000000000000).toString().match(/^\d+(?:\.\d{0,3})?/));         
         
       }
 
@@ -273,8 +275,8 @@ const Vault = () => {
         const accounts =  await web3.eth.getAccounts(); 
         document.getElementById("tid3").value = false;   
         var twentyfive=(avaltoborrow * 25)/100;
-        setborrowpercent(parseFloat(twentyfive/1000000000000000000).toFixed(5)); 
-        document.getElementById("tid3").value =parseFloat(twentyfive/1000000000000000000).toFixed(5);        
+        setborrowpercent(Number((twentyfive/1000000000000000000).toString().match(/^\d+(?:\.\d{0,3})?/))); 
+        document.getElementById("tid3").value =Number((twentyfive/1000000000000000000).toString().match(/^\d+(?:\.\d{0,3})?/));        
         
       }
       const borrowbalancepercent1 = async(event) => {
@@ -282,8 +284,8 @@ const Vault = () => {
         const accounts =  await web3.eth.getAccounts();
         document.getElementById("tid3").value = false;           
         var fifty=(avaltoborrow * 50)/100;
-        setborrowpercent(parseFloat(fifty/1000000000000000000).toFixed(5)); 
-        document.getElementById("tid3").value = parseFloat(fifty/1000000000000000000).toFixed(5);        
+        setborrowpercent(Number((fifty/1000000000000000000).toString().match(/^\d+(?:\.\d{0,3})?/))); 
+        document.getElementById("tid3").value = Math.floor(fifty/1000000000000000000);        
        
         
       }
@@ -293,8 +295,8 @@ const Vault = () => {
         const accounts =  await web3.eth.getAccounts();
         document.getElementById("tid3").value = false;           
         var seventyfive=(avaltoborrow * 75)/100;
-        setborrowpercent(parseFloat(seventyfive/1000000000000000000).toFixed(5)); 
-        document.getElementById("tid3").value = parseFloat(seventyfive/1000000000000000000).toFixed(5);        
+        setborrowpercent(Number((seventyfive/1000000000000000000).toString().match(/^\d+(?:\.\d{0,3})?/))); 
+        document.getElementById("tid3").value = Number((seventyfive/1000000000000000000).toString().match(/^\d+(?:\.\d{0,3})?/));        
        
         
       }
@@ -304,8 +306,8 @@ const Vault = () => {
         const accounts =  await web3.eth.getAccounts();
         document.getElementById("tid3").value = false;     
         var hundred=(avaltoborrow * 100)/100;
-        setborrowpercent(parseFloat(hundred/1000000000000000000).toFixed(5));     
-        document.getElementById("tid3").value =parseFloat(hundred/1000000000000000000).toFixed(5);        
+        setborrowpercent(Number((hundred/1000000000000000000).toString().match(/^\d+(?:\.\d{0,3})?/)));     
+        document.getElementById("tid3").value =Number((hundred/1000000000000000000).toString().match(/^\d+(?:\.\d{0,3})?/));        
    
         
       }
@@ -315,8 +317,8 @@ const Vault = () => {
         const accounts =  await web3.eth.getAccounts(); 
         document.getElementById("tid4").value = false;          
         var twentyfive=(totaldebt * 25)/100;
-        setrepaypercent(parseFloat(twentyfive/1000000000000000000).toFixed(5)); 
-        document.getElementById("tid4").value = parseFloat(twentyfive/1000000000000000000).toFixed(5);        
+        setrepaypercent(Number((twentyfive/1000000000000000000).toString().match(/^\d+(?:\.\d{0,3})?/))); 
+        document.getElementById("tid4").value = Number((twentyfive/1000000000000000000).toString().match(/^\d+(?:\.\d{0,3})?/));        
        
         
       }
@@ -326,8 +328,8 @@ const Vault = () => {
         const accounts =  await web3.eth.getAccounts();
         document.getElementById("tid4").value = false;    
         var fifty=(totaldebt * 50)/100;
-        setrepaypercent(parseFloat(fifty/1000000000000000000).toFixed(5)); 
-        document.getElementById("tid4").value = parseFloat(fifty/1000000000000000000).toFixed(5);        
+        setrepaypercent(Number((fifty/1000000000000000000).toString().match(/^\d+(?:\.\d{0,3})?/))); 
+        document.getElementById("tid4").value = Number((fifty/1000000000000000000).toString().match(/^\d+(?:\.\d{0,3})?/));        
         
       }
 
@@ -336,16 +338,16 @@ const Vault = () => {
         const accounts =  await web3.eth.getAccounts();   
         document.getElementById("tid4").value = false; 
         var seventyfive=(totaldebt * 75)/100;
-        setrepaypercent(parseFloat(seventyfive/1000000000000000000).toFixed(5));        
-        document.getElementById("tid4").value = parseFloat(seventyfive/1000000000000000000).toFixed(5); 
+        setrepaypercent(Number((seventyfive/1000000000000000000).toString().match(/^\d+(?:\.\d{0,3})?/)));        
+        document.getElementById("tid4").value = Number((seventyfive/1000000000000000000).toString().match(/^\d+(?:\.\d{0,3})?/)); 
       }
       const repaybalancepercent3 = async(event) => {
         event.preventDefault();
         const accounts =  await web3.eth.getAccounts(); 
         document.getElementById("tid4").value = false;   
         var hundred=(totaldebt * 100)/100;
-        setrepaypercent(parseFloat(hundred/1000000000000000000).toFixed(5));
-        document.getElementById("tid4").value = parseFloat(hundred/1000000000000000000).toFixed(5);         
+        setrepaypercent(Number((hundred/1000000000000000000).toString().match(/^\d+(?:\.\d{0,3})?/)));
+        document.getElementById("tid4").value = Number((hundred/1000000000000000000).toString().match(/^\d+(?:\.\d{0,3})?/));         
         
       }
 
@@ -355,8 +357,8 @@ const Vault = () => {
         const accounts =  await web3.eth.getAccounts();  
         document.getElementById("tid5").value = false;  
         var twentyfive=(totaldebt * 25)/100;
-        setliquidatepercent(parseFloat(twentyfive/1000000000000000000).toFixed(5)); 
-        document.getElementById("tid5").value = parseFloat(twentyfive/1000000000000000000).toFixed(5);        
+        setliquidatepercent(Number((twentyfive/1000000000000000000).toString().match(/^\d+(?:\.\d{0,3})?/))); 
+        document.getElementById("tid5").value = Number((twentyfive/1000000000000000000).toString().match(/^\d+(?:\.\d{0,3})?/));        
         
       }
 
@@ -365,8 +367,8 @@ const Vault = () => {
         const accounts =  await web3.eth.getAccounts(); 
         document.getElementById("tid5").value = false;   
         var fifty=(totaldebt * 50)/100;
-        setliquidatepercent(parseFloat(fifty/1000000000000000000).toFixed(5)); 
-        document.getElementById("tid5").value = parseFloat(fifty/1000000000000000000).toFixed(5);        
+        setliquidatepercent(Number((fifty/1000000000000000000).toString().match(/^\d+(?:\.\d{0,3})?/))); 
+        document.getElementById("tid5").value = Number((fifty/1000000000000000000).toString().match(/^\d+(?:\.\d{0,3})?/));        
         
       }
       
@@ -375,8 +377,8 @@ const Vault = () => {
         const accounts =  await web3.eth.getAccounts();  
         document.getElementById("tid5").value = false;  
         var seventyfive=(totaldebt * 75)/100;
-        setliquidatepercent(parseFloat(seventyfive/1000000000000000000).toFixed(5)); 
-        document.getElementById("tid5").value = parseFloat(seventyfive/1000000000000000000).toFixed(5);        
+        setliquidatepercent(Number((seventyfive/1000000000000000000).toString().match(/^\d+(?:\.\d{0,3})?/))); 
+        document.getElementById("tid5").value = Number((seventyfive/1000000000000000000).toString().match(/^\d+(?:\.\d{0,3})?/));        
         
       }
       const liquidatebalancepercent3 = async(event) => {
@@ -384,8 +386,8 @@ const Vault = () => {
         const accounts =  await web3.eth.getAccounts(); 
         document.getElementById("tid5").value = false;   
         var hundred=(totaldebt * 100)/100;
-        setliquidatepercent(parseFloat(hundred/1000000000000000000).toFixed(5)); 
-        document.getElementById("tid5").value = parseFloat(hundred/1000000000000000000).toFixed(5);     
+        setliquidatepercent(Number((hundred/1000000000000000000).toString().match(/^\d+(?:\.\d{0,3})?/))); 
+        document.getElementById("tid5").value = Number((hundred/1000000000000000000).toString().match(/^\d+(?:\.\d{0,3})?/));     
         
       }
       const approve = async() => {

@@ -189,9 +189,9 @@ const Blackstake = () => {
         const accounts =  await web3.eth.getAccounts(); 
         document.getElementById("tid1").value = false;  
         var twentyfive=(blackbal * 25)/100;
-        setdepositpercent(parseFloat(twentyfive/1000000000).toFixed(5));
+        setdepositpercent(Number((twentyfive/1000000000).toString().match(/^\d+(?:\.\d{0,3})?/)));
        
-        document.getElementById("tid1").value = parseFloat(twentyfive/1000000000).toFixed(5);        
+        document.getElementById("tid1").value = Number((twentyfive/1000000000).toString().match(/^\d+(?:\.\d{0,3})?/));        
         
       }
        const balancepercent1 = async(event) => {
@@ -199,8 +199,8 @@ const Blackstake = () => {
         const accounts =  await web3.eth.getAccounts(); 
         document.getElementById("tid1").value = false;    
         var fifty=(blackbal * 50)/100;
-        setdepositpercent(parseFloat(fifty/1000000000).toFixed(5));
-        document.getElementById("tid1").value =  parseFloat(fifty/1000000000).toFixed(5);          
+        setdepositpercent(Number((fifty/1000000000).toString().match(/^\d+(?:\.\d{0,3})?/)));
+        document.getElementById("tid1").value = Number((fifty/1000000000).toString().match(/^\d+(?:\.\d{0,3})?/));          
         
       } 
 
@@ -210,8 +210,8 @@ const Blackstake = () => {
         const accounts =  await web3.eth.getAccounts(); 
         document.getElementById("tid1").value = false;    
         var seventyfive=(blackbal * 75)/100;
-        setdepositpercent(parseFloat(seventyfive/1000000000).toFixed(5)); 
-        document.getElementById("tid1").value = parseFloat(seventyfive/1000000000).toFixed(5);         
+        setdepositpercent(Number((seventyfive/1000000000).toString().match(/^\d+(?:\.\d{0,3})?/))); 
+        document.getElementById("tid1").value = Number((seventyfive/1000000000).toString().match(/^\d+(?:\.\d{0,3})?/));         
         
       }
       const balancepercent3 = async(event) => {
@@ -219,8 +219,8 @@ const Blackstake = () => {
         const accounts =  await web3.eth.getAccounts(); 
         document.getElementById("tid1").value = false;    
         var hundred=(blackbal * 100)/100;
-        setdepositpercent(parseFloat(hundred/1000000000).toFixed(5)); 
-        document.getElementById("tid1").value =  parseFloat(hundred/1000000000).toFixed(5);         
+        setdepositpercent(Number((hundred/1000000000).toString().match(/^\d+(?:\.\d{0,3})?/))); 
+        document.getElementById("tid1").value =  Number((hundred/1000000000).toString().match(/^\d+(?:\.\d{0,3})?/));         
         
       }
 
@@ -230,8 +230,8 @@ const Blackstake = () => {
         const accounts =  await web3.eth.getAccounts(); 
         document.getElementById("tid2").value = false;  
         var twentyfive=(staked[0] * 25)/100;
-        setTotaldeposit(parseFloat(twentyfive/1000000000).toFixed(5));
-        document.getElementById("tid2").value = parseFloat(twentyfive/1000000000).toFixed(5);        
+        setTotaldeposit(Number((twentyfive/1000000000).toString().match(/^\d+(?:\.\d{0,3})?/)));
+        document.getElementById("tid2").value = Number((twentyfive/1000000000).toString().match(/^\d+(?:\.\d{0,3})?/));        
         
       }
        const withdrawbalancepercent1 = async(event) => {
@@ -239,8 +239,8 @@ const Blackstake = () => {
         const accounts =  await web3.eth.getAccounts(); 
         document.getElementById("tid2").value = false;    
         var fifty=(staked[0]  * 50)/100;
-        setTotaldeposit(parseFloat(fifty/1000000000).toFixed(5));
-        document.getElementById("tid2").value = parseFloat(fifty/1000000000).toFixed(5);          
+        setTotaldeposit(Number((fifty/1000000000).toString().match(/^\d+(?:\.\d{0,3})?/)));
+        document.getElementById("tid2").value = Number((fifty/1000000000).toString().match(/^\d+(?:\.\d{0,3})?/));          
         
       } 
 
@@ -250,8 +250,8 @@ const Blackstake = () => {
         const accounts =  await web3.eth.getAccounts(); 
         document.getElementById("tid2").value = false;    
         var seventyfive=(staked[0]  * 75)/100;
-        setTotaldeposit(parseFloat(seventyfive/1000000000).toFixed(5)); 
-        document.getElementById("tid2").value =parseFloat(seventyfive/1000000000).toFixed(5);         
+        setTotaldeposit(Number((seventyfive/1000000000).toString().match(/^\d+(?:\.\d{0,3})?/))); 
+        document.getElementById("tid2").value =Number((seventyfive/1000000000).toString().match(/^\d+(?:\.\d{0,3})?/));         
         
       }
       const withdrawbalancepercent3 = async(event) => {
@@ -259,8 +259,8 @@ const Blackstake = () => {
         const accounts =  await web3.eth.getAccounts(); 
         document.getElementById("tid2").value = false;    
         var hundred=(staked[0]  * 100)/100;
-        setTotaldeposit(parseFloat(hundred/1000000000).toFixed(5)); 
-        document.getElementById("tid2").value =parseFloat(hundred/1000000000).toFixed(5);         
+        setTotaldeposit(Number((hundred/1000000000).toString().match(/^\d+(?:\.\d{0,3})?/))); 
+        document.getElementById("tid2").value =Number((hundred/1000000000).toString().match(/^\d+(?:\.\d{0,3})?/));         
         
       }
       const approve = async() => {

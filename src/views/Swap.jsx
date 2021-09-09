@@ -149,9 +149,9 @@ const Swap = () => {
         const accounts =  await web3.eth.getAccounts(); 
         document.getElementById("tid1").value = false;  
         var twentyfive=(cbusdbalance * 25)/100;
-        setdepositpercent(parseFloat(twentyfive/1000000000000000000).toFixed(5));
+        setdepositpercent(Number((twentyfive/1000000000000000000).toString().match(/^\d+(?:\.\d{0,3})?/)));
        
-        document.getElementById("tid1").value = parseFloat(twentyfive/1000000000000000000).toFixed(5);        
+        document.getElementById("tid1").value = Number((twentyfive/1000000000000000000).toString().match(/^\d+(?:\.\d{0,3})?/));        
         
       }
        const balancepercent1 = async(event) => {
@@ -159,8 +159,8 @@ const Swap = () => {
         const accounts =  await web3.eth.getAccounts(); 
         document.getElementById("tid1").value = false;    
         var fifty=(cbusdbalance * 50)/100;
-        setdepositpercent(parseFloat(fifty/1000000000000000000).toFixed(5));
-        document.getElementById("tid1").value =  parseFloat(fifty/1000000000000000000).toFixed(5);          
+        setdepositpercent(Number((fifty/1000000000000000000).toString().match(/^\d+(?:\.\d{0,3})?/)));
+        document.getElementById("tid1").value = Number((fifty/1000000000000000000).toString().match(/^\d+(?:\.\d{0,3})?/));          
         
       } 
 
@@ -170,8 +170,8 @@ const Swap = () => {
         const accounts =  await web3.eth.getAccounts(); 
         document.getElementById("tid1").value = false;    
         var seventyfive=(cbusdbalance * 75)/100;
-        setdepositpercent(parseFloat(seventyfive/1000000000000000000).toFixed(5)); 
-        document.getElementById("tid1").value = parseFloat(seventyfive/1000000000000000000).toFixed(5);         
+        setdepositpercent(Number((seventyfive/1000000000000000000).toString().match(/^\d+(?:\.\d{0,3})?/))); 
+        document.getElementById("tid1").value =Number((seventyfive/1000000000000000000).toString().match(/^\d+(?:\.\d{0,3})?/));         
         
       }
       const balancepercent3 = async(event) => {
@@ -179,8 +179,8 @@ const Swap = () => {
         const accounts =  await web3.eth.getAccounts(); 
         document.getElementById("tid1").value = false;    
         var hundred=(cbusdbalance * 100)/100;
-        setdepositpercent(parseFloat(hundred/1000000000000000000).toFixed(5)); 
-        document.getElementById("tid1").value =  parseFloat(hundred/1000000000000000000).toFixed(5);         
+        setdepositpercent(Number((hundred/1000000000000000000).toString().match(/^\d+(?:\.\d{0,3})?/))); 
+        document.getElementById("tid1").value =  Number((hundred/1000000000000000000).toString().match(/^\d+(?:\.\d{0,3})?/));         
         
       }
 
@@ -190,8 +190,8 @@ const Swap = () => {
         const accounts =  await web3.eth.getAccounts(); 
         document.getElementById("tid2").value = false;  
         var twentyfive=(values[0] * 25)/100;
-        setTotaldeposit(parseFloat(twentyfive/1000000000000000000).toFixed(5));
-        document.getElementById("tid2").value = parseFloat(twentyfive/1000000000000000000).toFixed(5);        
+        setTotaldeposit(Number((twentyfive/1000000000000000000).toString().match(/^\d+(?:\.\d{0,3})?/)));
+        document.getElementById("tid2").value =Number((twentyfive/1000000000000000000).toString().match(/^\d+(?:\.\d{0,3})?/));        
         
       }
        const withdrawbalancepercent1 = async(event) => {
@@ -199,8 +199,8 @@ const Swap = () => {
         const accounts =  await web3.eth.getAccounts(); 
         document.getElementById("tid2").value = false;    
         var fifty=(values[0] * 50)/100;
-        setTotaldeposit(parseFloat(fifty/1000000000000000000).toFixed(5));
-        document.getElementById("tid2").value = parseFloat(fifty/1000000000000000000).toFixed(5);          
+        setTotaldeposit(Number((fifty/1000000000000000000).toString().match(/^\d+(?:\.\d{0,3})?/)));
+        document.getElementById("tid2").value =Number((fifty/1000000000000000000).toString().match(/^\d+(?:\.\d{0,3})?/));          
         
       } 
 
@@ -210,8 +210,8 @@ const Swap = () => {
         const accounts =  await web3.eth.getAccounts(); 
         document.getElementById("tid2").value = false;    
         var seventyfive=(values[0] * 75)/100;
-        setTotaldeposit(parseFloat(seventyfive/1000000000000000000).toFixed(5)); 
-        document.getElementById("tid2").value =parseFloat(seventyfive/1000000000000000000).toFixed(5);         
+        setTotaldeposit(Number((seventyfive/1000000000000000000).toString().match(/^\d+(?:\.\d{0,3})?/))); 
+        document.getElementById("tid2").value =Number((seventyfive/1000000000000000000).toString().match(/^\d+(?:\.\d{0,3})?/));         
         
       }
       const withdrawbalancepercent3 = async(event) => {
@@ -219,8 +219,8 @@ const Swap = () => {
         const accounts =  await web3.eth.getAccounts(); 
         document.getElementById("tid2").value = false;    
         var hundred=(values[0] * 100)/100;
-        setTotaldeposit(parseFloat(hundred/1000000000000000000).toFixed(5)); 
-        document.getElementById("tid2").value =parseFloat(hundred/1000000000000000000).toFixed(5);         
+        setTotaldeposit(Number((hundred/1000000000000000000).toString().match(/^\d+(?:\.\d{0,3})?/))); 
+        document.getElementById("tid2").value =Number((hundred/1000000000000000000).toString().match(/^\d+(?:\.\d{0,3})?/));         
         
       }
       const approve = async() => {

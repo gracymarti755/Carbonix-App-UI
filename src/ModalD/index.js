@@ -37,7 +37,7 @@ const Modal = ({
 
   return createPortal(
     visible && (
-      <div className={styles.modal} ref={scrollRef}>
+      <div className={styles.modal } ref={scrollRef}>
         
         <div className={cn(styles.outer, outerClassName)}>
           {/* <OutsideClickHandler onOutsideClick={onClose}> */}
