@@ -513,10 +513,10 @@ const Vault = () => {
                                             <span>Available to withdraw:</span>
                                             <span className="ml-auto">0.00 BUSD</span>
                                         </div>
-                                        <div className="d-flex">
+                                        {/* <div className="d-flex">
                                             <span>BUSD APY:</span>
                                             <span className="ml-auto">0.000%</span>
-                                        </div>
+                                        </div> */}
                                     </div>
                                     <div className="mt-4">
                                         <h5>Borrows</h5>
@@ -571,10 +571,10 @@ const Vault = () => {
                                             <span>Available to withdraw:</span>
                                             <span className="ml-auto">0.00 BUSD</span>
                                         </div>
-                                        <div className="d-flex">
+                                        {/* <div className="d-flex">
                                             <span>BUSD APY:</span>
                                             <span className="ml-auto">0.000%</span>
-                                        </div>
+                                        </div> */}
                                     </div>
                                     <div className="mt-4">
                                         <h5>Borrows</h5>
@@ -640,10 +640,10 @@ const Vault = () => {
                                             <span>Available to withdraw:</span>
                                             <span className="ml-auto">0.00 BUSD</span>
                                         </div>
-                                        <div className="d-flex">
+                                        {/* <div className="d-flex">
                                             <span>BUSD APY:</span>
                                             <span className="ml-auto">0.000%</span>
-                                        </div>
+                                        </div> */}
                                     </div>
                                     <div className="mt-4">
                                         <h5>Borrows</h5>
@@ -765,10 +765,10 @@ const Vault = () => {
                                             <span>Available to withdraw:</span>
                                             <span className="ml-auto">0.00 BUSD</span>
                                         </div>
-                                        <div className="d-flex">
+                                        {/* <div className="d-flex">
                                             <span>BUSD APY:</span>
                                             <span className="ml-auto">0.000%</span>
-                                        </div>
+                                        </div> */}
                                     </div>
                                     <div className="mt-4">
                                         <h5>Borrows</h5>
@@ -824,10 +824,10 @@ const Vault = () => {
                                             <span>Available to withdraw:</span>
                                             <span className="ml-auto">0.00 BUSD</span>
                                         </div>
-                                        <div className="d-flex">
+                                        {/* <div className="d-flex">
                                             <span>BUSD APY:</span>
                                             <span className="ml-auto">0.000%</span>
-                                        </div>
+                                        </div> */}
                                     </div>
                                     <div className="mt-4">
                                         <h5>Borrows</h5>
@@ -965,10 +965,10 @@ const Vault = () => {
                                             <span>Available to withdraw:</span>
                                             <span className="ml-auto">{parseFloat(avatokentowithdraw/1000000000000000000).toFixed(5)} BUSD</span>
                                         </div>
-                                        <div className="d-flex">
+                                        {/* <div className="d-flex">
                                             <span>BUSD APY:</span>
                                             <span className="ml-auto">0.000%</span>
-                                        </div>
+                                        </div> */}
                                     </div>
                                     <div className="mt-4">
                                         <h5>Borrows</h5>
@@ -1023,10 +1023,10 @@ const Vault = () => {
                                             <span>Available to withdraw:</span>
                                             <span className="ml-auto">{parseFloat(avatokentowithdraw/1000000000000000000).toFixed(5)} BUSD</span>
                                         </div>
-                                        <div className="d-flex">
+                                        {/* <div className="d-flex">
                                             <span>BUSD APY:</span>
                                             <span className="ml-auto">0.000%</span>
-                                        </div>
+                                        </div> */}
                                     </div>
                                     <div className="mt-4">
                                         <h5>Borrows</h5>
@@ -1092,10 +1092,10 @@ const Vault = () => {
                                             <span>Available to withdraw:</span>
                                             <span className="ml-auto">{parseFloat(avatokentowithdraw/1000000000000000000).toFixed(5)} BUSD</span>
                                         </div>
-                                        <div className="d-flex">
+                                        {/* <div className="d-flex">
                                             <span>BUSD APY:</span>
                                             <span className="ml-auto">0.000%</span>
-                                        </div>
+                                        </div> */}
                                     </div>
                                     <div className="mt-4">
                                         <h5>Borrows</h5>
@@ -1217,10 +1217,10 @@ const Vault = () => {
                                             <span>Available to withdraw:</span>
                                             <span className="ml-auto">{parseFloat(avatokentowithdraw/1000000000000000000).toFixed(5)} BUSD</span>
                                         </div>
-                                        <div className="d-flex">
+                                        {/* <div className="d-flex">
                                             <span>BUSD APY:</span>
                                             <span className="ml-auto">0.000%</span>
-                                        </div>
+                                        </div> */}
                                     </div>
                                     <div className="mt-4">
                                         <h5>Borrows</h5>
@@ -1276,10 +1276,10 @@ const Vault = () => {
                                             <span>Available to withdraw:</span>
                                             <span className="ml-auto">{parseFloat(avatokentowithdraw/1000000000000000000).toFixed(5)} BUSD</span>
                                         </div>
-                                        <div className="d-flex">
+                                        {/* <div className="d-flex">
                                             <span>BUSD APY:</span>
                                             <span className="ml-auto">0.000%</span>
-                                        </div>
+                                        </div> */}
                                     </div>
                                     <div className="mt-4">
                                         <h5>Borrows</h5>
