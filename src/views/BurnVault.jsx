@@ -8,6 +8,8 @@ import { useEffect } from "react";
 import { useState } from "react";
 import { Modal,InputGroup,FormControl } from "react-bootstrap";
 import Popup from "../Popup";
+import Modald from "../ModalD";
+import FolowStepsd from "../FolowStepsd";
 
 const BurnVault = () => {
     const [modalShow1, setModalShow1] = React.useState(false);
@@ -92,6 +94,7 @@ const BurnVault = () => {
                 let amount = a * 1000000000;
              
              await burnvault.methods.swap(amount).send({from:account[0]});
+             setModalShow1(false);
              setIsOpen(true); 
              setDis("Successfully Swapped");
             }
@@ -161,15 +164,18 @@ const BurnVault = () => {
        
       
     return (<>
-    <div>
-    {isOpen && <Popup
+    
+    {/* {isOpen && <Popup
       content={<>
        <center> <b >{dis}</b><br/>
         <button onClick={togglePopup}>OK</button></center>
       </>}
       handleClose={togglePopup}
-    />}
-  </div> 
+    />} */}
+     <Modald visible={isOpen} onClose={() => setIsOpen(false)}>
+        <FolowStepsd viewhistory={dis}  />
+      </Modald>
+  
         <Row className="m-5">
         {
             localStorage.getItem("wallet")===null || localStorage.getItem("wallet")===""?(<>
