@@ -71,6 +71,7 @@ class Dashboard extends Component {
 
     async componentDidMount()
     {
+        document.getElementById("header-title").innerText = "Dashboard";
        const account = await web3.eth.getAccounts();
        const totalsupply1 = await cbusd.methods.totalSupply().call();
        const totalsupply =(parseFloat(totalsupply1/1000000000000000000).toFixed(3));

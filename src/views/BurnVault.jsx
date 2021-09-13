@@ -114,6 +114,9 @@ const BurnVault = () => {
       }
     }
     }
+    useEffect(() => {
+      document.getElementById("header-title").innerText = "Burn Vault";
+  } )
     useEffect(()=>{bvb()},[tid1,maxta,tid2])
     useEffect(()=>{bvb()},[tid3,burn,tid4])
     useEffect(() =>{bvb()},[date1,lock1,time1,t41,t11,t21,t31])
