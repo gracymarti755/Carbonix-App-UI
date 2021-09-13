@@ -21,9 +21,18 @@ const BurnVault = () => {
     const [burn,setburn] = useState([]);
     const [isOpen, setIsOpen] = useState(false);
     var[dis,setDis] = useState("");
+    const[t11,setTim11 ] = useState("");
+    const[t21,setTim21] = useState("");
+    const[t31,setTim31 ] = useState("");
+    const[t41,setTime41] = useState("");
+    var [lct,setlct] = useState([]);
+    var [date1, setdate1]=useState("");
+    var [time1, settime1]=useState("");
+    const [lock1 ,setlock1]=useState("");
     const bvb = async() => {
         if(localStorage.getItem("wallet")>0){
         let account = await web3.eth.getAccounts();
+        
         setId1(await black.methods.balanceOf(account[0]).call());
         var maxtx  = await burnvault.methods.maxTxAmount().call();
         setmaxt(maxtx);
@@ -34,6 +43,67 @@ const BurnVault = () => {
         var burnbalan  = await burnvault.methods.senderBurnBalance(account[0]).call();
         var bb = maxta - burnbalan;
         setburn(bb/1000000000);
+        const checklock = await burnvault.methods.lock(account[0]).call();
+        setlct(checklock);
+        //var loc = await burnvault.methods.secondsLeft(account[0]).call();
+//var now = new Date().getTime();
+        // if(loc<=now){
+        //   setlct(true);
+        //   }
+        //   else{
+        //     setlct(false);
+        //   }
+        var loc = await burnvault.methods.secondsLeft(account[0]).call();
+        // var ff=new Date(loc*1000);
+        // setdate1(ff.toDateString());
+        // var hours = ff.getHours();
+        // var minutes = ff.getMinutes();
+        // var ampm = hours >= 12 ? 'PM' : 'AM';
+        // hours = hours % 12;
+        // hours = hours ? hours : 12; // the hour '0' should be '12'
+        // minutes = minutes < 10 ? '0'+minutes : minutes;
+        // settime1( hours + ':' + minutes + ' ' + ampm);
+        // //settime(lock);
+         var countDowndate   = new Date().getTime()+ loc*1000;
+        //console.log(countDowndate);
+        // var countDownDate = new Date().getTime() + (lock * 1000) ;
+        //alert(time);
+        var x = setInterval(function() {
+           var now = new Date().getTime();
+          var distance = countDowndate - now ;
+         // console.log(now);
+          // Time calculations for days, hours, minutes and seconds
+         var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+          var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+          var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+          var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+            
+          // Output the result in an element with id="demo"
+         // document.getElementById("demo").innerHTML = hours + "h "
+         // + minutes + "m " + seconds + "s ";
+        setTime41(days);
+        setTim11(hours);
+        setTim21(minutes);
+        setTim31(seconds);
+        
+        
+        
+        
+          // If the count down is over, write some text 
+          if (distance < 0) {
+                clearInterval(x);
+                
+                console.log('CountDown Finished');
+            }
+           
+        
+            var count=`Starts in : ${t41}:${t11}:${t21}:${t31}`;
+            console.log("count",count);
+          
+        }, 1000);
+
+      
+
         var allowan = await black.methods.allowance(account[0],"0x2f52686F07F502Ff3F5495E8aDd917898da23117").call();
        if(allowan == 0){
         setId4(true);
@@ -46,6 +116,7 @@ const BurnVault = () => {
     }
     useEffect(()=>{bvb()},[tid1,maxta,tid2])
     useEffect(()=>{bvb()},[tid3,burn,tid4])
+    useEffect(() =>{bvb()},[date1,lock1,time1,t41,t11,t21,t31])
     const approve = async() => {
         let account = await web3.eth.getAccounts();
         let amount = 1000000000000000000 +"000000000000000000";
@@ -97,6 +168,7 @@ const BurnVault = () => {
              setModalShow1(false);
              setIsOpen(true); 
              setDis("Successfully Swapped");
+             bvb();
             }
             else{
                 setIsOpen(true); 
@@ -109,7 +181,7 @@ const BurnVault = () => {
               setIsOpen(true); 
               setDis("The amount you entered must be less than the Maximum Transcation amount");
           }
-        
+      
          
         }
          
@@ -233,7 +305,11 @@ const BurnVault = () => {
                 <Card className="custom-card p-24 text-white" color="site-primary">
                 <div>         
 
-{ tid4 === true ? 
+
+
+{lct===false?((<div>
+
+  { tid4 === true ? 
 (
 (
 <div>
@@ -242,10 +318,14 @@ const BurnVault = () => {
                         <Button color="dark" onClick={approve}>Approve</Button>
                     </div>
                     </div>
-)
+                    
+) 
+
 ):
+
 (
 (
+ 
 <div>
                     <p>Convert Your BLACK to BNB</p>
                     <div className="text-center text-Black">
@@ -260,6 +340,17 @@ const BurnVault = () => {
 </div>
 )
 )}
+
+</div>)):((<div>
+
+  <text className="mt-3"  >You Need to wait for deposit till this time </text><br/><br/>
+  <center><Button color="dark"  className="text-center">{t41} Day : {t11} Hrs : {t21} Min : {t31} Sec</Button></center>
+
+
+</div>))
+}
+
+
   </div> 
                 </Card>
             </Col>
