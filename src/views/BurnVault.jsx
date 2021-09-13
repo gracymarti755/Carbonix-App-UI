@@ -276,16 +276,15 @@ const BurnVault = () => {
                 </Card>
             </Col>
             <Col xl="4" lg="6" md="6" className="mb-4">
-                <div className="h-100 d-flex flex-column">
-                    <div className="border rounded border-site-primary py-2 px-4 mb-4">
-                        Available limit for User to Swap 0.00
-                    </div>
-                <Button color="outline-site-primary" className="align-self-end" id = "tid"  disabled ={tid4} block  onClick={() => setModalShow1(true)}>Swap</Button>
+               
+            
+                <CustomCard title="AVAILABLE LIMIT FOR USER TO SWAP" text= {burn}/>
+          
+                {/* <Button color="outline-site-primary" className="align-self-end" id = "tid"  disabled ={tid4} block  onClick={() => setModalShow1(true)}>Swap</Button> */}
                 <MyVerticallyCenteredModal1
                 show={modalShow1}
                 onHide={() => setModalShow1(false)}
         /><br/>
-                </div>
                 </Col>
                 </>):
                 (<>
