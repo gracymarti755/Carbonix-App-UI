@@ -1,9 +1,14 @@
 import { Container, Button } from "reactstrap"
 import web3 from '../../web3';
 import React, { useState,useEffect } from "react";
+import Popup from "../../Popup";
+import Modald from "../../ModalD";
+import FolowStepsd from "../../FolowStepsd";
 //window.wallet="";
 const Header = (props) => {
     const[walletconnect,setwalletconnect]=useState();
+    const [isOpen, setIsOpen] = useState(false);
+    var[dis,setDis] = useState("");
     console.log("checkwalletconnect",walletconnect)
     const toggleNav = () => {        
         let sidebar = document.getElementsByClassName("sidebar")[0];
@@ -12,19 +17,32 @@ const Header = (props) => {
 
   
     const Connectwallet=async()=>{                  
+        const networkid=await web3.eth.getChainId();
+        console.log("network id",networkid);
+        if(networkid!=97){
+        setIsOpen(true);
+        setDis("Connected to Wrong Network,Please connect to Binance Mainnet");
+        }else{
+
+        
         window.ethereum.enable();  
+        
         let accounts=await web3.eth.getAccounts();
+       // web3.eth.getChainId().then(console.log);
+       // const networkid=await web3.eth.getChainId();
+       // console.log("network id",networkid);
         await web3.eth.getAccounts().then(()=>{          
             console.log("acc Binance",accounts[0])
             setwalletconnect(accounts[0])
             window.wallet=accounts[0];
+           
            localStorage.setItem("wallet",accounts[0])
            //sessionStorage.setItem("wallet", accounts[0]);
           }).then(()=>{
               window.location.reload()
           })
         console.log(accounts);
-        
+        }  
     }
 
     const Disconnect=()=>{            
@@ -39,6 +57,9 @@ const Header = (props) => {
 
 
     return (<>
+       <Modald visible={isOpen} onClose={() => setIsOpen(false)}>
+        <FolowStepsd viewhistory={dis}  />
+      </Modald>
         <div className="header bg-site-secondary">
             <Container fluid className="px-md-5">
                 <div className="d-flex align-items-center font-semi-bold">
