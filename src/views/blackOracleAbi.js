@@ -1,6 +1,6 @@
 import web3 from "../web3";
 
-var blackoracle ='0x3d843FE02BaF94Ae5Bc655F83c5b1f4b954f5112';
+var blackoracle ='0xC46171cB07283C35250A83C974976f598e4088d4';
 
 
 const abi=[

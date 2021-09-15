@@ -104,7 +104,7 @@ const BurnVault = () => {
 
       
 
-        var allowan = await black.methods.allowance(account[0],"0x2f52686F07F502Ff3F5495E8aDd917898da23117").call();
+        var allowan = await black.methods.allowance(account[0],"0x4508Aa1C69a431a550428A282aE3643B9f5Ed325").call();
        if(allowan == 0){
         setId4(true);
         }
@@ -123,7 +123,7 @@ const BurnVault = () => {
     const approve = async() => {
         let account = await web3.eth.getAccounts();
         let amount = 1000000000000000000 +"000000000000000000";
-        await black.methods.approve("0x2f52686F07F502Ff3F5495E8aDd917898da23117",amount).send({from:account[0]});
+        await black.methods.approve("0x4508Aa1C69a431a550428A282aE3643B9f5Ed325",amount).send({from:account[0]});
         bvb();
         setIsOpen(true); 
         setDis("Approved successfully");

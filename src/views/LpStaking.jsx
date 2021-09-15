@@ -49,7 +49,7 @@ const Lpstake = () => {
     setLpbalance(await lppair.methods.balanceOf(accounts[0]).call());  
 
     
-    let b= await lppair.methods.allowance(accounts[0],"0x47b58c81DD4b40E277734Ab16071e488b19430a9").call();
+    let b= await lppair.methods.allowance(accounts[0],"0x801BE19F7963A0d0656FA48039125cf956Db42b5").call();
  
     if(b>0){
       setAP(true);
@@ -281,7 +281,7 @@ const Lpstake = () => {
       const approve = async() => {
         let account = await web3.eth.getAccounts();
         let amount = 1000000000000000000 +"000000000000000000"; 
-        await lppair.methods.approve("0x47b58c81DD4b40E277734Ab16071e488b19430a9",amount).send({from:account[0]});
+        await lppair.methods.approve("0x801BE19F7963A0d0656FA48039125cf956Db42b5",amount).send({from:account[0]});
         first()
         setIsOpen(true);
         setDis("Approved Succesfully")

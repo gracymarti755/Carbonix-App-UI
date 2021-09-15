@@ -17,14 +17,14 @@ const YieldFarming = (props) => {
   const [blackprice,setBlackprice]=useState([]);
   const farmdisplay = async() => {           
 
-    var blackreward =await black.methods.balanceOf("0x2fa541c7457fbd89b727dfa2f3b1423c66c353dd").call();
-       setCommunitybalance( (10000000000000000 - blackreward)/1000000000);
+    var blackreward =await black.methods.balanceOf("0x0Ef04FFA95f2eC2D07a5a196b4cEFB9d1076D43c").call();
+       setCommunitybalance( (3000000000000000 - blackreward)/1000000000);
        console.log("balckreward",communitybalance);
-       const totaldepositedcarbonpool1=await cbusdtoken.methods.balanceOf("0x3a7CD9084072c0178ED6EbACAF1926E2E9e57D43").call(); 
+       const totaldepositedcarbonpool1=await cbusdtoken.methods.balanceOf("0x1b302657E2ed17c4b1073Ea146986a6270757529").call(); 
        const totaldepositedcarbonpool =(parseFloat(totaldepositedcarbonpool1/1000000000000000000).toFixed(3));        
-       const totaldepositedLppool1=await cbusdtoken.methods.balanceOf("0x3a7CD9084072c0178ED6EbACAF1926E2E9e57D43").call(); 
+       const totaldepositedLppool1=await cbusdtoken.methods.balanceOf("0x801BE19F7963A0d0656FA48039125cf956Db42b5").call(); 
        const totaldepositedLppool =(parseFloat(totaldepositedLppool1/1000000000000000000).toFixed(3));
-       const totaldepositedblackpool1=await black.methods.balanceOf("0xb23748eDA11dCeA3f37af78199BDb07774d5798A").call(); 
+       const totaldepositedblackpool1=await black.methods.balanceOf("0xC90b6328370e93184d16b98A6bFF13e201FCf27F").call(); 
        const totaldepositedblackpool =(parseFloat(totaldepositedblackpool1/1000000000).toFixed(3));
        const blackprice1=await  blackoracle.methods.getDittoBnbRate().call();
        //const blackprice=(parseFloat((blackprice1[3])/1000000000000000000).toFixed(11));
@@ -64,7 +64,7 @@ const YieldFarming = (props) => {
           <CustomCard title="TOTAL VALUE LOCKED" text={parseFloat(totalvaluelocked).toFixed(3)}  />
         </Col>
         <Col xl="4" lg="8" xs="12" className="mb-4">
-          <CustomCard title="BLACK REWARDS" text={parseFloat(communitybalance).toFixed(3)} subText="out of 10,000,000" />
+          <CustomCard title="BLACK REWARDS" text={parseFloat(communitybalance).toFixed(3)} subText="out of 3,000,000" />
         </Col>
         <Col xl="4" lg="8" xs="12" className="mb-4">
           <CustomCard title="BLACK PRICE" text={blackprice} subText="Uniswap market" />

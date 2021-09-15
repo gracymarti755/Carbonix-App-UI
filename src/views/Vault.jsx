@@ -69,7 +69,7 @@ const Vault = () => {
   
        setcbusdtotalsupply(await cbusd.methods.totalSupply().call());
        
-        let a = await busd.methods.allowance(accounts[0],"0x27A8DE88408102b4C14c1DbB1695a666A8686e6a").call();
+        let a = await busd.methods.allowance(accounts[0],"0x238B7EBb221A307bd2a99bcDc6C169899733dce9").call();
        if(a>0){
         setApp(true);
        }
@@ -77,7 +77,7 @@ const Vault = () => {
         setApp(false);
        }
       
-      let b= await cbusd.methods.allowance(accounts[0],"0x27A8DE88408102b4C14c1DbB1695a666A8686e6a").call();
+      let b= await cbusd.methods.allowance(accounts[0],"0x238B7EBb221A307bd2a99bcDc6C169899733dce9").call();
       if(b>0){
         setAP(true);
       }
@@ -393,7 +393,7 @@ const Vault = () => {
       const approve = async() => {
         let account = await web3.eth.getAccounts();
         let amount = 1000000000000000000 +"0000000000"; 
-        await busd.methods.approve("0x27A8DE88408102b4C14c1DbB1695a666A8686e6a",amount).send({from:account[0]});
+        await busd.methods.approve("0x238B7EBb221A307bd2a99bcDc6C169899733dce9",amount).send({from:account[0]});
         //bal()
         overall();
         setIsOpen(true);
@@ -403,7 +403,7 @@ const Vault = () => {
       const approv = async() => {
         let account = await web3.eth.getAccounts();
         let amount =  1000000000000000000 +"000000000000000000"; 
-        await cbusd.methods.approve("0x27A8DE88408102b4C14c1DbB1695a666A8686e6a",amount).send({from:account[0]});
+        await cbusd.methods.approve("0x238B7EBb221A307bd2a99bcDc6C169899733dce9",amount).send({from:account[0]});
         //bal()
         overall();
         setIsOpen(true);

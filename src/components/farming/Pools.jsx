@@ -28,17 +28,17 @@ const Pools = () => {
     const [blackperblock,setBlackperblock]=useState([]);
     const[blackdailyreward,setBlackDailyreward]=useState([]);
     const bvb = async() => {
-        setbalan(await cbusd.methods.balanceOf("0xb2690f8851dFa22E7Fc755b0AF697AbD173CF964").call());       
-        setBalanceblack(await black.methods.balanceOf("0x8f40a5c5fE040dBD2B6077f31e6c54DAB6289027").call());       
+        setbalan(await cbusd.methods.balanceOf("0x1b302657E2ed17c4b1073Ea146986a6270757529").call());       
+        setBalanceblack(await black.methods.balanceOf("0xC90b6328370e93184d16b98A6bFF13e201FCf27F").call());       
         console.log("balanblack",balanceblack);
-        setBalancepair(await lptokenpair.methods.balanceOf("0x47b58c81DD4b40E277734Ab16071e488b19430a9").call());       
+        setBalancepair(await lptokenpair.methods.balanceOf("0x801BE19F7963A0d0656FA48039125cf956Db42b5").call());       
         console.log("balancepair",balancepair);
         
         
-        var tokenPerBlock = 1.157407407;
+        var tokenPerBlock = 128.600823045;
         var BLOCKS_PER_YEAR =10512000;
                             
-        const blackdailyreward =1000000/(30 *24);
+        const blackdailyreward =1000000/90 ;
         console.log("dailyreward",blackdailyreward);
         setBlackDailyreward(blackdailyreward);
     
@@ -53,7 +53,7 @@ const Pools = () => {
         console.log("blackprice3",blackprice);
         //var price=1.157407407 *blackprice *BLOCKS_PER_YEAR;
         //console.log("pricenew",price);
-        setcommunitybalan(await black.methods.balanceOf("0x2fa541c7457fbd89b727dfa2f3b1423c66c353dd").call());
+        setcommunitybalan(await black.methods.balanceOf("0x0Ef04FFA95f2eC2D07a5a196b4cEFB9d1076D43c").call());
         const totalRewardPricePerYearcarbon = (blackprice) * (tokenPerBlock)*(BLOCKS_PER_YEAR);
         const totalStakingTokenInPoolcarbon = (carbonprice)*((balance)/1000000000000000000);
         console.log("carbon balance",balance);

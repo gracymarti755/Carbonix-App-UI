@@ -47,7 +47,7 @@ const Cbusdstake = () => {
     setcbusdbalance(await cbusd.methods.balanceOf(accounts[0]).call());  
 
     
-    let b= await cbusd.methods.allowance(accounts[0],"0xb2690f8851dFa22E7Fc755b0AF697AbD173CF964").call();
+    let b= await cbusd.methods.allowance(accounts[0],"0x1b302657E2ed17c4b1073Ea146986a6270757529").call();
  
     if(b>0){
       setAP(true);
@@ -273,7 +273,7 @@ const Cbusdstake = () => {
       const approve = async() => {
         let account = await web3.eth.getAccounts();
         let amount = 1000000000000000000 +"000000000000000000"; 
-        await cbusd.methods.approve("0xb2690f8851dFa22E7Fc755b0AF697AbD173CF964",amount).send({from:account[0]});
+        await cbusd.methods.approve("0x1b302657E2ed17c4b1073Ea146986a6270757529",amount).send({from:account[0]});
         setIsOpen(true);
         setDis("Approved Succesfully")
         first()

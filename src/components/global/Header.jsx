@@ -19,7 +19,7 @@ const Header = (props) => {
     const Connectwallet=async()=>{                  
         const networkid=await web3.eth.getChainId();
         console.log("network id",networkid);
-        if(networkid!=97){
+        if(networkid!=56){
         setIsOpen(true);
         setDis("Connected to Wrong Network,Please connect to Binance Mainnet");
         }else{

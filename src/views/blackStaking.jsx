@@ -41,7 +41,7 @@ const Blackstake = () => {
  const first = async () => {
     const accounts =  await web3.eth.getAccounts();     
     setBlackBalance(await black.methods.balanceOf(accounts[0]).call())    
-    let b= await black.methods.allowance(accounts[0],"0x8f40a5c5fE040dBD2B6077f31e6c54DAB6289027").call();
+    let b= await black.methods.allowance(accounts[0],"0xC90b6328370e93184d16b98A6bFF13e201FCf27F").call();
  
     if(b>0){
       setAP(true);
@@ -266,7 +266,7 @@ const Blackstake = () => {
       const approve = async() => {
         let account = await web3.eth.getAccounts();
         let amount = 1000000000000000000 +"000000000000000000"; 
-        await black.methods.approve("0x8f40a5c5fE040dBD2B6077f31e6c54DAB6289027",amount).send({from:account[0]});
+        await black.methods.approve("0xC90b6328370e93184d16b98A6bFF13e201FCf27F",amount).send({from:account[0]});
         first()
         setIsOpen(true);
         setDis("Approved Succesfully")

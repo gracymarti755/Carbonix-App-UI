@@ -31,15 +31,25 @@ import icon8 from "../../assets/img/icon8.PNG";
 import busd from "../../views/busdAbi";
 import web3 from "../../web3";
 import valutadapter from"../../views/vaultAdapterAbi";
+import carbonfi from "../../views/carbonFinanceAbi";
+
 const Markets = (props) => {
   let [activeTab, setActiveTab] = useState("Finance");
   const[totalvaluelocked,setTotalvalueLocked]=useState([]);
-  
+  const [totalreward,setTotalrewards]=useState([]);
   const overall = async() =>{
     const accounts =  await web3.eth.getAccounts();
-    setTotalvalueLocked(await valutadapter.methods.totalValue().call());   
+    let count = await carbonfi.methods.vaultCount().call();
+    console.log("count1",count);
+    let vaultcount=count-1;
+    console.log("count",vaultcount);
+    setTotalvalueLocked(await carbonfi.methods.getVaultTotalDeposited(vaultcount).call());
+    const rewardscredited=await valutadapter.methods.totalValue().call();
+    const rewards =rewardscredited-totalvaluelocked;
+    setTotalrewards(rewards);  
+    console.log("totalrewards",totalreward);
   }
-  useEffect(() =>{overall()},[totalvaluelocked])
+  useEffect(() =>{overall()},[totalvaluelocked,totalreward])
   let history=useHistory();
   return (
     <>
@@ -925,7 +935,7 @@ const Markets = (props) => {
                 <tr>
                   <th>Token Name </th>
                   <th>Liquidity</th>
-                  <th> APY</th>       
+                  <th>Rewards</th>       
                   {/* <th>Token conversion rate</th> */}
                 </tr>
               </thead>
@@ -976,7 +986,7 @@ const Markets = (props) => {
                   <td style={{ verticalAlign: "middle" }}>
                     {/* <Link to="https://app.barnbridge.com/"> */}
                     <h6 style={{ fontWeight: "600", color: "#00d395",marginTop:"20px"  }}>
-                      2.11%
+                      {parseFloat(totalreward/1000000000000000000).toFixed(5)}
                     </h6>
                     {/* </Link> */}
                   </td>
