@@ -204,10 +204,10 @@ class Dashboard extends Component {
                     <CustomCard title="Total Deposited" title2="$" text= {this.state.totaldeposited}></CustomCard>
                 </Col>
                 <Col className="mb-4">
-                    <CustomCard title="Total Borrowed" text={this.state.totalsupply} subText1="cbUSD"/>
+                    <CustomCard title="Total cbUSD Borrowed" text={this.state.totalsupply} />
                 </Col>
                 <Col className="mb-4">
-                    <CustomCard title="Circulating Supply" text={this.state.totalsupply} subText1="cbUSD"/>
+                    <CustomCard title="cbUSD Circulating Supply" text={this.state.totalsupply} />
                 </Col>
             </Row>
             <div className="m-5 pl-3"><h2><b>Pools</b></h2>
