@@ -443,9 +443,9 @@ class Dashboard extends Component {
                                       <div className="pl-2 pr-2">
                                           {
                                               a.from === "0x238B7EBb221A307bd2a99bcDc6C169899733dce9" ?(
-                                              <h6 style={{ fontWeight: "600" }}>withdraw</h6>):
+                                              <h6 style={{ fontWeight: "600" }}>Deposit</h6>):
                                               (
-                                            <h6 style={{ fontWeight: "600" }}>Deposit</h6>
+                                            <h6 style={{ fontWeight: "600" }}>Withdraw</h6>
                                               )
                                           }
                                           {/* <h6 style={{ fontWeight: "600" }}></h6> */}
