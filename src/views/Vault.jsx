@@ -237,8 +237,11 @@ const Vault = () => {
         var twentyfive=(busdbalance * 25)/100;
     //     var printtwenty = ((twentyfive/1000000000000000000));
     //    console.log("printtwentycheck",Math.floor((printtwenty)));
-       setdepositpercent(new BigNumber((twentyfive/1000000000000000000)).toFormat());
-       document.getElementById("tid1").value = (new BigNumber((twentyfive/1000000000000000000)).toFormat());
+    const x = new BigNumber(twentyfive/1000000000000000000).toFormat();
+    const y = BigNumber(x).dp(3,1);
+    console.log("rounded", y);
+    setdepositpercent(y);
+       document.getElementById("tid1").value = (y);
         
       }
        const balancepercent1 = async(event) => {
@@ -246,8 +249,11 @@ const Vault = () => {
         const accounts =  await web3.eth.getAccounts(); 
         document.getElementById("tid1").value = false;    
         var fifty=(busdbalance * 50)/100;
-        setdepositpercent(new BigNumber((fifty/1000000000000000000)).toFormat());
-        document.getElementById("tid1").value = (new BigNumber((fifty/1000000000000000000)).toFormat());         
+        const x = new BigNumber(fifty/1000000000000000000).toFormat();
+        const y = BigNumber(x).dp(3,1);
+        console.log("rounded", y);
+        setdepositpercent(y);
+        document.getElementById("tid1").value = (y);         
         
       }
       const balancepercent2 = async(event) => {
@@ -255,8 +261,11 @@ const Vault = () => {
         const accounts =  await web3.eth.getAccounts(); 
         document.getElementById("tid1").value = false;    
         var seventyfive=(busdbalance * 75)/100;
-        setdepositpercent(new BigNumber((seventyfive/1000000000000000000)).toFormat()); 
-        document.getElementById("tid1").value =(new BigNumber((seventyfive/1000000000000000000)).toFormat());           
+        const x = new BigNumber(seventyfive/1000000000000000000).toFormat();
+        const y = BigNumber(x).dp(3,1);
+        console.log("rounded", y);
+        setdepositpercent(y);
+        document.getElementById("tid1").value =(y);           
         
       }
       const balancepercent3 = async(event) => {
@@ -264,8 +273,11 @@ const Vault = () => {
         const accounts =  await web3.eth.getAccounts(); 
         document.getElementById("tid1").value = false;    
         var hundred=(busdbalance * 100)/100;
-        setdepositpercent(new BigNumber((hundred/1000000000000000000)).toFormat()); 
-        document.getElementById("tid1").value = (new BigNumber((hundred/1000000000000000000)).toFormat());           
+        const x = new BigNumber(hundred/1000000000000000000).toFormat();
+        const y = BigNumber(x).dp(3,1);
+        console.log("rounded", y);
+        setdepositpercent(y); 
+        document.getElementById("tid1").value = (y);           
         
       }
       const withdrawbalancepercent = async(event) => {
@@ -273,8 +285,11 @@ const Vault = () => {
         const accounts =  await web3.eth.getAccounts(); 
         document.getElementById("tid2").value = false;    
         var twentyfive=(avatokentowithdraw * 25)/100;
-        setwithdrawpercent(new BigNumber((twentyfive/1000000000000000000)).toFormat());  
-        document.getElementById("tid2").value = (new BigNumber((twentyfive/1000000000000000000)).toFormat());   
+        const x = new BigNumber(twentyfive/1000000000000000000).toFormat();
+        const y = BigNumber(x).dp(3,1);
+        console.log("rounded", y);
+        setwithdrawpercent(y); 
+        document.getElementById("tid2").value = (y);   
         
       }
       const withdrawbalancepercent1 = async(event) => {
@@ -282,8 +297,11 @@ const Vault = () => {
         const accounts =  await web3.eth.getAccounts(); 
         document.getElementById("tid2").value = false;   
         var fifty=(avatokentowithdraw * 50)/100;
-        setwithdrawpercent(new BigNumber((fifty/1000000000000000000)).toFormat());  
-        document.getElementById("tid2").value = (new BigNumber((fifty/1000000000000000000)).toFormat()); 
+        const x = new BigNumber(fifty/1000000000000000000).toFormat();
+        const y = BigNumber(x).dp(3,1);
+        console.log("rounded", y);
+        setwithdrawpercent(y); 
+        document.getElementById("tid2").value = (y); 
         
       }
       const withdrawbalancepercent2 = async(event) => {
@@ -291,8 +309,11 @@ const Vault = () => {
         const accounts =  await web3.eth.getAccounts();
         document.getElementById("tid2").value = false;    
         var seventyfive=(avatokentowithdraw * 75)/100;
-        setwithdrawpercent(new BigNumber((seventyfive/1000000000000000000)).toFormat());  
-        document.getElementById("tid2").value = (new BigNumber((seventyfive/1000000000000000000)).toFormat());  
+        const x = new BigNumber(seventyfive/1000000000000000000).toFormat();
+        const y = BigNumber(x).dp(3,1);
+        console.log("rounded", y);
+        setwithdrawpercent(y); 
+        document.getElementById("tid2").value = (y);  
         
       }
       const withdrawbalancepercent3 = async(event) => {
@@ -300,8 +321,11 @@ const Vault = () => {
         const accounts =  await web3.eth.getAccounts(); 
         document.getElementById("tid2").value = false;   
         var hundred=(avatokentowithdraw * 100)/100;
-        setwithdrawpercent(new BigNumber((hundred/1000000000000000000)).toFormat(14));  
-        document.getElementById("tid2").value = (new BigNumber((hundred/1000000000000000000)).toFormat(14)); 
+        const x = new BigNumber(hundred/1000000000000000000).toFormat();
+        const y = BigNumber(x).dp(3,1);
+        console.log("rounded", y);
+        setwithdrawpercent(y); 
+        document.getElementById("tid2").value = (y); 
         
       }
 
@@ -310,8 +334,11 @@ const Vault = () => {
         const accounts =  await web3.eth.getAccounts(); 
         document.getElementById("tid3").value = false;   
         var twentyfive=(avaltoborrow * 25)/100;
-        setborrowpercent(new BigNumber((twentyfive/1000000000000000000)).toFormat()); 
-        document.getElementById("tid3").value =(new BigNumber((twentyfive/1000000000000000000)).toFormat());       
+        const x = new BigNumber(twentyfive/1000000000000000000).toFormat();
+        const y = BigNumber(x).dp(3,1);
+        console.log("rounded", y);
+        setborrowpercent(y); 
+        document.getElementById("tid3").value =(y);       
         
       }
       const borrowbalancepercent1 = async(event) => {
@@ -319,8 +346,11 @@ const Vault = () => {
         const accounts =  await web3.eth.getAccounts();
         document.getElementById("tid3").value = false;           
         var fifty=(avaltoborrow * 50)/100;
-        setborrowpercent(new BigNumber((fifty/1000000000000000000)).toFormat()); 
-        document.getElementById("tid3").value = (new BigNumber((fifty/1000000000000000000)).toFormat());      
+        const x = new BigNumber(fifty/1000000000000000000).toFormat();
+        const y = BigNumber(x).dp(3,1);
+        console.log("rounded", y);
+        setborrowpercent(y);   
+        document.getElementById("tid3").value = (y);      
        
         
       }
@@ -330,8 +360,11 @@ const Vault = () => {
         const accounts =  await web3.eth.getAccounts();
         document.getElementById("tid3").value = false;           
         var seventyfive=(avaltoborrow * 75)/100;
-        setborrowpercent(new BigNumber((seventyfive/1000000000000000000)).toFormat()); 
-        document.getElementById("tid3").value = (new BigNumber((seventyfive/1000000000000000000)).toFormat());  
+        const x = new BigNumber(seventyfive/1000000000000000000).toFormat();
+        const y = BigNumber(x).dp(3,1);
+        console.log("rounded", y);
+        setborrowpercent(y);     
+        document.getElementById("tid3").value = (y);  
        
         
       }
@@ -341,8 +374,11 @@ const Vault = () => {
         const accounts =  await web3.eth.getAccounts();
         document.getElementById("tid3").value = false;     
         var hundred=(avaltoborrow * 100)/100;
-        setborrowpercent(new BigNumber((hundred/1000000000000000000)).toFormat());     
-        document.getElementById("tid3").value =(new BigNumber((hundred/1000000000000000000)).toFormat());        
+        const x = new BigNumber(hundred/1000000000000000000).toFormat();
+        const y = BigNumber(x).dp(3,1);
+        console.log("rounded", y);
+        setborrowpercent(y);    
+        document.getElementById("tid3").value =(y);        
    
         
       }
@@ -352,8 +388,11 @@ const Vault = () => {
         const accounts =  await web3.eth.getAccounts(); 
         document.getElementById("tid4").value = false;          
         var twentyfive=(totaldebt * 25)/100;        
-        setrepaypercent(new BigNumber((twentyfive/1000000000000000000)).toFormat()); 
-        document.getElementById("tid4").value = (new BigNumber((twentyfive/1000000000000000000)).toFormat());        
+        const x = new BigNumber(twentyfive/1000000000000000000).toFormat();
+        const y = BigNumber(x).dp(3,1);
+        console.log("rounded", y);
+        setrepaypercent(y);   
+        document.getElementById("tid4").value = (y);        
        
         
       }
@@ -363,8 +402,11 @@ const Vault = () => {
         const accounts =  await web3.eth.getAccounts();
         document.getElementById("tid4").value = false;    
         var fifty=(totaldebt * 50)/100;
-        setrepaypercent(new BigNumber((fifty/1000000000000000000)).toFormat()); 
-        document.getElementById("tid4").value = (new BigNumber((fifty/1000000000000000000)).toFormat());        
+        const x = new BigNumber(fifty/1000000000000000000).toFormat();
+        const y = BigNumber(x).dp(3,1);
+        console.log("rounded", y);
+        setrepaypercent(y);   
+        document.getElementById("tid4").value = (y);        
         
       }
 
@@ -373,17 +415,24 @@ const Vault = () => {
         const accounts =  await web3.eth.getAccounts();   
         document.getElementById("tid4").value = false; 
         var seventyfive=(totaldebt * 75)/100;
-        setrepaypercent(new BigNumber((seventyfive/1000000000000000000)).toFormat());        
-        document.getElementById("tid4").value = (new BigNumber((seventyfive/1000000000000000000)).toFormat()); 
+        const x = new BigNumber(seventyfive/1000000000000000000).toFormat();
+        const y = BigNumber(x).dp(3,1);
+        console.log("rounded", y);
+        setrepaypercent(y);   
+        document.getElementById("tid4").value = (y); 
       }
       const repaybalancepercent3 = async(event) => {
         event.preventDefault();
         const accounts =  await web3.eth.getAccounts(); 
         document.getElementById("tid4").value = false;   
-        console.log("totaldept",totaldebt);
-        var hundred=(totaldebt * 100)/100;    
-        setrepaypercent(new BigNumber((hundred/1000000000000000000)).toFormat(15));
-        document.getElementById("tid4").value =(new BigNumber((hundred/1000000000000000000)).toFormat(15));         
+        console.log("totaldebt",totaldebt);
+        var hundred=(totaldebt );    
+        const x = new BigNumber(hundred/1000000000000000000).toFormat();
+        const y = BigNumber(x).dp(3,1);
+        console.log("rounded", y);
+        setrepaypercent(y);
+        
+        document.getElementById("tid4").value =(y);         
       
       }
 
@@ -393,8 +442,11 @@ const Vault = () => {
         const accounts =  await web3.eth.getAccounts();  
         document.getElementById("tid5").value = false;  
         var twentyfive=(totaldebt * 25)/100;
-        setliquidatepercent(new BigNumber((twentyfive/1000000000000000000)).toFormat()); 
-        document.getElementById("tid5").value = (new BigNumber((twentyfive/1000000000000000000)).toFormat());  
+        const x = new BigNumber(twentyfive/1000000000000000000).toFormat();
+        const y = BigNumber(x).dp(3,1);
+        console.log("rounded", y);
+        setliquidatepercent(y);
+        document.getElementById("tid5").value = (y);  
         
       }
 
@@ -403,8 +455,11 @@ const Vault = () => {
         const accounts =  await web3.eth.getAccounts(); 
         document.getElementById("tid5").value = false;   
         var fifty=(totaldebt * 50)/100;
-        setliquidatepercent(new BigNumber((fifty/1000000000000000000)).toFormat()); 
-        document.getElementById("tid5").value = (new BigNumber((fifty/1000000000000000000)).toFormat());  
+        const x = new BigNumber(fifty/1000000000000000000).toFormat();
+        const y = BigNumber(x).dp(3,1);
+        console.log("rounded", y);
+        setliquidatepercent(y);
+        document.getElementById("tid5").value = (y);  
         
       }
       
@@ -413,8 +468,11 @@ const Vault = () => {
         const accounts =  await web3.eth.getAccounts();  
         document.getElementById("tid5").value = false;  
         var seventyfive=(totaldebt * 75)/100;
-        setliquidatepercent(new BigNumber((seventyfive/1000000000000000000)).toFormat()); 
-        document.getElementById("tid5").value = (new BigNumber((seventyfive/1000000000000000000)).toFormat());        
+        const x = new BigNumber(seventyfive/1000000000000000000).toFormat();
+        const y = BigNumber(x).dp(3,1);
+        console.log("rounded", y);
+        setliquidatepercent(y);
+        document.getElementById("tid5").value = (y);        
         
       }
       const liquidatebalancepercent3 = async(event) => {
@@ -422,8 +480,11 @@ const Vault = () => {
         const accounts =  await web3.eth.getAccounts(); 
         document.getElementById("tid5").value = false;   
         var hundred=(totaldebt * 100)/100;
-        setliquidatepercent(new BigNumber((hundred/1000000000000000000)).toFormat()); 
-        document.getElementById("tid5").value = (new BigNumber((hundred/1000000000000000000)).toFormat());
+        const x = new BigNumber(hundred/1000000000000000000).toFormat();
+        const y = BigNumber(x).dp(3,1);
+        console.log("rounded", y);
+        setliquidatepercent(y);
+        document.getElementById("tid5").value = (y);
         
       }
       const approve = async() => {
@@ -992,17 +1053,17 @@ const Vault = () => {
                                         <h5>Deposits</h5>
                                         <div className="d-flex larger">
                                             <span>Your wallet balance:</span>
-                                           
-                                            <span className="ml-auto">{(new BigNumber((busdbalance/1000000000000000000)).toFormat(3))} BUSD</span>
+                                            
+                                            <span className="ml-auto">{((BigNumber((busdbalance/1000000000000000000)).decimalPlaces(3,1))).toNumber()} BUSD</span>
                                         </div>
                                         <div className="d-flex">
                                             <span>Your collateral balance:</span>
-                                            <span className="ml-auto">{ (new BigNumber((totaldep/1000000000000000000)).toFormat(3))} BUSD</span>
+                                            <span className="ml-auto">{ ((BigNumber((totaldep/1000000000000000000)).decimalPlaces(3,1))).toNumber()} BUSD</span>
                                         </div>
                                         <div className="d-flex">
                                             <span>Available to withdraw:</span>
                                             
-                                            <span className="ml-auto">{(new BigNumber((avatokentowithdraw/1000000000000000000)).toFormat(3))} BUSD</span>
+                                            <span className="ml-auto">{((BigNumber((avatokentowithdraw/1000000000000000000)).decimalPlaces(3,1))).toNumber()} BUSD</span>
                                         </div>
                                         {/* <div className="d-flex">
                                             <span>BUSD APY:</span>
@@ -1014,15 +1075,15 @@ const Vault = () => {
                                         <div className="d-flex">
                                             <span>Remaining cbUSD debt:</span>
                                             
-                                            <span className="ml-auto">{(new BigNumber((totaldebt/1000000000000000000)).toFormat(3))} cbUSD</span>
+                                            <span className="ml-auto">{((BigNumber((totaldebt/1000000000000000000)).decimalPlaces(3,1))).toNumber()} cbUSD</span>
                                         </div>
                                         <div className="d-flex">
                                             <span>Available to borrow:</span>
-                                            <span className="ml-auto">{(new BigNumber((avaltoborrow/1000000000000000000)).toFormat(3))} cbUSD</span>
+                                            <span className="ml-auto">{((BigNumber((avaltoborrow/1000000000000000000)).decimalPlaces(3,1))).toNumber()} cbUSD</span>
                                         </div>
                                         <div className="d-flex">
                                             <span>Your wallet balance:</span>
-                                            <span className="ml-auto">{(new BigNumber((cbusdbalance/1000000000000000000)).toFormat(3))} cbUSD</span>
+                                            <span className="ml-auto">{((BigNumber((cbusdbalance/1000000000000000000)).decimalPlaces(3,1))).toNumber()} cbUSD</span>
                                         </div>
                                         {/* <div className="d-flex">
                                             <span>Est. Date of Maturity:</span>
@@ -1030,7 +1091,7 @@ const Vault = () => {
                                         </div> */}
                                         <div className="d-flex">
                                             <span>Global Mintable cbUSD:</span>
-                                            <span className="ml-auto">{(new BigNumber((cbusdtotalsupply/1000000000000000000)).toFormat(3))}cbUSD</span>
+                                            <span className="ml-auto">{((BigNumber((cbusdtotalsupply/1000000000000000000)).decimalPlaces(3,1))).toNumber()}cbUSD</span>
                                         </div>
                                     </div>
 
@@ -1053,15 +1114,15 @@ const Vault = () => {
                                         <h5>Deposits</h5>
                                         <div className="d-flex">
                                             <span>Your wallet balance:</span>
-                                            <span className="ml-auto">{(new BigNumber((busdbalance/1000000000000000000)).toFormat(3))} BUSD</span>
+                                            <span className="ml-auto">{((BigNumber((busdbalance/1000000000000000000)).decimalPlaces(3,1))).toNumber()} BUSD</span>
                                         </div>
                                         <div className="d-flex">
                                             <span>Your collateral balance:</span>
-                                            <span className="ml-auto">{ (new BigNumber((totaldep/1000000000000000000)).toFormat(3))} BUSD</span>
+                                            <span className="ml-auto">{((BigNumber((totaldep/1000000000000000000)).decimalPlaces(3,1))).toNumber()} BUSD</span>
                                         </div>
                                         <div className="d-flex larger">
                                             <span>Available to withdraw:</span>
-                                            <span className="ml-auto">{(new BigNumber((avatokentowithdraw/1000000000000000000)).toFormat(3))} BUSD</span>
+                                            <span className="ml-auto">{((BigNumber((avatokentowithdraw/1000000000000000000)).decimalPlaces(3,1))).toNumber()} BUSD</span>
                                         </div>
                                         {/* <div className="d-flex">
                                             <span>BUSD APY:</span>
@@ -1072,15 +1133,15 @@ const Vault = () => {
                                         <h5>Borrows</h5>
                                         <div className="d-flex">
                                             <span>Remaining cbUSD debt:</span>
-                                            <span className="ml-auto">{(new BigNumber((totaldebt/1000000000000000000)).toFormat(3))} cbUSD</span>
+                                            <span className="ml-auto">{((BigNumber((totaldebt/1000000000000000000)).decimalPlaces(3,1))).toNumber()} cbUSD</span>
                                         </div>
                                         <div className="d-flex">
                                             <span>Available to borrow:</span>
-                                            <span className="ml-auto">{(new BigNumber((avaltoborrow/1000000000000000000)).toFormat(3))} cbUSD</span>
+                                            <span className="ml-auto">{((BigNumber((avaltoborrow/1000000000000000000)).decimalPlaces(3,1))).toNumber()} cbUSD</span>
                                         </div>
                                         <div className="d-flex">
                                             <span>Your wallet balance:</span>
-                                            <span className="ml-auto">{(new BigNumber((cbusdbalance/1000000000000000000)).toFormat(3))} cbUSD</span>
+                                            <span className="ml-auto">{((BigNumber((cbusdbalance/1000000000000000000)).decimalPlaces(3,1))).toNumber()} cbUSD</span>
                                         </div>
                                         {/* <div className="d-flex">
                                             <span>Est. Date of Maturity:</span>
@@ -1088,7 +1149,7 @@ const Vault = () => {
                                         </div> */}
                                         <div className="d-flex">
                                             <span>Global Mintable cbUSD:</span>
-                                            <span className="ml-auto">{(new BigNumber((cbusdtotalsupply/1000000000000000000)).toFormat(3))} cbUSD</span>
+                                            <span className="ml-auto">{((BigNumber((cbusdtotalsupply/1000000000000000000)).decimalPlaces(3,1))).toNumber()} cbUSD</span>
                                         </div>
                                     </div>
 
@@ -1122,15 +1183,15 @@ const Vault = () => {
                                         <h5>Deposits</h5>
                                         <div className="d-flex">
                                             <span>Your wallet balance:</span>
-                                            <span className="ml-auto">{(new BigNumber((busdbalance/1000000000000000000)).toFormat(3))} BUSD</span>
+                                            <span className="ml-auto">{((BigNumber((busdbalance/1000000000000000000)).decimalPlaces(3,1))).toNumber()} BUSD</span>
                                         </div>
                                         <div className="d-flex">
                                             <span>Your collateral balance:</span>
-                                            <span className="ml-auto">{ (new BigNumber((totaldep/1000000000000000000)).toFormat(3))} BUSD</span>
+                                            <span className="ml-auto">{((BigNumber((totaldep/1000000000000000000)).decimalPlaces(3,1))).toNumber()} BUSD</span>
                                         </div>
                                         <div className="d-flex">
                                             <span>Available to withdraw:</span>
-                                            <span className="ml-auto">{(new BigNumber((avatokentowithdraw/1000000000000000000)).toFormat(3))} BUSD</span>
+                                            <span className="ml-auto">{((BigNumber((avatokentowithdraw/1000000000000000000)).decimalPlaces(3,1))).toNumber()} BUSD</span>
                                         </div>
                                         {/* <div className="d-flex">
                                             <span>BUSD APY:</span>
@@ -1141,15 +1202,15 @@ const Vault = () => {
                                         <h5>Borrows</h5>
                                         <div className="d-flex">
                                             <span>Remaining cbUSD debt:</span>
-                                            <span className="ml-auto">{(new BigNumber((totaldebt/1000000000000000000)).toFormat(3))} cbUSD</span>
+                                            <span className="ml-auto">{((BigNumber((totaldebt/1000000000000000000)).decimalPlaces(3,1))).toNumber()} cbUSD</span>
                                         </div>
                                         <div className="d-flex larger">
                                             <span>Available to borrow:</span>
-                                            <span className="ml-auto">{(new BigNumber((avaltoborrow/1000000000000000000)).toFormat(3))} cbUSD</span>
+                                            <span className="ml-auto">{((BigNumber((avaltoborrow/1000000000000000000)).decimalPlaces(3,1))).toNumber()} cbUSD</span>
                                         </div>
                                         <div className="d-flex">
                                             <span>Your wallet balance:</span>
-                                            <span className="ml-auto">{(new BigNumber((cbusdbalance/1000000000000000000)).toFormat(3))} cbUSD</span>
+                                            <span className="ml-auto">{((BigNumber((cbusdbalance/1000000000000000000)).decimalPlaces(3,1))).toNumber()} cbUSD</span>
                                         </div>
                                         {/* <div className="d-flex">
                                             <span>Est. Date of Maturity:</span>
@@ -1157,7 +1218,7 @@ const Vault = () => {
                                         </div> */}
                                         <div className="d-flex larger">
                                             <span>Global Mintable cbUSD:</span>
-                                            <span className="ml-auto">{(new BigNumber((cbusdtotalsupply/1000000000000000000)).toFormat(3))} cbUSD</span>
+                                            <span className="ml-auto">{((BigNumber((cbusdtotalsupply/1000000000000000000)).decimalPlaces(3,1))).toNumber()} cbUSD</span>
                                         </div>
                                     </div>
 
@@ -1247,15 +1308,15 @@ const Vault = () => {
                                         <h5>Deposits</h5>
                                         <div className="d-flex larger">
                                             <span>Your wallet balance:</span>
-                                            <span className="ml-auto">{(new BigNumber((busdbalance/1000000000000000000)).toFormat(3))} BUSD</span>
+                                            <span className="ml-auto">{((BigNumber((busdbalance/1000000000000000000)).decimalPlaces(3,1))).toNumber()} BUSD</span>
                                         </div>
                                         <div className="d-flex">
                                             <span>Your collateral balance:</span>
-                                            <span className="ml-auto">{ (new BigNumber((totaldep/1000000000000000000)).toFormat(3))} BUSD</span>
+                                            <span className="ml-auto">{((BigNumber((totaldep/1000000000000000000)).decimalPlaces(3,1))).toNumber()} BUSD</span>
                                         </div>
                                         <div className="d-flex">
                                             <span>Available to withdraw:</span>
-                                            <span className="ml-auto">{(new BigNumber((avatokentowithdraw/1000000000000000000)).toFormat(3))} BUSD</span>
+                                            <span className="ml-auto">{((BigNumber((avatokentowithdraw/1000000000000000000)).decimalPlaces(3,1))).toNumber()} BUSD</span>
                                         </div>
                                         {/* <div className="d-flex">
                                             <span>BUSD APY:</span>
@@ -1266,15 +1327,15 @@ const Vault = () => {
                                         <h5>Borrows</h5>
                                         <div className="d-flex larger">
                                             <span>Remaining cbUSD debt:</span>
-                                            <span className="ml-auto">{(new BigNumber((totaldebt/1000000000000000000)).toFormat(3))} cbUSD</span>
+                                            <span className="ml-auto">{((BigNumber((totaldebt/1000000000000000000)).decimalPlaces(3,1))).toNumber()} cbUSD</span>
                                         </div>
                                         <div className="d-flex">
                                             <span>Available to borrow:</span>
-                                            <span className="ml-auto">{(new BigNumber((avaltoborrow/1000000000000000000)).toFormat(3))} cbUSD</span>
+                                            <span className="ml-auto">{((BigNumber((avaltoborrow/1000000000000000000)).decimalPlaces(3,1))).toNumber()} cbUSD</span>
                                         </div>
                                         <div className="d-flex larger">
                                             <span>Your wallet balance:</span>
-                                            <span className="ml-auto">{(new BigNumber((cbusdbalance/1000000000000000000)).toFormat(3))} cbUSD</span>
+                                            <span className="ml-auto">{((BigNumber((cbusdbalance/1000000000000000000)).decimalPlaces(3,1))).toNumber()} cbUSD</span>
                                         </div>
                                         {/* <div className="d-flex">
                                             <span>Est. Date of Maturity:</span>
@@ -1282,7 +1343,7 @@ const Vault = () => {
                                         </div> */}
                                         <div className="d-flex">
                                             <span>Global Mintable cbUSD:</span>
-                                            <span className="ml-auto">{(new BigNumber((cbusdtotalsupply/1000000000000000000)).toFormat(3))} cbUSD</span>
+                                            <span className="ml-auto">{((BigNumber((cbusdtotalsupply/1000000000000000000)).decimalPlaces(3,1))).toNumber()} cbUSD</span>
                                         </div>
                                     </div>
 
@@ -1306,15 +1367,15 @@ const Vault = () => {
                                         <h5>Deposits</h5>
                                         <div className="d-flex">
                                             <span>Your wallet balance:</span>
-                                            <span className="ml-auto">{(new BigNumber((busdbalance/1000000000000000000)).toFormat(3))} BUSD</span>
+                                            <span className="ml-auto">{((BigNumber((busdbalance/1000000000000000000)).decimalPlaces(3,1))).toNumber()} BUSD</span>
                                         </div>
                                         <div className="d-flex larger">
                                             <span>Your collateral balance:</span>
-                                            <span className="ml-auto">{ (new BigNumber((totaldep/1000000000000000000)).toFormat(3))} BUSD</span>
+                                            <span className="ml-auto">{((BigNumber((totaldep/1000000000000000000)).decimalPlaces(3,1))).toNumber()} BUSD</span>
                                         </div>
                                         <div className="d-flex">
                                             <span>Available to withdraw:</span>
-                                            <span className="ml-auto">{(new BigNumber((avatokentowithdraw/1000000000000000000)).toFormat(3))} BUSD</span>
+                                            <span className="ml-auto">{((BigNumber((avatokentowithdraw/1000000000000000000)).decimalPlaces(3,1))).toNumber()} BUSD</span>
                                         </div>
                                         {/* <div className="d-flex">
                                             <span>BUSD APY:</span>
@@ -1325,15 +1386,15 @@ const Vault = () => {
                                         <h5>Borrows</h5>
                                         <div className="d-flex larger">
                                             <span>Remaining cbUSD debt:</span>
-                                            <span className="ml-auto">{(new BigNumber((totaldebt/1000000000000000000)).toFormat(3))} cbUSD</span>
+                                            <span className="ml-auto">{((BigNumber((totaldebt/1000000000000000000)).decimalPlaces(3,1))).toNumber()} cbUSD</span>
                                         </div>
                                         <div className="d-flex">
                                             <span>Available to borrow:</span>
-                                            <span className="ml-auto">{(new BigNumber((avaltoborrow/1000000000000000000)).toFormat(3))} cbUSD</span>
+                                            <span className="ml-auto">{((BigNumber((avaltoborrow/1000000000000000000)).decimalPlaces(3,1))).toNumber()} cbUSD</span>
                                         </div>
                                         <div className="d-flex">
                                             <span>Your wallet balance:</span>
-                                            <span className="ml-auto">{(new BigNumber((cbusdbalance/1000000000000000000)).toFormat(3))} cbUSD</span>
+                                            <span className="ml-auto">{((BigNumber((cbusdbalance/1000000000000000000)).decimalPlaces(3,1))).toNumber()} cbUSD</span>
                                         </div>
                                         {/* <div className="d-flex">
                                             <span>Est. Date of Maturity:</span>
@@ -1341,7 +1402,7 @@ const Vault = () => {
                                         </div> */}
                                         <div className="d-flex">
                                             <span>Global Mintable cbUSD:</span>
-                                            <span className="ml-auto">{(new BigNumber((cbusdtotalsupply/1000000000000000000)).toFormat(3))} cbUSD</span>
+                                            <span className="ml-auto">{((BigNumber((cbusdtotalsupply/1000000000000000000)).decimalPlaces(3,1))).toNumber()} cbUSD</span>
                                         </div>
                                     </div>
 

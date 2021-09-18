@@ -11,6 +11,7 @@ import valutadapter from"./vaultAdapterAbi";
 import busd from "./busdAbi";
 import Modald from "../ModalD";
 import FolowStepsd from "../FolowStepsd";
+import BigNumber from 'bignumber.js';
 //import styles from ".././FolowSteps.module.sass";
 
 const Swap = () => {
@@ -69,10 +70,13 @@ const Swap = () => {
         event.preventDefault();
         const accounts =  await web3.eth.getAccounts();
         var valu = document.getElementById("tid1").value;
-        var val = valu * 1000000000;
-        var value = val + "000000000"
+        // var val = valu * 1000000000;
+        // var value = val + "000000000"
+        let x = new BigNumber(valu).times(1000000000000000000);
+        console.log("value",x.toNumber());
+        var value = x.toNumber();
         if(parseInt(value)<=parseInt(cbusdbalance)){
-            await swap.methods.stake(value).send({from:accounts[0]});
+            await swap.methods.stake(new BigNumber(value)).send({from:accounts[0]});
             first()
             setIsOpen(true);        
             setDis("Deposited succesfully");
@@ -91,10 +95,13 @@ const Swap = () => {
        
         const accounts =  await web3.eth.getAccounts();
         var valu = document.getElementById("tid2").value;
-        var val = valu * 1000000000;
-        var value = val + "000000000"
+        // var val = valu * 1000000000;
+        // var value = val + "000000000"
+        let x = new BigNumber(valu).times(1000000000000000000);
+        console.log("value",x.toNumber());
+        var value = x.toNumber();
         if(parseInt(value)<=parseInt(values[0])){
-            await swap.methods.unstake(value).send({from:accounts[0]});
+            await swap.methods.unstake(new BigNumber(value)).send({from:accounts[0]});
             first()
             setIsOpen(true);
             setDis("withdrawn succesfully")
@@ -149,9 +156,9 @@ const Swap = () => {
         const accounts =  await web3.eth.getAccounts(); 
         document.getElementById("tid1").value = false;  
         var twentyfive=(cbusdbalance * 25)/100;
-        setdepositpercent(Number((twentyfive/1000000000000000000).toString().match(/^\d+(?:\.\d{0,3})?/)));
+        setdepositpercent(((BigNumber((twentyfive/1000000000000000000)).decimalPlaces(3,1))).toNumber());
        
-        document.getElementById("tid1").value = Number((twentyfive/1000000000000000000).toString().match(/^\d+(?:\.\d{0,3})?/));        
+        document.getElementById("tid1").value = ((BigNumber((twentyfive/1000000000000000000)).decimalPlaces(3,1))).toNumber();        
         
       }
        const balancepercent1 = async(event) => {
@@ -159,8 +166,8 @@ const Swap = () => {
         const accounts =  await web3.eth.getAccounts(); 
         document.getElementById("tid1").value = false;    
         var fifty=(cbusdbalance * 50)/100;
-        setdepositpercent(Number((fifty/1000000000000000000).toString().match(/^\d+(?:\.\d{0,3})?/)));
-        document.getElementById("tid1").value = Number((fifty/1000000000000000000).toString().match(/^\d+(?:\.\d{0,3})?/));          
+        setdepositpercent(((BigNumber((fifty/1000000000000000000)).decimalPlaces(3,1))).toNumber());
+        document.getElementById("tid1").value = ((BigNumber((fifty/1000000000000000000)).decimalPlaces(3,1))).toNumber();          
         
       } 
 
@@ -170,8 +177,8 @@ const Swap = () => {
         const accounts =  await web3.eth.getAccounts(); 
         document.getElementById("tid1").value = false;    
         var seventyfive=(cbusdbalance * 75)/100;
-        setdepositpercent(Number((seventyfive/1000000000000000000).toString().match(/^\d+(?:\.\d{0,3})?/))); 
-        document.getElementById("tid1").value =Number((seventyfive/1000000000000000000).toString().match(/^\d+(?:\.\d{0,3})?/));         
+        setdepositpercent(((BigNumber((seventyfive/1000000000000000000)).decimalPlaces(3,1))).toNumber()); 
+        document.getElementById("tid1").value =((BigNumber((seventyfive/1000000000000000000)).decimalPlaces(3,1))).toNumber();         
         
       }
       const balancepercent3 = async(event) => {
@@ -179,8 +186,8 @@ const Swap = () => {
         const accounts =  await web3.eth.getAccounts(); 
         document.getElementById("tid1").value = false;    
         var hundred=(cbusdbalance * 100)/100;
-        setdepositpercent(Number((hundred/1000000000000000000).toString().match(/^\d+(?:\.\d{0,3})?/))); 
-        document.getElementById("tid1").value =  Number((hundred/1000000000000000000).toString().match(/^\d+(?:\.\d{0,3})?/));         
+        setdepositpercent(((BigNumber((hundred/1000000000000000000)).decimalPlaces(3,1))).toNumber()); 
+        document.getElementById("tid1").value =  ((BigNumber((hundred/1000000000000000000)).decimalPlaces(3,1))).toNumber();         
         
       }
 
@@ -190,8 +197,8 @@ const Swap = () => {
         const accounts =  await web3.eth.getAccounts(); 
         document.getElementById("tid2").value = false;  
         var twentyfive=(values[0] * 25)/100;
-        setTotaldeposit(Number((twentyfive/1000000000000000000).toString().match(/^\d+(?:\.\d{0,3})?/)));
-        document.getElementById("tid2").value =Number((twentyfive/1000000000000000000).toString().match(/^\d+(?:\.\d{0,3})?/));        
+        setTotaldeposit(((BigNumber((twentyfive/1000000000000000000)).decimalPlaces(3,1))).toNumber());
+        document.getElementById("tid2").value =((BigNumber((twentyfive/1000000000000000000)).decimalPlaces(3,1))).toNumber();        
         
       }
        const withdrawbalancepercent1 = async(event) => {
@@ -199,8 +206,8 @@ const Swap = () => {
         const accounts =  await web3.eth.getAccounts(); 
         document.getElementById("tid2").value = false;    
         var fifty=(values[0] * 50)/100;
-        setTotaldeposit(Number((fifty/1000000000000000000).toString().match(/^\d+(?:\.\d{0,3})?/)));
-        document.getElementById("tid2").value =Number((fifty/1000000000000000000).toString().match(/^\d+(?:\.\d{0,3})?/));          
+        setTotaldeposit(((BigNumber((fifty/1000000000000000000)).decimalPlaces(3,1))).toNumber());
+        document.getElementById("tid2").value =((BigNumber((fifty/1000000000000000000)).decimalPlaces(3,1))).toNumber();          
         
       } 
 
@@ -210,8 +217,8 @@ const Swap = () => {
         const accounts =  await web3.eth.getAccounts(); 
         document.getElementById("tid2").value = false;    
         var seventyfive=(values[0] * 75)/100;
-        setTotaldeposit(Number((seventyfive/1000000000000000000).toString().match(/^\d+(?:\.\d{0,3})?/))); 
-        document.getElementById("tid2").value =Number((seventyfive/1000000000000000000).toString().match(/^\d+(?:\.\d{0,3})?/));         
+        setTotaldeposit(((BigNumber((seventyfive/1000000000000000000)).decimalPlaces(3,1))).toNumber()); 
+        document.getElementById("tid2").value =((BigNumber((seventyfive/1000000000000000000)).decimalPlaces(3,1))).toNumber();         
         
       }
       const withdrawbalancepercent3 = async(event) => {
@@ -219,8 +226,8 @@ const Swap = () => {
         const accounts =  await web3.eth.getAccounts(); 
         document.getElementById("tid2").value = false;    
         var hundred=(values[0] * 100)/100;
-        setTotaldeposit(Number((hundred/1000000000000000000).toString().match(/^\d+(?:\.\d{0,3})?/))); 
-        document.getElementById("tid2").value =Number((hundred/1000000000000000000).toString().match(/^\d+(?:\.\d{0,3})?/));         
+        setTotaldeposit(((BigNumber((hundred/1000000000000000000)).decimalPlaces(3,1))).toNumber()); 
+        document.getElementById("tid2").value =((BigNumber((hundred/1000000000000000000)).decimalPlaces(3,1))).toNumber();         
         
       }
       const approve = async() => {
@@ -385,10 +392,10 @@ const Swap = () => {
                                     </thead>
                                     <tbody className="text-center">
                                         <tr>
-                                            <td>{parseFloat(cbusdbalance/1000000000000000000).toFixed(5)}</td>
-                                            <td>{parseFloat(values[0]/1000000000000000000).toFixed(5)}</td>
-                                            <td>{parseFloat(values[2]/1000000000000000000).toFixed(5)}</td>
-                                            <td>{parseFloat(values[3]/1000000000000000000).toFixed(5)}</td>
+                                            <td>{((BigNumber((cbusdbalance/1000000000000000000)).decimalPlaces(3,1))).toNumber()}</td>
+                                            <td>{((BigNumber((values[0]/1000000000000000000)).decimalPlaces(3,1))).toNumber()}</td>
+                                            <td>{((BigNumber((values[2]/1000000000000000000)).decimalPlaces(3,1))).toNumber()}</td>
+                                            <td>{((BigNumber((values[3]/1000000000000000000)).decimalPlaces(3,1))).toNumber()}</td>
                                         </tr>
                                     </tbody>
                                 </Table>
@@ -464,11 +471,11 @@ const Swap = () => {
                                 <div className="content">
                                     <div className="d-flex">
                                         <span>Total Deposited cbUSD:</span>
-                                        <span className="ml-auto">{parseFloat(toalcbusddepo/1000000000000000000).toFixed(5)}</span>
+                                        <span className="ml-auto">{((BigNumber((toalcbusddepo/1000000000000000000)).decimalPlaces(3,1))).toNumber()}</span>
                                     </div>
                                     <div className="d-flex">
                                         <span>Total BUSD Deposited in alpaca:</span>
-                                        <span className="ml-auto">{parseFloat(toalbusdonalpaca/1000000000000000000).toFixed(5)}</span>
+                                        <span className="ml-auto">{((BigNumber((toalbusdonalpaca/1000000000000000000)).decimalPlaces(3,1))).toNumber()}</span>
                                     </div>
                                     {/* <div className="d-flex">
                                         <span>Estimated BUSD Daily Yield:</span>
@@ -476,7 +483,7 @@ const Swap = () => {
                                     </div> */}
                                     <div className="d-flex">
                                         <span>Total BUSD Available for Stabilization:</span>
-                                        <span className="ml-auto" >{parseFloat(toalbusddepo/1000000000000000000).toFixed(5)}</span>
+                                        <span className="ml-auto" >{((BigNumber((toalbusddepo/1000000000000000000)).decimalPlaces(3,1))).toNumber()}</span>
                                     </div>
                                     {/* <div className="d-flex">
                                         <span>Yearly Stabilization Rate:</span>

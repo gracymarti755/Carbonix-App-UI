@@ -34,6 +34,7 @@ const Cbusdstake = () => {
     const[t41,setTime41] = useState("");
     var [date1, setdate1]=useState("");
     var [time1, settime1]=useState("");
+    const [discal ,setdistance]=useState("");
     const [lock1 ,setlock1]=useState("");
     const toggleDropDown = () => setDropdownOpen(!dropdownOpen);
     const toggle1 = () => setDropdownOpen1(!dropdownOpen1);
@@ -85,7 +86,10 @@ const Cbusdstake = () => {
     //alert(time);
     var x = setInterval(function() {
        var now = new Date().getTime();
+     
+      
       var distance = countDowndate - now ;
+      setdistance(distance);
      // console.log(now);
       // Time calculations for days, hours, minutes and seconds
      var days = Math.floor(distance / (1000 * 60 * 60 * 24));
@@ -105,21 +109,24 @@ const Cbusdstake = () => {
     
     
       // If the count down is over, write some text 
-      if (distance < 0) {
-            clearInterval(x);
-            setlock1(true);
-    
-           // console.log('CountDown Finished');
-        }
-        else{
-         setlock1(false);
-        }
-    
+      
     
       
     }, 1000);
     
-     
+    if (discal < 0 ) {
+        clearInterval(x);
+        setlock1(true);
+
+       // console.log('CountDown Finished');
+    }
+    else if(staked[0]==0){
+        setlock1(true);
+    }
+    else{
+     setlock1(false);
+    }
+
    
 }      
 
