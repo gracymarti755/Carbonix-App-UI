@@ -1232,7 +1232,7 @@ const Vault = () => {
 (
 (
 <div>
-                                    <h6>Repay the remaining {(new BigNumber((totaldebt/1000000000000000000)).toFormat(3))} cbUSD debt from your wallet using cbUSD and/or BUSD</h6>
+                                    <h6>Repay the remaining {((BigNumber((totaldebt/1000000000000000000)).decimalPlaces(3,1))).toNumber()} cbUSD debt from your wallet using cbUSD and/or BUSD</h6>
                                     {!multiple ?
                                         <InputGroup className="mt-3">
                                         <Input placeholder={{repaypercent},"0.00"} style={{ height: "auto" }} type = "number" id="tid4" />
@@ -1351,7 +1351,7 @@ const Vault = () => {
                             )}
                             {activeTab == "Liquidate" && (
                                 <div className="p-3">
-                                    <h6>Repay the remaining {(new BigNumber((totaldebt/1000000000000000000)).toFormat(3))} cbUSD debt by liquidating your BUSD collateral.</h6>
+                                    <h6>Repay the remaining {((BigNumber((totaldebt/1000000000000000000)).decimalPlaces(3,1))).toNumber()} cbUSD debt by liquidating your BUSD collateral.</h6>
                                     <small className="text-danger">WARNING: this will use your collateral to repay your cbUSD debt.</small>
                                     <InputGroup className="mt-3">
                                     <Input placeholder={{liquidatepercent},"0.00"} style={{ height: "auto" }} type = "number" id="tid5" />
