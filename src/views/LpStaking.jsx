@@ -144,11 +144,13 @@ const Lpstake = () => {
         event.preventDefault();
         const accounts =  await web3.eth.getAccounts();
         var valu = document.getElementById("tid1").value;
-        let x = new BigNumber(valu).times(1000000000000000000);
-        console.log("value",x.toNumber());
-        var value = x.toNumber();
+        var val = valu * 1000000000;
+        var value = val + "000000000";
+        // let x = new BigNumber(valu).times(1000000000000000000);
+        // console.log("value",x.toNumber());
+        // var value = x.toNumber();
         if(parseInt(value)<=parseInt(lpbalance)){
-            await lpstake.methods.deposit(new BigNumber(value)).send({from:accounts[0]});      
+            await lpstake.methods.deposit(value).send({from:accounts[0]});      
             setIsOpen(true);
             setDis("Staked Succesfully")
             first();
@@ -164,11 +166,13 @@ const Lpstake = () => {
         event.preventDefault();
         const accounts =  await web3.eth.getAccounts();
         var valu = document.getElementById("tid2").value;
-        let x = new BigNumber(valu).times(1000000000000000000);
-        console.log("value",x.toNumber());
-        var value = x.toNumber();
+        var val = valu * 1000000000;
+         var value = val + "000000000"
+        // let x = new BigNumber(valu).times(1000000000000000000);
+        // console.log("value",x.toNumber());
+        // var value = x.toNumber();
         if(parseInt(value)<=parseInt(staked[0])){
-            await lpstake.methods.withdraw(new BigNumber(value)).send({from:accounts[0]});
+            await lpstake.methods.withdraw(value).send({from:accounts[0]});
             setIsOpen(true);
             setDis("Unstaked Succesfully")
             first()
