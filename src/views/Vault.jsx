@@ -115,13 +115,13 @@ const Vault = () => {
         event.preventDefault();
         const accounts =  await web3.eth.getAccounts();
         var valu = document.getElementById("tid2").value;
-        //var val = valu * 1000000000;
-        //var value = val + "000000000"
-        let x = new BigNumber(valu).times(1000000000000000000);
-        console.log("value",x.toNumber());
-        var value = x.toNumber();
+        var val = valu * 1000000000;
+        var value = val + "000000000"
+        // let x = new BigNumber(valu).times(1000000000000000000);
+        // console.log("value",x.toNumber());
+        // var value = x.toNumber();
         if(parseInt(value)<=parseInt(avatokentowithdraw)){
-        await CFI.methods.withdraw(new BigNumber(value)).send({from:accounts[0]});
+        await CFI.methods.withdraw(value).send({from:accounts[0]});
         overall()
         setIsOpen(true);
         setDis("Withdrawn Succesfully!")
@@ -135,14 +135,14 @@ const Vault = () => {
         event.preventDefault();
         const accounts =  await web3.eth.getAccounts();
         var valu = document.getElementById("tid3").value;
-       // var val = valu * 1000000000;
-       // var value = val + "000000000"
-       let x = new BigNumber(valu).times(1000000000000000000);
-       console.log("value",x.toNumber());
-       var value = x.toNumber();
+        var val = valu * 1000000000;
+        var value = val + "000000000"
+    //    let x = new BigNumber(valu).times(1000000000000000000);
+    //    console.log("value",x.toNumber());
+    //    var value = x.toNumber();
 
        if(parseInt(value)<=parseInt(avaltoborrow)){
-        await CFI.methods.mint(new BigNumber(value)).send({from:accounts[0]});
+        await CFI.methods.mint(value).send({from:accounts[0]});
         overall()
         setIsOpen(true);       
         setDis("Borrowed Succesfully!");
@@ -157,11 +157,11 @@ const Vault = () => {
         const accounts =  await web3.eth.getAccounts();
         var valu = document.getElementById("tid4").value;
        if(selectedDropdown == "cBUSD"){
-        //var val = valu * 1000000000;
-        //var value = val + "000000000"
-        let x = new BigNumber(valu).times(1000000000000000000);
-       console.log("value",x.toNumber());
-       var value = x.toNumber();
+        var val = valu * 1000000000;
+        var value = val + "000000000"
+        //let x = new BigNumber(valu).times(1000000000000000000);
+       //console.log("value",x.toNumber());
+       //var value = x.toNumber();
         if(parseInt(value)>parseInt(totaldebt))
         {  overall()
             setIsOpen(true);
@@ -170,7 +170,7 @@ const Vault = () => {
         else{
         
         if(parseInt(value)<=parseInt(cbusdbalance)){
-            await CFI.methods.repay(0,new BigNumber(value)).send({from:accounts[0]});
+            await CFI.methods.repay(0,value).send({from:accounts[0]});
             overall()
             setIsOpen(true);
             setDis("Borrowed amount is repayed By using CBUSD")
@@ -182,11 +182,11 @@ const Vault = () => {
     }
        }
        else{
-       // var val = valu * 1000000000;
-        //var value = val + "000000000"
-        let x = new BigNumber(valu).times(1000000000000000000);
-       console.log("value",x.toNumber());
-       var value = x.toNumber();
+        var val = valu * 1000000000;
+        var value = val + "000000000"
+    //     let x = new BigNumber(valu).times(1000000000000000000);
+    //    console.log("value",x.toNumber());
+    //    var value = x.toNumber();
         if(parseInt(value)>parseInt(totaldebt))
         {  overall()
             setIsOpen(true);
@@ -195,7 +195,7 @@ const Vault = () => {
         else{
           
             if(parseInt(value)<=parseInt(busdbalance)){
-        await CFI.methods.repay(new BigNumber(value),0).send({from:accounts[0]});
+        await CFI.methods.repay(value,0).send({from:accounts[0]});
         overall()
         setIsOpen(true);
         setDis("Borrowed amount is repayed By using BUSD")
@@ -213,13 +213,13 @@ const Vault = () => {
         event.preventDefault();
         const accounts =  await web3.eth.getAccounts();
         var valu = document.getElementById("tid5").value;
-        //var val = valu * 1000000000;
-        //var value = val + "000000000";
-       let x = new BigNumber(valu).times(1000000000000000000);
-       console.log("value",x.toNumber());
-       var value = x.toNumber();
+        var val = valu * 1000000000;
+        var value = val + "000000000";
+    //    let x = new BigNumber(valu).times(1000000000000000000);
+    //    console.log("value",x.toNumber());
+    //    var value = x.toNumber();
         if(parseInt(value)<=parseInt(totaldep)){
-            await CFI.methods.liquidate(new BigNumber(value)).send({from:accounts[0]});
+            await CFI.methods.liquidate(value).send({from:accounts[0]});
             overall()
             setIsOpen(true);
             setDis("Liquidated Succesfully!")
