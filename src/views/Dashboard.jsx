@@ -178,7 +178,7 @@ class Dashboard extends Component {
         this.setState({setfiltdata3:filtdata3}) 
     }
     this.setState({totalsupply,totaldeposited,totalvaluelocked}); 
-    this.setState({carbonprice});
+     this.setState({carbonprice});
     } 
    
  
