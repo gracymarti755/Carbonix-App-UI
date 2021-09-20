@@ -94,13 +94,13 @@ const Vault = () => {
         const accounts =  await web3.eth.getAccounts();
         var valu = document.getElementById("tid1").value;
         console.log("valueget",valu);
-        //var val = valu * 1000000000;
-        //var value = val + "000000000"
-        let x = new BigNumber(valu).times(1000000000000000000);
-        console.log("value",x.toNumber());
-        var value = x.toNumber();
-        if(parseInt(BigNumber(value))<=parseInt(busdbalance)){
-        await CFI.methods.deposit(BigNumber(value)).send({from:accounts[0]});
+        var val = valu * 1000000000;
+        var value = val + "000000000"
+        //let x = new BigNumber(valu).times(1000000000000000000);
+        //console.log("value",x.toNumber());
+        //var value = x.toNumber();
+        if(parseInt(value)<=parseInt(busdbalance)){
+        await CFI.methods.deposit(value).send({from:accounts[0]});
         overall()
         setIsOpen(true);
         
