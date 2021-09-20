@@ -100,7 +100,7 @@ const Vault = () => {
         console.log("value",x.toNumber());
         var value = x.toNumber();
         if(parseInt(value)<=parseInt(busdbalance)){
-        await CFI.methods.deposit(new BigNumber(value)).send({from:accounts[0]});
+        await CFI.methods.deposit( BigNumber(value)).send({from:accounts[0]});
         overall()
         setIsOpen(true);
         
