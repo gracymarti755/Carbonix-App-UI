@@ -36,7 +36,7 @@ const Sidebar = (props) => {
      
         <div className="sidebar bg-site-secondary">
         <center>
-            <img src={logo} style={{width:160}} alt="Logo" />
+            <img src={logo} style={{width:53}} alt="Logo" />
             </center>
             <div className="theme-nav-items">
                

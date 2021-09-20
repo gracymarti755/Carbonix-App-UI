@@ -54,8 +54,25 @@ const Swap = () => {
     else{
       setAP(false);
     }
-    setValues(await swap.methods.userInfo(accounts[0]).call());
+     var depositedcbusd= await swap.methods.depositedCfTokens(accounts[0]).call();
+     if(depositedcbusd == 0){
+        values[0]=0;
+        values[1]=0;
+        values[2]=0;
+        values[3]=0;
+        console.log("values0",values[0]);
+        console.log("values1",values[1]);
+     }
+else{
+    var userdetail=[];
+    userdetail=await swap.methods.userInfo(accounts[0]).call();
+    console.log("displaydetail",userdetail);
+   setValues(userdetail);
+   console.log("display");
+}
+   
     setTotalvalueLocked(await valutadapter.methods.totalValue().call());
+    
     }
    
 }      
@@ -64,7 +81,8 @@ const Swap = () => {
         document.getElementById("header-title").innerText = "Stabilizer";
     } )
     useEffect(() =>         
-    {first()},[cbusdbalance,ap1,values[0],values[1],values[2],values[3],ap1])
+    {first()},[cbusdbalance,values[0],values[1],values[2],values[3],ap1,totalvaluelocked])
+    
    
     const deposit = async(event) => {
         event.preventDefault();

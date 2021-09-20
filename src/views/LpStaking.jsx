@@ -10,6 +10,7 @@ import black from "./blackAbi";
 import lppair from "./lptokenAbi";
 import Modald from "../ModalD";
 import FolowStepsd from "../FolowStepsd";
+import BigNumber from "bignumber.js";
 const Lpstake = () => {
     let [activeTab, setActiveTab] = useState("Deposit");
     const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -136,17 +137,18 @@ const Lpstake = () => {
         document.getElementById("header-title").innerText = "Staking";
     } )
     useEffect(() =>         
-    {first()},[lpbalance,ap1,staked[0]],reward,blackbal)
+    {first()},[lpbalance,ap1,staked[0],reward,blackbal,distance])
     useEffect(() =>{first()},[date1,lock1,time1])
    
     const deposit = async(event) => {
         event.preventDefault();
         const accounts =  await web3.eth.getAccounts();
         var valu = document.getElementById("tid1").value;
-        var val = valu * 1000000000;
-        var value = val + "000000000"
+        let x = new BigNumber(valu).times(1000000000000000000);
+        console.log("value",x.toNumber());
+        var value = x.toNumber();
         if(parseInt(value)<=parseInt(lpbalance)){
-            await lpstake.methods.deposit(value).send({from:accounts[0]});      
+            await lpstake.methods.deposit(new BigNumber(value)).send({from:accounts[0]});      
             setIsOpen(true);
             setDis("Staked Succesfully")
             first();
@@ -162,10 +164,11 @@ const Lpstake = () => {
         event.preventDefault();
         const accounts =  await web3.eth.getAccounts();
         var valu = document.getElementById("tid2").value;
-        var val = valu * 1000000000;
-        var value = val + "000000000"
+        let x = new BigNumber(valu).times(1000000000000000000);
+        console.log("value",x.toNumber());
+        var value = x.toNumber();
         if(parseInt(value)<=parseInt(staked[0])){
-            await lpstake.methods.withdraw(value).send({from:accounts[0]});
+            await lpstake.methods.withdraw(new BigNumber(value)).send({from:accounts[0]});
             setIsOpen(true);
             setDis("Unstaked Succesfully")
             first()
@@ -206,9 +209,9 @@ const Lpstake = () => {
         document.getElementById("tid1").value = false;  
         var twentyfive=(lpbalance * 25)/100;
        
-            setdepositpercent(Number((twentyfive/1000000000000000000).toString().match(/^\d+(?:\.\d{0,3})?/)));
+            setdepositpercent(((BigNumber((twentyfive/1000000000000000000)).decimalPlaces(3,1))).toNumber());
        
-            document.getElementById("tid1").value = Number((twentyfive/1000000000000000000).toString().match(/^\d+(?:\.\d{0,3})?/));           
+            document.getElementById("tid1").value = ((BigNumber((twentyfive/1000000000000000000)).decimalPlaces(3,1))).toNumber();           
         
       
         
@@ -218,8 +221,8 @@ const Lpstake = () => {
         const accounts =  await web3.eth.getAccounts(); 
         document.getElementById("tid1").value = false;    
         var fifty=(lpbalance * 50)/100;        
-        setdepositpercent(Number((fifty/1000000000000000000).toString().match(/^\d+(?:\.\d{0,3})?/)));
-        document.getElementById("tid1").value =  Number((fifty/1000000000000000000).toString().match(/^\d+(?:\.\d{0,3})?/));            
+        setdepositpercent(((BigNumber((fifty/1000000000000000000)).decimalPlaces(3,1))).toNumber());
+        document.getElementById("tid1").value =  ((BigNumber((fifty/1000000000000000000)).decimalPlaces(3,1))).toNumber();            
         
       } 
 
@@ -229,8 +232,8 @@ const Lpstake = () => {
         const accounts =  await web3.eth.getAccounts(); 
         document.getElementById("tid1").value = false;    
         var seventyfive=(lpbalance * 75)/100;
-        setdepositpercent(Number((seventyfive/1000000000000000000).toString().match(/^\d+(?:\.\d{0,3})?/))); 
-        document.getElementById("tid1").value = Number((seventyfive/1000000000000000000).toString().match(/^\d+(?:\.\d{0,3})?/));        
+        setdepositpercent(((BigNumber((seventyfive/1000000000000000000)).decimalPlaces(3,1))).toNumber()); 
+        document.getElementById("tid1").value = ((BigNumber((seventyfive/1000000000000000000)).decimalPlaces(3,1))).toNumber();        
         
       }
       const balancepercent3 = async(event) => {
@@ -240,8 +243,8 @@ const Lpstake = () => {
         var hundred=(lpbalance * 100)/100;
         // var num2 = Number((0.059786786876868).toString().match(/^\d+(?:\.\d{0,3})?/));
         // console.log("checkdigit",num2);
-        setdepositpercent( Number((hundred/1000000000000000000).toString().match(/^\d+(?:\.\d{0,3})?/))); 
-        document.getElementById("tid1").value =  Number((hundred/1000000000000000000).toString().match(/^\d+(?:\.\d{0,3})?/));         
+        setdepositpercent(((BigNumber((hundred/1000000000000000000)).decimalPlaces(3,1))).toNumber()); 
+        document.getElementById("tid1").value =  ((BigNumber((hundred/1000000000000000000)).decimalPlaces(3,1))).toNumber();         
         
       }
 
@@ -251,8 +254,8 @@ const Lpstake = () => {
         const accounts =  await web3.eth.getAccounts(); 
         document.getElementById("tid2").value = false;  
         var twentyfive=(staked[0] * 25)/100;
-        setTotaldeposit( Number((twentyfive/1000000000000000000).toString().match(/^\d+(?:\.\d{0,3})?/)));
-        document.getElementById("tid2").value = Number((twentyfive/1000000000000000000).toString().match(/^\d+(?:\.\d{0,3})?/));        
+        setTotaldeposit(((BigNumber((twentyfive/1000000000000000000)).decimalPlaces(3,1))).toNumber());
+        document.getElementById("tid2").value =((BigNumber((twentyfive/1000000000000000000)).decimalPlaces(3,1))).toNumber();        
         
       }
        const withdrawbalancepercent1 = async(event) => {
@@ -260,8 +263,8 @@ const Lpstake = () => {
         const accounts =  await web3.eth.getAccounts(); 
         document.getElementById("tid2").value = false;    
         var fifty=(staked[0]  * 50)/100;
-        setTotaldeposit(Number((fifty/1000000000000000000).toString().match(/^\d+(?:\.\d{0,3})?/)));
-        document.getElementById("tid2").value = Number((fifty/1000000000000000000).toString().match(/^\d+(?:\.\d{0,3})?/));          
+        setTotaldeposit(((BigNumber((fifty/1000000000000000000)).decimalPlaces(3,1))).toNumber());
+        document.getElementById("tid2").value = ((BigNumber((fifty/1000000000000000000)).decimalPlaces(3,1))).toNumber();          
         
       } 
 
@@ -271,8 +274,8 @@ const Lpstake = () => {
         const accounts =  await web3.eth.getAccounts(); 
         document.getElementById("tid2").value = false;    
         var seventyfive=(staked[0]  * 75)/100;
-        setTotaldeposit(Number((seventyfive/1000000000000000000).toString().match(/^\d+(?:\.\d{0,3})?/))); 
-        document.getElementById("tid2").value =Number((seventyfive/1000000000000000000).toString().match(/^\d+(?:\.\d{0,3})?/));       
+        setTotaldeposit(((BigNumber((seventyfive/1000000000000000000)).decimalPlaces(3,1))).toNumber()); 
+        document.getElementById("tid2").value =((BigNumber((seventyfive/1000000000000000000)).decimalPlaces(3,1))).toNumber();       
         
       }
       const withdrawbalancepercent3 = async(event) => {
@@ -280,8 +283,8 @@ const Lpstake = () => {
         const accounts =  await web3.eth.getAccounts(); 
         document.getElementById("tid2").value = false;    
         var hundred=(staked[0]  * 100)/100;
-        setTotaldeposit(Number((hundred/1000000000000000000).toString().match(/^\d+(?:\.\d{0,3})?/))); 
-        document.getElementById("tid2").value =Number((hundred/1000000000000000000).toString().match(/^\d+(?:\.\d{0,3})?/));         
+        setTotaldeposit(((BigNumber((hundred/1000000000000000000)).decimalPlaces(3,1))).toNumber()); 
+        document.getElementById("tid2").value =((BigNumber((hundred/1000000000000000000)).decimalPlaces(3,1))).toNumber();         
         
       }
       const approve = async() => {
@@ -407,10 +410,10 @@ const Lpstake = () => {
                                     </thead>
                                     <tbody className="text-center">
                                         <tr>
-                                            <td>{parseFloat(lpbalance/1000000000000000000)}</td>
-                                            <td>{parseFloat(staked[0]/1000000000000000000)}</td>
-                                            <td>{parseFloat(reward/1000000000).toFixed(5)}</td>
-                                            <td>{parseFloat(blackbal/1000000000).toFixed(5)}</td>
+                                            <td>{((BigNumber((lpbalance/1000000000000000000)).decimalPlaces(3,1))).toNumber()}</td>
+                                            <td>{((BigNumber((staked[0]/1000000000000000000)).decimalPlaces(3,1))).toNumber()}</td>
+                                            <td>{((BigNumber((reward/1000000000)).decimalPlaces(3,1))).toNumber()}</td>
+                                            <td>{((BigNumber((blackbal/1000000000)).decimalPlaces(3,1))).toNumber()}</td>
                                         </tr>
                                     </tbody>
                                 </Table>
