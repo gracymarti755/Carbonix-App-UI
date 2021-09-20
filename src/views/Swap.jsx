@@ -88,13 +88,13 @@ else{
         event.preventDefault();
         const accounts =  await web3.eth.getAccounts();
         var valu = document.getElementById("tid1").value;
-        // var val = valu * 1000000000;
-        // var value = val + "000000000"
-        let x = new BigNumber(valu).times(1000000000000000000);
-        console.log("value",x.toNumber());
-        var value = x.toNumber();
+         var val = valu * 1000000000;
+         var value = val + "000000000"
+        // let x = new BigNumber(valu).times(1000000000000000000);
+        // console.log("value",x.toNumber());
+        // var value = x.toNumber();
         if(parseInt(value)<=parseInt(cbusdbalance)){
-            await swap.methods.stake(new BigNumber(value)).send({from:accounts[0]});
+            await swap.methods.stake(value).send({from:accounts[0]});
             first()
             setIsOpen(true);        
             setDis("Deposited succesfully");
@@ -113,13 +113,13 @@ else{
        
         const accounts =  await web3.eth.getAccounts();
         var valu = document.getElementById("tid2").value;
-        // var val = valu * 1000000000;
-        // var value = val + "000000000"
-        let x = new BigNumber(valu).times(1000000000000000000);
-        console.log("value",x.toNumber());
-        var value = x.toNumber();
+         var val = valu * 1000000000;
+         var value = val + "000000000"
+        // let x = new BigNumber(valu).times(1000000000000000000);
+        // console.log("value",x.toNumber());
+        // var value = x.toNumber();
         if(parseInt(value)<=parseInt(values[0])){
-            await swap.methods.unstake(new BigNumber(value)).send({from:accounts[0]});
+            await swap.methods.unstake(value).send({from:accounts[0]});
             first()
             setIsOpen(true);
             setDis("withdrawn succesfully")
