@@ -93,10 +93,11 @@ class Dashboard extends Component {
        console.log("totaldepositedblackpool",totaldepositedblackpool);
 
        const carbonprice1=await  carbonoracle.methods.getDittoBnbRate().call();
-       const carbonprice=(parseFloat((carbonprice1[3])/1000000000).toFixed(11));
+       const carbonprice=(parseFloat((carbonprice1[3])/1000000000).toFixed(3));
 
        console.log("carbonpricecheck",carbonprice);
        this.setState({setLoading:true});
+       if(localStorage.getItem("wallet")>0){
        const response = await fetch("https://api.bscscan.com/api?module=account&action=tokentx&address=0x238B7EBb221A307bd2a99bcDc6C169899733dce9&startblock=0&endblock=250000000000&sort=desc&apikey=YourApiKeyToken");
        const data = await response.json();
        console.log("data",data);
@@ -146,8 +147,7 @@ class Dashboard extends Component {
         //this.setState({setcount:count1});
         
 
-       this.setState({totalsupply,totaldeposited,totalvaluelocked}); 
-       this.setState({carbonprice});
+     
        //this.setState({carbonprice:await  carbonoracle.methods.getDittoBnbRate().call()});
        
        this.state.datas.map((a)=>{            
@@ -176,6 +176,9 @@ class Dashboard extends Component {
         const filtdata3=filtdata2.filter((a)=>parseInt(a.to)===this.state.setad);
         console.log("filterddata3",filtdata3);  
         this.setState({setfiltdata3:filtdata3}) 
+    }
+    this.setState({totalsupply,totaldeposited,totalvaluelocked}); 
+    this.setState({carbonprice});
     } 
    
  
