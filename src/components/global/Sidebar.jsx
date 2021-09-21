@@ -19,6 +19,7 @@ const Sidebar = (props) => {
             mainContent.classList.remove("hide");
         }
         else {
+            
             sidebar.classList.remove("collapse");
         }
     }
@@ -36,7 +37,7 @@ const Sidebar = (props) => {
      
         <div className="sidebar bg-site-secondary">
         <center>
-            <img src={logo} style={{width:53}} alt="Logo" />
+            <img src={logo} style={{width:54 ,height:45,position:"relative"}} alt="Logo" />
             </center>
             <div className="theme-nav-items">
                
