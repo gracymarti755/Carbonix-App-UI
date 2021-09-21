@@ -12,6 +12,7 @@ import FolowStepsd from "../FolowStepsd";
 import BigNumber from "bignumber.js";
 
 const Blackstake = () => {
+
     let [activeTab, setActiveTab] = useState("Deposit");
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const [dropdownOpen1, setDropdownOpen1] = useState(false);
@@ -33,15 +34,19 @@ const Blackstake = () => {
     const[t21,setTim21] = useState("");
     const[t31,setTim31 ] = useState("");
     const[t41,setTime41] = useState("");
-    var [date1, setdate1]=useState("");
+    var [date1, setdate1]=useState("");    
     var [time1, settime1]=useState("");
+    var[datestake,setDatestake]=useState([]);
+    var [time2, settime2]=useState("");
+    const[stakelock,setStakeLock]=useState("");
     const [discal ,setdistance]=useState("");
-    const [lock1 ,setlock1]=useState("");
+    const [lock1 ,setlock1]=useState("");    
     let history = useHistory();
     const [isOpen, setIsOpen] = useState(false);
     var[dis,setDis] = useState("");
     
  const first = async () => {
+    if(localStorage.getItem("wallet")>0){
     const accounts =  await web3.eth.getAccounts();     
     setBlackBalance(await black.methods.balanceOf(accounts[0]).call())    
     let b= await black.methods.allowance(accounts[0],"0xC90b6328370e93184d16b98A6bFF13e201FCf27F").call();
@@ -55,8 +60,11 @@ const Blackstake = () => {
     //setValues(await swap.methods.userInfo(accounts[0]).call());
     setStaked(await blackstake.methods.userInfo(accounts[0]).call());
     setReward(await blackstake.methods.pendingBlack(accounts[0]).call());
+    setStakeLock(await blackstake.methods.lock(accounts[0]).call());
+    var secondsleft =await blackstake.methods.secondsLeft(accounts[0]).call();
     var us =await blackstake.methods.holderUnstakeRemainingTime(accounts[0]).call();
     var now = new Date().getTime();
+    console.log("nowtime",now);
     if(us<=now){
     setlock(true);
     }
@@ -65,8 +73,25 @@ const Blackstake = () => {
     }
     
     var us=await blackstake.methods.holderUnstakeRemainingTime(accounts[0]).call();
-    var ff=new Date(us*1000);
+    var sl=(secondsleft *1000);
+    var lockedtime=sl+now;
+    console.log("secondsleft",lockedtime);
+    var lockedonstake =[];
+     lockedonstake =new Date(lockedtime);
+    setDatestake(new Date(lockedtime).toDateString());
+    //console.log("stakelimitlock",lockedonstake);
+    var hours1 = lockedonstake.getHours();
+    var minutes1 = lockedonstake.getMinutes();
+    var ampm1 = hours1 >= 12 ? 'PM' : 'AM';
+    hours1 = hours1 % 12;
+    hours1 = hours1 ? hours1 : 12; // the hour '0' should be '12'
+    minutes1 = minutes1 < 10 ? '0'+minutes1 : minutes1;
+    settime2( hours1 + ':' + minutes1 + ' ' + ampm1);
+
+
+    var ff=new Date(us*1000);    
     setdate1(ff.toDateString());
+    console.log("date1",date1);
     var hours = ff.getHours();
     var minutes = ff.getMinutes();
     var ampm = hours >= 12 ? 'PM' : 'AM';
@@ -121,7 +146,7 @@ const Blackstake = () => {
     }
 
      
-
+    }
    
 }      
 
@@ -141,11 +166,26 @@ const Blackstake = () => {
         // var value = x.toNumber(); 
         var value = valu * 1000000000;
          //var value = val + "000000000";
-        if(parseInt(value)<=parseInt(blackbal)){
-        await blackstake.methods.deposit(value).send({from:accounts[0]});
-        setIsOpen(true);
-        setDis("Staked Succesfully")
-        first();
+         console.log("stake0",staked);
+        var stakelimitamount=1000000000000000-staked[0];
+        
+        console.log("stakelim",stakelimitamount);
+        if(parseInt(value)<=parseInt(blackbal) ){
+            if(parseInt(value)<parseInt(stakelimitamount)){
+                await blackstake.methods.deposit(value).send({from:accounts[0]});
+                setIsOpen(true);
+                setDis("Staked Succesfully")
+                first();
+               
+                 
+            }
+            else{
+                setIsOpen(true);
+                setDis("you are trying to stake morethan your stake limit")
+                first();
+            }
+       
+
         }
         else{
             setIsOpen(true);
@@ -413,13 +453,17 @@ const Blackstake = () => {
                                 </Table>
                                 <div>         
 
-{ ap1 === true ? 
-(
-(
+{ ap1 === true  ? ( (
 <div>
+
+ 
                                 <Container fluid>
                                     <Row>
+                                    
                                         <Col xl="6" md="12">
+                                            { stakelock === false ? ((
+
+                                   <div>
                                             <InputGroup className="mt-3">
                                                 <Input placeholder={depositpercent} style={{ height: "auto" }}type = "number" id="tid1"  />
                                                 <InputGroupAddon addonType="append"><Button color="site-primary" onClick={deposit}>stake</Button></InputGroupAddon>
@@ -430,7 +474,16 @@ const Blackstake = () => {
                                                 <div className="percentage-item" onClick={balancepercent2}>75%</div>
                                                 <div className="percentage-item" onClick={balancepercent3}>100%</div>
                                             </div>
+                                            </div>
+                                   )) :((<>
+
+<text className="mt-3"  >You Need to wait for stake till this time </text> 
+<Button color="site-primary">{datestake} , {time2}</Button>
+
+                                   </>))}
                                         </Col>
+                              
+
                                         <Col xl="6" md="12">
                                         <div>
             {lock1==true?((

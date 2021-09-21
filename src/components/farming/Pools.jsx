@@ -6,6 +6,7 @@ import icon1 from "../../assets/img/icon1.PNG";
 import carbonstake from "../../views/carbonStake";
 import { Link,useHistory } from "react-router-dom";
 import cbusd from "../../views/cbusdAbi";
+import busd from "../../views/busdAbi";
 import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
@@ -42,10 +43,11 @@ const Pools = () => {
         console.log("dailyreward",blackdailyreward);
         setBlackDailyreward(blackdailyreward);
     
-        const carbonprice1=await  carbonoracle.methods.getDittoBnbRate().call();
-      
-        const carbonprices=(parseFloat((carbonprice1[3])/1000000000).toFixed(11));
-        setCarbonprice(carbonprices);
+       const priceofbusd= await busd.methods.balanceOf("0x7F7701C1F75146ca746C89A7479e95a19Cf2bC24").call();
+       const priceofcbusd= await cbusd.methods.balanceOf("0x7F7701C1F75146ca746C89A7479e95a19Cf2bC24").call();
+       const carbonprice1= (priceofbusd)/(priceofcbusd);
+       const carbonprice=(parseFloat(carbonprice1).toFixed(3));
+        setCarbonprice(carbonprice);
         console.log("carbonprice",carbonprice)
         const blackprice1=await  blackoracle.methods.getDittoBnbRate().call();       
         const blackprices=(parseFloat((blackprice1[3])/1000000000000000000).toFixed(13)); 

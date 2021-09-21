@@ -91,10 +91,10 @@ class Dashboard extends Component {
        console.log("totaldepositedcarbonpool",totaldepositedcarbonpool);
        console.log("totaldepositedLppool",totaldepositedLppool);
        console.log("totaldepositedblackpool",totaldepositedblackpool);
-
-       const carbonprice1=await  carbonoracle.methods.getDittoBnbRate().call();
-       const carbonprice=(parseFloat((carbonprice1[3])/1000000000).toFixed(3));
-
+       const priceofbusd= await busd.methods.balanceOf("0x7F7701C1F75146ca746C89A7479e95a19Cf2bC24").call();
+       const priceofcbusd= await cbusd.methods.balanceOf("0x7F7701C1F75146ca746C89A7479e95a19Cf2bC24").call();
+       const carbonprice1= (priceofbusd)/(priceofcbusd);
+       const carbonprice=(parseFloat(carbonprice1).toFixed(3));
        console.log("carbonpricecheck",carbonprice);
        this.setState({setLoading:true});
        if(localStorage.getItem("wallet")>0){

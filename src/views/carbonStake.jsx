@@ -33,10 +33,13 @@ const Cbusdstake = () => {
     const[t21,setTim21] = useState("");
     const[t31,setTim31 ] = useState("");
     const[t41,setTime41] = useState("");
+    var[datestake,setDatestake]=useState([]);
+    var [time2, settime2]=useState("");
     var [date1, setdate1]=useState("");
     var [time1, settime1]=useState("");
     const [discal ,setdistance]=useState("");
     const [lock1 ,setlock1]=useState("");
+    const[stakelock,setStakeLock]=("");
     const toggleDropDown = () => setDropdownOpen(!dropdownOpen);
     const toggle1 = () => setDropdownOpen1(!dropdownOpen1);
     let history = useHistory();
@@ -44,6 +47,7 @@ const Cbusdstake = () => {
     var[dis,setDis] = useState("");
     
  const first = async () => {
+    if(localStorage.getItem("wallet")>0){
     const accounts =  await web3.eth.getAccounts();
  
     setcbusdbalance(await cbusd.methods.balanceOf(accounts[0]).call());  
@@ -61,6 +65,8 @@ const Cbusdstake = () => {
     setStaked(await cbusdstake.methods.userInfo(accounts[0]).call());
     setBlackBalance(await black.methods.balanceOf(accounts[0]).call());
     setReward(await cbusdstake.methods.pendingBlack(accounts[0]).call());
+    setStakeLock(await cbusdstake.methods.lock(accounts[0]).call());
+    var secondsleft =await cbusdstake.methods.secondsLeft(accounts[0]).call();
     var us =await cbusdstake.methods.holderUnstakeRemainingTime(accounts[0]).call();
     var now = new Date().getTime();
     if(us<=now){
@@ -71,6 +77,21 @@ const Cbusdstake = () => {
     }
     
     var us=await cbusdstake.methods.holderUnstakeRemainingTime(accounts[0]).call();
+    var sl=(secondsleft *1000);
+    var lockedtime=sl+now;
+    console.log("secondsleft",lockedtime);
+    var lockedonstake =[];
+     lockedonstake =new Date(lockedtime);
+    setDatestake(new Date(lockedtime).toDateString());
+    //console.log("stakelimitlock",lockedonstake);
+    var hours1 = lockedonstake.getHours();
+    var minutes1 = lockedonstake.getMinutes();
+    var ampm1 = hours1 >= 12 ? 'PM' : 'AM';
+    hours1 = hours1 % 12;
+    hours1 = hours1 ? hours1 : 12; // the hour '0' should be '12'
+    minutes1 = minutes1 < 10 ? '0'+minutes1 : minutes1;
+    settime2( hours1 + ':' + minutes1 + ' ' + ampm1);
+
     var ff=new Date(us*1000);
     setdate1(ff.toDateString());
     var hours = ff.getHours();
@@ -128,7 +149,7 @@ const Cbusdstake = () => {
      setlock1(false);
     }
 
-   
+    }   
 }      
 
     useEffect(() => {
@@ -147,12 +168,21 @@ const Cbusdstake = () => {
         // var value = x.toNumber();
         var val = valu * 1000000000;
          var value = val + "000000000";
-
+         var stakelimitamount=1000000000000000-staked[0];
+         console.log("stakelim",stakelimitamount);
         if(parseInt(value)<=parseInt(cbusdbalance)){
-        await cbusdstake.methods.deposit(value).send({from:accounts[0]});
-        setIsOpen(true);
-        setDis("Staked Succesfully")
-        first();
+            if(parseInt(value)<parseInt(stakelimitamount)){
+                await cbusdstake.methods.deposit(value).send({from:accounts[0]});
+                setIsOpen(true);
+                setDis("Staked Succesfully")
+                first();
+            }
+            else{
+                setIsOpen(true);
+                setDis("you are trying to stake morethan your stake limit")
+                first();
+            }
+        
     }
     else{
         setIsOpen(true);
@@ -433,7 +463,8 @@ const Cbusdstake = () => {
                                 <Container fluid>
                                     <Row>
                                         <Col xl="6" md="12">
-                                        
+                                        { stakelock === false ? ((
+                                             <div>
                                             <InputGroup className="mt-3">
                                                 <Input placeholder={depositpercent} style={{ height: "auto" }}type = "number" id="tid1"  />
                                                 <InputGroupAddon addonType="append"><Button color="site-primary" onClick={deposit}>stake</Button></InputGroupAddon>
@@ -444,6 +475,13 @@ const Cbusdstake = () => {
                                                 <div className="percentage-item" onClick={balancepercent2}>75%</div>
                                                 <div className="percentage-item" onClick={balancepercent3}>100%</div>
                                             </div>
+                                            </div>
+                                             )) :((<>
+
+                                                <text className="mt-3"  >You Need to wait for stake till this time </text> 
+                                                <Button color="site-primary">{datestake} , {time2}</Button>
+                                                
+                                                                                   </>))}
                                         </Col>
                                         <Col xl="6" md="12">
                                         <div>

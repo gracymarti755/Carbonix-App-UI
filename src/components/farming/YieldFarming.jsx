@@ -9,6 +9,7 @@ import Chart from "react-apexcharts";
 import Pools from "./Pools";
 import black from "../../views/blackAbi";
 import cbusdtoken from "../../views/cbusdAbi";
+import wbnb from "../../views/wbnbabi";
 import blackoracle from "../../views/blackOracleAbi";
 import { useEffect } from "react";
 const YieldFarming = (props) => {
@@ -26,9 +27,14 @@ const YieldFarming = (props) => {
        const totaldepositedLppool =(parseFloat(totaldepositedLppool1/1000000000000000000).toFixed(3));
        const totaldepositedblackpool1=await black.methods.balanceOf("0xC90b6328370e93184d16b98A6bFF13e201FCf27F").call(); 
        const totaldepositedblackpool =(parseFloat(totaldepositedblackpool1/1000000000).toFixed(3));
-       const blackprice1=await  blackoracle.methods.getDittoBnbRate().call();
+       const priceofwbnb= await wbnb.methods.balanceOf("0x32aa2440104A877559118802a9a99e60ed469da5").call();
+       const priceofblack= await black.methods.balanceOf("0x32aa2440104A877559118802a9a99e60ed469da5").call();
+       
+       const blackprice1= (priceofwbnb)/(priceofblack);
+       const blackprice=(parseFloat(blackprice1).toFixed(3));
+       //const blackprice1=await  blackoracle.methods.getDittoBnbRate().call();
        //const blackprice=(parseFloat((blackprice1[3])/1000000000000000000).toFixed(11));
-       setBlackprice((parseFloat((blackprice1[3])/1000000000000000000).toFixed(11)));
+       setBlackprice(blackprice);
        console.log("blackpriceyield",blackprice);
        setTotalvalueLocked((parseFloat (totaldepositedcarbonpool)) + (parseFloat(totaldepositedLppool) + parseFloat(totaldepositedblackpool)));
  }

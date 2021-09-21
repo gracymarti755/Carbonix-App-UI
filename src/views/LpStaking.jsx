@@ -38,7 +38,9 @@ const Lpstake = () => {
     var [time1, settime1]=useState("");
     const [lock1 ,setlock1]=useState("");
     const [distance ,setdistance]=useState("");
-    
+    var[datestake,setDatestake]=useState([]);
+    var [time2, settime2]=useState("");
+    const[stakelock,setStakeLock]=useState("");
     const [isOpen, setIsOpen] = useState(false);
     var[dis,setDis] = useState("");
     const toggleDropDown = () => setDropdownOpen(!dropdownOpen);
@@ -46,6 +48,7 @@ const Lpstake = () => {
     let history = useHistory();
     
  const first = async () => {
+    if(localStorage.getItem("wallet")>0){
     const accounts =  await web3.eth.getAccounts();
  
     //setcbusdbalance(await cbusd.methods.balanceOf(accounts[0]).call());  
@@ -64,6 +67,8 @@ const Lpstake = () => {
     setStaked(await lpstake.methods.userInfo(accounts[0]).call());
     setReward(await lpstake.methods.pendingBlack(accounts[0]).call());
     setBlackBalance(await black.methods.balanceOf(accounts[0]).call())
+    setStakeLock(await lpstake.methods.lock(accounts[0]).call());
+    var secondsleft =await lpstake.methods.secondsLeft(accounts[0]).call();
     var us =await lpstake.methods.holderUnstakeRemainingTime(accounts[0]).call();
     var now = new Date().getTime();
     if(us<=now){
@@ -74,6 +79,22 @@ const Lpstake = () => {
     }
     
     var us=await lpstake.methods.holderUnstakeRemainingTime(accounts[0]).call();
+    var sl=(secondsleft *1000);
+    var lockedtime=sl+now;
+    console.log("secondsleft",lockedtime);
+    var lockedonstake =[];
+     lockedonstake =new Date(lockedtime);
+    setDatestake(new Date(lockedtime).toDateString());
+    //console.log("stakelimitlock",lockedonstake);
+    var hours1 = lockedonstake.getHours();
+    var minutes1 = lockedonstake.getMinutes();
+    var ampm1 = hours1 >= 12 ? 'PM' : 'AM';
+    hours1 = hours1 % 12;
+    hours1 = hours1 ? hours1 : 12; // the hour '0' should be '12'
+    minutes1 = minutes1 < 10 ? '0'+minutes1 : minutes1;
+    settime2( hours1 + ':' + minutes1 + ' ' + ampm1);
+
+
     var ff=new Date(us*1000);
     setdate1(ff.toDateString());
     var hours = ff.getHours();
@@ -130,7 +151,7 @@ const Lpstake = () => {
      setlock1(false);
     }
 
-   
+} 
 }      
 
     useEffect(() => {
@@ -149,11 +170,21 @@ const Lpstake = () => {
         // let x = new BigNumber(valu).times(1000000000000000000);
         // console.log("value",x.toNumber());
         // var value = x.toNumber();
+        var stakelimitamount=1000000000000000-staked[0];
+         console.log("stakelim",stakelimitamount);
         if(parseInt(value)<=parseInt(lpbalance)){
-            await lpstake.methods.deposit(value).send({from:accounts[0]});      
-            setIsOpen(true);
-            setDis("Staked Succesfully")
-            first();
+            if(parseInt(value)<parseInt(stakelimitamount)){
+                await lpstake.methods.deposit(value).send({from:accounts[0]});      
+                setIsOpen(true);
+                setDis("Staked Succesfully")
+                first();
+            }
+            else{
+                setIsOpen(true);
+                setDis("you are trying to stake morethan your stake limit")
+                first();
+            }
+            
         }
         else{
             setIsOpen(true);
@@ -430,6 +461,9 @@ const Lpstake = () => {
                                 <Container fluid>
                                     <Row>
                                         <Col xl="6" md="12">
+                                        { stakelock === false ? ((
+
+<div>
                                             <InputGroup className="mt-3">
                                                 <Input placeholder={depositpercent} style={{ height: "auto" }}type = "number" id="tid1"  />
                                                 <InputGroupAddon addonType="append"><Button color="site-primary" onClick={deposit}>stake</Button></InputGroupAddon>
@@ -440,6 +474,14 @@ const Lpstake = () => {
                                                 <div className="percentage-item" onClick={balancepercent2}>75%</div>
                                                 <div className="percentage-item" onClick={balancepercent3}>100%</div>
                                             </div>
+                                            </div>
+                                   )) :((<>
+
+<text className="mt-3"  >You Need to wait for stake till this time </text> 
+<Button color="site-primary">{datestake} , {time2}</Button>
+
+                                   </>))}
+
                                         </Col>
                                         <Col xl="6" md="12">
                                         <div>
