@@ -145,7 +145,7 @@ else{
         else{
             first()
             setIsOpen(true);
-          setDis("You dont have Transmutable BASE token")
+          setDis("You don't have Stabilizable BUSD ")
         }
        
         
