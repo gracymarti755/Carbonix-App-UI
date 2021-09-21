@@ -139,8 +139,8 @@ const Blackstake = () => {
         // let x = new BigNumber(valu).times(1000000000);
         // console.log("value",x.toNumber());
         // var value = x.toNumber(); 
-        var val = valu * 1000000000;
-         var value = val + "000000000";
+        var value = valu * 1000000000;
+         //var value = val + "000000000";
         if(parseInt(value)<=parseInt(blackbal)){
         await blackstake.methods.deposit(value).send({from:accounts[0]});
         setIsOpen(true);
@@ -160,8 +160,8 @@ const Blackstake = () => {
         // let x = new BigNumber(valu).times(1000000000);
         // console.log("value",x.toNumber());
         // var value = x.toNumber(); 
-        var val = valu * 1000000000;
-         var value = val + "000000000";
+        var value = valu * 1000000000;
+         //var value = val + "000000000";
         if(parseInt(value)<=parseInt(staked[0]))     {
             await blackstake.methods.withdraw(value).send({from:accounts[0]});
             setIsOpen(true);
