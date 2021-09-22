@@ -39,7 +39,8 @@ const Cbusdstake = () => {
     var [time1, settime1]=useState("");
     const [discal ,setdistance]=useState("");
     const [lock1 ,setlock1]=useState("");
-    const[stakelock,setStakeLock]=("");
+    const[stakelock,setStakeLock]=useState("");
+    const [Remainingamount ,setRemainingamount]=useState(""); 
     const toggleDropDown = () => setDropdownOpen(!dropdownOpen);
     const toggle1 = () => setDropdownOpen1(!dropdownOpen1);
     let history = useHistory();
@@ -65,6 +66,10 @@ const Cbusdstake = () => {
     setStaked(await cbusdstake.methods.userInfo(accounts[0]).call());
     setBlackBalance(await black.methods.balanceOf(accounts[0]).call());
     setReward(await cbusdstake.methods.pendingBlack(accounts[0]).call());
+    var stakedamount=await cbusdstake.methods.getHoldersRunningStakeBalance().call({from:accounts[0]});
+    console.log("stakedamount",stakedamount);
+    var Remainingamount=1000000000000000000000000-stakedamount;
+    setRemainingamount(Remainingamount);
     setStakeLock(await cbusdstake.methods.lock(accounts[0]).call());
     var secondsleft =await cbusdstake.methods.secondsLeft(accounts[0]).call();
     var us =await cbusdstake.methods.holderUnstakeRemainingTime(accounts[0]).call();
@@ -168,10 +173,10 @@ const Cbusdstake = () => {
         // var value = x.toNumber();
         var val = valu * 1000000000;
          var value = val + "000000000";
-         var stakelimitamount=1000000000000000-staked[0];
-         console.log("stakelim",stakelimitamount);
+         //var stakelimitamount=1000000000000000-staked[0];
+         //console.log("stakelim",stakelimitamount);
         if(parseInt(value)<=parseInt(cbusdbalance)){
-            if(parseInt(value)<parseInt(stakelimitamount)){
+            if(parseInt(value)<parseInt(Remainingamount)){
                 await cbusdstake.methods.deposit(value).send({from:accounts[0]});
                 setIsOpen(true);
                 setDis("Staked Succesfully")
@@ -356,12 +361,14 @@ const Cbusdstake = () => {
                                         <tr>
                                             <th>Your cBUSD</th>
                                             <th>Staked cBUSD</th>
+                                            <th>Remaining Amount to Stake </th>
                                             <th>Black reward</th>
                                             <th>Your Black</th>
                                         </tr>
                                     </thead>
                                     <tbody className="text-center">
                                         <tr>
+                                            <td>0.00</td>
                                             <td>0.00</td>
                                             <td>0.00</td>
                                             <td>0.00</td>
@@ -437,18 +444,20 @@ const Cbusdstake = () => {
                                 <Table bordered responsive className="mt-3">
                                     <thead>
                                         <tr>
-                                            <
-                                                
-                                                th>Your cBUSD</th>
+                                            <th>Your cBUSD</th>
                                             <th>Staked cBUSD</th>
+                                            <th>Remaining Amount to Stake </th>
                                             <th>Black reward</th>
                                             <th>Your Black</th>
+                                                
+                                                
                                         </tr>
                                     </thead>
                                     <tbody className="text-center">
                                         <tr>
                                             <td>{((BigNumber((cbusdbalance/1000000000000000000)).decimalPlaces(3,1))).toNumber()}</td>
                                             <td>{((BigNumber((staked[0]/1000000000000000000)).decimalPlaces(3,1))).toNumber()}</td>
+                                            <td>{((BigNumber((Remainingamount/1000000000000000000)).decimalPlaces(3,1))).toNumber()}</td>
                                             <td>{((BigNumber((reward/1000000000)).decimalPlaces(3,1))).toNumber()}</td>
                                             <td>{((BigNumber((blackbal/1000000000)).decimalPlaces(3,1))).toNumber()}</td>
                                         </tr>

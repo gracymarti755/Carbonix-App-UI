@@ -40,7 +40,9 @@ const Blackstake = () => {
     var [time2, settime2]=useState("");
     const[stakelock,setStakeLock]=useState("");
     const [discal ,setdistance]=useState("");
-    const [lock1 ,setlock1]=useState("");    
+    const [lock1 ,setlock1]=useState(""); 
+    const [Remainingamount ,setRemainingamount]=useState(""); 
+
     let history = useHistory();
     const [isOpen, setIsOpen] = useState(false);
     var[dis,setDis] = useState("");
@@ -61,6 +63,10 @@ const Blackstake = () => {
     setStaked(await blackstake.methods.userInfo(accounts[0]).call());
     setReward(await blackstake.methods.pendingBlack(accounts[0]).call());
     setStakeLock(await blackstake.methods.lock(accounts[0]).call());
+    var stakedamount=await blackstake.methods.getHoldersRunningStakeBalance().call({from:accounts[0]});
+    console.log("stakedamount",stakedamount);
+    var Remainingamount=1000000000000000-stakedamount;
+    setRemainingamount(Remainingamount);
     var secondsleft =await blackstake.methods.secondsLeft(accounts[0]).call();
     var us =await blackstake.methods.holderUnstakeRemainingTime(accounts[0]).call();
     var now = new Date().getTime();
@@ -167,11 +173,11 @@ const Blackstake = () => {
         var value = valu * 1000000000;
          //var value = val + "000000000";
          console.log("stake0",staked);
-        var stakelimitamount=1000000000000000-staked[0];
+        //var stakelimitamount=1000000000000000-staked[0];
         
-        console.log("stakelim",stakelimitamount);
+        //console.log("stakelim",stakelimitamount);
         if(parseInt(value)<=parseInt(blackbal) ){
-            if(parseInt(value)<parseInt(stakelimitamount)){
+            if(parseInt(value)<parseInt(Remainingamount)){
                 await blackstake.methods.deposit(value).send({from:accounts[0]});
                 setIsOpen(true);
                 setDis("Staked Succesfully")
@@ -349,16 +355,17 @@ const Blackstake = () => {
                                 <Table bordered responsive className="mt-3">
                                     <thead>
                                         <tr>
-                                            <
-                                                
-                                                th>Your Black</th>
-                                            <th>Staked Black</th>
+                                            <th>Your Black</th>
+                                            <th>Staked Black</th>  
+                                            <th> Remaining Amount to Stake</th>
+                                           
                                             <th> reward</th>
                                             
                                         </tr>
                                     </thead>
                                     <tbody className="text-center">
                                         <tr>
+                                            <td>0.00</td>
                                             <td>0.00</td>
                                             <td>0.00</td>
                                             <td>0.00</td>
@@ -434,11 +441,12 @@ const Blackstake = () => {
                                 <Table bordered responsive className="mt-3">
                                     <thead>
                                         <tr>
-                                            <
-                                                
-                                                th>Your Black</th>
+                                            < th>Your Black</th>
                                             <th>Staked Black</th>
+                                            <th> Remaining Amount to Stake</th>
                                             <th> reward</th>
+                                           
+                                            
                                             
                                         </tr>
                                     </thead>
@@ -446,6 +454,7 @@ const Blackstake = () => {
                                         <tr>
                                             <td>{((BigNumber((blackbal/1000000000)).decimalPlaces(3,1))).toNumber()}</td>
                                             <td>{((BigNumber((staked[0]/1000000000)).decimalPlaces(3,1))).toNumber()}</td>
+                                            <td>{((BigNumber((Remainingamount/1000000000)).decimalPlaces(3,1))).toNumber()}</td>
                                             <td>{((BigNumber((reward/1000000000)).decimalPlaces(3,1))).toNumber()}</td>
                                            
                                         </tr>

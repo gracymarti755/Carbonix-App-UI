@@ -41,6 +41,7 @@ const Lpstake = () => {
     var[datestake,setDatestake]=useState([]);
     var [time2, settime2]=useState("");
     const[stakelock,setStakeLock]=useState("");
+    const [Remainingamount ,setRemainingamount]=useState(""); 
     const [isOpen, setIsOpen] = useState(false);
     var[dis,setDis] = useState("");
     const toggleDropDown = () => setDropdownOpen(!dropdownOpen);
@@ -66,7 +67,11 @@ const Lpstake = () => {
     //setValues(await swap.methods.userInfo(accounts[0]).call());
     setStaked(await lpstake.methods.userInfo(accounts[0]).call());
     setReward(await lpstake.methods.pendingBlack(accounts[0]).call());
-    setBlackBalance(await black.methods.balanceOf(accounts[0]).call())
+    var stakedamount=await lpstake.methods.getHoldersRunningStakeBalance().call({from:accounts[0]});
+    console.log("stakedamount",stakedamount);
+    var Remainingamount=1000000000000000000000000-stakedamount;
+    setRemainingamount(Remainingamount);
+    setBlackBalance(await black.methods.balanceOf(accounts[0]).call());
     setStakeLock(await lpstake.methods.lock(accounts[0]).call());
     var secondsleft =await lpstake.methods.secondsLeft(accounts[0]).call();
     var us =await lpstake.methods.holderUnstakeRemainingTime(accounts[0]).call();
@@ -170,10 +175,10 @@ const Lpstake = () => {
         // let x = new BigNumber(valu).times(1000000000000000000);
         // console.log("value",x.toNumber());
         // var value = x.toNumber();
-        var stakelimitamount=1000000000000000-staked[0];
-         console.log("stakelim",stakelimitamount);
+       // var stakelimitamount=1000000000000000-staked[0];
+         //console.log("stakelim",stakelimitamount);
         if(parseInt(value)<=parseInt(lpbalance)){
-            if(parseInt(value)<parseInt(stakelimitamount)){
+            if(parseInt(value)<parseInt(Remainingamount)){
                 await lpstake.methods.deposit(value).send({from:accounts[0]});      
                 setIsOpen(true);
                 setDis("Staked Succesfully")
@@ -350,16 +355,18 @@ const Lpstake = () => {
                                 <Table bordered responsive className="mt-3">
                                     <thead>
                                         <tr>
-                                            <
-                                                
-                                                th>Your LP</th>
+                                            <th>Your LP</th>
                                             <th>Staked LP</th>
+                                            <th>Remaining Amount to Stake </th>
                                             <th>Black reward</th>
                                             <th>Your Black</th>
+                                                
+                                            
                                         </tr>
                                     </thead>
                                     <tbody className="text-center">
                                         <tr>
+                                            <td>0.00</td>
                                             <td>0.00</td>
                                             <td>0.00</td>
                                             <td>0.00</td>
@@ -439,6 +446,7 @@ const Lpstake = () => {
                                                 
                                                 th>Your Lp</th>
                                             <th>Staked Lp</th>
+                                            <th>Remaining Amount to Stake </th>
                                             <th>Black reward</th>
                                             <th>Your Black</th>
                                         </tr>
@@ -447,6 +455,7 @@ const Lpstake = () => {
                                         <tr>
                                             <td>{((BigNumber((lpbalance/1000000000000000000)).decimalPlaces(3,1))).toNumber()}</td>
                                             <td>{((BigNumber((staked[0]/1000000000000000000)).decimalPlaces(3,1))).toNumber()}</td>
+                                            <td>{((BigNumber((Remainingamount/1000000000000000000)).decimalPlaces(3,1))).toNumber()}</td>
                                             <td>{((BigNumber((reward/1000000000)).decimalPlaces(3,1))).toNumber()}</td>
                                             <td>{((BigNumber((blackbal/1000000000)).decimalPlaces(3,1))).toNumber()}</td>
                                         </tr>
