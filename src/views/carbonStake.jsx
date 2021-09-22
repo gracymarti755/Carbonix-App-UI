@@ -65,6 +65,12 @@ const Cbusdstake = () => {
    // setValues(await swap.methods.userInfo(accounts[0]).call());
     setStaked(await cbusdstake.methods.userInfo(accounts[0]).call());
     setBlackBalance(await black.methods.balanceOf(accounts[0]).call());
+    // var poolinfo=[];
+    // poolinfo=await cbusdstake.methods.poolInfo().call();
+    // var reward1=((staked[0] * poolinfo[3])/1000000000000000000);
+    // var reward2=reward1-staked[1];
+    // console.log("reward1",reward1);
+    // console.log("reward2",reward2);
     setReward(await cbusdstake.methods.pendingBlack(accounts[0]).call());
     var stakedamount=await cbusdstake.methods.getHoldersRunningStakeBalance().call({from:accounts[0]});
     console.log("stakedamount",stakedamount);

@@ -31,7 +31,7 @@ const YieldFarming = (props) => {
        const priceofblack= await black.methods.balanceOf("0x32aa2440104A877559118802a9a99e60ed469da5").call();
        
        const blackprice1= (priceofwbnb)/(priceofblack);
-       const blackprice=(parseFloat(blackprice1).toFixed(3));
+       const blackprice=(parseFloat(blackprice1/1000000000).toFixed(5));
        //const blackprice1=await  blackoracle.methods.getDittoBnbRate().call();
        //const blackprice=(parseFloat((blackprice1[3])/1000000000000000000).toFixed(11));
        setBlackprice(blackprice);
@@ -73,7 +73,7 @@ const YieldFarming = (props) => {
           <CustomCard title="BLACK REWARDS" text={parseFloat(communitybalance).toFixed(3)} subText="out of 3,000,000" />
         </Col>
         <Col xl="4" lg="8" xs="12" className="mb-4">
-          <CustomCard title="BLACK PRICE" text={blackprice} subText="Uniswap market" />
+          <CustomCard title="BLACK PRICE IN BNB" text={blackprice} subText="Uniswap market" />
         </Col>
         {/* <Col xl="3" lg="6" xs="12" className="mb-4">
           <CustomCard title="TIME LEFT" text="3d 14h 41m 39s" subText="until next epoch" />
