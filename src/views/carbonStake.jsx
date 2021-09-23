@@ -180,9 +180,11 @@ const Cbusdstake = () => {
         var val = valu * 1000000000;
          var value = val * 1000000000;
          //var stakelimitamount=1000000000000000-staked[0];
-         //console.log("stakelim",stakelimitamount);
+         console.log("parseInt(value)",parseInt(value));
+         console.log("parseInt(Remainingamount)",Remainingamount);
+
         if(parseInt(value)<=parseInt(cbusdbalance)){
-            if(parseInt(value)<parseInt(Remainingamount)){
+            if(parseInt(value)<(Remainingamount)){
                 await cbusdstake.methods.deposit(web3.utils.toBN(value)).send({from:accounts[0]});
                 setIsOpen(true);
                 setDis("Staked Succesfully")
@@ -252,9 +254,9 @@ const Cbusdstake = () => {
         const accounts =  await web3.eth.getAccounts(); 
         document.getElementById("tid1").value = false;  
         var twentyfive=(cbusdbalance * 25)/100;
-        setdepositpercent( web3.utils.fromWei((twentyfive), "ether" ) );
+        setdepositpercent( web3.utils.fromWei((twentyfive.toString()), "ether" ) );
        
-        document.getElementById("tid1").value = (web3.utils.fromWei((twentyfive), "ether" ));        
+        document.getElementById("tid1").value = (web3.utils.fromWei((twentyfive.toString()), "ether" ));        
         
       }
        const balancepercent1 = async(event) => {
@@ -262,8 +264,8 @@ const Cbusdstake = () => {
         const accounts =  await web3.eth.getAccounts(); 
         document.getElementById("tid1").value = false;    
         var fifty=(cbusdbalance * 50)/100;
-        setdepositpercent(web3.utils.fromWei((fifty), "ether" ));
-        document.getElementById("tid1").value = (web3.utils.fromWei((fifty), "ether" ));          
+        setdepositpercent(web3.utils.fromWei((fifty.toString()), "ether" ));
+        document.getElementById("tid1").value = (web3.utils.fromWei((fifty.toString()), "ether" ));          
         
       } 
 
@@ -273,8 +275,8 @@ const Cbusdstake = () => {
         const accounts =  await web3.eth.getAccounts(); 
         document.getElementById("tid1").value = false;    
         var seventyfive=(cbusdbalance * 75)/100;
-        setdepositpercent(web3.utils.fromWei((seventyfive), "ether" )); 
-        document.getElementById("tid1").value =(web3.utils.fromWei((seventyfive), "ether" )) ;         
+        setdepositpercent(web3.utils.fromWei((seventyfive.toString()), "ether" )); 
+        document.getElementById("tid1").value =(web3.utils.fromWei((seventyfive.toString()), "ether" )) ;         
         
       }
       const balancepercent3 = async(event) => {
@@ -293,8 +295,8 @@ const Cbusdstake = () => {
         const accounts =  await web3.eth.getAccounts(); 
         document.getElementById("tid2").value = false;  
         var twentyfive=(staked[0] * 25)/100;
-        setTotaldeposit(web3.utils.fromWei((twentyfive), "ether" ));
-        document.getElementById("tid2").value =(web3.utils.fromWei((twentyfive), "ether" )) ;        
+        setTotaldeposit(web3.utils.fromWei((twentyfive.toString()), "ether" ));
+        document.getElementById("tid2").value =(web3.utils.fromWei((twentyfive.toString()), "ether" )) ;        
         
       }
        const withdrawbalancepercent1 = async(event) => {
@@ -302,8 +304,8 @@ const Cbusdstake = () => {
         const accounts =  await web3.eth.getAccounts(); 
         document.getElementById("tid2").value = false;    
         var fifty=(staked[0]  * 50)/100;
-        setTotaldeposit(web3.utils.fromWei((fifty), "ether" ));
-        document.getElementById("tid2").value = (web3.utils.fromWei((fifty), "ether" ));          
+        setTotaldeposit(web3.utils.fromWei((fifty.toString()), "ether" ));
+        document.getElementById("tid2").value = (web3.utils.fromWei((fifty.toString()), "ether" ));          
         
       } 
 
@@ -313,8 +315,8 @@ const Cbusdstake = () => {
         const accounts =  await web3.eth.getAccounts(); 
         document.getElementById("tid2").value = false;    
         var seventyfive=(staked[0]  * 75)/100;
-        setTotaldeposit(web3.utils.fromWei((seventyfive), "ether" )); 
-        document.getElementById("tid2").value =(web3.utils.fromWei((seventyfive), "ether" ));         
+        setTotaldeposit(web3.utils.fromWei((seventyfive.toString()), "ether" )); 
+        document.getElementById("tid2").value =(web3.utils.fromWei((seventyfive.toString()), "ether" ));         
         
       }
       const withdrawbalancepercent3 = async(event) => {
@@ -322,8 +324,8 @@ const Cbusdstake = () => {
         const accounts =  await web3.eth.getAccounts(); 
         document.getElementById("tid2").value = false;    
         var hundred=(staked[0]  * 100)/100;
-        setTotaldeposit(web3.utils.fromWei((hundred), "ether" )); 
-        document.getElementById("tid2").value =(web3.utils.fromWei((hundred), "ether" ));         
+        setTotaldeposit(web3.utils.fromWei((hundred.toString()), "ether" )); 
+        document.getElementById("tid2").value =(web3.utils.fromWei((hundred.toString()), "ether" ));         
         
       }
       const approve = async() => {
