@@ -389,7 +389,7 @@ const Vault = () => {
         //var hundred=(avaltoborrow * 100)/100;
         //const x = new BigNumber(hundred/1000000000000000000).toFormat();
         //const y = BigNumber(x).dp(3,1);
-        const y = web3.utils.fromWei((avaltoborrow), "ether" ) ;
+        const y = web3.utils.fromWei((avaltoborrow.toString()), "ether" ) ;
         console.log("rounded", y);
         setborrowpercent(y);    
         document.getElementById("tid3").value =(y);        
@@ -443,7 +443,7 @@ const Vault = () => {
         console.log("totaldebt",totaldebt);
        // var hundred=(totaldebt );    
         //const y = new BigNumber(hundred/1000000000000000000).toFormat();
-        const y = web3.utils.fromWei((totaldebt), "ether" ) ;
+        const y = web3.utils.fromWei((totaldebt.toString()), "ether" ) ;
 
        // const y = BigNumber(x).dp(3,1);
         //const y = (hundred/1000000000000000000).toFormat();
