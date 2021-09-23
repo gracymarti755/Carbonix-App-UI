@@ -304,7 +304,7 @@ const BurnVault = () => {
                 <CustomCard title="MAXIMUM TRANSACTION LIMIT" text= {parseFloat(maxta/1000000000).toFixed(3)}/>
             </Col>
             <Col xl="4" lg="6" md="6" className="mb-4">
-                <Card className="custom-card p-24 text-white" color="site-primary">
+                <Card className="custom-card p-24 text-black" color="site-primary">
                 <div>         
 
 
@@ -329,7 +329,7 @@ const BurnVault = () => {
 (
  
 <div>
-                    <p>Convert Your BLACK to BNB</p>
+                    <p><b><center>CONVERT YOUR BLACK TO BNB</center></b></p>
                     <div className="text-center text-Black">
                     {/* <Button color="dark" >Approved successfully</Button> */}
                     <Button color="dark"  id = "tid"     onClick={() => setModalShow1(true)}>Swap</Button>

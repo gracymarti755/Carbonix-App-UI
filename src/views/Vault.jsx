@@ -156,9 +156,11 @@ const Vault = () => {
         event.preventDefault();
         const accounts =  await web3.eth.getAccounts();
         var valu = document.getElementById("tid4").value;
-       if(selectedDropdown == "cBUSD"){
+       console.log("valuepre",valu);
+        if(selectedDropdown == "cBUSD"){
         var val = valu * 1000000000;
-        var value = val + "000000000"
+        var value = val * 1000000000;
+        console.log("valuecheck",value);
         //let x = new BigNumber(valu).times(1000000000000000000);
        //console.log("value",x.toNumber());
        //var value = x.toNumber();
@@ -170,7 +172,7 @@ const Vault = () => {
         else{
         
         if(parseInt(value)<=parseInt(cbusdbalance)){
-            await CFI.methods.repay(0,value).send({from:accounts[0]});
+            await CFI.methods.repay(0,web3.utils.toBN(value)).send({from:accounts[0]});
             overall()
             setIsOpen(true);
             setDis("Borrowed amount is repayed By using CBUSD")
@@ -427,9 +429,16 @@ const Vault = () => {
         document.getElementById("tid4").value = false;   
         console.log("totaldebt",totaldebt);
         var hundred=(totaldebt );    
-        const x = new BigNumber(hundred/1000000000000000000).toFormat();
-        const y = BigNumber(x).dp(3,1);
+        //const y = new BigNumber(hundred/1000000000000000000).toFormat();
+        const y =web3.utils.fromWei((totaldebt), "ether" ) ;
+        
+       // const y = BigNumber(x).dp(3,1);
+        //const y = (hundred/1000000000000000000).toFormat();
         console.log("rounded", y);
+        const n = Math.abs(y)
+        console.log("print n",n);
+        var x =  n-Math.floor(y);
+        console.log("abs",x);
         setrepaypercent(y);
         
         document.getElementById("tid4").value =(y);         
