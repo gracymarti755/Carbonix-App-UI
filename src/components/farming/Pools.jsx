@@ -287,7 +287,7 @@ const Pools = () => {
                     }}
                 >
                     <p className="m-0 text-muted">
-                        The stablecoin staking pool ended after 25 epochs on Apr 12 2021, 00:00 UTC. Deposits are now disabled but you can still withdraw your tokens and collect any unclaimed rewards.
+                        The cbUSD staking pool ended.  Deposits are now disabled but you can still withdraw your tokens and collect any unclaimed rewards.
                     </p>
                 </div>
                 <div className="d-flex  pl-3 pr-3 mt-2 mb-2">
@@ -526,7 +526,7 @@ const Pools = () => {
                     }}
                 >
                     <p className="m-0 text-muted">
-                        The stablecoin staking pool ended after 25 epochs on Apr 12 2021, 00:00 UTC. Deposits are now disabled but you can still withdraw your tokens and collect any unclaimed rewards.
+                        The cbUSD/BUSD staking pool ended.  Deposits are now disabled but you can still withdraw your tokens and collect any unclaimed rewards.
                     </p>
                 </div>
                 <div className="d-flex  pl-3 pr-3 mt-2 mb-2">
@@ -763,7 +763,7 @@ const Pools = () => {
                         }}
                     >
                         <p className="m-0 text-muted">
-                            The stablecoin staking pool ended after 25 epochs on Apr 12 2021, 00:00 UTC. Deposits are now disabled but you can still withdraw your tokens and collect any unclaimed rewards.
+                            The BLACK staking pool ended.  Deposits are now disabled but you can still withdraw your tokens and collect any unclaimed rewards.
                         </p>
                     </div>
                     <div className="d-flex  pl-3 pr-3 mt-2 mb-2">

@@ -170,15 +170,16 @@ const Blackstake = () => {
         // let x = new BigNumber(valu).times(1000000000);
         // console.log("value",x.toNumber());
         // var value = x.toNumber(); 
-        var value = valu * 1000000000;
+        var val = valu * 100000;
+        var value = val * 10000;
          //var value = val + "000000000";
-         console.log("stake0",staked);
+         console.log("stake0",value);
         //var stakelimitamount=1000000000000000-staked[0];
         
         //console.log("stakelim",stakelimitamount);
         if(parseInt(value)<=parseInt(blackbal) ){
-            if(parseInt(value)<parseInt(Remainingamount)){
-                await blackstake.methods.deposit(value).send({from:accounts[0]});
+            if(parseInt(value)<(Remainingamount)){
+                await blackstake.methods.deposit(web3.utils.toBN(value)).send({from:accounts[0]});
                 setIsOpen(true);
                 setDis("Staked Succesfully")
                 first();
@@ -206,10 +207,13 @@ const Blackstake = () => {
         // let x = new BigNumber(valu).times(1000000000);
         // console.log("value",x.toNumber());
         // var value = x.toNumber(); 
-        var value = valu * 1000000000;
+        var val = valu * 100000;
+        var value = val * 10000;
+      //  var value = valu * 1000000000;
          //var value = val + "000000000";
+         console.log("printed",value);
         if(parseInt(value)<=parseInt(staked[0]))     {
-            await blackstake.methods.withdraw(value).send({from:accounts[0]});
+            await blackstake.methods.withdraw(web3.utils.toBN(value)).send({from:accounts[0]});
             setIsOpen(true);
             setDis("Unstaked Succesfully")
             first()
@@ -250,19 +254,21 @@ const Blackstake = () => {
         event.preventDefault();
         const accounts =  await web3.eth.getAccounts(); 
         document.getElementById("tid1").value = false;  
-        var twentyfive=(blackbal * 25)/100;
-        setdepositpercent(((BigNumber((twentyfive/1000000000)).decimalPlaces(3,1))).toNumber());
+        const twentyfive=(blackbal)/4;
+        // var l = new BigNumber(twentyfive);
+        
+        setdepositpercent(((BigNumber(twentyfive/1000000000)).decimalPlaces(8,1)).toNumber());
        
-        document.getElementById("tid1").value = ((BigNumber((twentyfive/1000000000)).decimalPlaces(3,1))).toNumber();        
+        document.getElementById("tid1").value = ((BigNumber(twentyfive/1000000000)).decimalPlaces(8,1)).toNumber();        
         
       }
        const balancepercent1 = async(event) => {
         event.preventDefault();
         const accounts =  await web3.eth.getAccounts(); 
         document.getElementById("tid1").value = false;    
-        var fifty=(blackbal * 50)/100;
-        setdepositpercent(((BigNumber((fifty/1000000000)).decimalPlaces(3,1))).toNumber());
-        document.getElementById("tid1").value = ((BigNumber((fifty/1000000000)).decimalPlaces(3,1))).toNumber();          
+        var fifty=(blackbal )/2;
+        setdepositpercent(((BigNumber((fifty/1000000000)).decimalPlaces(8,1))).toNumber());
+        document.getElementById("tid1").value = ((BigNumber((fifty/1000000000)).decimalPlaces(8,1))).toNumber();          
         
       } 
 
@@ -272,8 +278,8 @@ const Blackstake = () => {
         const accounts =  await web3.eth.getAccounts(); 
         document.getElementById("tid1").value = false;    
         var seventyfive=(blackbal * 75)/100;
-        setdepositpercent(((BigNumber((seventyfive/1000000000)).decimalPlaces(3,1))).toNumber()); 
-        document.getElementById("tid1").value = ((BigNumber((seventyfive/1000000000)).decimalPlaces(3,1))).toNumber();         
+        setdepositpercent(((BigNumber((seventyfive/1000000000)).decimalPlaces(8,1))).toNumber()); 
+        document.getElementById("tid1").value = ((BigNumber((seventyfive/1000000000)).decimalPlaces(8,1))).toNumber();         
         
       }
       const balancepercent3 = async(event) => {
@@ -281,8 +287,8 @@ const Blackstake = () => {
         const accounts =  await web3.eth.getAccounts(); 
         document.getElementById("tid1").value = false;    
         var hundred=(blackbal * 100)/100;
-        setdepositpercent(((BigNumber((hundred/1000000000)).decimalPlaces(3,1))).toNumber()); 
-        document.getElementById("tid1").value = ((BigNumber((hundred/1000000000)).decimalPlaces(3,1))).toNumber();         
+        setdepositpercent(((BigNumber((hundred/1000000000)).decimalPlaces(8,1))).toNumber()); 
+        document.getElementById("tid1").value = ((BigNumber((hundred/1000000000)).decimalPlaces(8,1))).toNumber();         
         
       }
 
@@ -291,18 +297,18 @@ const Blackstake = () => {
         event.preventDefault();
         const accounts =  await web3.eth.getAccounts(); 
         document.getElementById("tid2").value = false;  
-        var twentyfive=(staked[0] * 25)/100;
-        setTotaldeposit(((BigNumber((twentyfive/1000000000)).decimalPlaces(3,1))).toNumber());
-        document.getElementById("tid2").value =((BigNumber((twentyfive/1000000000)).decimalPlaces(3,1))).toNumber();        
+        var twentyfive=(staked[0] *25)/100;
+        setTotaldeposit(((BigNumber((twentyfive/1000000000)).decimalPlaces(8,1))).toNumber());
+        document.getElementById("tid2").value =((BigNumber((twentyfive/1000000000)).decimalPlaces(8,1))).toNumber();        
         
       }
        const withdrawbalancepercent1 = async(event) => {
         event.preventDefault();
         const accounts =  await web3.eth.getAccounts(); 
         document.getElementById("tid2").value = false;    
-        var fifty=(staked[0]  * 50)/100;
-        setTotaldeposit(((BigNumber((fifty/1000000000)).decimalPlaces(3,1))).toNumber());
-        document.getElementById("tid2").value = ((BigNumber((fifty/1000000000)).decimalPlaces(3,1))).toNumber();          
+        var fifty=(staked[0])/2;
+        setTotaldeposit(((BigNumber((fifty/1000000000)).decimalPlaces(8,1))).toNumber());
+        document.getElementById("tid2").value = ((BigNumber((fifty/1000000000)).decimalPlaces(8,1))).toNumber();          
         
       } 
 
@@ -312,8 +318,8 @@ const Blackstake = () => {
         const accounts =  await web3.eth.getAccounts(); 
         document.getElementById("tid2").value = false;    
         var seventyfive=(staked[0]  * 75)/100;
-        setTotaldeposit(((BigNumber((seventyfive/1000000000)).decimalPlaces(3,1))).toNumber()); 
-        document.getElementById("tid2").value =((BigNumber((seventyfive/1000000000)).decimalPlaces(3,1))).toNumber();         
+        setTotaldeposit(((BigNumber((seventyfive/1000000000)).decimalPlaces(8,1))).toNumber()); 
+        document.getElementById("tid2").value =((BigNumber((seventyfive/1000000000)).decimalPlaces(8,1))).toNumber();         
         
       }
       const withdrawbalancepercent3 = async(event) => {
@@ -321,8 +327,8 @@ const Blackstake = () => {
         const accounts =  await web3.eth.getAccounts(); 
         document.getElementById("tid2").value = false;    
         var hundred=(staked[0]  * 100)/100;
-        setTotaldeposit(((BigNumber((hundred/1000000000)).decimalPlaces(3,1))).toNumber()); 
-        document.getElementById("tid2").value =((BigNumber((hundred/1000000000)).decimalPlaces(3,1))).toNumber();         
+        setTotaldeposit(((BigNumber((hundred/1000000000)).decimalPlaces(8,1))).toNumber()); 
+        document.getElementById("tid2").value =((BigNumber((hundred/1000000000)).decimalPlaces(8,1))).toNumber();         
         
       }
       const approve = async() => {

@@ -180,8 +180,7 @@ const Cbusdstake = () => {
         var val = valu * 1000000000;
          var value = val * 1000000000;
          //var stakelimitamount=1000000000000000-staked[0];
-         console.log("parseInt(value)",parseInt(value));
-         console.log("parseInt(Remainingamount)",Remainingamount);
+        
 
         if(parseInt(value)<=parseInt(cbusdbalance)){
             if(parseInt(value)<(Remainingamount)){
