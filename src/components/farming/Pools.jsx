@@ -28,6 +28,7 @@ const Pools = () => {
     const[carbonprice,setCarbonprice]=useState([]);
     const [blackperblock,setBlackperblock]=useState([]);
     const[blackdailyreward,setBlackDailyreward]=useState([]);
+    const[stakeenddate,setStakeendDate]=useState('');
     const bvb = async() => {
         setbalan(await cbusd.methods.balanceOf("0x1b302657E2ed17c4b1073Ea146986a6270757529").call());       
         setBalanceblack(await black.methods.balanceOf("0xC90b6328370e93184d16b98A6bFF13e201FCf27F").call());       
@@ -73,13 +74,25 @@ const Pools = () => {
         const aprlp = ((totalRewardPricePerYearlp)/(totalStakingTokenInPoollp))*(100);     
         setAprlp(aprlp);
         console.log("aprvaluelp",((totalRewardPricePerYearlp)/(totalStakingTokenInPoollp))*(100));
+        var  currentdate=(new Date().getTime())/1000;
+        var enddatediff =1632399560-currentdate;
+        if(enddatediff>0){
+            setStakeendDate(1);
+
+        }
+        else{
+            setStakeendDate(0);
+            console.log("enddate",stakeenddate);
+        }
+        
+
      }
-     useEffect(()=>{bvb()},[balance,balanceblack,carbonprice,blackprice])
-   let a=5;
+     useEffect(()=>{bvb()},[balance,balanceblack,carbonprice,blackprice,stakeenddate])
+  
     let history=useHistory();
     return (
         <Row className="m-3 m-md-5">
-            {a===5 ? (
+            {stakeenddate===1 ? (
                 <>
                           <Col xl="4" md="6" className="mb-4">
 
@@ -313,14 +326,14 @@ const Pools = () => {
                     </div>
                 </div>
                 <Button className={`ml-3 mr-3 pb-0 mb-0 mt-2 mb-2`}
-                    color="site-primary" width="full"  onClick={e => {history.push("/lp-stake")}}><b>View pool</b></Button>
+                    color="site-primary" width="full"  onClick={e => {history.push("/carbon-stake")}}><b>View pool</b></Button>
             </Card>
         </Col>
         
              </>
             ) }
   
-           {a===5 ? (
+           {stakeenddate===1 ? (
               <>
                    <Col xl="4" md="6" className="mb-4">
                 <Card className="custom-card mt-2 mb-2 ml-0 mr-0 p-2">
@@ -557,7 +570,7 @@ const Pools = () => {
         </Col>
         </>
            )}
-           {a===5 ? (
+           {stakeenddate===1 ? (
                 <>
   <Col xl="4" md="6" className="mb-4">
                 <Card className="custom-card mt-2 mb-2 ml-0 mr-0 p-2">
