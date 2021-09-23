@@ -280,7 +280,7 @@ const Vault = () => {
         //var hundred=(busdbalance * 100)/100;
         //const x = new BigNumber(hundred/1000000000000000000).toFormat();
         //const y = BigNumber(x).dp(3,1);
-        const y = web3.utils.fromWei((busdbalance), "ether" ) ;
+        const y = web3.utils.fromWei((busdbalance.toString()), "ether" ) ;
         console.log("rounded", y);
         setdepositpercent(y); 
         document.getElementById("tid1").value = (y);           
@@ -330,7 +330,7 @@ const Vault = () => {
         const accounts =  await web3.eth.getAccounts(); 
         document.getElementById("tid2").value = false;   
        // var hundred=(avatokentowithdraw);
-        const y = web3.utils.fromWei((avatokentowithdraw), "ether" ) ;
+        const y = web3.utils.fromWei((avatokentowithdraw.toString()), "ether" ) ;
         //const x = new BigNumber(hundred/1000000000000000000).toFormat();
         //const y = BigNumber(x).dp(3,1);
         console.log("rounded", y);

@@ -15,7 +15,10 @@ import carbonoracle from "../../views/carbonOracleAbi";
 import blackoracle from "../../views/blackOracleAbi";
 import lptokenstake from "../../views/lpStakingAbi";
 import lptokenpair from "../../views/lptokenAbi";
-
+import cbusdstake  from "../../views/carbonStakeAbi";
+import blackstake from "../../views/blackStakeAbi";
+import web3 from "../../web3";
+import BigNumber from "bignumber.js";
 const Pools = () => {
     const [balance,setbalan] = useState([]);
     const[balanceblack,setBalanceblack]=useState([]);
@@ -28,8 +31,14 @@ const Pools = () => {
     const[carbonprice,setCarbonprice]=useState([]);
     const [blackperblock,setBlackperblock]=useState([]);
     const[blackdailyreward,setBlackDailyreward]=useState([]);
+    const[carbonstaked,setCarbonStaked] = useState([]);
+    const[lpstaked,setLpStaked] = useState([]);
+    const[blackstaked,setBlackStaked] = useState([]);
     const[stakeenddate,setStakeendDate]=useState('');
+    
     const bvb = async() => {
+        if(localStorage.getItem("wallet")>0){
+        const accounts =  await web3.eth.getAccounts();
         setbalan(await cbusd.methods.balanceOf("0x1b302657E2ed17c4b1073Ea146986a6270757529").call());       
         setBalanceblack(await black.methods.balanceOf("0xC90b6328370e93184d16b98A6bFF13e201FCf27F").call());       
         console.log("balanblack",balanceblack);
@@ -84,10 +93,12 @@ const Pools = () => {
             setStakeendDate(0);
             console.log("enddate",stakeenddate);
         }
-        
-
+        setCarbonStaked(await cbusdstake.methods.userInfo(accounts[0]).call());
+        setLpStaked(await lptokenstake.methods.userInfo(accounts[0]).call());
+        setBlackStaked(await blackstake.methods.userInfo(accounts[0]).call());
+    }
      }
-     useEffect(()=>{bvb()},[balance,balanceblack,carbonprice,blackprice,stakeenddate])
+     useEffect(()=>{bvb()},[balance,balanceblack,carbonprice,blackprice,stakeenddate,carbonstaked])
   
     let history=useHistory();
     return (
@@ -321,7 +332,7 @@ const Pools = () => {
                     {/* <small className="text-site-primary font-weight-semi-bold text-uppercase">bond staked</small> */}
                     <div style={{ marginLeft: "auto" }}>
                         <p style={{ fontWeight: "600", textAlign: "center" }}>
-                            -
+                        {((BigNumber((carbonstaked[0]/1000000000000000000)).decimalPlaces(3,1))).toNumber()}
                         </p>
                     </div>
                 </div>
@@ -560,7 +571,7 @@ const Pools = () => {
                     {/* <small className="text-site-primary font-weight-semi-bold text-uppercase">bond staked</small> */}
                     <div style={{ marginLeft: "auto" }}>
                         <p style={{ fontWeight: "600", textAlign: "center" }}>
-                            -
+                        {((BigNumber((lpstaked[0]/1000000000000000000)).decimalPlaces(3,1))).toNumber()}
                         </p>
                     </div>
                 </div>
@@ -797,7 +808,7 @@ const Pools = () => {
                         {/* <small className="text-site-primary font-weight-semi-bold text-uppercase">bond staked</small> */}
                         <div style={{ marginLeft: "auto" }}>
                             <p style={{ fontWeight: "600", textAlign: "center" }}>
-                                -
+                            {((BigNumber((blackstaked[0]/1000000000)).decimalPlaces(3,1))).toNumber()}
                             </p>
                         </div>
                     </div>
