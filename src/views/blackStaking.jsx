@@ -3,13 +3,17 @@ import { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { Button, Dropdown, Card, Col, Container, DropdownItem, DropdownMenu, DropdownToggle, Input, InputGroup, InputGroupAddon, InputGroupButtonDropdown, InputGroupText, Row, Table } from "reactstrap";
 import web3 from "../web3";
-import cbusd from "./cbusdAbi";
-import black from "./blackAbi";
-import blackstake from "./blackStakeAbi";
+//import cbusd from "./cbusdAbi";
+//import black from "./blackAbi";
+//import blackstake from "./blackStakeAbi";
 import Popup from "../Popup";
 import Modald from "../ModalD";
 import FolowStepsd from "../FolowStepsd";
 import BigNumber from "bignumber.js";
+
+
+import { contracts } from './contractAddress';
+import {blackabi, blackstake, } from './abi';
 
 const Blackstake = () => {
 
@@ -46,12 +50,15 @@ const Blackstake = () => {
     let history = useHistory();
     const [isOpen, setIsOpen] = useState(false);
     var[dis,setDis] = useState("");
-    
+    const blackcontract = new web3.eth.Contract(blackabi, contracts.black.address);
+    const blackstakecontract = new web3.eth.Contract(blackstake, contracts.blackstake.address);
+
  const first = async () => {
     if(localStorage.getItem("wallet")>0){
+    
     const accounts =  await web3.eth.getAccounts();     
-    setBlackBalance(await black.methods.balanceOf(accounts[0]).call())    
-    let b= await black.methods.allowance(accounts[0],"0xC90b6328370e93184d16b98A6bFF13e201FCf27F").call();
+    setBlackBalance(await blackcontract.methods.balanceOf(accounts[0]).call())    
+    let b= await blackcontract.methods.allowance(accounts[0],contracts.blackstake.address).call();
  
     if(b>0){
       setAP(true);
@@ -60,15 +67,15 @@ const Blackstake = () => {
       setAP(false);
     }
     //setValues(await swap.methods.userInfo(accounts[0]).call());
-    setStaked(await blackstake.methods.userInfo(accounts[0]).call());
-    setReward(await blackstake.methods.pendingBlack(accounts[0]).call());
-    setStakeLock(await blackstake.methods.lock(accounts[0]).call());
-    var stakedamount=await blackstake.methods.getHoldersRunningStakeBalance().call({from:accounts[0]});
+    setStaked(await blackstakecontract.methods.userInfo(accounts[0]).call());
+    setReward(await blackstakecontract.methods.pendingBlack(accounts[0]).call());
+    setStakeLock(await blackstakecontract.methods.lock(accounts[0]).call());
+    var stakedamount=await blackstakecontract.methods.getHoldersRunningStakeBalance().call({from:accounts[0]});
     console.log("stakedamount",stakedamount);
     var Remainingamount=1000000000000000-stakedamount;
     setRemainingamount(Remainingamount);
-    var secondsleft =await blackstake.methods.secondsLeft(accounts[0]).call();
-    var us =await blackstake.methods.holderUnstakeRemainingTime(accounts[0]).call();
+    var secondsleft =await blackstakecontract.methods.secondsLeft(accounts[0]).call();
+    var us =await blackstakecontract.methods.holderUnstakeRemainingTime(accounts[0]).call();
     var now = new Date().getTime();
     console.log("nowtime",now);
     if(us<=now){
@@ -78,7 +85,7 @@ const Blackstake = () => {
       setlock(false);
     }
     
-    var us=await blackstake.methods.holderUnstakeRemainingTime(accounts[0]).call();
+    var us=await blackstakecontract.methods.holderUnstakeRemainingTime(accounts[0]).call();
     var sl=(secondsleft *1000);
     var lockedtime=sl+now;
     console.log("secondsleft",lockedtime);
@@ -179,7 +186,7 @@ const Blackstake = () => {
         //console.log("stakelim",stakelimitamount);
         if(parseInt(value)<=parseInt(blackbal) ){
             if(parseInt(value)<(Remainingamount)){
-                await blackstake.methods.deposit(web3.utils.toBN(value)).send({from:accounts[0]});
+                await blackstakecontract.methods.deposit(web3.utils.toBN(value)).send({from:accounts[0]});
                 setIsOpen(true);
                 setDis("Staked Succesfully")
                 first();
@@ -213,7 +220,7 @@ const Blackstake = () => {
          //var value = val + "000000000";
          console.log("printed",value);
         if(parseInt(value)<=parseInt(staked[0]))     {
-            await blackstake.methods.withdraw(web3.utils.toBN(value)).send({from:accounts[0]});
+            await blackstakecontract.methods.withdraw(web3.utils.toBN(value)).send({from:accounts[0]});
             setIsOpen(true);
             setDis("Unstaked Succesfully")
             first()
@@ -229,7 +236,7 @@ const Blackstake = () => {
         event.preventDefault();
         if(parseInt(reward) >parseInt(100000000000)){
             const accounts =  await web3.eth.getAccounts();
-            await blackstake.methods.claimReward().send({from:accounts[0]});  
+            await blackstakecontract.methods.claimReward().send({from:accounts[0]});  
             setIsOpen(true);
             setDis("Rewards Claimed Successfuly");  
         }
@@ -244,7 +251,7 @@ const Blackstake = () => {
       const emergencywithdraw = async(event) => {
         event.preventDefault();
         const accounts =  await web3.eth.getAccounts();
-        await blackstake.methods.emergencyWithdraw().send({from:accounts[0]}); 
+        await blackstakecontract.methods.emergencyWithdraw().send({from:accounts[0]}); 
         setIsOpen(true);
         setDis("Withdrawn Succesfully");       
         first()
@@ -334,7 +341,7 @@ const Blackstake = () => {
       const approve = async() => {
         let account = await web3.eth.getAccounts();
         let amount = 1000000000000000000 +"000000000000000000"; 
-        await black.methods.approve("0xC90b6328370e93184d16b98A6bFF13e201FCf27F",amount).send({from:account[0]});
+        await blackcontract.methods.approve(contracts.blackstake.address,amount).send({from:account[0]});
         first()
         setIsOpen(true);
         setDis("Approved Succesfully")

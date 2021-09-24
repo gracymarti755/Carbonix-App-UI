@@ -3,20 +3,24 @@ import PoolCardTabs from "./PoolCardTabs";
 import icon from "../../assets/img/icon.PNG";
 
 import icon1 from "../../assets/img/icon1.PNG";
-import carbonstake from "../../views/carbonStake";
+//import carbonstake from "../../views/carbonStake";
 import { Link,useHistory } from "react-router-dom";
-import cbusd from "../../views/cbusdAbi";
-import busd from "../../views/busdAbi";
+//import cbusd from "../../views/cbusdAbi";
+//import busd from "../../views/busdAbi";
 import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
-import black from "../../views/blackAbi";
-import carbonoracle from "../../views/carbonOracleAbi";
-import blackoracle from "../../views/blackOracleAbi";
-import lptokenstake from "../../views/lpStakingAbi";
-import lptokenpair from "../../views/lptokenAbi";
-import cbusdstake  from "../../views/carbonStakeAbi";
-import blackstake from "../../views/blackStakeAbi";
+//import black from "../../views/blackAbi";
+//import carbonoracle from "../../views/carbonOracleAbi";
+//import blackoracle from "../../views/blackOracleAbi";
+//import lptokenstake from "../../views/lpStakingAbi";
+//import lptokenpair from "../../views/lptokenAbi";
+//import cbusdstake  from "../../views/carbonStakeAbi";
+//import blackstake from "../../views/blackStakeAbi";
+
+import { contracts } from '../../views/contractAddress';
+import { wbnbAbi,blackabi,cbusd,carbonstake,busd,lpstake,cbusdbusdpair,blackstake} from '../../views/abi';
+
 import web3 from "../../web3";
 import BigNumber from "bignumber.js";
 const Pools = () => {
@@ -38,11 +42,21 @@ const Pools = () => {
     
     const bvb = async() => {
         if(localStorage.getItem("wallet")>0){
+
+        const cbusdcontract = new web3.eth.Contract(cbusd, contracts.cbusd.address);
+        const carbonstakecontract = new web3.eth.Contract(carbonstake, contracts.carbonstake.address);
+        const busdcontract = new web3.eth.Contract(busd, contracts.busd.address);
+        const blackcontract = new web3.eth.Contract(blackabi, contracts.black.address);
+        const lpstakecontract = new web3.eth.Contract(lpstake, contracts.lpstake.address);
+        const lptokencontract = new web3.eth.Contract(cbusdbusdpair, contracts.cbusdbusdpair.address);
+        const blackstakecontract = new web3.eth.Contract(blackstake, contracts.blackstake.address);
+        const wbnbcontract = new web3.eth.Contract(wbnbAbi, contracts.wbnb.address);
+
         const accounts =  await web3.eth.getAccounts();
-        setbalan(await cbusd.methods.balanceOf("0x1b302657E2ed17c4b1073Ea146986a6270757529").call());       
-        setBalanceblack(await black.methods.balanceOf("0xC90b6328370e93184d16b98A6bFF13e201FCf27F").call());       
+        setbalan(await cbusdcontract.methods.balanceOf(contracts.carbonstake.address).call());       
+        setBalanceblack(await blackcontract.methods.balanceOf(contracts.blackstake.address).call());       
         console.log("balanblack",balanceblack);
-        setBalancepair(await lptokenpair.methods.balanceOf("0x801BE19F7963A0d0656FA48039125cf956Db42b5").call());       
+        setBalancepair(await lptokencontract.methods.balanceOf(contracts.lpstake.address).call());       
         console.log("balancepair",balancepair);
         
         
@@ -53,19 +67,27 @@ const Pools = () => {
         console.log("dailyreward",blackdailyreward);
         setBlackDailyreward(blackdailyreward);
     
-       const priceofbusd= await busd.methods.balanceOf("0x7F7701C1F75146ca746C89A7479e95a19Cf2bC24").call();
-       const priceofcbusd= await cbusd.methods.balanceOf("0x7F7701C1F75146ca746C89A7479e95a19Cf2bC24").call();
+       const priceofbusd= await busdcontract.methods.balanceOf(contracts.cbusdbusdpair.address).call();
+       const priceofcbusd= await cbusdcontract.methods.balanceOf(contracts.cbusdbusdpair.address).call();
        const carbonprice1= (priceofbusd)/(priceofcbusd);
        const carbonprice=(parseFloat(carbonprice1).toFixed(3));
         setCarbonprice(carbonprice);
         console.log("carbonprice",carbonprice)
-        const blackprice1=await  blackoracle.methods.getDittoBnbRate().call();       
-        const blackprices=(parseFloat((blackprice1[3])/1000000000000000000).toFixed(13)); 
+
+        const priceofwbnb= await wbnbcontract.methods.balanceOf(contracts.blackBnbLp.address).call();
+        console.log("import working",priceofwbnb);
+        const priceofblack= await blackcontract.methods.balanceOf(contracts.blackBnbLp.address).call();
+        
+        const blackprice1= (priceofwbnb)/(priceofblack);
+        const blackprices=(parseFloat(blackprice1/1000000000).toFixed(5));
+
+        // const blackprice1=await  blackoracle.methods.getDittoBnbRate().call();       
+        // const blackprices=(parseFloat((blackprice1[3])/1000000000000000000).toFixed(13)); 
         setBlackprice(blackprices)      
         console.log("blackprice3",blackprice);
         //var price=1.157407407 *blackprice *BLOCKS_PER_YEAR;
         //console.log("pricenew",price);
-        setcommunitybalan(await black.methods.balanceOf("0x0Ef04FFA95f2eC2D07a5a196b4cEFB9d1076D43c").call());
+        setcommunitybalan(await blackcontract.methods.balanceOf(contracts.sentinel.address).call());
         const totalRewardPricePerYearcarbon = (blackprice) * (tokenPerBlock)*(BLOCKS_PER_YEAR);
         const totalStakingTokenInPoolcarbon = (carbonprice)*((balance)/1000000000000000000);
         console.log("carbon balance",balance);
@@ -93,9 +115,9 @@ const Pools = () => {
             setStakeendDate(0);
             console.log("enddate",stakeenddate);
         }
-        setCarbonStaked(await cbusdstake.methods.userInfo(accounts[0]).call());
-        setLpStaked(await lptokenstake.methods.userInfo(accounts[0]).call());
-        setBlackStaked(await blackstake.methods.userInfo(accounts[0]).call());
+        setCarbonStaked(await carbonstakecontract.methods.userInfo(accounts[0]).call());
+        setLpStaked(await lpstakecontract.methods.userInfo(accounts[0]).call());
+        setBlackStaked(await blackstakecontract.methods.userInfo(accounts[0]).call());
     }
      }
      useEffect(()=>{bvb()},[balance,balanceblack,carbonprice,blackprice,stakeenddate,carbonstaked])
