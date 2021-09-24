@@ -30,7 +30,7 @@ class Governance extends Component {
            <Row lg="8" xs="1" className="m-5" >
                 <Card className="custom-card p-24"  width="400px">
                 <center>
-                    <small className="text-site-primary font-weight-semi-bold"><b>FUTURE UPCOMING</b></small>
+                    <small className="text-site-primary font-weight-semi-bold"><b>UPCOMING</b></small>
                     </center>
                   
                 </Card>

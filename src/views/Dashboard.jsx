@@ -71,7 +71,8 @@ class Dashboard extends Component {
 
     async componentDidMount()
     {
-        document.getElementById("header-title").innerText = "Dashboard";
+        document.getElementById("header-title").innerText = "CARBONIX";        
+        document.getElementById("header-title").style.color = "#f5584b";
        const account = await web3.eth.getAccounts();
        const totalsupply1 = await cbusd.methods.totalSupply().call();
        const totalsupply =(parseFloat(totalsupply1/1000000000000000000).toFixed(3));

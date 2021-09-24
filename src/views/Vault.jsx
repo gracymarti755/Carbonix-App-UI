@@ -598,7 +598,7 @@ const Vault = () => {
                             </div>
 
                             {activeTab == "Deposit" && (
-                                <div className="p-3">
+                                <div className=" p-3">
                                     
                                            
 

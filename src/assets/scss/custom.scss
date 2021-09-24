@@ -4,10 +4,11 @@ $tablet: 767.98px;
 $large: 991.98px;
 
 $theme-colors: (
-	'site-primary': #ff0083,
+	'site-primary': #f5584b,
 	'site-secondary': #ffffff,
 	'site-border-color': #e3e4e6,
 	'site-nav-link': #060a0d,
+	
 );
 
 @import 'node_modules/bootstrap/scss/bootstrap';
