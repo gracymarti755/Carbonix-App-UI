@@ -77,10 +77,10 @@ const Markets = (props) => {
               marginRight: "10px",
             }}
             //   style={{ marginButtom: "auto" }}
-            src="https://www.alpacafinance.org/assets/images/logo.png"
+            src="https://research.binance.com/static/images/projects/alpaca-finance/logo.png"
             alt="Card image cap"
           />
-          {" "}
+          {"ALPACA FINANCE "}
           {/* <input
             type="checkbox"
             style={{ marginLeft: "5px" }}

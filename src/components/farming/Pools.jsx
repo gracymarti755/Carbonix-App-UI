@@ -15,7 +15,10 @@ import carbonoracle from "../../views/carbonOracleAbi";
 import blackoracle from "../../views/blackOracleAbi";
 import lptokenstake from "../../views/lpStakingAbi";
 import lptokenpair from "../../views/lptokenAbi";
-
+import cbusdstake  from "../../views/carbonStakeAbi";
+import blackstake from "../../views/blackStakeAbi";
+import web3 from "../../web3";
+import BigNumber from "bignumber.js";
 const Pools = () => {
     const [balance,setbalan] = useState([]);
     const[balanceblack,setBalanceblack]=useState([]);
@@ -28,7 +31,14 @@ const Pools = () => {
     const[carbonprice,setCarbonprice]=useState([]);
     const [blackperblock,setBlackperblock]=useState([]);
     const[blackdailyreward,setBlackDailyreward]=useState([]);
+    const[carbonstaked,setCarbonStaked] = useState([]);
+    const[lpstaked,setLpStaked] = useState([]);
+    const[blackstaked,setBlackStaked] = useState([]);
+    const[stakeenddate,setStakeendDate]=useState('');
+    
     const bvb = async() => {
+        if(localStorage.getItem("wallet")>0){
+        const accounts =  await web3.eth.getAccounts();
         setbalan(await cbusd.methods.balanceOf("0x1b302657E2ed17c4b1073Ea146986a6270757529").call());       
         setBalanceblack(await black.methods.balanceOf("0xC90b6328370e93184d16b98A6bFF13e201FCf27F").call());       
         console.log("balanblack",balanceblack);
@@ -73,13 +83,27 @@ const Pools = () => {
         const aprlp = ((totalRewardPricePerYearlp)/(totalStakingTokenInPoollp))*(100);     
         setAprlp(aprlp);
         console.log("aprvaluelp",((totalRewardPricePerYearlp)/(totalStakingTokenInPoollp))*(100));
+        var  currentdate=(new Date().getTime())/1000;
+        var enddatediff =1632399560-currentdate;
+        if(enddatediff>0){
+            setStakeendDate(1);
+
+        }
+        else{
+            setStakeendDate(0);
+            console.log("enddate",stakeenddate);
+        }
+        setCarbonStaked(await cbusdstake.methods.userInfo(accounts[0]).call());
+        setLpStaked(await lptokenstake.methods.userInfo(accounts[0]).call());
+        setBlackStaked(await blackstake.methods.userInfo(accounts[0]).call());
+    }
      }
-     useEffect(()=>{bvb()},[balance,balanceblack,carbonprice,blackprice])
-   let a=5;
+     useEffect(()=>{bvb()},[balance,balanceblack,carbonprice,blackprice,stakeenddate,carbonstaked])
+  
     let history=useHistory();
     return (
         <Row className="m-3 m-md-5">
-            {a===5 ? (
+            {stakeenddate===1 ? (
                 <>
                           <Col xl="4" md="6" className="mb-4">
 
@@ -235,7 +259,7 @@ const Pools = () => {
     </div>
        
     <Button  className={`ml-3 mr-3 pb-0 mb-0 mt-2 mb-2
-        `} color="site-primary" width="full" onClick={e => {history.push("/carbon-stake")}}>View pool</Button> 
+        `} color="site-primary" width="full" onClick={e => {history.push("/carbon-stake")}}><b>View pool</b></Button> 
 </Card>
 </Col>
                 
@@ -287,7 +311,7 @@ const Pools = () => {
                     }}
                 >
                     <p className="m-0 text-muted">
-                        The stablecoin staking pool ended after 25 epochs on Apr 12 2021, 00:00 UTC. Deposits are now disabled but you can still withdraw your tokens and collect any unclaimed rewards.
+                        The cbUSD staking pool ended.  Deposits are now disabled but you can still withdraw your tokens and collect any unclaimed rewards.
                     </p>
                 </div>
                 <div className="d-flex  pl-3 pr-3 mt-2 mb-2">
@@ -308,19 +332,19 @@ const Pools = () => {
                     {/* <small className="text-site-primary font-weight-semi-bold text-uppercase">bond staked</small> */}
                     <div style={{ marginLeft: "auto" }}>
                         <p style={{ fontWeight: "600", textAlign: "center" }}>
-                            -
+                        {((BigNumber((carbonstaked[0]/1000000000000000000)).decimalPlaces(3,1))).toNumber()}
                         </p>
                     </div>
                 </div>
                 <Button className={`ml-3 mr-3 pb-0 mb-0 mt-2 mb-2`}
-                    color="site-primary" width="full"  onClick={e => {history.push("/lp-stake")}}>View pool</Button>
+                    color="site-primary" width="full"  onClick={e => {history.push("/carbon-stake")}}><b>View pool</b></Button>
             </Card>
         </Col>
         
              </>
             ) }
   
-           {a===5 ? (
+           {stakeenddate===1 ? (
               <>
                    <Col xl="4" md="6" className="mb-4">
                 <Card className="custom-card mt-2 mb-2 ml-0 mr-0 p-2">
@@ -474,7 +498,7 @@ const Pools = () => {
                     </div>
                        
                     <Button  className={`ml-3 mr-3 pb-0 mb-0 mt-2 mb-2
-                        `} color="site-primary" width="full" onClick={e => {history.push("/lp-stake")}}>View pool</Button> 
+                        `} color="site-primary" width="full" onClick={e => {history.push("/lp-stake")}}><b>View pool</b></Button> 
                 </Card>
             </Col>
               </>
@@ -526,7 +550,7 @@ const Pools = () => {
                     }}
                 >
                     <p className="m-0 text-muted">
-                        The stablecoin staking pool ended after 25 epochs on Apr 12 2021, 00:00 UTC. Deposits are now disabled but you can still withdraw your tokens and collect any unclaimed rewards.
+                        The cbUSD/BUSD staking pool ended.  Deposits are now disabled but you can still withdraw your tokens and collect any unclaimed rewards.
                     </p>
                 </div>
                 <div className="d-flex  pl-3 pr-3 mt-2 mb-2">
@@ -547,17 +571,17 @@ const Pools = () => {
                     {/* <small className="text-site-primary font-weight-semi-bold text-uppercase">bond staked</small> */}
                     <div style={{ marginLeft: "auto" }}>
                         <p style={{ fontWeight: "600", textAlign: "center" }}>
-                            -
+                        {((BigNumber((lpstaked[0]/1000000000000000000)).decimalPlaces(3,1))).toNumber()}
                         </p>
                     </div>
                 </div>
                 <Button className={`ml-3 mr-3 pb-0 mb-0 mt-2 mb-2`}
-                    color="site-primary" width="full"  onClick={e => {history.push("/lp-stake")}}>View pool</Button>
+                    color="site-primary" width="full"  onClick={e => {history.push("/lp-stake")}}><b>View pool</b></Button>
             </Card>
         </Col>
         </>
            )}
-           {a===5 ? (
+           {stakeenddate===1 ? (
                 <>
   <Col xl="4" md="6" className="mb-4">
                 <Card className="custom-card mt-2 mb-2 ml-0 mr-0 p-2">
@@ -712,7 +736,7 @@ const Pools = () => {
                     </div>
                        
                     <Button  className={`ml-3 mr-3 pb-0 mb-0 mt-2 mb-2
-                        `} color="site-primary" width="full" onClick={e => {history.push("/black-stake")}}>View pool</Button> 
+                        `} color="site-primary" width="full" onClick={e => {history.push("/black-stake")}}><b>View pool</b></Button> 
                 </Card>
             </Col>
                 </>
@@ -763,7 +787,7 @@ const Pools = () => {
                         }}
                     >
                         <p className="m-0 text-muted">
-                            The stablecoin staking pool ended after 25 epochs on Apr 12 2021, 00:00 UTC. Deposits are now disabled but you can still withdraw your tokens and collect any unclaimed rewards.
+                            The BLACK staking pool ended.  Deposits are now disabled but you can still withdraw your tokens and collect any unclaimed rewards.
                         </p>
                     </div>
                     <div className="d-flex  pl-3 pr-3 mt-2 mb-2">
@@ -784,12 +808,12 @@ const Pools = () => {
                         {/* <small className="text-site-primary font-weight-semi-bold text-uppercase">bond staked</small> */}
                         <div style={{ marginLeft: "auto" }}>
                             <p style={{ fontWeight: "600", textAlign: "center" }}>
-                                -
+                            {((BigNumber((blackstaked[0]/1000000000)).decimalPlaces(3,1))).toNumber()}
                             </p>
                         </div>
                     </div>
                     <Button className={`ml-3 mr-3 pb-0 mb-0 mt-2 mb-2`}
-                        color="site-primary" width="full" onClick={e => {history.push("/black-stake")}}>View pool</Button>
+                        color="site-primary" width="full" onClick={e => {history.push("/black-stake")}}><b>View pool</b></Button>
                 </Card>
             </Col>
               </>

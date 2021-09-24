@@ -201,7 +201,7 @@ const BurnVault = () => {
               id="mymodal"
               centered
             >
-              <Modal.Header className="myModal" style={{backgroundColor:"#ff0083",color:"white"}} closeButton>
+              <Modal.Header className="myModal" style={{backgroundColor:"#f5584b",color:"white"}} closeButton>
                  
                 <Modal.Title id="contained-modal-title-vcenter" >
                   Amount to Swap
@@ -209,7 +209,7 @@ const BurnVault = () => {
                
               </Modal.Header>
               
-              <Modal.Body style={{backgroundColor:"#ff0083", color:"white"}}  className="myModal">
+              <Modal.Body style={{backgroundColor:"#f5584b", color:"white"}}  className="myModal">
                 <InputGroup>
           <InputGroup.Prepend>
            <h5>Black : </h5>&nbsp;
@@ -227,7 +227,7 @@ const BurnVault = () => {
           </InputGroup.Prepend>
         </InputGroup>
               </Modal.Body>
-              <Modal.Footer style={{backgroundColor:"#ff0083"}}  className="myModal">
+              <Modal.Footer style={{backgroundColor:"#f5584b"}}  className="myModal">
                 <Button variant="primary" onClick={swap} style={{backgroundColor:"#e3e4e6", color:"#ff0083"}}>Swap</Button>
               </Modal.Footer>
             </Modal>
@@ -256,13 +256,13 @@ const BurnVault = () => {
             localStorage.getItem("wallet")===null || localStorage.getItem("wallet")===""?(<>
            
             <Col xl="4" lg="6" md="6" className="mb-4">
-                <CustomCard title="BLACK TOKEN BALANCE" text="0.00" />
+                <CustomCard title=" YOUR BLACK BALANCE" text="0.00" />
             </Col>
             <Col xl="4" lg="6" md="6" className="mb-4">
-                <CustomCard title="1 BLACK(BNB)" text="0.00"/>
+                <CustomCard title="BLACK PRICE IN BNB" text="0.00"/>
             </Col>
             <Col xl="4" lg="6" md="6" className="mb-4">
-                <CustomCard title="BLACK TOKEN IN BURNVAULT" text="0.00" />
+                <CustomCard title="BLACK TOKEN BALANCE  IN BURNVAULT" text="0.00" />
             </Col>
             <Col xl="4" lg="6" md="6" className="mb-4">
                 <CustomCard title="MAXIMUM TRANSACTION LIMIT" text= "0.00"/>
@@ -270,8 +270,8 @@ const BurnVault = () => {
             <Col xl="4" lg="6" md="6" className="mb-4">
                 <Card className="custom-card p-24 text-white" color="site-primary">
                 
-                    <p>Approve Before Swap</p>
-                    <div className="text-center">
+                    <p><center><b>Approve Before Swap</b></center></p>
+                    <div className="text-center text-Black">
                         <Button color="dark">Approve</Button>
                     </div>
                     
@@ -281,7 +281,7 @@ const BurnVault = () => {
             <Col xl="4" lg="6" md="6" className="mb-4">
                
             
-                <CustomCard title="AVAILABLE LIMIT FOR USER TO SWAP" text= {burn}/>
+                <CustomCard title="YOUR AVAILABLE SWAP LIMIT" text= {burn}/>
           
                 {/* <Button color="outline-site-primary" className="align-self-end" id = "tid"  disabled ={tid4} block  onClick={() => setModalShow1(true)}>Swap</Button> */}
                 <MyVerticallyCenteredModal1
@@ -292,19 +292,19 @@ const BurnVault = () => {
                 </>):
                 (<>
                  <Col xl="4" lg="6" md="6" className="mb-4">
-                <CustomCard title="BLACK TOKEN BALANCE" text={parseFloat(tid1/1000000000).toFixed(3)} />
+                <CustomCard title="YOUR BLACK BALANCE" text={parseFloat(tid1/1000000000).toFixed(3)} />
             </Col>
             <Col xl="4" lg="6" md="6" className="mb-4">
-                <CustomCard title="1 BLACK(BNB)" text={ parseFloat(1000000000/tid2).toFixed(15)} />
+                <CustomCard title="BLACK PRICE IN BNB" text={ parseFloat(1000000000/tid2).toFixed(3)} />
             </Col>
             <Col xl="4" lg="6" md="6" className="mb-4">
-                <CustomCard title="BLACK TOKEN IN BURNVAULT" text={parseFloat(tid3/1000000000).toFixed(5)} />
+                <CustomCard title="BLACK TOKEN BALANCE IN BURNVAULT" text={parseFloat(tid3/1000000000).toFixed(3)} />
             </Col>
             <Col xl="4" lg="6" md="6" className="mb-4">
                 <CustomCard title="MAXIMUM TRANSACTION LIMIT" text= {parseFloat(maxta/1000000000).toFixed(3)}/>
             </Col>
             <Col xl="4" lg="6" md="6" className="mb-4">
-                <Card className="custom-card p-24 text-white" color="site-primary">
+                <Card className="custom-card p-24 text-black" color="site-primary">
                 <div>         
 
 
@@ -315,8 +315,8 @@ const BurnVault = () => {
 (
 (
 <div>
-                    <p>Approve Before Swap</p>
-                    <div className="text-center">
+                    <p><center><b>Approve Before Swap</b></center></p>
+                    <div className="text-center text-Black">
                         <Button color="dark" onClick={approve}>Approve</Button>
                     </div>
                     </div>
@@ -329,7 +329,7 @@ const BurnVault = () => {
 (
  
 <div>
-                    <p>Convert Your BLACK to BNB</p>
+                    <p><b><center>CONVERT YOUR BLACK TO BNB</center></b></p>
                     <div className="text-center text-Black">
                     {/* <Button color="dark" >Approved successfully</Button> */}
                     <Button color="dark"  id = "tid"     onClick={() => setModalShow1(true)}>Swap</Button>
@@ -357,7 +357,7 @@ const BurnVault = () => {
                 </Card>
             </Col>
             <Col xl="4" lg="6" md="6" className="mb-4">
-                <CustomCard title="AVAILABLE LIMIT FOR USER TO SWAP" text= {burn}/>
+                <CustomCard title="YOUR AVAILABLE SWAP LIMIT" text= {burn}/>
             </Col>
             {/* <Col xl="4" lg="6" md="6" className="mb-4">
                 <div className="h-200 d-flex flex-column">

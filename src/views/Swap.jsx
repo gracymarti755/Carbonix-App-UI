@@ -89,12 +89,12 @@ else{
         const accounts =  await web3.eth.getAccounts();
         var valu = document.getElementById("tid1").value;
          var val = valu * 1000000000;
-         var value = val + "000000000"
+         var value = val * 1000000000;
         // let x = new BigNumber(valu).times(1000000000000000000);
         // console.log("value",x.toNumber());
         // var value = x.toNumber();
         if(parseInt(value)<=parseInt(cbusdbalance)){
-            await swap.methods.stake(value).send({from:accounts[0]});
+            await swap.methods.stake(web3.utils.toBN(value)).send({from:accounts[0]});
             first()
             setIsOpen(true);        
             setDis("Deposited succesfully");
@@ -114,12 +114,12 @@ else{
         const accounts =  await web3.eth.getAccounts();
         var valu = document.getElementById("tid2").value;
          var val = valu * 1000000000;
-         var value = val + "000000000"
+         var value = val * 1000000000;
         // let x = new BigNumber(valu).times(1000000000000000000);
         // console.log("value",x.toNumber());
         // var value = x.toNumber();
         if(parseInt(value)<=parseInt(values[0])){
-            await swap.methods.unstake(value).send({from:accounts[0]});
+            await swap.methods.unstake(web3.utils.toBN(value)).send({from:accounts[0]});
             first()
             setIsOpen(true);
             setDis("withdrawn succesfully")
@@ -174,18 +174,18 @@ else{
         const accounts =  await web3.eth.getAccounts(); 
         document.getElementById("tid1").value = false;  
         var twentyfive=(cbusdbalance * 25)/100;
-        setdepositpercent(((BigNumber((twentyfive/1000000000000000000)).decimalPlaces(3,1))).toNumber());
+        setdepositpercent(web3.utils.fromWei((twentyfive.toString()), "ether" ));
        
-        document.getElementById("tid1").value = ((BigNumber((twentyfive/1000000000000000000)).decimalPlaces(3,1))).toNumber();        
+        document.getElementById("tid1").value = web3.utils.fromWei((twentyfive.toString()), "ether" ) ;        
         
       }
        const balancepercent1 = async(event) => {
         event.preventDefault();
         const accounts =  await web3.eth.getAccounts(); 
         document.getElementById("tid1").value = false;    
-        var fifty=(cbusdbalance * 50)/100;
-        setdepositpercent(((BigNumber((fifty/1000000000000000000)).decimalPlaces(3,1))).toNumber());
-        document.getElementById("tid1").value = ((BigNumber((fifty/1000000000000000000)).decimalPlaces(3,1))).toNumber();          
+        const fifty=(cbusdbalance * 50)/100;
+        setdepositpercent(web3.utils.fromWei((fifty.toString()), "ether" ) );
+        document.getElementById("tid1").value = web3.utils.fromWei((fifty.toString()), "ether" ) ;          
         
       } 
 
@@ -195,8 +195,8 @@ else{
         const accounts =  await web3.eth.getAccounts(); 
         document.getElementById("tid1").value = false;    
         var seventyfive=(cbusdbalance * 75)/100;
-        setdepositpercent(((BigNumber((seventyfive/1000000000000000000)).decimalPlaces(3,1))).toNumber()); 
-        document.getElementById("tid1").value =((BigNumber((seventyfive/1000000000000000000)).decimalPlaces(3,1))).toNumber();         
+        setdepositpercent(web3.utils.fromWei((seventyfive.toString()), "ether" )); 
+        document.getElementById("tid1").value =web3.utils.fromWei((seventyfive.toString()), "ether" );         
         
       }
       const balancepercent3 = async(event) => {
@@ -204,8 +204,8 @@ else{
         const accounts =  await web3.eth.getAccounts(); 
         document.getElementById("tid1").value = false;    
         var hundred=(cbusdbalance * 100)/100;
-        setdepositpercent(((BigNumber((hundred/1000000000000000000)).decimalPlaces(3,1))).toNumber()); 
-        document.getElementById("tid1").value =  ((BigNumber((hundred/1000000000000000000)).decimalPlaces(3,1))).toNumber();         
+        setdepositpercent(web3.utils.fromWei((hundred.toString()), "ether" )); 
+        document.getElementById("tid1").value = web3.utils.fromWei((hundred.toString()), "ether" );         
         
       }
 
@@ -215,8 +215,8 @@ else{
         const accounts =  await web3.eth.getAccounts(); 
         document.getElementById("tid2").value = false;  
         var twentyfive=(values[0] * 25)/100;
-        setTotaldeposit(((BigNumber((twentyfive/1000000000000000000)).decimalPlaces(3,1))).toNumber());
-        document.getElementById("tid2").value =((BigNumber((twentyfive/1000000000000000000)).decimalPlaces(3,1))).toNumber();        
+        setTotaldeposit(web3.utils.fromWei((twentyfive.toString()), "ether" ));
+        document.getElementById("tid2").value =web3.utils.fromWei((twentyfive.toString()), "ether" );        
         
       }
        const withdrawbalancepercent1 = async(event) => {
@@ -224,8 +224,8 @@ else{
         const accounts =  await web3.eth.getAccounts(); 
         document.getElementById("tid2").value = false;    
         var fifty=(values[0] * 50)/100;
-        setTotaldeposit(((BigNumber((fifty/1000000000000000000)).decimalPlaces(3,1))).toNumber());
-        document.getElementById("tid2").value =((BigNumber((fifty/1000000000000000000)).decimalPlaces(3,1))).toNumber();          
+        setTotaldeposit(web3.utils.fromWei((fifty.toString()), "ether" ));
+        document.getElementById("tid2").value =web3.utils.fromWei((fifty.toString()), "ether" );          
         
       } 
 
@@ -235,8 +235,8 @@ else{
         const accounts =  await web3.eth.getAccounts(); 
         document.getElementById("tid2").value = false;    
         var seventyfive=(values[0] * 75)/100;
-        setTotaldeposit(((BigNumber((seventyfive/1000000000000000000)).decimalPlaces(3,1))).toNumber()); 
-        document.getElementById("tid2").value =((BigNumber((seventyfive/1000000000000000000)).decimalPlaces(3,1))).toNumber();         
+        setTotaldeposit(web3.utils.fromWei((seventyfive.toString()), "ether" )); 
+        document.getElementById("tid2").value =web3.utils.fromWei((seventyfive.toString()), "ether" );         
         
       }
       const withdrawbalancepercent3 = async(event) => {
@@ -244,8 +244,8 @@ else{
         const accounts =  await web3.eth.getAccounts(); 
         document.getElementById("tid2").value = false;    
         var hundred=(values[0] * 100)/100;
-        setTotaldeposit(((BigNumber((hundred/1000000000000000000)).decimalPlaces(3,1))).toNumber()); 
-        document.getElementById("tid2").value =((BigNumber((hundred/1000000000000000000)).decimalPlaces(3,1))).toNumber();         
+        setTotaldeposit(web3.utils.fromWei((hundred.toString()), "ether" )); 
+        document.getElementById("tid2").value =web3.utils.fromWei((hundred.toString()), "ether" );         
         
       }
       const approve = async() => {

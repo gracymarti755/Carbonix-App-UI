@@ -39,17 +39,37 @@ const Cbusdstake = () => {
     var [time1, settime1]=useState("");
     const [discal ,setdistance]=useState("");
     const [lock1 ,setlock1]=useState("");
-    const[stakelock,setStakeLock]=("");
+    const[stakelock,setStakeLock]=useState("");
+    const [Remainingamount ,setRemainingamount]=useState(""); 
     const toggleDropDown = () => setDropdownOpen(!dropdownOpen);
     const toggle1 = () => setDropdownOpen1(!dropdownOpen1);
     let history = useHistory();
     const [isOpen, setIsOpen] = useState(false);
     var[dis,setDis] = useState("");
+    const[stakeenddate,setStakeendDate]=useState('');
+
+    useEffect(() => {
+        const fetchPosts = async () => {
+            var  currentdate=(new Date().getTime())/1000;
+            var enddatediff =1632564735-currentdate;
+            if(enddatediff>0){
+                setStakeendDate(1);
+        
+            }
+            else{
+                setStakeendDate(0);
+                console.log("enddate",stakeenddate);
+            }
+        
+        };
     
+        fetchPosts();
+      }, []);
  const first = async () => {
-    if(localStorage.getItem("wallet")>0){
+    
+       if(localStorage.getItem("wallet")>0){
     const accounts =  await web3.eth.getAccounts();
- 
+     
     setcbusdbalance(await cbusd.methods.balanceOf(accounts[0]).call());  
 
     
@@ -64,7 +84,17 @@ const Cbusdstake = () => {
    // setValues(await swap.methods.userInfo(accounts[0]).call());
     setStaked(await cbusdstake.methods.userInfo(accounts[0]).call());
     setBlackBalance(await black.methods.balanceOf(accounts[0]).call());
+    // var poolinfo=[];
+    // poolinfo=await cbusdstake.methods.poolInfo().call();
+    // var reward1=((staked[0] * poolinfo[3])/1000000000000000000);
+    // var reward2=reward1-staked[1];
+    // console.log("reward1",reward1);
+    // console.log("reward2",reward2);
     setReward(await cbusdstake.methods.pendingBlack(accounts[0]).call());
+    var stakedamount=await cbusdstake.methods.getHoldersRunningStakeBalance().call({from:accounts[0]});
+    console.log("stakedamount",stakedamount);
+    var Remainingamount=1000000000000000000000000-stakedamount;
+    setRemainingamount(Remainingamount);
     setStakeLock(await cbusdstake.methods.lock(accounts[0]).call());
     var secondsleft =await cbusdstake.methods.secondsLeft(accounts[0]).call();
     var us =await cbusdstake.methods.holderUnstakeRemainingTime(accounts[0]).call();
@@ -151,13 +181,14 @@ const Cbusdstake = () => {
 
     }   
 }      
-
+ 
     useEffect(() => {
         document.getElementById("header-title").innerText = "Staking";
     } )
-    useEffect(() => {first()},[cbusdbalance,reward,ap1,staked[0],blackbal,discal])
+    
+    useEffect(() => {first()},[cbusdbalance,reward,ap1,staked[0],blackbal,discal,stakeenddate])
     useEffect(() =>{first()},[date1,lock1,time1])
-
+    
    
     const deposit = async(event) => {
         event.preventDefault();
@@ -167,12 +198,13 @@ const Cbusdstake = () => {
         // console.log("value",x.toNumber());
         // var value = x.toNumber();
         var val = valu * 1000000000;
-         var value = val + "000000000";
-         var stakelimitamount=1000000000000000-staked[0];
-         console.log("stakelim",stakelimitamount);
+         var value = val * 1000000000;
+         //var stakelimitamount=1000000000000000-staked[0];
+        
+
         if(parseInt(value)<=parseInt(cbusdbalance)){
-            if(parseInt(value)<parseInt(stakelimitamount)){
-                await cbusdstake.methods.deposit(value).send({from:accounts[0]});
+            if(parseInt(value)<(Remainingamount)){
+                await cbusdstake.methods.deposit(web3.utils.toBN(value)).send({from:accounts[0]});
                 setIsOpen(true);
                 setDis("Staked Succesfully")
                 first();
@@ -198,9 +230,9 @@ const Cbusdstake = () => {
         // console.log("value",x.toNumber());
         // var value = x.toNumber();
         var val = valu * 1000000000;
-         var value = val + "000000000";
+         var value = val * 1000000000;
         if(parseInt(value)<=parseInt(staked[0])){
-            await cbusdstake.methods.withdraw(value).send({from:accounts[0]});
+            await cbusdstake.methods.withdraw(web3.utils.toBN(value)).send({from:accounts[0]});
             setIsOpen(true);
             setDis("Unstaked Succesfully")
             first()
@@ -241,9 +273,9 @@ const Cbusdstake = () => {
         const accounts =  await web3.eth.getAccounts(); 
         document.getElementById("tid1").value = false;  
         var twentyfive=(cbusdbalance * 25)/100;
-        setdepositpercent(((BigNumber((twentyfive/1000000000000000000)).decimalPlaces(3,1))).toNumber());
+        setdepositpercent( web3.utils.fromWei((twentyfive.toString()), "ether" ) );
        
-        document.getElementById("tid1").value = ((BigNumber((twentyfive/1000000000000000000)).decimalPlaces(3,1))).toNumber();        
+        document.getElementById("tid1").value = (web3.utils.fromWei((twentyfive.toString()), "ether" ));        
         
       }
        const balancepercent1 = async(event) => {
@@ -251,8 +283,8 @@ const Cbusdstake = () => {
         const accounts =  await web3.eth.getAccounts(); 
         document.getElementById("tid1").value = false;    
         var fifty=(cbusdbalance * 50)/100;
-        setdepositpercent(((BigNumber((fifty/1000000000000000000)).decimalPlaces(3,1))).toNumber());
-        document.getElementById("tid1").value = ((BigNumber((fifty/1000000000000000000)).decimalPlaces(3,1))).toNumber();          
+        setdepositpercent(web3.utils.fromWei((fifty.toString()), "ether" ));
+        document.getElementById("tid1").value = (web3.utils.fromWei((fifty.toString()), "ether" ));          
         
       } 
 
@@ -262,17 +294,17 @@ const Cbusdstake = () => {
         const accounts =  await web3.eth.getAccounts(); 
         document.getElementById("tid1").value = false;    
         var seventyfive=(cbusdbalance * 75)/100;
-        setdepositpercent(((BigNumber((seventyfive/1000000000000000000)).decimalPlaces(3,1))).toNumber()); 
-        document.getElementById("tid1").value =((BigNumber((seventyfive/1000000000000000000)).decimalPlaces(3,1))).toNumber() ;         
+        setdepositpercent(web3.utils.fromWei((seventyfive.toString()), "ether" )); 
+        document.getElementById("tid1").value =(web3.utils.fromWei((seventyfive.toString()), "ether" )) ;         
         
       }
       const balancepercent3 = async(event) => {
         event.preventDefault();
         const accounts =  await web3.eth.getAccounts(); 
         document.getElementById("tid1").value = false;    
-        var hundred=(cbusdbalance * 100)/100;
-        setdepositpercent(((BigNumber((hundred/1000000000000000000)).decimalPlaces(3,1))).toNumber()); 
-        document.getElementById("tid1").value = ((BigNumber((hundred/1000000000000000000)).decimalPlaces(3,1))).toNumber();         
+       // var hundred=(cbusdbalance * 100)/100;
+        setdepositpercent(web3.utils.fromWei((cbusdbalance), "ether" )); 
+        document.getElementById("tid1").value = (web3.utils.fromWei((cbusdbalance), "ether" ));         
         
       }
 
@@ -282,8 +314,8 @@ const Cbusdstake = () => {
         const accounts =  await web3.eth.getAccounts(); 
         document.getElementById("tid2").value = false;  
         var twentyfive=(staked[0] * 25)/100;
-        setTotaldeposit(((BigNumber((twentyfive/1000000000000000000)).decimalPlaces(3,1))).toNumber());
-        document.getElementById("tid2").value =((BigNumber((twentyfive/1000000000000000000)).decimalPlaces(3,1))).toNumber() ;        
+        setTotaldeposit(web3.utils.fromWei((twentyfive.toString()), "ether" ));
+        document.getElementById("tid2").value =(web3.utils.fromWei((twentyfive.toString()), "ether" )) ;        
         
       }
        const withdrawbalancepercent1 = async(event) => {
@@ -291,8 +323,8 @@ const Cbusdstake = () => {
         const accounts =  await web3.eth.getAccounts(); 
         document.getElementById("tid2").value = false;    
         var fifty=(staked[0]  * 50)/100;
-        setTotaldeposit(((BigNumber((fifty/1000000000000000000)).decimalPlaces(3,1))).toNumber());
-        document.getElementById("tid2").value = ((BigNumber((fifty/1000000000000000000)).decimalPlaces(3,1))).toNumber();          
+        setTotaldeposit(web3.utils.fromWei((fifty.toString()), "ether" ));
+        document.getElementById("tid2").value = (web3.utils.fromWei((fifty.toString()), "ether" ));          
         
       } 
 
@@ -302,8 +334,8 @@ const Cbusdstake = () => {
         const accounts =  await web3.eth.getAccounts(); 
         document.getElementById("tid2").value = false;    
         var seventyfive=(staked[0]  * 75)/100;
-        setTotaldeposit(((BigNumber((seventyfive/1000000000000000000)).decimalPlaces(3,1))).toNumber()); 
-        document.getElementById("tid2").value =((BigNumber((seventyfive/1000000000000000000)).decimalPlaces(3,1))).toNumber();         
+        setTotaldeposit(web3.utils.fromWei((seventyfive.toString()), "ether" )); 
+        document.getElementById("tid2").value =(web3.utils.fromWei((seventyfive.toString()), "ether" ));         
         
       }
       const withdrawbalancepercent3 = async(event) => {
@@ -311,8 +343,8 @@ const Cbusdstake = () => {
         const accounts =  await web3.eth.getAccounts(); 
         document.getElementById("tid2").value = false;    
         var hundred=(staked[0]  * 100)/100;
-        setTotaldeposit(((BigNumber((hundred/1000000000000000000)).decimalPlaces(3,1))).toNumber()); 
-        document.getElementById("tid2").value =((BigNumber((hundred/1000000000000000000)).decimalPlaces(3,1))).toNumber();         
+        setTotaldeposit(web3.utils.fromWei((hundred.toString()), "ether" )); 
+        document.getElementById("tid2").value =(web3.utils.fromWei((hundred.toString()), "ether" ));         
         
       }
       const approve = async() => {
@@ -356,12 +388,14 @@ const Cbusdstake = () => {
                                         <tr>
                                             <th>Your cBUSD</th>
                                             <th>Staked cBUSD</th>
+                                            <th>Remaining Amount to Stake </th>
                                             <th>Black reward</th>
                                             <th>Your Black</th>
                                         </tr>
                                     </thead>
                                     <tbody className="text-center">
                                         <tr>
+                                            <td>0.00</td>
                                             <td>0.00</td>
                                             <td>0.00</td>
                                             <td>0.00</td>
@@ -374,9 +408,10 @@ const Cbusdstake = () => {
                                 <Container fluid>
                                     <Row>
                                         <Col xl="6" md="12">
-                                        
+                                        {stakeenddate===1 ? (<> 
                                             <InputGroup className="mt-3">
                                                 <Input placeholder={depositpercent} style={{ height: "auto" }}type = "number" id="tid1"  />
+                                                
                                                 <InputGroupAddon addonType="append"><Button color="site-primary" >stake</Button></InputGroupAddon>
                                             </InputGroup>
                                             <div className="percentage smaller">
@@ -385,6 +420,15 @@ const Cbusdstake = () => {
                                                 <div className="percentage-item">75%</div>
                                                 <div className="percentage-item" >100%</div>
                                             </div>
+                                        </>):(<> 
+                                            <InputGroup className="mt-3">
+                                                
+                                                
+                                                <InputGroupAddon addonType="append"><Button color="site-primary" >staking Pool is ended</Button></InputGroupAddon>
+                                            </InputGroup>
+
+                                        </>)}
+                                           
                                         </Col>
                                         <Col xl="6" md="12">
                                    
@@ -437,18 +481,20 @@ const Cbusdstake = () => {
                                 <Table bordered responsive className="mt-3">
                                     <thead>
                                         <tr>
-                                            <
-                                                
-                                                th>Your cBUSD</th>
+                                            <th>Your cBUSD</th>
                                             <th>Staked cBUSD</th>
+                                            <th>Remaining Amount to Stake </th>
                                             <th>Black reward</th>
                                             <th>Your Black</th>
+                                                
+                                                
                                         </tr>
                                     </thead>
                                     <tbody className="text-center">
                                         <tr>
                                             <td>{((BigNumber((cbusdbalance/1000000000000000000)).decimalPlaces(3,1))).toNumber()}</td>
                                             <td>{((BigNumber((staked[0]/1000000000000000000)).decimalPlaces(3,1))).toNumber()}</td>
+                                            <td>{((BigNumber((Remainingamount/1000000000000000000)).decimalPlaces(3,1))).toNumber()}</td>
                                             <td>{((BigNumber((reward/1000000000)).decimalPlaces(3,1))).toNumber()}</td>
                                             <td>{((BigNumber((blackbal/1000000000)).decimalPlaces(3,1))).toNumber()}</td>
                                         </tr>
@@ -465,7 +511,10 @@ const Cbusdstake = () => {
                                         <Col xl="6" md="12">
                                         { stakelock === false ? ((
                                              <div>
-                                            <InputGroup className="mt-3">
+
+                                      {stakeenddate===1 ?(<> 
+
+                                        <InputGroup className="mt-3">
                                                 <Input placeholder={depositpercent} style={{ height: "auto" }}type = "number" id="tid1"  />
                                                 <InputGroupAddon addonType="append"><Button color="site-primary" onClick={deposit}>stake</Button></InputGroupAddon>
                                             </InputGroup>
@@ -475,6 +524,16 @@ const Cbusdstake = () => {
                                                 <div className="percentage-item" onClick={balancepercent2}>75%</div>
                                                 <div className="percentage-item" onClick={balancepercent3}>100%</div>
                                             </div>
+                                      </>):(<>
+
+                                        <InputGroup className="mt-3">
+                                                <center> 
+                                                <InputGroupAddon addonType="append"><Button color="site-primary"  style={{marginLeft:"40px"}} >Staking Pool is Ended</Button></InputGroupAddon></center>
+                                            </InputGroup>
+                                            
+                                       </>)
+                                      }
+                                            
                                             </div>
                                              )) :((<>
 

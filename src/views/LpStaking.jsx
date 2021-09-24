@@ -41,6 +41,7 @@ const Lpstake = () => {
     var[datestake,setDatestake]=useState([]);
     var [time2, settime2]=useState("");
     const[stakelock,setStakeLock]=useState("");
+    const [Remainingamount ,setRemainingamount]=useState(""); 
     const [isOpen, setIsOpen] = useState(false);
     var[dis,setDis] = useState("");
     const toggleDropDown = () => setDropdownOpen(!dropdownOpen);
@@ -66,7 +67,11 @@ const Lpstake = () => {
     //setValues(await swap.methods.userInfo(accounts[0]).call());
     setStaked(await lpstake.methods.userInfo(accounts[0]).call());
     setReward(await lpstake.methods.pendingBlack(accounts[0]).call());
-    setBlackBalance(await black.methods.balanceOf(accounts[0]).call())
+    var stakedamount=await lpstake.methods.getHoldersRunningStakeBalance().call({from:accounts[0]});
+    console.log("stakedamount",stakedamount);
+    var Remainingamount=1000000000000000000000000-stakedamount;
+    setRemainingamount(Remainingamount);
+    setBlackBalance(await black.methods.balanceOf(accounts[0]).call());
     setStakeLock(await lpstake.methods.lock(accounts[0]).call());
     var secondsleft =await lpstake.methods.secondsLeft(accounts[0]).call();
     var us =await lpstake.methods.holderUnstakeRemainingTime(accounts[0]).call();
@@ -166,15 +171,15 @@ const Lpstake = () => {
         const accounts =  await web3.eth.getAccounts();
         var valu = document.getElementById("tid1").value;
         var val = valu * 1000000000;
-        var value = val + "000000000";
+        var value = val * 1000000000;
         // let x = new BigNumber(valu).times(1000000000000000000);
         // console.log("value",x.toNumber());
         // var value = x.toNumber();
-        var stakelimitamount=1000000000000000-staked[0];
-         console.log("stakelim",stakelimitamount);
+       // var stakelimitamount=1000000000000000-staked[0];
+         //console.log("stakelim",stakelimitamount);
         if(parseInt(value)<=parseInt(lpbalance)){
-            if(parseInt(value)<parseInt(stakelimitamount)){
-                await lpstake.methods.deposit(value).send({from:accounts[0]});      
+            if(parseInt(value)<(Remainingamount)){
+                await lpstake.methods.deposit(web3.utils.toBN(value)).send({from:accounts[0]});      
                 setIsOpen(true);
                 setDis("Staked Succesfully")
                 first();
@@ -198,12 +203,12 @@ const Lpstake = () => {
         const accounts =  await web3.eth.getAccounts();
         var valu = document.getElementById("tid2").value;
         var val = valu * 1000000000;
-         var value = val + "000000000"
+         var value = val * 1000000000;
         // let x = new BigNumber(valu).times(1000000000000000000);
         // console.log("value",x.toNumber());
         // var value = x.toNumber();
         if(parseInt(value)<=parseInt(staked[0])){
-            await lpstake.methods.withdraw(value).send({from:accounts[0]});
+            await lpstake.methods.withdraw(web3.utils.toBN(value)).send({from:accounts[0]});
             setIsOpen(true);
             setDis("Unstaked Succesfully")
             first()
@@ -244,9 +249,9 @@ const Lpstake = () => {
         document.getElementById("tid1").value = false;  
         var twentyfive=(lpbalance * 25)/100;
        
-            setdepositpercent(((BigNumber((twentyfive/1000000000000000000)).decimalPlaces(3,1))).toNumber());
+            setdepositpercent(web3.utils.fromWei((twentyfive.toString()), "ether" ) );
        
-            document.getElementById("tid1").value = ((BigNumber((twentyfive/1000000000000000000)).decimalPlaces(3,1))).toNumber();           
+            document.getElementById("tid1").value = (web3.utils.fromWei((twentyfive.toString()), "ether" ) );           
         
       
         
@@ -256,8 +261,8 @@ const Lpstake = () => {
         const accounts =  await web3.eth.getAccounts(); 
         document.getElementById("tid1").value = false;    
         var fifty=(lpbalance * 50)/100;        
-        setdepositpercent(((BigNumber((fifty/1000000000000000000)).decimalPlaces(3,1))).toNumber());
-        document.getElementById("tid1").value =  ((BigNumber((fifty/1000000000000000000)).decimalPlaces(3,1))).toNumber();            
+        setdepositpercent(web3.utils.fromWei((fifty.toString()), "ether" ) );
+        document.getElementById("tid1").value =  (web3.utils.fromWei((fifty.toString()), "ether" ) );            
         
       } 
 
@@ -267,19 +272,19 @@ const Lpstake = () => {
         const accounts =  await web3.eth.getAccounts(); 
         document.getElementById("tid1").value = false;    
         var seventyfive=(lpbalance * 75)/100;
-        setdepositpercent(((BigNumber((seventyfive/1000000000000000000)).decimalPlaces(3,1))).toNumber()); 
-        document.getElementById("tid1").value = ((BigNumber((seventyfive/1000000000000000000)).decimalPlaces(3,1))).toNumber();        
+        setdepositpercent(web3.utils.fromWei((seventyfive.toString()), "ether" )); 
+        document.getElementById("tid1").value = (web3.utils.fromWei((seventyfive.toString()), "ether" ));        
         
       }
       const balancepercent3 = async(event) => {
         event.preventDefault();
         const accounts =  await web3.eth.getAccounts(); 
         document.getElementById("tid1").value = false;    
-        var hundred=(lpbalance * 100)/100;
+        //var hundred=(lpbalance * 100)/100;
         // var num2 = Number((0.059786786876868).toString().match(/^\d+(?:\.\d{0,3})?/));
         // console.log("checkdigit",num2);
-        setdepositpercent(((BigNumber((hundred/1000000000000000000)).decimalPlaces(3,1))).toNumber()); 
-        document.getElementById("tid1").value =  ((BigNumber((hundred/1000000000000000000)).decimalPlaces(3,1))).toNumber();         
+        setdepositpercent(web3.utils.fromWei((lpbalance), "ether" )); 
+        document.getElementById("tid1").value =  (web3.utils.fromWei((lpbalance), "ether" ));         
         
       }
 
@@ -289,8 +294,8 @@ const Lpstake = () => {
         const accounts =  await web3.eth.getAccounts(); 
         document.getElementById("tid2").value = false;  
         var twentyfive=(staked[0] * 25)/100;
-        setTotaldeposit(((BigNumber((twentyfive/1000000000000000000)).decimalPlaces(3,1))).toNumber());
-        document.getElementById("tid2").value =((BigNumber((twentyfive/1000000000000000000)).decimalPlaces(3,1))).toNumber();        
+        setTotaldeposit(web3.utils.fromWei((twentyfive.toString()), "ether" ));
+        document.getElementById("tid2").value =(web3.utils.fromWei((twentyfive.toString()), "ether" ));        
         
       }
        const withdrawbalancepercent1 = async(event) => {
@@ -298,8 +303,8 @@ const Lpstake = () => {
         const accounts =  await web3.eth.getAccounts(); 
         document.getElementById("tid2").value = false;    
         var fifty=(staked[0]  * 50)/100;
-        setTotaldeposit(((BigNumber((fifty/1000000000000000000)).decimalPlaces(3,1))).toNumber());
-        document.getElementById("tid2").value = ((BigNumber((fifty/1000000000000000000)).decimalPlaces(3,1))).toNumber();          
+        setTotaldeposit(web3.utils.fromWei((fifty.toString()), "ether" ));
+        document.getElementById("tid2").value = (web3.utils.fromWei((fifty.toString()), "ether" ));          
         
       } 
 
@@ -309,8 +314,8 @@ const Lpstake = () => {
         const accounts =  await web3.eth.getAccounts(); 
         document.getElementById("tid2").value = false;    
         var seventyfive=(staked[0]  * 75)/100;
-        setTotaldeposit(((BigNumber((seventyfive/1000000000000000000)).decimalPlaces(3,1))).toNumber()); 
-        document.getElementById("tid2").value =((BigNumber((seventyfive/1000000000000000000)).decimalPlaces(3,1))).toNumber();       
+        setTotaldeposit(web3.utils.fromWei((seventyfive.toString()), "ether" )); 
+        document.getElementById("tid2").value =(web3.utils.fromWei((seventyfive.toString()), "ether" ));       
         
       }
       const withdrawbalancepercent3 = async(event) => {
@@ -318,8 +323,8 @@ const Lpstake = () => {
         const accounts =  await web3.eth.getAccounts(); 
         document.getElementById("tid2").value = false;    
         var hundred=(staked[0]  * 100)/100;
-        setTotaldeposit(((BigNumber((hundred/1000000000000000000)).decimalPlaces(3,1))).toNumber()); 
-        document.getElementById("tid2").value =((BigNumber((hundred/1000000000000000000)).decimalPlaces(3,1))).toNumber();         
+        setTotaldeposit(web3.utils.fromWei((hundred.toString()), "ether" )); 
+        document.getElementById("tid2").value =(web3.utils.fromWei((hundred.toString()), "ether" ));         
         
       }
       const approve = async() => {
@@ -350,16 +355,18 @@ const Lpstake = () => {
                                 <Table bordered responsive className="mt-3">
                                     <thead>
                                         <tr>
-                                            <
-                                                
-                                                th>Your LP</th>
+                                            <th>Your LP</th>
                                             <th>Staked LP</th>
+                                            <th>Remaining Amount to Stake </th>
                                             <th>Black reward</th>
                                             <th>Your Black</th>
+                                                
+                                            
                                         </tr>
                                     </thead>
                                     <tbody className="text-center">
                                         <tr>
+                                            <td>0.00</td>
                                             <td>0.00</td>
                                             <td>0.00</td>
                                             <td>0.00</td>
@@ -439,6 +446,7 @@ const Lpstake = () => {
                                                 
                                                 th>Your Lp</th>
                                             <th>Staked Lp</th>
+                                            <th>Remaining Amount to Stake </th>
                                             <th>Black reward</th>
                                             <th>Your Black</th>
                                         </tr>
@@ -447,6 +455,7 @@ const Lpstake = () => {
                                         <tr>
                                             <td>{((BigNumber((lpbalance/1000000000000000000)).decimalPlaces(3,1))).toNumber()}</td>
                                             <td>{((BigNumber((staked[0]/1000000000000000000)).decimalPlaces(3,1))).toNumber()}</td>
+                                            <td>{((BigNumber((Remainingamount/1000000000000000000)).decimalPlaces(3,1))).toNumber()}</td>
                                             <td>{((BigNumber((reward/1000000000)).decimalPlaces(3,1))).toNumber()}</td>
                                             <td>{((BigNumber((blackbal/1000000000)).decimalPlaces(3,1))).toNumber()}</td>
                                         </tr>

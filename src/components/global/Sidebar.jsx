@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { Button, Container } from "reactstrap";
 import logo from "../../assets/img/logo.PNG";
+import logonew from "../../assets/img/logonew.PNG";
 const Sidebar = (props) => {
     let history = useHistory();
     const toggleSidebar = () => {
@@ -37,7 +38,7 @@ const Sidebar = (props) => {
      
         <div className="sidebar bg-site-secondary">
         <center>
-            <img src={logo} style={{width:54 ,height:45,position:"relative"}} alt="Logo" />
+            <img src={logonew} style={{width:56 ,height:45,position:"relative"}} alt="Logo" />
             </center>
             <div className="theme-nav-items">
                

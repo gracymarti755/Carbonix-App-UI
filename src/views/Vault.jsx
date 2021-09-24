@@ -95,12 +95,12 @@ const Vault = () => {
         var valu = document.getElementById("tid1").value;
         console.log("valueget",valu);
         var val = valu * 1000000000;
-        var value = val + "000000000"
+        var value = val * 1000000000;
         //let x = new BigNumber(valu).times(1000000000000000000);
         //console.log("value",x.toNumber());
         //var value = x.toNumber();
         if(parseInt(value)<=parseInt(busdbalance)){
-        await CFI.methods.deposit(value).send({from:accounts[0]});
+        await CFI.methods.deposit(web3.utils.toBN(value)).send({from:accounts[0]});
         overall()
         setIsOpen(true);
         
@@ -116,12 +116,12 @@ const Vault = () => {
         const accounts =  await web3.eth.getAccounts();
         var valu = document.getElementById("tid2").value;
         var val = valu * 1000000000;
-        var value = val + "000000000"
+        var value = val * 1000000000;
         // let x = new BigNumber(valu).times(1000000000000000000);
         // console.log("value",x.toNumber());
         // var value = x.toNumber();
         if(parseInt(value)<=parseInt(avatokentowithdraw)){
-        await CFI.methods.withdraw(value).send({from:accounts[0]});
+        await CFI.methods.withdraw(web3.utils.toBN(value)).send({from:accounts[0]});
         overall()
         setIsOpen(true);
         setDis("Withdrawn Succesfully!")
@@ -136,13 +136,13 @@ const Vault = () => {
         const accounts =  await web3.eth.getAccounts();
         var valu = document.getElementById("tid3").value;
         var val = valu * 1000000000;
-        var value = val + "000000000"
+        var value = val * 1000000000;
     //    let x = new BigNumber(valu).times(1000000000000000000);
     //    console.log("value",x.toNumber());
     //    var value = x.toNumber();
 
        if(parseInt(value)<=parseInt(avaltoborrow)){
-        await CFI.methods.mint(value).send({from:accounts[0]});
+        await CFI.methods.mint(web3.utils.toBN(value)).send({from:accounts[0]});
         overall()
         setIsOpen(true);       
         setDis("Borrowed Succesfully!");
@@ -156,9 +156,11 @@ const Vault = () => {
         event.preventDefault();
         const accounts =  await web3.eth.getAccounts();
         var valu = document.getElementById("tid4").value;
-       if(selectedDropdown == "cBUSD"){
+       console.log("valuepre",valu);
+        if(selectedDropdown == "cBUSD"){
         var val = valu * 1000000000;
-        var value = val + "000000000"
+        var value = val * 1000000000;
+        console.log("valuecheck",value);
         //let x = new BigNumber(valu).times(1000000000000000000);
        //console.log("value",x.toNumber());
        //var value = x.toNumber();
@@ -170,7 +172,7 @@ const Vault = () => {
         else{
         
         if(parseInt(value)<=parseInt(cbusdbalance)){
-            await CFI.methods.repay(0,value).send({from:accounts[0]});
+            await CFI.methods.repay(0,web3.utils.toBN(value)).send({from:accounts[0]});
             overall()
             setIsOpen(true);
             setDis("Borrowed amount is repayed By using CBUSD")
@@ -183,7 +185,7 @@ const Vault = () => {
        }
        else{
         var val = valu * 1000000000;
-        var value = val + "000000000"
+        var value = val * 1000000000;
     //     let x = new BigNumber(valu).times(1000000000000000000);
     //    console.log("value",x.toNumber());
     //    var value = x.toNumber();
@@ -195,7 +197,7 @@ const Vault = () => {
         else{
           
             if(parseInt(value)<=parseInt(busdbalance)){
-        await CFI.methods.repay(value,0).send({from:accounts[0]});
+        await CFI.methods.repay(web3.utils.toBN(value),0).send({from:accounts[0]});
         overall()
         setIsOpen(true);
         setDis("Borrowed amount is repayed By using BUSD")
@@ -214,12 +216,12 @@ const Vault = () => {
         const accounts =  await web3.eth.getAccounts();
         var valu = document.getElementById("tid5").value;
         var val = valu * 1000000000;
-        var value = val + "000000000";
+        var value = val * 1000000000;
     //    let x = new BigNumber(valu).times(1000000000000000000);
     //    console.log("value",x.toNumber());
     //    var value = x.toNumber();
         if(parseInt(value)<=parseInt(totaldep)){
-            await CFI.methods.liquidate(value).send({from:accounts[0]});
+            await CFI.methods.liquidate(web3.utils.toBN(value)).send({from:accounts[0]});
             overall()
             setIsOpen(true);
             setDis("Liquidated Succesfully!")
@@ -235,10 +237,11 @@ const Vault = () => {
         const accounts =  await web3.eth.getAccounts(); 
         document.getElementById("tid1").value = false;  
         var twentyfive=(busdbalance * 25)/100;
+        const y = web3.utils.fromWei((twentyfive.toString()), "ether" ) ;
     //     var printtwenty = ((twentyfive/1000000000000000000));
     //    console.log("printtwentycheck",Math.floor((printtwenty)));
-    const x = new BigNumber(twentyfive/1000000000000000000).toFormat();
-    const y = BigNumber(x).dp(3,1);
+   // const x = new BigNumber(twentyfive/1000000000000000000).toFormat();
+    //const y = BigNumber(x).dp(3,1);
     console.log("rounded", y);
     setdepositpercent(y);
        document.getElementById("tid1").value = (y);
@@ -249,8 +252,9 @@ const Vault = () => {
         const accounts =  await web3.eth.getAccounts(); 
         document.getElementById("tid1").value = false;    
         var fifty=(busdbalance * 50)/100;
-        const x = new BigNumber(fifty/1000000000000000000).toFormat();
-        const y = BigNumber(x).dp(3,1);
+        const y = web3.utils.fromWei((fifty.toString()), "ether" ) ;
+        //const x = new BigNumber(fifty/1000000000000000000).toFormat();
+        //const y = BigNumber(x).dp(3,1);
         console.log("rounded", y);
         setdepositpercent(y);
         document.getElementById("tid1").value = (y);         
@@ -261,8 +265,9 @@ const Vault = () => {
         const accounts =  await web3.eth.getAccounts(); 
         document.getElementById("tid1").value = false;    
         var seventyfive=(busdbalance * 75)/100;
-        const x = new BigNumber(seventyfive/1000000000000000000).toFormat();
-        const y = BigNumber(x).dp(3,1);
+        const y = web3.utils.fromWei((seventyfive.toString()), "ether" ) ;
+        //const x = new BigNumber(seventyfive/1000000000000000000).toFormat();
+        //const y = BigNumber(x).dp(3,1);
         console.log("rounded", y);
         setdepositpercent(y);
         document.getElementById("tid1").value =(y);           
@@ -272,9 +277,10 @@ const Vault = () => {
         event.preventDefault();
         const accounts =  await web3.eth.getAccounts(); 
         document.getElementById("tid1").value = false;    
-        var hundred=(busdbalance * 100)/100;
-        const x = new BigNumber(hundred/1000000000000000000).toFormat();
-        const y = BigNumber(x).dp(3,1);
+        //var hundred=(busdbalance * 100)/100;
+        //const x = new BigNumber(hundred/1000000000000000000).toFormat();
+        //const y = BigNumber(x).dp(3,1);
+        const y = web3.utils.fromWei((busdbalance.toString()), "ether" ) ;
         console.log("rounded", y);
         setdepositpercent(y); 
         document.getElementById("tid1").value = (y);           
@@ -285,8 +291,9 @@ const Vault = () => {
         const accounts =  await web3.eth.getAccounts(); 
         document.getElementById("tid2").value = false;    
         var twentyfive=(avatokentowithdraw * 25)/100;
-        const x = new BigNumber(twentyfive/1000000000000000000).toFormat();
-        const y = BigNumber(x).dp(3,1);
+        //const x = new BigNumber(twentyfive/1000000000000000000).toFormat();
+        //const y = BigNumber(x).dp(3,1);
+        const y = web3.utils.fromWei((twentyfive.toString()), "ether" ) ;
         console.log("rounded", y);
         setwithdrawpercent(y); 
         document.getElementById("tid2").value = (y);   
@@ -297,8 +304,9 @@ const Vault = () => {
         const accounts =  await web3.eth.getAccounts(); 
         document.getElementById("tid2").value = false;   
         var fifty=(avatokentowithdraw * 50)/100;
-        const x = new BigNumber(fifty/1000000000000000000).toFormat();
-        const y = BigNumber(x).dp(3,1);
+        const y = web3.utils.fromWei((fifty.toString()), "ether" ) ;
+        //const x = new BigNumber(fifty/1000000000000000000).toFormat();
+        //const y = BigNumber(x).dp(3,1);
         console.log("rounded", y);
         setwithdrawpercent(y); 
         document.getElementById("tid2").value = (y); 
@@ -309,8 +317,9 @@ const Vault = () => {
         const accounts =  await web3.eth.getAccounts();
         document.getElementById("tid2").value = false;    
         var seventyfive=(avatokentowithdraw * 75)/100;
-        const x = new BigNumber(seventyfive/1000000000000000000).toFormat();
-        const y = BigNumber(x).dp(3,1);
+        const y = web3.utils.fromWei((seventyfive.toString()), "ether" ) ;
+        //const x = new BigNumber(seventyfive/1000000000000000000).toFormat();
+        //const y = BigNumber(x).dp(3,1);
         console.log("rounded", y);
         setwithdrawpercent(y); 
         document.getElementById("tid2").value = (y);  
@@ -320,9 +329,10 @@ const Vault = () => {
         event.preventDefault();
         const accounts =  await web3.eth.getAccounts(); 
         document.getElementById("tid2").value = false;   
-        var hundred=(avatokentowithdraw * 100)/100;
-        const x = new BigNumber(hundred/1000000000000000000).toFormat();
-        const y = BigNumber(x).dp(3,1);
+       // var hundred=(avatokentowithdraw);
+        const y = web3.utils.fromWei((avatokentowithdraw.toString()), "ether" ) ;
+        //const x = new BigNumber(hundred/1000000000000000000).toFormat();
+        //const y = BigNumber(x).dp(3,1);
         console.log("rounded", y);
         setwithdrawpercent(y); 
         document.getElementById("tid2").value = (y); 
@@ -334,8 +344,9 @@ const Vault = () => {
         const accounts =  await web3.eth.getAccounts(); 
         document.getElementById("tid3").value = false;   
         var twentyfive=(avaltoborrow * 25)/100;
-        const x = new BigNumber(twentyfive/1000000000000000000).toFormat();
-        const y = BigNumber(x).dp(3,1);
+       // const x = new BigNumber(twentyfive/1000000000000000000).toFormat();
+        //const y = BigNumber(x).dp(3,1);
+        const y = web3.utils.fromWei((twentyfive.toString()), "ether" ) ;
         console.log("rounded", y);
         setborrowpercent(y); 
         document.getElementById("tid3").value =(y);       
@@ -346,8 +357,9 @@ const Vault = () => {
         const accounts =  await web3.eth.getAccounts();
         document.getElementById("tid3").value = false;           
         var fifty=(avaltoborrow * 50)/100;
-        const x = new BigNumber(fifty/1000000000000000000).toFormat();
-        const y = BigNumber(x).dp(3,1);
+        //const x = new BigNumber(fifty/1000000000000000000).toFormat();
+        //const y = BigNumber(x).dp(3,1);
+        const y = web3.utils.fromWei((fifty.toString()), "ether" ) ;
         console.log("rounded", y);
         setborrowpercent(y);   
         document.getElementById("tid3").value = (y);      
@@ -360,8 +372,9 @@ const Vault = () => {
         const accounts =  await web3.eth.getAccounts();
         document.getElementById("tid3").value = false;           
         var seventyfive=(avaltoborrow * 75)/100;
-        const x = new BigNumber(seventyfive/1000000000000000000).toFormat();
-        const y = BigNumber(x).dp(3,1);
+        //const x = new BigNumber(seventyfive/1000000000000000000).toFormat();
+        //const y = BigNumber(x).dp(3,1);
+        const y = web3.utils.fromWei((seventyfive.toString()), "ether" ) ;
         console.log("rounded", y);
         setborrowpercent(y);     
         document.getElementById("tid3").value = (y);  
@@ -373,9 +386,10 @@ const Vault = () => {
         event.preventDefault();
         const accounts =  await web3.eth.getAccounts();
         document.getElementById("tid3").value = false;     
-        var hundred=(avaltoborrow * 100)/100;
-        const x = new BigNumber(hundred/1000000000000000000).toFormat();
-        const y = BigNumber(x).dp(3,1);
+        //var hundred=(avaltoborrow * 100)/100;
+        //const x = new BigNumber(hundred/1000000000000000000).toFormat();
+        //const y = BigNumber(x).dp(3,1);
+        const y = web3.utils.fromWei((avaltoborrow.toString()), "ether" ) ;
         console.log("rounded", y);
         setborrowpercent(y);    
         document.getElementById("tid3").value =(y);        
@@ -388,8 +402,9 @@ const Vault = () => {
         const accounts =  await web3.eth.getAccounts(); 
         document.getElementById("tid4").value = false;          
         var twentyfive=(totaldebt * 25)/100;        
-        const x = new BigNumber(twentyfive/1000000000000000000).toFormat();
-        const y = BigNumber(x).dp(3,1);
+        //const x = new BigNumber(twentyfive/1000000000000000000).toFormat();
+        //const y = BigNumber(x).dp(3,1);
+        const y = web3.utils.fromWei((twentyfive.toString()), "ether" ) ;
         console.log("rounded", y);
         setrepaypercent(y);   
         document.getElementById("tid4").value = (y);        
@@ -402,8 +417,9 @@ const Vault = () => {
         const accounts =  await web3.eth.getAccounts();
         document.getElementById("tid4").value = false;    
         var fifty=(totaldebt * 50)/100;
-        const x = new BigNumber(fifty/1000000000000000000).toFormat();
-        const y = BigNumber(x).dp(3,1);
+        //const x = new BigNumber(fifty/1000000000000000000).toFormat();
+        //const y = BigNumber(x).dp(3,1);
+        const y = web3.utils.fromWei((fifty.toString()), "ether" ) ;
         console.log("rounded", y);
         setrepaypercent(y);   
         document.getElementById("tid4").value = (y);        
@@ -415,8 +431,7 @@ const Vault = () => {
         const accounts =  await web3.eth.getAccounts();   
         document.getElementById("tid4").value = false; 
         var seventyfive=(totaldebt * 75)/100;
-        const x = new BigNumber(seventyfive/1000000000000000000).toFormat();
-        const y = BigNumber(x).dp(3,1);
+        const y = web3.utils.fromWei((seventyfive.toString()), "ether" ) ;
         console.log("rounded", y);
         setrepaypercent(y);   
         document.getElementById("tid4").value = (y); 
@@ -426,10 +441,14 @@ const Vault = () => {
         const accounts =  await web3.eth.getAccounts(); 
         document.getElementById("tid4").value = false;   
         console.log("totaldebt",totaldebt);
-        var hundred=(totaldebt );    
-        const x = new BigNumber(hundred/1000000000000000000).toFormat();
-        const y = BigNumber(x).dp(3,1);
+       // var hundred=(totaldebt );    
+        //const y = new BigNumber(hundred/1000000000000000000).toFormat();
+        const y = web3.utils.fromWei((totaldebt.toString()), "ether" ) ;
+
+       // const y = BigNumber(x).dp(3,1);
+        //const y = (hundred/1000000000000000000).toFormat();
         console.log("rounded", y);
+        
         setrepaypercent(y);
         
         document.getElementById("tid4").value =(y);         
@@ -442,8 +461,9 @@ const Vault = () => {
         const accounts =  await web3.eth.getAccounts();  
         document.getElementById("tid5").value = false;  
         var twentyfive=(totaldebt * 25)/100;
-        const x = new BigNumber(twentyfive/1000000000000000000).toFormat();
-        const y = BigNumber(x).dp(3,1);
+        //const x = new BigNumber(twentyfive/1000000000000000000).toFormat();
+        //const y = BigNumber(x).dp(3,1);
+        const y = web3.utils.fromWei((twentyfive.toString()), "ether" ) ;
         console.log("rounded", y);
         setliquidatepercent(y);
         document.getElementById("tid5").value = (y);  
@@ -455,8 +475,9 @@ const Vault = () => {
         const accounts =  await web3.eth.getAccounts(); 
         document.getElementById("tid5").value = false;   
         var fifty=(totaldebt * 50)/100;
-        const x = new BigNumber(fifty/1000000000000000000).toFormat();
-        const y = BigNumber(x).dp(3,1);
+        //const x = new BigNumber(fifty/1000000000000000000).toFormat();
+        //const y = BigNumber(x).dp(3,1);
+        const y = web3.utils.fromWei((fifty.toString()), "ether" ) ;
         console.log("rounded", y);
         setliquidatepercent(y);
         document.getElementById("tid5").value = (y);  
@@ -468,8 +489,9 @@ const Vault = () => {
         const accounts =  await web3.eth.getAccounts();  
         document.getElementById("tid5").value = false;  
         var seventyfive=(totaldebt * 75)/100;
-        const x = new BigNumber(seventyfive/1000000000000000000).toFormat();
-        const y = BigNumber(x).dp(3,1);
+        //const x = new BigNumber(seventyfive/1000000000000000000).toFormat();
+        //const y = BigNumber(x).dp(3,1);
+        const y = web3.utils.fromWei((seventyfive.toString()), "ether" ) ;
         console.log("rounded", y);
         setliquidatepercent(y);
         document.getElementById("tid5").value = (y);        
@@ -479,9 +501,10 @@ const Vault = () => {
         event.preventDefault();
         const accounts =  await web3.eth.getAccounts(); 
         document.getElementById("tid5").value = false;   
-        var hundred=(totaldebt * 100)/100;
-        const x = new BigNumber(hundred/1000000000000000000).toFormat();
-        const y = BigNumber(x).dp(3,1);
+        //var hundred=(totaldebt * 100)/100;
+        //const x = new BigNumber(hundred/1000000000000000000).toFormat();
+        //const y = BigNumber(x).dp(3,1);
+        const y = web3.utils.fromWei((totaldebt), "ether" ) ;
         console.log("rounded", y);
         setliquidatepercent(y);
         document.getElementById("tid5").value = (y);
@@ -575,7 +598,7 @@ const Vault = () => {
                             </div>
 
                             {activeTab == "Deposit" && (
-                                <div className="p-3">
+                                <div className=" p-3">
                                     
                                            
 
