@@ -7,28 +7,40 @@ import CustomCard from "../global/CustomCard";
 import PoolCardTabs from "./PoolCardTabs";
 import Chart from "react-apexcharts";
 import Pools from "./Pools";
-import black from "../../views/blackAbi";
-import cbusdtoken from "../../views/cbusdAbi";
-import wbnb from "../../views/wbnbabi";
-import blackoracle from "../../views/blackOracleAbi";
+//import black from "../../views/blackAbi";
+//import cbusdtoken from "../../views/cbusdAbi";
+//import wbnb from "../../views/wbnbabi";
+
+import { contracts } from '../../views/contractAddress';
+import { wbnbAbi,blackabi,cbusd } from '../../views/abi';
+//import blackoracle from "../../views/blackOracleAbi";
 import { useEffect } from "react";
+import web3 from "../../web3";
 const YieldFarming = (props) => {
   const [communitybalance,setCommunitybalance] = useState([]);
   const [totalvaluelocked,setTotalvalueLocked]=useState();
   const [blackprice,setBlackprice]=useState([]);
   const farmdisplay = async() => {           
 
-    var blackreward =await black.methods.balanceOf("0x0Ef04FFA95f2eC2D07a5a196b4cEFB9d1076D43c").call();
+    const wbnbcontract = new web3.eth.Contract(wbnbAbi, contracts.wbnb.address);
+    const blackcontract = new web3.eth.Contract(blackabi, contracts.black.address);
+    const cbusdcontract = new web3.eth.Contract(cbusd, contracts.cbusd.address);
+
+    var blackreward =await blackcontract.methods.balanceOf(contracts.sentinel.address).call();
        setCommunitybalance( (3000000000000000 - blackreward)/1000000000);
        console.log("balckreward",communitybalance);
-       const totaldepositedcarbonpool1=await cbusdtoken.methods.balanceOf("0x1b302657E2ed17c4b1073Ea146986a6270757529").call(); 
+       const totaldepositedcarbonpool1=await cbusdcontract.methods.balanceOf(contracts.carbonstake.address).call(); 
        const totaldepositedcarbonpool =(parseFloat(totaldepositedcarbonpool1/1000000000000000000).toFixed(3));        
-       const totaldepositedLppool1=await cbusdtoken.methods.balanceOf("0x801BE19F7963A0d0656FA48039125cf956Db42b5").call(); 
+       const totaldepositedLppool1=await cbusdcontract.methods.balanceOf(contracts.lpstake.address).call(); 
        const totaldepositedLppool =(parseFloat(totaldepositedLppool1/1000000000000000000).toFixed(3));
-       const totaldepositedblackpool1=await black.methods.balanceOf("0xC90b6328370e93184d16b98A6bFF13e201FCf27F").call(); 
+       const totaldepositedblackpool1=await blackcontract.methods.balanceOf(contracts.blackstake.address).call(); 
        const totaldepositedblackpool =(parseFloat(totaldepositedblackpool1/1000000000).toFixed(3));
-       const priceofwbnb= await wbnb.methods.balanceOf("0x32aa2440104A877559118802a9a99e60ed469da5").call();
-       const priceofblack= await black.methods.balanceOf("0x32aa2440104A877559118802a9a99e60ed469da5").call();
+
+        
+       
+       const priceofwbnb= await wbnbcontract.methods.balanceOf(contracts.blackBnbLp.address).call();
+       console.log("import working",priceofwbnb);
+       const priceofblack= await blackcontract.methods.balanceOf(contracts.blackBnbLp.address).call();
        
        const blackprice1= (priceofwbnb)/(priceofblack);
        const blackprice=(parseFloat(blackprice1/1000000000).toFixed(5));
