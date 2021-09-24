@@ -46,11 +46,30 @@ const Cbusdstake = () => {
     let history = useHistory();
     const [isOpen, setIsOpen] = useState(false);
     var[dis,setDis] = useState("");
+    const[stakeenddate,setStakeendDate]=useState('');
+
+    useEffect(() => {
+        const fetchPosts = async () => {
+            var  currentdate=(new Date().getTime())/1000;
+            var enddatediff =1632564735-currentdate;
+            if(enddatediff>0){
+                setStakeendDate(1);
+        
+            }
+            else{
+                setStakeendDate(0);
+                console.log("enddate",stakeenddate);
+            }
+        
+        };
     
+        fetchPosts();
+      }, []);
  const first = async () => {
-    if(localStorage.getItem("wallet")>0){
+    
+       if(localStorage.getItem("wallet")>0){
     const accounts =  await web3.eth.getAccounts();
- 
+     
     setcbusdbalance(await cbusd.methods.balanceOf(accounts[0]).call());  
 
     
@@ -162,13 +181,14 @@ const Cbusdstake = () => {
 
     }   
 }      
-
+ 
     useEffect(() => {
         document.getElementById("header-title").innerText = "Staking";
     } )
-    useEffect(() => {first()},[cbusdbalance,reward,ap1,staked[0],blackbal,discal])
+    
+    useEffect(() => {first()},[cbusdbalance,reward,ap1,staked[0],blackbal,discal,stakeenddate])
     useEffect(() =>{first()},[date1,lock1,time1])
-
+    
    
     const deposit = async(event) => {
         event.preventDefault();
@@ -388,9 +408,10 @@ const Cbusdstake = () => {
                                 <Container fluid>
                                     <Row>
                                         <Col xl="6" md="12">
-                                        
+                                        {stakeenddate===1 ? (<> 
                                             <InputGroup className="mt-3">
                                                 <Input placeholder={depositpercent} style={{ height: "auto" }}type = "number" id="tid1"  />
+                                                
                                                 <InputGroupAddon addonType="append"><Button color="site-primary" >stake</Button></InputGroupAddon>
                                             </InputGroup>
                                             <div className="percentage smaller">
@@ -399,6 +420,15 @@ const Cbusdstake = () => {
                                                 <div className="percentage-item">75%</div>
                                                 <div className="percentage-item" >100%</div>
                                             </div>
+                                        </>):(<> 
+                                            <InputGroup className="mt-3">
+                                                
+                                                
+                                                <InputGroupAddon addonType="append"><Button color="site-primary" >staking Pool is ended</Button></InputGroupAddon>
+                                            </InputGroup>
+
+                                        </>)}
+                                           
                                         </Col>
                                         <Col xl="6" md="12">
                                    
@@ -481,7 +511,10 @@ const Cbusdstake = () => {
                                         <Col xl="6" md="12">
                                         { stakelock === false ? ((
                                              <div>
-                                            <InputGroup className="mt-3">
+
+                                      {stakeenddate===1 ?(<> 
+
+                                        <InputGroup className="mt-3">
                                                 <Input placeholder={depositpercent} style={{ height: "auto" }}type = "number" id="tid1"  />
                                                 <InputGroupAddon addonType="append"><Button color="site-primary" onClick={deposit}>stake</Button></InputGroupAddon>
                                             </InputGroup>
@@ -491,6 +524,16 @@ const Cbusdstake = () => {
                                                 <div className="percentage-item" onClick={balancepercent2}>75%</div>
                                                 <div className="percentage-item" onClick={balancepercent3}>100%</div>
                                             </div>
+                                      </>):(<>
+
+                                        <InputGroup className="mt-3">
+                                                <center> 
+                                                <InputGroupAddon addonType="append"><Button color="site-primary"  style={{marginLeft:"40px"}} >Staking Pool is Ended</Button></InputGroupAddon></center>
+                                            </InputGroup>
+                                            
+                                       </>)
+                                      }
+                                            
                                             </div>
                                              )) :((<>
 
